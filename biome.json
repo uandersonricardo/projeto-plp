@@ -22,6 +22,16 @@
 			},
 			"style": {
 				"noNonNullAssertion": "off"
+			},
+			"complexity": {
+				"noStaticOnlyClass": "off",
+				"noBannedTypes": "off",
+				"noUselessConstructor": "off",
+				"noUselessThisAlias": "off"
+			},
+			"correctness": {
+				"noUnusedVariables": "off",
+				"useParseIntRadix": "off"
 			}
 		}
 	},
