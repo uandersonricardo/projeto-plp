@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# colab.io
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web-based IDE para a disciplina de Paradigmas de Linguagens de Programação
 
-Currently, two official plugins are available:
+![UFPE](https://img.shields.io/badge/UFPE-CIn-blue) ![Disciplina](https://img.shields.io/badge/IN1007-2026.1-blue) ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Equipe
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Nome | E-mail |
+|------|--------|
+| Matheus Vinicius Teotonio do Nascimento Andrade | mvtna@cin.ufpe.br |
+| Uanderson Ricardo Ferreira da Silva | urfs@cin.ufpe.br |
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Sobre o projeto
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+O **colab.io** é uma IDE web voltada ao exercício dos conceitos e linguagens estudados na disciplina de PLP (Paradigmas de Linguagens de Programação). O ambiente oferece uma interface intuitiva e acessível pelo navegador, permitindo que os alunos escrevam, executem e documentem código de forma incremental, no estilo de notebooks interativos.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+A aplicação é inspirada no **Google Colab** e permite criar workspaces com múltiplos notebooks, divididos em células independentes — uma por linguagem, uma por conceito, no ritmo de cada aluno.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+<img width="3840" height="2160" alt="localhost_4004_" src="https://github.com/user-attachments/assets/d143c4b5-f888-431b-8a39-e93060fbd331" />
+
+---
+
+## Funcionalidades
+
+- 📓 **Notebooks** — Crie workspaces com múltiplos arquivos e organize seu código em células executáveis.
+- ▶ **Execução** — Execute código diretamente no navegador, com suporte às linguagens da disciplina.
+- 🔤 **Multi-linguagem** — Suporte planejado para todas as linguagens abordadas em PLP.
+- 📝 **Documentação** — Adicione anotações e documentação junto ao código, em células de texto livre.
+
+---
+
+## Status das linguagens
+
+O objetivo atual é converter os parsers das demais linguagens para TypeScript.
+
+| Linguagem | Status |
+|-----------|--------|
+| Exp1 | ✅ Suportada |
+| Demais linguagens | 🚧 Em desenvolvimento |
+
+> As BNFs de todas as linguagens estão disponíveis em: https://augustosampaio.github.io/PLP/linguagens
+
+---
+
+## Como rodar
+
+```bash
+git clone https://github.com/uandersonricardo/projeto-plp
+cd projeto-plp
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Referências
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- 🔗 [Repositório GitHub](https://github.com/uandersonricardo/projeto-plp)
+- 📖 [BNFs das linguagens](https://augustosampaio.github.io/PLP/linguagens)
+- 💡 [Inspiração: Google Colab](https://colab.research.google.com)
+
+---
+
+<sub>Universidade Federal de Pernambuco · Centro de Informática · IN1007 2026.1 — Paradigmas de Linguagens de Programação</sub>
