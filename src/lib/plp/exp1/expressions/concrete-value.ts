@@ -1,4 +1,4 @@
-import type { ExecutionEnvironment } from "../../exp2/memory/execution-environment";
+import type { ExecutionEnvironment } from "../memory/execution-environment";
 import type { Type } from "../utils/type";
 import type { Value } from "./value";
 
