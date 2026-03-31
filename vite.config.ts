@@ -6,6 +6,11 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
+    host: true,
     port: 4004,
+    strictPort: true,
+    hmr: {
+      clientPort: 4004,
+    },
   },
 });

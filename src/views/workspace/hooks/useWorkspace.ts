@@ -4,10 +4,10 @@
  */
 
 import { useState, useCallback } from 'react';
-import { Notebook } from '../../models/Notebook/Notebook';
-import { Workspace } from '../../models/Workspace/Workspace';
-import type { ID } from '../../models/types/id';
-import type { Language } from '../../models/types/execution';
+import { Notebook } from '../../../models/Notebook/Notebook';
+import { Workspace } from '../../../models/Workspace/Workspace';
+import type { ID } from '../../../models/types/id';
+import type { Language } from '../../../models/types/execution';
 
 export interface UseWorkspaceReturnType {
   workspace: Workspace;

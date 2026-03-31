@@ -1,5 +1,5 @@
-import type { Workspace } from '../../models/Workspace/Workspace';
-import type { ID } from '../../models/types/id';
+import type { Workspace } from '../../../models/Workspace/Workspace';
+import type { ID } from '../../../models/types/id';
 
 interface WorkspaceSidebarViewProps {
   workspace: Workspace;
@@ -14,6 +14,7 @@ export function WorkspaceSidebarView({
   onSelectNotebook,
   onAddNotebook,
 }: WorkspaceSidebarViewProps) {
+
   return (
     <aside className="workspace-sidebar">
       <div className="sidebar-header">

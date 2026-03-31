@@ -148,4 +148,11 @@ export class Notebook {
   rename(name: string): Notebook {
     return new Notebook(name, this.language, this.cells, this.id, this.createdAt, new Date());
   }
+
+  /**
+   * Change the execution language for this notebook
+   */
+  setLanguage(language: Language): Notebook {
+    return new Notebook(this.name, language, this.cells, this.id, this.createdAt, new Date());
+  }
 }

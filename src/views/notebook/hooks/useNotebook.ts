@@ -4,19 +4,22 @@
  */
 
 import { useState, useCallback, useMemo } from 'react';
-import { Cell } from '../../models/Cell/Cell';
-import { Notebook } from '../../models/Notebook/Notebook';
-import { CellCommandInvoker } from '../../models/commands/CellCommandInvoker';
+import { Cell } from '../../../models/Cell/Cell';
+import { Notebook } from '../../../models/Notebook/Notebook';
+import { CellCommandInvoker } from '../../../models/commands/CellCommandInvoker';
 import {
   AddCellCommand,
   InsertCellCommand,
   EditCellCommand,
+  SetCellEditingCommand,
+  ClearCellOutputCommand,
   DeleteCellCommand,
   MoveCellUpCommand,
   MoveCellDownCommand,
   RunCellCommand,
-} from '../../models/commands/CellCommands';
-import type { ID } from '../../models/types/id';
+} from '../../../models/commands/CellCommands';
+import type { ID } from '../../../models/types/id';
+import type { Language } from '../../../models/types/execution';
 
 export interface UseNotebookReturnType {
   notebook: Notebook;
@@ -26,11 +29,14 @@ export interface UseNotebookReturnType {
     insertCell: (cell: Cell, index: number) => void;
     removeCell: (cellId: ID) => void;
     updateCell: (cellId: ID, content: string) => void;
+    setCellEditing: (cellId: ID, isEditing: boolean) => void;
+    clearCellOutput: (cellId: ID) => void;
     moveUp: (cellId: ID) => void;
     moveDown: (cellId: ID) => void;
     runCell: (cellId: ID) => Promise<void>;
     stopCell: (cellId: ID) => void;
     rename: (name: string) => void;
+    setLanguage: (language: Language) => void;
   };
 }
 
@@ -70,9 +76,23 @@ export function useNotebook(initialNotebook: Notebook): UseNotebookReturnType {
     });
   }, []);
 
+  const setCellEditing = useCallback((cellId: ID, isEditing: boolean) => {
+    setNotebook((prev: Notebook) => {
+      const command = new SetCellEditingCommand(prev, cellId, isEditing);
+      return command.execute();
+    });
+  }, []);
+
   const moveUp = useCallback((cellId: ID) => {
     setNotebook((prev: Notebook) => {
       const command = new MoveCellUpCommand(prev, cellId);
+      return command.execute();
+    });
+  }, []);
+
+  const clearCellOutput = useCallback((cellId: ID) => {
+    setNotebook((prev: Notebook) => {
+      const command = new ClearCellOutputCommand(prev, cellId);
       return command.execute();
     });
   }, []);
@@ -115,6 +135,10 @@ export function useNotebook(initialNotebook: Notebook): UseNotebookReturnType {
     setNotebook((prev: Notebook) => prev.rename(name));
   }, []);
 
+  const setLanguage = useCallback((language: Language) => {
+    setNotebook((prev: Notebook) => prev.setLanguage(language));
+  }, []);
+
   return {
     notebook,
     executingCells,
@@ -123,11 +147,14 @@ export function useNotebook(initialNotebook: Notebook): UseNotebookReturnType {
       insertCell,
       removeCell,
       updateCell,
+      setCellEditing,
+      clearCellOutput,
       moveUp,
       moveDown,
       runCell,
       stopCell,
       rename,
+      setLanguage,
     },
   };
 }

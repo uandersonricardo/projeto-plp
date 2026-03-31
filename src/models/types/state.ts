@@ -13,6 +13,7 @@ export interface CellState {
   id: ID;
   type: CellType;
   content: string;
+  isEditing: boolean;
   output?: CellOutput;
   createdAt: Date;
   updatedAt: Date;

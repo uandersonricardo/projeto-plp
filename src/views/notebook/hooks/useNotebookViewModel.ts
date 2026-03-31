@@ -4,9 +4,9 @@
  */
 
 import { useState, useCallback, useMemo } from 'react';
-import { Cell } from '../../models/Cell/Cell';
-import { Notebook } from '../../models/Notebook/Notebook';
-import { CellCommandInvoker } from '../../models/commands/CellCommandInvoker';
+import { Cell } from '../../../models/Cell/Cell';
+import { Notebook } from '../../../models/Notebook/Notebook';
+import { CellCommandInvoker } from '../../../models/commands/CellCommandInvoker';
 import {
   AddCellCommand,
   EditCellCommand,
@@ -14,8 +14,8 @@ import {
   MoveCellUpCommand,
   MoveCellDownCommand,
   RunCellCommand,
-} from '../../models/commands/CellCommands';
-import type { ID } from '../../models/types/id';
+} from '../../../models/commands/CellCommands';
+import type { ID } from '../../../models/types/id';
 
 /**
  * Cell view model for UI rendering

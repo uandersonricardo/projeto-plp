@@ -16,8 +16,9 @@ export class CodeCell extends Cell {
     id?: ID,
     createdAt?: Date,
     updatedAt?: Date,
+    isEditing?: boolean,
   ) {
-    super(content, id, createdAt, updatedAt);
+    super(content, id, createdAt, updatedAt, isEditing ?? true);
     this._output = output;
   }
 
@@ -32,6 +33,18 @@ export class CodeCell extends Cell {
       this.id,
       this.createdAt,
       new Date(),
+      this.isEditing,
+    );
+  }
+
+  setEditing(isEditing: boolean): CodeCell {
+    return new CodeCell(
+      this.content,
+      this._output,
+      this.id,
+      this.createdAt,
+      new Date(),
+      isEditing,
     );
   }
 
@@ -42,6 +55,18 @@ export class CodeCell extends Cell {
       this.id,
       this.createdAt,
       new Date(),
+      this.isEditing,
+    );
+  }
+
+  clearOutput(): CodeCell {
+    return new CodeCell(
+      this.content,
+      undefined,
+      this.id,
+      this.createdAt,
+      new Date(),
+      this.isEditing,
     );
   }
 }

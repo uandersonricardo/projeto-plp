@@ -12,6 +12,8 @@ export type CellCommandType =
   | 'add'
   | 'insert'
   | 'edit'
+  | 'setEditing'
+  | 'clearOutput'
   | 'delete'
   | 'moveUp'
   | 'moveDown'
@@ -75,6 +77,27 @@ export class EditCellCommand implements CellCommand {
   }
 }
 
+export class SetCellEditingCommand implements CellCommand {
+  readonly type = 'setEditing' as const;
+  private readonly notebook: Notebook;
+  private readonly cellId: ID;
+  private readonly isEditing: boolean;
+
+  constructor(notebook: Notebook, cellId: ID, isEditing: boolean) {
+    this.notebook = notebook;
+    this.cellId = cellId;
+    this.isEditing = isEditing;
+  }
+
+  execute(): Notebook {
+    const cell = this.notebook.getCell(this.cellId);
+    if (!cell) return this.notebook;
+
+    const updatedCell = cell.setEditing(this.isEditing);
+    return this.notebook.updateCell(this.cellId, updatedCell);
+  }
+}
+
 export class DeleteCellCommand implements CellCommand {
   readonly type = 'delete' as const;
   private readonly notebook: Notebook;
@@ -87,6 +110,24 @@ export class DeleteCellCommand implements CellCommand {
 
   execute(): Notebook {
     return this.notebook.removeCell(this.cellId);
+  }
+}
+
+export class ClearCellOutputCommand implements CellCommand {
+  readonly type = 'clearOutput' as const;
+  private readonly notebook: Notebook;
+  private readonly cellId: ID;
+
+  constructor(notebook: Notebook, cellId: ID) {
+    this.notebook = notebook;
+    this.cellId = cellId;
+  }
+
+  execute(): Notebook {
+    const cell = this.notebook.getCell(this.cellId);
+    if (!cell || !(cell instanceof CodeCell)) return this.notebook;
+
+    return this.notebook.updateCell(this.cellId, cell.clearOutput());
   }
 }
 

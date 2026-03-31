@@ -2,9 +2,9 @@
  * Central export for notebook view models and hooks
  */
 
-export { useNotebook, type UseNotebookReturnType } from './useNotebook';
+export { useNotebook, type UseNotebookReturnType } from './hooks/useNotebook';
 export {
   useNotebookViewModel,
   type NotebookViewModel,
   type CellViewModel,
-} from './useNotebookViewModel';
+} from './hooks/useNotebookViewModel';

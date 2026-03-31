@@ -4,11 +4,11 @@
  */
 
 import { useReducer } from 'react';
-import { Notebook } from '../../models/Notebook/Notebook';
-import { Workspace } from '../../models/Workspace/Workspace';
-import type { ID } from '../../models/types/id';
-import type { Language } from '../../models/types/execution';
-import { useNotebookViewModel, type NotebookViewModel } from '../notebook/useNotebookViewModel';
+import { Notebook } from '../../../models/Notebook/Notebook';
+import { Workspace } from '../../../models/Workspace/Workspace';
+import type { ID } from '../../../models/types/id';
+import type { Language } from '../../../models/types/execution';
+import { useNotebookViewModel, type NotebookViewModel } from '../../notebook/hooks/useNotebookViewModel';
 
 /**
  * Workspace view model for UI rendering

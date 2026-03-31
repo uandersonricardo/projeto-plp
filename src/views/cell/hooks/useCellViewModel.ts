@@ -4,9 +4,9 @@
  */
 
 import { useCallback } from 'react';
-import { Cell } from '../../models/Cell/Cell';
-import { CodeCell } from '../../models/Cell/CodeCell';
-import type { ID } from '../../models/types/id';
+import { Cell } from '../../../models/Cell/Cell';
+import { CodeCell } from '../../../models/Cell/CodeCell';
+import type { ID } from '../../../models/types/id';
 
 /**
  * Cell view model for UI rendering
