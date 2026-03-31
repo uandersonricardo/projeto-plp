@@ -1,3 +1,0 @@
-let fun add x = fn y . x + y in
-   let var id = add(0), var x = 4 in
-      id(1) + x

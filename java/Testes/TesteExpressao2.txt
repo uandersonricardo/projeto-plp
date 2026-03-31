@@ -1,3 +1,0 @@
-let var x = 4 in
-  let var x = x + 1, var y = x in
-    x + y
