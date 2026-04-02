@@ -31,7 +31,7 @@ const In = createToken({ name: "In", pattern: /in/ });
 const Identifier = createToken({
   name: "Identifier",
   pattern: /[a-zA-Z_$\u00c0-\u1fff\u3040-\ufaff][a-zA-Z0-9_$\u00c0-\u1fff\u3040-\ufaff]*/,
-  longer_alt: [And, Or, Not, Length, True, False],
+  longer_alt: [And, Or, Not, Length, True, False, Let, Var, In],
 });
 
 const IntegerLiteral = createToken({
@@ -85,8 +85,6 @@ const allTokens = [
   WhiteSpace,
   LineComment,
   BlockComment,
-  IntegerLiteral,
-  StringLiteral,
   And,
   Or,
   Not,
@@ -96,7 +94,8 @@ const allTokens = [
   Let,
   Var,
   In,
-  Identifier,
+  IntegerLiteral,
+  StringLiteral,
   LParen,
   RParen,
   LBrace,
@@ -128,6 +127,7 @@ const allTokens = [
   BitOr,
   Xor,
   Rem,
+  Identifier,
 ];
 
 export const exp2Lexer = new Lexer(allTokens);
