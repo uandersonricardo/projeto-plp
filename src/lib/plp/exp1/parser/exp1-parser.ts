@@ -20,6 +20,7 @@ const Not = createToken({ name: "Not", pattern: /not/ });
 const Length = createToken({ name: "Length", pattern: /length/ });
 const True = createToken({ name: "True", pattern: /true/ });
 const False = createToken({ name: "False", pattern: /false/ });
+
 const Identifier = createToken({
   name: "Identifier",
   pattern: /[a-zA-Z_$\u00c0-\u1fff\u3040-\ufaff][a-zA-Z0-9_$\u00c0-\u1fff\u3040-\ufaff]*/,
@@ -36,23 +37,38 @@ const StringLiteral = createToken({
   pattern: /"(?:[^"\\]|\\.)*"/,
 });
 
-const Concat = createToken({ name: "Concat", pattern: /\+\+/ });
+const LParen = createToken({ name: "LParen", pattern: /\(/ });
+const RParen = createToken({ name: "RParen", pattern: /\)/ });
+const LBrace = createToken({ name: "LBrace", pattern: /\{/ });
+const RBrace = createToken({ name: "RBrace", pattern: /\}/ });
+const LBracket = createToken({ name: "LBracket", pattern: /\[/ });
+const RBracket = createToken({ name: "RBracket", pattern: /\]/ });
+const Semicolon = createToken({ name: "Semicolon", pattern: /;/ });
+const Comma = createToken({ name: "Comma", pattern: /,/ });
+const Dot = createToken({ name: "Dot", pattern: /\./ });
+
 const Eq = createToken({ name: "Eq", pattern: /==/ });
 const Le = createToken({ name: "Le", pattern: /<=/ });
 const Ge = createToken({ name: "Ge", pattern: />=/ });
 const Ne = createToken({ name: "Ne", pattern: /!=/ });
 const ScOr = createToken({ name: "ScOr", pattern: /\|\|/ });
 const ScAnd = createToken({ name: "ScAnd", pattern: /&&/ });
-
-const LParen = createToken({ name: "LParen", pattern: /\(/ });
-const RParen = createToken({ name: "RParen", pattern: /\)/ });
+const Concat = createToken({ name: "Concat", pattern: /\+\+/ });
+const Assign = createToken({ name: "Assign", pattern: /=/ });
+const Gt = createToken({ name: "Gt", pattern: />/ });
+const Lt = createToken({ name: "Lt", pattern: /</ });
+const Bang = createToken({ name: "Bang", pattern: /!/ });
+const Tilde = createToken({ name: "Tilde", pattern: /~/ });
+const Hook = createToken({ name: "Hook", pattern: /\?/ });
+const Colon = createToken({ name: "Colon", pattern: /:/ });
 const Plus = createToken({ name: "Plus", pattern: /\+/ });
 const Minus = createToken({ name: "Minus", pattern: /-/ });
 const Star = createToken({ name: "Star", pattern: /\*/ });
 const Slash = createToken({ name: "Slash", pattern: /\// });
-const Assign = createToken({ name: "Assign", pattern: /=/ });
-const Gt = createToken({ name: "Gt", pattern: />/ });
-const Lt = createToken({ name: "Lt", pattern: /</ });
+const BitAnd = createToken({ name: "BitAnd", pattern: /&/ });
+const BitOr = createToken({ name: "BitOr", pattern: /\|/ });
+const Xor = createToken({ name: "Xor", pattern: /\^/ });
+const Rem = createToken({ name: "Rem", pattern: /%/ });
 
 const WhiteSpace = createToken({ name: "WhiteSpace", pattern: /\s+/, group: Lexer.SKIPPED });
 const LineComment = createToken({ name: "LineComment", pattern: /\/\/[^\r\n]*/, group: Lexer.SKIPPED });
@@ -70,22 +86,37 @@ const allTokens = [
   False,
   IntegerLiteral,
   StringLiteral,
-  Concat,
+  LParen,
+  RParen,
+  LBrace,
+  RBrace,
+  LBracket,
+  RBracket,
+  Semicolon,
+  Comma,
+  Dot,
   Eq,
   Le,
   Ge,
   Ne,
   ScOr,
   ScAnd,
-  LParen,
-  RParen,
+  Concat,
+  Assign,
+  Gt,
+  Lt,
+  Bang,
+  Tilde,
+  Hook,
+  Colon,
   Plus,
   Minus,
   Star,
   Slash,
-  Assign,
-  Gt,
-  Lt,
+  BitAnd,
+  BitOr,
+  Xor,
+  Rem,
   Identifier,
 ];
 

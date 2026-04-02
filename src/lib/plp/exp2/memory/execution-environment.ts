@@ -1,4 +1,6 @@
-import type { Value } from "../../exp1/expressions/value";
+import type { Value } from "../expressions/value";
 import type { Environment } from "./environment";
 
-export interface ExecutionEnvironment extends Environment<Value> {}
+export interface ExecutionEnvironment extends Environment<Value> {
+  clone(): ExecutionEnvironment;
+}
