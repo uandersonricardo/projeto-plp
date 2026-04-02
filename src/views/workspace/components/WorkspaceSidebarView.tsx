@@ -1,5 +1,5 @@
-import type { Workspace } from '../../../models/Workspace/Workspace';
-import type { ID } from '../../../models/types/id';
+import type { ID } from "../../../models/types/id";
+import type { Workspace } from "../../../models/Workspace/Workspace";
 
 interface WorkspaceSidebarViewProps {
   workspace: Workspace;
@@ -14,7 +14,6 @@ export function WorkspaceSidebarView({
   onSelectNotebook,
   onAddNotebook,
 }: WorkspaceSidebarViewProps) {
-
   return (
     <aside className="workspace-sidebar">
       <div className="sidebar-header">
@@ -28,7 +27,7 @@ export function WorkspaceSidebarView({
           <li key={notebook.id}>
             <button
               type="button"
-              className={notebook.id === selectedNotebookId ? 'notebook-item active' : 'notebook-item'}
+              className={notebook.id === selectedNotebookId ? "notebook-item active" : "notebook-item"}
               onClick={() => onSelectNotebook(notebook.id)}
             >
               {notebook.name}

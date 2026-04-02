@@ -1,10 +1,10 @@
-import { CodeCell } from '../../../models/Cell/CodeCell';
-import { MarkdownCell } from '../../../models/Cell/MarkdownCell';
-import type { ID } from '../../../models/types/id';
-import { FiPlay } from 'react-icons/fi';
-import { CodeCellView } from './CodeCellView';
-import { MarkdownCellView } from './MarkdownCellView';
-import { CommandButtonsView } from './CommandButtonsView';
+import { FiPlay } from "react-icons/fi";
+import { CodeCell } from "../../../models/Cell/CodeCell";
+import { MarkdownCell } from "../../../models/Cell/MarkdownCell";
+import type { ID } from "../../../models/types/id";
+import { CodeCellView } from "./CodeCellView";
+import { CommandButtonsView } from "./CommandButtonsView";
+import { MarkdownCellView } from "./MarkdownCellView";
 
 interface CellViewProps {
   cell: CodeCell | MarkdownCell;
@@ -47,7 +47,7 @@ export function CellView({
     <section className="cell-shell">
       <div className="cell-gutter">[{cell.type}]</div>
       <div
-        className={isSelected ? 'cell-main cell-main-selected' : 'cell-main'}
+        className={isSelected ? "cell-main cell-main-selected" : "cell-main"}
         onClick={() => onSelect(cell.id)}
         onDoubleClick={() => {
           onSelect(cell.id);
@@ -71,7 +71,7 @@ export function CellView({
           </div>
         ) : null}
 
-        <div className={cell instanceof CodeCell ? 'cell-body cell-body-runnable' : 'cell-body'}>
+        <div className={cell instanceof CodeCell ? "cell-body cell-body-runnable" : "cell-body"}>
           {cell instanceof CodeCell ? (
             <div className="cell-run-slot">
               {isSelected ? (
@@ -84,7 +84,9 @@ export function CellView({
                   }}
                   disabled={notebookLocked || isRunning || !runtimeReady}
                   aria-label="Run cell"
-                  title={notebookLocked ? 'Locked' : !runtimeReady ? 'Runtime unavailable' : isRunning ? 'Running...' : 'Run'}
+                  title={
+                    notebookLocked ? "Locked" : !runtimeReady ? "Runtime unavailable" : isRunning ? "Running..." : "Run"
+                  }
                 >
                   <FiPlay aria-hidden="true" />
                 </button>

@@ -1,5 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
-import { CodeCell } from '../../../models/Cell/CodeCell';
+import { type ChangeEvent, type KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { CodeCell } from "../../../models/Cell/CodeCell";
 
 interface CodeCellViewProps {
   cell: CodeCell;
@@ -16,13 +16,13 @@ export function CodeCellView({ cell, disabled, isRunning, onChange, onClearOutpu
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
 
   const outputText = cell.output?.success
-    ? String(cell.output.result ?? cell.output.stdout ?? '')
-    : (cell.output?.stderr ?? '');
+    ? String(cell.output.result ?? cell.output.stdout ?? "")
+    : (cell.output?.stderr ?? "");
 
   useLayoutEffect(() => {
     const textarea = editorRef.current;
     if (!textarea) return;
-    textarea.style.height = '0px';
+    textarea.style.height = "0px";
     textarea.style.height = `${textarea.scrollHeight}px`;
   }, [cell.content]);
 
@@ -31,7 +31,7 @@ export function CodeCellView({ cell, disabled, isRunning, onChange, onClearOutpu
   };
 
   const handleEditorKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && event.shiftKey) {
+    if (event.key === "Enter" && event.shiftKey) {
       event.preventDefault();
       if (!disabled && !isRunning) {
         onRun();
@@ -49,9 +49,9 @@ export function CodeCellView({ cell, disabled, isRunning, onChange, onClearOutpu
       }
     };
 
-    window.addEventListener('mousedown', handlePointerDown);
+    window.addEventListener("mousedown", handlePointerDown);
     return () => {
-      window.removeEventListener('mousedown', handlePointerDown);
+      window.removeEventListener("mousedown", handlePointerDown);
     };
   }, [isOutputMenuOpen]);
 
@@ -111,9 +111,7 @@ export function CodeCellView({ cell, disabled, isRunning, onChange, onClearOutpu
             </div>
 
             <div className="cell-output">
-              <pre className={cell.output.success ? 'output-ok' : 'output-error'}>
-                {outputText}
-              </pre>
+              <pre className={cell.output.success ? "output-ok" : "output-error"}>{outputText}</pre>
             </div>
           </div>
         </>

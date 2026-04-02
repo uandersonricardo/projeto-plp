@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { CodeCell } from '../../../models/Cell/CodeCell';
-import { MarkdownCell } from '../../../models/Cell/MarkdownCell';
-import type { Notebook } from '../../../models/Notebook/Notebook';
-import type { ID } from '../../../models/types/id';
-import type { Language } from '../../../models/types/execution';
-import { CellView } from '../../cell/components/CellView';
+import { useEffect, useState } from "react";
+import { CodeCell } from "../../../models/Cell/CodeCell";
+import { MarkdownCell } from "../../../models/Cell/MarkdownCell";
+import type { Notebook } from "../../../models/Notebook/Notebook";
+import type { Language } from "../../../models/types/execution";
+import type { ID } from "../../../models/types/id";
+import { CellView } from "../../cell/components/CellView";
 
 interface NotebookViewProps {
   notebook: Notebook;
@@ -98,22 +98,17 @@ export function NotebookView({
 
       {notebookLocked ? (
         <div className="runtime-warning runtime-warning-active">
-          {notebookLockMessage ?? 'Language is loading. Cells are temporarily disabled.'}
+          {notebookLockMessage ?? "Language is loading. Cells are temporarily disabled."}
         </div>
       ) : runtimeReady ? null : (
-        <div className="runtime-warning">{runtimeStatusMessage ?? 'Selected language runtime is unavailable.'}</div>
+        <div className="runtime-warning">{runtimeStatusMessage ?? "Selected language runtime is unavailable."}</div>
       )}
 
       <div className="notebook-cells">
         <div className="insert-boundary" aria-label="Insert at start">
           <div className="insert-boundary-line" />
           <div className="insert-row">
-            <button
-              type="button"
-              className="insert-btn"
-              disabled={notebookLocked}
-              onClick={() => onInsertCodeCell(0)}
-            >
+            <button type="button" className="insert-btn" disabled={notebookLocked} onClick={() => onInsertCodeCell(0)}>
               + Code
             </button>
             <button

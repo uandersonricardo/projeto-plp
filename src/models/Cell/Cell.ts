@@ -2,9 +2,9 @@
  * Base Cell model - shared structure for all cell types
  */
 
-import { createID, type ID } from '../types/id';
+import { createID, type ID } from "../types/id";
 
-export type CellType = 'code' | 'markdown';
+export type CellType = "code" | "markdown";
 
 export abstract class Cell {
   readonly id: ID;
@@ -14,13 +14,7 @@ export abstract class Cell {
   readonly updatedAt: Date;
   abstract readonly type: CellType;
 
-  constructor(
-    content: string,
-    id?: ID,
-    createdAt?: Date,
-    updatedAt?: Date,
-    isEditing?: boolean,
-  ) {
+  constructor(content: string, id?: ID, createdAt?: Date, updatedAt?: Date, isEditing?: boolean) {
     this.id = id || createID();
     this.content = content;
     this.isEditing = isEditing ?? false;

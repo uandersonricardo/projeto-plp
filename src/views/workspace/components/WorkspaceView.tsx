@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
-import { NotebookView } from '../../notebook/components/NotebookView';
-import { WorkspaceSidebarView } from './WorkspaceSidebarView';
-import { RightPanelView } from './RightPanelView';
-import type { Workspace } from '../../../models/Workspace/Workspace';
-import type { Notebook } from '../../../models/Notebook/Notebook';
-import type { ID } from '../../../models/types/id';
-import type { Language } from '../../../models/types/execution';
+import { useEffect, useRef, useState } from "react";
+import type { Notebook } from "../../../models/Notebook/Notebook";
+import type { Language } from "../../../models/types/execution";
+import type { ID } from "../../../models/types/id";
+import type { Workspace } from "../../../models/Workspace/Workspace";
+import { NotebookView } from "../../notebook/components/NotebookView";
+import { RightPanelView } from "./RightPanelView";
+import { WorkspaceSidebarView } from "./WorkspaceSidebarView";
 
 interface WorkspaceViewProps {
   workspace: Workspace;
@@ -68,7 +68,7 @@ export function WorkspaceView({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [leftPanelWidth, setLeftPanelWidth] = useState(250);
   const [rightPanelWidth, setRightPanelWidth] = useState(280);
-  const [draggingSide, setDraggingSide] = useState<'left' | 'right' | null>(null);
+  const [draggingSide, setDraggingSide] = useState<"left" | "right" | null>(null);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleDraft, setTitleDraft] = useState(workspace.name);
   const titleInputRef = useRef<HTMLInputElement | null>(null);
@@ -106,14 +106,14 @@ export function WorkspaceView({
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
 
-      if (draggingSide === 'left') {
+      if (draggingSide === "left") {
         const maxLeftWidth = rect.width - rightPanelWidth - MIN_CENTER_WIDTH - HANDLE_SPACE;
         const rawWidth = event.clientX - rect.left;
         const clampedWidth = Math.max(MIN_LEFT_WIDTH, Math.min(rawWidth, Math.max(MIN_LEFT_WIDTH, maxLeftWidth)));
         setLeftPanelWidth(clampedWidth);
       }
 
-      if (draggingSide === 'right') {
+      if (draggingSide === "right") {
         const maxRightWidth = rect.width - leftPanelWidth - MIN_CENTER_WIDTH - HANDLE_SPACE;
         const rawWidth = rect.right - event.clientX;
         const clampedWidth = Math.max(MIN_RIGHT_WIDTH, Math.min(rawWidth, Math.max(MIN_RIGHT_WIDTH, maxRightWidth)));
@@ -125,12 +125,12 @@ export function WorkspaceView({
       setDraggingSide(null);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [draggingSide, leftPanelWidth, rightPanelWidth]);
 
@@ -146,9 +146,9 @@ export function WorkspaceView({
             onChange={(event) => setTitleDraft(event.target.value)}
             onBlur={commitTitleChange}
             onKeyDown={(event) => {
-              if (event.key === 'Enter') {
+              if (event.key === "Enter") {
                 event.currentTarget.blur();
-              } else if (event.key === 'Escape') {
+              } else if (event.key === "Escape") {
                 setTitleDraft(workspace.name);
                 setIsEditingTitle(false);
               }
@@ -162,7 +162,7 @@ export function WorkspaceView({
             role="button"
             tabIndex={0}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
+              if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
                 setIsEditingTitle(true);
               }
@@ -174,7 +174,7 @@ export function WorkspaceView({
       </div>
       <div
         ref={containerRef}
-        className={draggingSide ? 'workspace-layout workspace-layout-resizing' : 'workspace-layout'}
+        className={draggingSide ? "workspace-layout workspace-layout-resizing" : "workspace-layout"}
       >
         <div className="workspace-left-panel" style={{ width: `${leftPanelWidth}px` }}>
           <WorkspaceSidebarView
@@ -190,7 +190,7 @@ export function WorkspaceView({
           role="separator"
           aria-label="Resize left panel"
           aria-orientation="vertical"
-          onMouseDown={() => setDraggingSide('left')}
+          onMouseDown={() => setDraggingSide("left")}
         />
 
         <div className="workspace-center-panel">
@@ -222,7 +222,7 @@ export function WorkspaceView({
           role="separator"
           aria-label="Resize right panel"
           aria-orientation="vertical"
-          onMouseDown={() => setDraggingSide('right')}
+          onMouseDown={() => setDraggingSide("right")}
         />
 
         <div className="workspace-right-panel" style={{ width: `${rightPanelWidth}px` }}>

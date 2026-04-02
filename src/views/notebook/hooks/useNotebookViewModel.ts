@@ -3,19 +3,19 @@
  * Use case: UI integration for notebook display
  */
 
-import { useState, useCallback, useMemo } from 'react';
-import { Cell } from '../../../models/Cell/Cell';
-import { Notebook } from '../../../models/Notebook/Notebook';
-import { CellCommandInvoker } from '../../../models/commands/CellCommandInvoker';
+import { useCallback, useMemo, useState } from "react";
+import type { Cell } from "../../../models/Cell/Cell";
+import { CellCommandInvoker } from "../../../models/commands/CellCommandInvoker";
 import {
   AddCellCommand,
-  EditCellCommand,
   DeleteCellCommand,
-  MoveCellUpCommand,
+  EditCellCommand,
   MoveCellDownCommand,
+  MoveCellUpCommand,
   RunCellCommand,
-} from '../../../models/commands/CellCommands';
-import type { ID } from '../../../models/types/id';
+} from "../../../models/commands/CellCommands";
+import type { Notebook } from "../../../models/Notebook/Notebook";
+import type { ID } from "../../../models/types/id";
 
 /**
  * Cell view model for UI rendering
@@ -118,7 +118,7 @@ export function useNotebookViewModel(
     cell,
     isExecuting: executingCells.has(cell.id),
     commands: {
-      run: cell.type === 'code' ? () => handleRun(cell.id) : undefined,
+      run: cell.type === "code" ? () => handleRun(cell.id) : undefined,
       edit: (content: string) => handleEdit(cell.id, content),
       delete: () => handleDelete(cell.id),
       moveUp: () => handleMoveUp(cell.id),

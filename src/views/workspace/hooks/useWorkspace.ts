@@ -3,11 +3,11 @@
  * Use case: Workspace management and notebook operations
  */
 
-import { useState, useCallback } from 'react';
-import { Notebook } from '../../../models/Notebook/Notebook';
-import { Workspace } from '../../../models/Workspace/Workspace';
-import type { ID } from '../../../models/types/id';
-import type { Language } from '../../../models/types/execution';
+import { useCallback, useState } from "react";
+import { Notebook } from "../../../models/Notebook/Notebook";
+import type { Language } from "../../../models/types/execution";
+import type { ID } from "../../../models/types/id";
+import type { Workspace } from "../../../models/Workspace/Workspace";
 
 export interface UseWorkspaceReturnType {
   workspace: Workspace;

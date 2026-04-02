@@ -1,6 +1,6 @@
-import { useLayoutEffect, useRef, type ChangeEvent, type KeyboardEvent } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { MarkdownCell } from '../../../models/Cell/MarkdownCell';
+import { type ChangeEvent, type KeyboardEvent, useLayoutEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import type { MarkdownCell } from "../../../models/Cell/MarkdownCell";
 
 interface MarkdownCellViewProps {
   cell: MarkdownCell;
@@ -17,16 +17,16 @@ export function MarkdownCellView({ cell, disabled, onChange, onFinishEditing }: 
 
     const textarea = editorRef.current;
     if (!textarea) return;
-    textarea.style.height = '0px';
+    textarea.style.height = "0px";
     textarea.style.height = `${textarea.scrollHeight}px`;
-  }, [cell.content, cell.isEditing]);
+  }, [cell.isEditing]);
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event.target.value);
   };
 
   const handleEditorKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && event.shiftKey) {
+    if (event.key === "Enter" && event.shiftKey) {
       event.preventDefault();
       if (!disabled) {
         onFinishEditing();
@@ -38,7 +38,7 @@ export function MarkdownCellView({ cell, disabled, onChange, onFinishEditing }: 
     return (
       <div className="markdown-view-shell">
         <div className="markdown-view">
-          {cell.content ? <ReactMarkdown>{cell.content}</ReactMarkdown> : 'Empty markdown cell'}
+          {cell.content ? <ReactMarkdown>{cell.content}</ReactMarkdown> : "Empty markdown cell"}
         </div>
       </div>
     );

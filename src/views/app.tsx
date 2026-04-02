@@ -1,14 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Exp1 } from '../lib/plp/exp1';
-import { CodeCell } from '../models/Cell/CodeCell';
-import { MarkdownCell } from '../models/Cell/MarkdownCell';
-import { Notebook } from '../models/Notebook/Notebook';
-import { Workspace } from '../models/Workspace/Workspace';
-import type { ID } from '../models/types/id';
-import type { CellOutput, Language } from '../models/types/execution';
-import { useNotebook } from './notebook/hooks/useNotebook';
-import { WorkspaceView } from './workspace/components/WorkspaceView';
-import { useWorkspace } from './workspace/hooks/useWorkspace';
+import { useEffect, useMemo, useState } from "react";
+import { Exp1 } from "../lib/plp/exp1";
+import { Exp2 } from "../lib/plp/exp2";
+import { CodeCell } from "../models/Cell/CodeCell";
+import { MarkdownCell } from "../models/Cell/MarkdownCell";
+import { Notebook } from "../models/Notebook/Notebook";
+import type { CellOutput, Language } from "../models/types/execution";
+import type { ID } from "../models/types/id";
+import { Workspace } from "../models/Workspace/Workspace";
+import { useNotebook } from "./notebook/hooks/useNotebook";
+import { WorkspaceView } from "./workspace/components/WorkspaceView";
+import { useWorkspace } from "./workspace/hooks/useWorkspace";
 
 interface NotebookLanguage extends Language {
   runtimeReady: boolean;
@@ -18,9 +19,9 @@ interface NotebookLanguage extends Language {
 }
 
 const exp1Language: NotebookLanguage = {
-  name: 'Exp1',
+  name: "Exp1",
   runtimeReady: true,
-  preparationMessage: 'Importing and compiling Exp1 runtime...',
+  preparationMessage: "Importing and compiling Exp1 runtime...",
   async prepare() {
     await Promise.resolve();
   },
@@ -33,8 +34,8 @@ const exp1Language: NotebookLanguage = {
       const executionTime = performance.now() - start;
 
       return {
-        stdout: result == null ? '' : String(result),
-        stderr: '',
+        stdout: result == null ? "" : String(result),
+        stderr: "",
         result,
         executionTime,
         success: true,
@@ -42,8 +43,8 @@ const exp1Language: NotebookLanguage = {
     } catch (error) {
       const executionTime = performance.now() - start;
       return {
-        stdout: '',
-        stderr: error instanceof Error ? error.message : 'Unknown execution error',
+        stdout: "",
+        stderr: error instanceof Error ? error.message : "Unknown execution error",
         executionTime,
         success: false,
       };
@@ -52,33 +53,68 @@ const exp1Language: NotebookLanguage = {
 };
 
 const exp2Language: NotebookLanguage = {
-  name: 'Exp2',
+  name: "Exp2",
+  runtimeReady: true,
+  preparationMessage: "Importing and compiling Exp2 runtime...",
+  runtimeStatusMessage: "Exp2 parser/interpreter entry point is not implemented in src/lib/plp/exp2 yet.",
+  async prepare() {
+    await Promise.resolve();
+  },
+  run(sourceCode: string): CellOutput {
+    const start = performance.now();
+
+    try {
+      const evaluator = new Exp2();
+      const result = evaluator.run(sourceCode);
+      const executionTime = performance.now() - start;
+
+      return {
+        stdout: result == null ? "" : String(result),
+        stderr: "",
+        result,
+        executionTime,
+        success: true,
+      };
+    } catch (error) {
+      const executionTime = performance.now() - start;
+      return {
+        stdout: "",
+        stderr: error instanceof Error ? error.message : "Unknown execution error",
+        executionTime,
+        success: false,
+      };
+    }
+  },
+};
+
+const func1Language: NotebookLanguage = {
+  name: "Func1",
   runtimeReady: false,
-  preparationMessage: 'Importing and compiling Exp2 runtime...',
-  runtimeStatusMessage: 'Exp2 parser/interpreter entry point is not implemented in src/lib/plp/exp2 yet.',
+  preparationMessage: "Importing and compiling Func1 runtime...",
+  runtimeStatusMessage: "Func1 parser/interpreter entry point is not implemented in src/lib/plp/func1 yet.",
   async prepare() {
     await Promise.resolve();
   },
   run(): CellOutput {
     return {
-      stdout: '',
-      stderr: 'Exp2 parser/interpreter entry point is not implemented in src/lib/plp/exp2 yet.',
+      stdout: "",
+      stderr: "Func1 parser/interpreter entry point is not implemented in src/lib/plp/func1 yet.",
       executionTime: 0,
       success: false,
     };
   },
 };
 
-const availableLanguages: NotebookLanguage[] = [exp1Language, exp2Language];
+const availableLanguages: NotebookLanguage[] = [exp1Language, exp2Language, func1Language];
 
 function App() {
   const initialWorkspace = useMemo(() => {
-    const starterNotebook = new Notebook('Notebook 1', exp1Language, [
-      new MarkdownCell('# Welcome\nWrite notes and explanations here.'),
+    const starterNotebook = new Notebook("Notebook 1", exp1Language, [
+      new MarkdownCell("# Welcome\nWrite notes and explanations here."),
       new CodeCell('5 + length("hello" ++ "world")'),
     ]);
 
-    return new Workspace('PLP Workspace', [starterNotebook]);
+    return new Workspace("PLP Workspace", [starterNotebook]);
   }, []);
 
   const { workspace, actions } = useWorkspace(initialWorkspace);
@@ -158,11 +194,11 @@ function NotebookController({
       onRenameWorkspace={onRenameWorkspace}
       onInsertCodeCell={(index: number) => {
         if (isPreparingLanguage) return;
-        actions.insertCell(new CodeCell(''), index);
+        actions.insertCell(new CodeCell(""), index);
       }}
       onInsertMarkdownCell={(index: number) => {
         if (isPreparingLanguage) return;
-        actions.insertCell(new MarkdownCell(''), index);
+        actions.insertCell(new MarkdownCell(""), index);
       }}
       onRenameNotebook={(name: string) => {
         if (isPreparingLanguage) return;
@@ -175,9 +211,7 @@ function NotebookController({
         if (!language) return;
         if (language.name === notebook.language.name) return;
 
-        setPreparationMessage(
-          language.preparationMessage ?? `Importing and compiling ${language.name} runtime...`,
-        );
+        setPreparationMessage(language.preparationMessage ?? `Importing and compiling ${language.name} runtime...`);
         setIsPreparingLanguage(true);
 
         try {

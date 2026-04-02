@@ -3,12 +3,12 @@
  * Use case: UI integration for workspace display
  */
 
-import { useReducer } from 'react';
-import { Notebook } from '../../../models/Notebook/Notebook';
-import { Workspace } from '../../../models/Workspace/Workspace';
-import type { ID } from '../../../models/types/id';
-import type { Language } from '../../../models/types/execution';
-import { useNotebookViewModel, type NotebookViewModel } from '../../notebook/hooks/useNotebookViewModel';
+import { useReducer } from "react";
+import { Notebook } from "../../../models/Notebook/Notebook";
+import type { Language } from "../../../models/types/execution";
+import type { ID } from "../../../models/types/id";
+import type { Workspace } from "../../../models/Workspace/Workspace";
+import { type NotebookViewModel, useNotebookViewModel } from "../../notebook/hooks/useNotebookViewModel";
 
 /**
  * Workspace view model for UI rendering
@@ -29,25 +29,25 @@ export interface WorkspaceViewModel {
  * Reducer action types for workspace management
  */
 export type WorkspaceAction =
-  | { type: 'ADD_NOTEBOOK'; payload: { name: string; language: Language } }
-  | { type: 'REMOVE_NOTEBOOK'; payload: { notebookId: ID } }
-  | { type: 'UPDATE_NOTEBOOK'; payload: { notebookId: ID; notebook: Notebook } }
-  | { type: 'RENAME_WORKSPACE'; payload: { name: string } };
+  | { type: "ADD_NOTEBOOK"; payload: { name: string; language: Language } }
+  | { type: "REMOVE_NOTEBOOK"; payload: { notebookId: ID } }
+  | { type: "UPDATE_NOTEBOOK"; payload: { notebookId: ID; notebook: Notebook } }
+  | { type: "RENAME_WORKSPACE"; payload: { name: string } };
 
 /**
  * Reducer function for workspace operations
  */
 export function workspaceReducer(state: Workspace, action: WorkspaceAction): Workspace {
   switch (action.type) {
-    case 'ADD_NOTEBOOK': {
+    case "ADD_NOTEBOOK": {
       const newNotebook = new Notebook(action.payload.name, action.payload.language);
       return state.addNotebook(newNotebook);
     }
-    case 'REMOVE_NOTEBOOK':
+    case "REMOVE_NOTEBOOK":
       return state.removeNotebook(action.payload.notebookId);
-    case 'UPDATE_NOTEBOOK':
+    case "UPDATE_NOTEBOOK":
       return state.updateNotebook(action.payload.notebookId, action.payload.notebook);
-    case 'RENAME_WORKSPACE':
+    case "RENAME_WORKSPACE":
       return state.rename(action.payload.name);
     default:
       return state;
@@ -77,25 +77,25 @@ export function useWorkspaceViewModel(
     commands: {
       addNotebook: (name: string, language: Language) => {
         dispatch({
-          type: 'ADD_NOTEBOOK',
+          type: "ADD_NOTEBOOK",
           payload: { name, language },
         });
       },
       removeNotebook: (notebookId: ID) => {
         dispatch({
-          type: 'REMOVE_NOTEBOOK',
+          type: "REMOVE_NOTEBOOK",
           payload: { notebookId },
         });
       },
       updateNotebook: (notebookId: ID, updatedNotebook: Notebook) => {
         dispatch({
-          type: 'UPDATE_NOTEBOOK',
+          type: "UPDATE_NOTEBOOK",
           payload: { notebookId, notebook: updatedNotebook },
         });
       },
       rename: (name: string) => {
         dispatch({
-          type: 'RENAME_WORKSPACE',
+          type: "RENAME_WORKSPACE",
           payload: { name },
         });
       },

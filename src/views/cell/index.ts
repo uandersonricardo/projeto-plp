@@ -3,6 +3,6 @@
  */
 
 export {
-  useCellViewModel,
   type CellViewProps,
-} from './hooks/useCellViewModel';
+  useCellViewModel,
+} from "./hooks/useCellViewModel";

@@ -2,11 +2,11 @@
  * Central export for workspace view models and hooks
  */
 
-export { useWorkspace, type UseWorkspaceReturnType } from './hooks/useWorkspace';
+export { type UseWorkspaceReturnType, useWorkspace } from "./hooks/useWorkspace";
 export {
-  useWorkspaceViewModel,
   useWorkspaceReducer,
-  workspaceReducer,
-  type WorkspaceViewModel,
+  useWorkspaceViewModel,
   type WorkspaceAction,
-} from './hooks/useWorkspaceViewModel';
+  type WorkspaceViewModel,
+  workspaceReducer,
+} from "./hooks/useWorkspaceViewModel";

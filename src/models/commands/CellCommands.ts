@@ -3,21 +3,21 @@
  * Each command encapsulates one request and returns the next immutable Notebook state.
  */
 
-import { CodeCell } from '../Cell/CodeCell';
-import type { Cell } from '../Cell/Cell';
-import { Notebook } from '../Notebook/Notebook';
-import type { ID } from '../types/id';
+import type { Cell } from "../Cell/Cell";
+import { CodeCell } from "../Cell/CodeCell";
+import type { Notebook } from "../Notebook/Notebook";
+import type { ID } from "../types/id";
 
 export type CellCommandType =
-  | 'add'
-  | 'insert'
-  | 'edit'
-  | 'setEditing'
-  | 'clearOutput'
-  | 'delete'
-  | 'moveUp'
-  | 'moveDown'
-  | 'run';
+  | "add"
+  | "insert"
+  | "edit"
+  | "setEditing"
+  | "clearOutput"
+  | "delete"
+  | "moveUp"
+  | "moveDown"
+  | "run";
 
 export interface CellCommand {
   readonly type: CellCommandType;
@@ -25,7 +25,7 @@ export interface CellCommand {
 }
 
 export class AddCellCommand implements CellCommand {
-  readonly type = 'add' as const;
+  readonly type = "add" as const;
   private readonly notebook: Notebook;
   private readonly cell: Cell;
 
@@ -40,7 +40,7 @@ export class AddCellCommand implements CellCommand {
 }
 
 export class InsertCellCommand implements CellCommand {
-  readonly type = 'insert' as const;
+  readonly type = "insert" as const;
   private readonly notebook: Notebook;
   private readonly cell: Cell;
   private readonly index: number;
@@ -57,7 +57,7 @@ export class InsertCellCommand implements CellCommand {
 }
 
 export class EditCellCommand implements CellCommand {
-  readonly type = 'edit' as const;
+  readonly type = "edit" as const;
   private readonly notebook: Notebook;
   private readonly cellId: ID;
   private readonly content: string;
@@ -78,7 +78,7 @@ export class EditCellCommand implements CellCommand {
 }
 
 export class SetCellEditingCommand implements CellCommand {
-  readonly type = 'setEditing' as const;
+  readonly type = "setEditing" as const;
   private readonly notebook: Notebook;
   private readonly cellId: ID;
   private readonly isEditing: boolean;
@@ -99,7 +99,7 @@ export class SetCellEditingCommand implements CellCommand {
 }
 
 export class DeleteCellCommand implements CellCommand {
-  readonly type = 'delete' as const;
+  readonly type = "delete" as const;
   private readonly notebook: Notebook;
   private readonly cellId: ID;
 
@@ -114,7 +114,7 @@ export class DeleteCellCommand implements CellCommand {
 }
 
 export class ClearCellOutputCommand implements CellCommand {
-  readonly type = 'clearOutput' as const;
+  readonly type = "clearOutput" as const;
   private readonly notebook: Notebook;
   private readonly cellId: ID;
 
@@ -132,7 +132,7 @@ export class ClearCellOutputCommand implements CellCommand {
 }
 
 export class MoveCellUpCommand implements CellCommand {
-  readonly type = 'moveUp' as const;
+  readonly type = "moveUp" as const;
   private readonly notebook: Notebook;
   private readonly cellId: ID;
 
@@ -147,7 +147,7 @@ export class MoveCellUpCommand implements CellCommand {
 }
 
 export class MoveCellDownCommand implements CellCommand {
-  readonly type = 'moveDown' as const;
+  readonly type = "moveDown" as const;
   private readonly notebook: Notebook;
   private readonly cellId: ID;
 
@@ -162,7 +162,7 @@ export class MoveCellDownCommand implements CellCommand {
 }
 
 export class RunCellCommand implements CellCommand {
-  readonly type = 'run' as const;
+  readonly type = "run" as const;
   private readonly notebook: Notebook;
   private readonly cellId: ID;
 

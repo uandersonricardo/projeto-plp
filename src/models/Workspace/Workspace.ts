@@ -2,9 +2,9 @@
  * Workspace model - contains multiple notebooks
  */
 
-import { createID, type ID } from '../types/id';
-import { Notebook } from '../Notebook/Notebook';
-import { Cell } from '../Cell/Cell';
+import type { Cell } from "../Cell/Cell";
+import type { Notebook } from "../Notebook/Notebook";
+import { createID, type ID } from "../types/id";
 
 export class Workspace {
   readonly id: ID;
@@ -13,13 +13,7 @@ export class Workspace {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 
-  constructor(
-    name: string,
-    notebooks?: Notebook[],
-    id?: ID,
-    createdAt?: Date,
-    updatedAt?: Date,
-  ) {
+  constructor(name: string, notebooks?: Notebook[], id?: ID, createdAt?: Date, updatedAt?: Date) {
     this.id = id || createID();
     this.name = name;
     this.notebooks = notebooks || [];
@@ -31,13 +25,7 @@ export class Workspace {
    * Add a new notebook
    */
   addNotebook(notebook: Notebook): Workspace {
-    return new Workspace(
-      this.name,
-      [...this.notebooks, notebook],
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Workspace(this.name, [...this.notebooks, notebook], this.id, this.createdAt, new Date());
   }
 
   /**
@@ -45,29 +33,15 @@ export class Workspace {
    */
   removeNotebook(notebookId: ID): Workspace {
     const newNotebooks = this.notebooks.filter((nb) => nb.id !== notebookId);
-    return new Workspace(
-      this.name,
-      newNotebooks,
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Workspace(this.name, newNotebooks, this.id, this.createdAt, new Date());
   }
 
   /**
    * Update a specific notebook
    */
   updateNotebook(notebookId: ID, updatedNotebook: Notebook): Workspace {
-    const newNotebooks = this.notebooks.map((nb) =>
-      nb.id === notebookId ? updatedNotebook : nb,
-    );
-    return new Workspace(
-      this.name,
-      newNotebooks,
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    const newNotebooks = this.notebooks.map((nb) => (nb.id === notebookId ? updatedNotebook : nb));
+    return new Workspace(this.name, newNotebooks, this.id, this.createdAt, new Date());
   }
 
   /**
@@ -81,9 +55,7 @@ export class Workspace {
    * Get all cells across all notebooks
    */
   getAllCells(): Array<{ notebookId: ID; cell: Cell }> {
-    return this.notebooks.flatMap((notebook) =>
-      notebook.cells.map((cell) => ({ notebookId: notebook.id, cell })),
-    );
+    return this.notebooks.flatMap((notebook) => notebook.cells.map((cell) => ({ notebookId: notebook.id, cell })));
   }
 
   /**

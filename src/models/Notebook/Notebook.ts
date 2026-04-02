@@ -2,9 +2,9 @@
  * Notebook model - contains multiple cells using a specific language
  */
 
-import { createID, type ID } from '../types/id';
-import type { Language } from '../types/execution';
-import { Cell } from '../Cell/Cell';
+import type { Cell } from "../Cell/Cell";
+import type { Language } from "../types/execution";
+import { createID, type ID } from "../types/id";
 
 export class Notebook {
   readonly id: ID;
@@ -14,14 +14,7 @@ export class Notebook {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 
-  constructor(
-    name: string,
-    language: Language,
-    cells?: Cell[],
-    id?: ID,
-    createdAt?: Date,
-    updatedAt?: Date,
-  ) {
+  constructor(name: string, language: Language, cells?: Cell[], id?: ID, createdAt?: Date, updatedAt?: Date) {
     this.id = id || createID();
     this.name = name;
     this.language = language;
@@ -34,14 +27,7 @@ export class Notebook {
    * Add a new cell at the end of the notebook
    */
   addCell(cell: Cell): Notebook {
-    return new Notebook(
-      this.name,
-      this.language,
-      [...this.cells, cell],
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Notebook(this.name, this.language, [...this.cells, cell], this.id, this.createdAt, new Date());
   }
 
   /**
@@ -50,14 +36,7 @@ export class Notebook {
   insertCell(cell: Cell, index: number): Notebook {
     const newCells = [...this.cells];
     newCells.splice(index, 0, cell);
-    return new Notebook(
-      this.name,
-      this.language,
-      newCells,
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Notebook(this.name, this.language, newCells, this.id, this.createdAt, new Date());
   }
 
   /**
@@ -65,14 +44,7 @@ export class Notebook {
    */
   removeCell(cellId: ID): Notebook {
     const newCells = this.cells.filter((cell) => cell.id !== cellId);
-    return new Notebook(
-      this.name,
-      this.language,
-      newCells,
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Notebook(this.name, this.language, newCells, this.id, this.createdAt, new Date());
   }
 
   /**
@@ -80,14 +52,7 @@ export class Notebook {
    */
   updateCell(cellId: ID, updatedCell: Cell): Notebook {
     const newCells = this.cells.map((cell) => (cell.id === cellId ? updatedCell : cell));
-    return new Notebook(
-      this.name,
-      this.language,
-      newCells,
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Notebook(this.name, this.language, newCells, this.id, this.createdAt, new Date());
   }
 
   /**
@@ -99,14 +64,7 @@ export class Notebook {
 
     const newCells = [...this.cells];
     [newCells[index], newCells[index - 1]] = [newCells[index - 1], newCells[index]];
-    return new Notebook(
-      this.name,
-      this.language,
-      newCells,
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Notebook(this.name, this.language, newCells, this.id, this.createdAt, new Date());
   }
 
   /**
@@ -118,14 +76,7 @@ export class Notebook {
 
     const newCells = [...this.cells];
     [newCells[index], newCells[index + 1]] = [newCells[index + 1], newCells[index]];
-    return new Notebook(
-      this.name,
-      this.language,
-      newCells,
-      this.id,
-      this.createdAt,
-      new Date(),
-    );
+    return new Notebook(this.name, this.language, newCells, this.id, this.createdAt, new Date());
   }
 
   /**

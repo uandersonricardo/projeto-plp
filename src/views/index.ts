@@ -4,10 +4,10 @@
  */
 
 // Cell view models
-export * from './cell';
+export * from "./cell";
 
 // Notebook view models
-export * from './notebook';
+export * from "./notebook";
 
 // Workspace view models
-export * from './workspace';
+export * from "./workspace";
