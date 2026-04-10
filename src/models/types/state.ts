@@ -2,7 +2,7 @@
  * State persistence types
  */
 
-import type { CellType } from "../Cell/Cell";
+import type { CellType } from "../cell/Cell";
 import type { CellOutput, Language } from "./execution";
 import type { ID } from "./id";
 

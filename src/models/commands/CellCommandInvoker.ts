@@ -2,7 +2,7 @@
  * Invoker for notebook cell commands.
  */
 
-import type { Notebook } from "../Notebook/Notebook";
+import type { Notebook } from "../notebook/Notebook";
 import type { CellCommand } from "./CellCommands";
 
 export class CellCommandInvoker {

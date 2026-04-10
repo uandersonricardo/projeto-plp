@@ -2,7 +2,7 @@
  * Notebook model - contains multiple cells using a specific language
  */
 
-import type { Cell } from "../Cell/Cell";
+import type { Cell } from "../cell/Cell";
 import type { Language } from "../types/execution";
 import { createID, type ID } from "../types/id";
 

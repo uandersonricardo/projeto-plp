@@ -3,9 +3,9 @@
  * Each command encapsulates one request and returns the next immutable Notebook state.
  */
 
-import type { Cell } from "../Cell/Cell";
-import { CodeCell } from "../Cell/CodeCell";
-import type { Notebook } from "../Notebook/Notebook";
+import type { Cell } from "../cell/Cell";
+import { CodeCell } from "../cell/CodeCell";
+import type { Notebook } from "../notebook/Notebook";
 import type { ID } from "../types/id";
 
 export type CellCommandType =

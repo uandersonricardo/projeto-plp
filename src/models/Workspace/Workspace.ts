@@ -2,8 +2,8 @@
  * Workspace model - contains multiple notebooks
  */
 
-import type { Cell } from "../Cell/Cell";
-import type { Notebook } from "../Notebook/Notebook";
+import type { Cell } from "../cell/Cell";
+import type { Notebook } from "../notebook/Notebook";
 import { createID, type ID } from "../types/id";
 
 export class Workspace {
