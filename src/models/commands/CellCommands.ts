@@ -21,7 +21,7 @@ export type CellCommandType =
 
 export interface CellCommand {
   readonly type: CellCommandType;
-  execute(): Notebook | Promise<Notebook>;
+  execute(): Promise<void>;
 }
 
 export class AddCellCommand implements CellCommand {
@@ -34,8 +34,8 @@ export class AddCellCommand implements CellCommand {
     this.cell = cell;
   }
 
-  execute(): Notebook {
-    return this.notebook.addCell(this.cell);
+  async execute() {
+    this.notebook.addCell(this.cell);
   }
 }
 
@@ -51,8 +51,8 @@ export class InsertCellCommand implements CellCommand {
     this.index = index;
   }
 
-  execute(): Notebook {
-    return this.notebook.insertCell(this.cell, this.index);
+  async execute() {
+    this.notebook.insertCell(this.cell, this.index);
   }
 }
 
@@ -68,12 +68,11 @@ export class EditCellCommand implements CellCommand {
     this.content = content;
   }
 
-  execute(): Notebook {
+  async execute() {
     const cell = this.notebook.getCell(this.cellId);
-    if (!cell) return this.notebook;
+    if (!cell) return;
 
-    const updatedCell = cell.updateContent(this.content);
-    return this.notebook.updateCell(this.cellId, updatedCell);
+    cell.updateContent(this.content);
   }
 }
 
@@ -89,12 +88,11 @@ export class SetCellEditingCommand implements CellCommand {
     this.isEditing = isEditing;
   }
 
-  execute(): Notebook {
+  async execute() {
     const cell = this.notebook.getCell(this.cellId);
-    if (!cell) return this.notebook;
+    if (!cell) return;
 
-    const updatedCell = cell.setEditing(this.isEditing);
-    return this.notebook.updateCell(this.cellId, updatedCell);
+    cell.setEditing(this.isEditing);
   }
 }
 
@@ -108,8 +106,8 @@ export class DeleteCellCommand implements CellCommand {
     this.cellId = cellId;
   }
 
-  execute(): Notebook {
-    return this.notebook.removeCell(this.cellId);
+  async execute() {
+    this.notebook.removeCell(this.cellId);
   }
 }
 
@@ -123,11 +121,11 @@ export class ClearCellOutputCommand implements CellCommand {
     this.cellId = cellId;
   }
 
-  execute(): Notebook {
+  async execute() {
     const cell = this.notebook.getCell(this.cellId);
-    if (!cell || !(cell instanceof CodeCell)) return this.notebook;
+    if (!cell || !(cell instanceof CodeCell)) return;
 
-    return this.notebook.updateCell(this.cellId, cell.clearOutput());
+    cell.clearOutput();
   }
 }
 
@@ -141,8 +139,8 @@ export class MoveCellUpCommand implements CellCommand {
     this.cellId = cellId;
   }
 
-  execute(): Notebook {
-    return this.notebook.moveCellUp(this.cellId);
+  async execute() {
+    this.notebook.moveCellUp(this.cellId);
   }
 }
 
@@ -156,8 +154,8 @@ export class MoveCellDownCommand implements CellCommand {
     this.cellId = cellId;
   }
 
-  execute(): Notebook {
-    return this.notebook.moveCellDown(this.cellId);
+  async execute() {
+    this.notebook.moveCellDown(this.cellId);
   }
 }
 
@@ -171,12 +169,11 @@ export class RunCellCommand implements CellCommand {
     this.cellId = cellId;
   }
 
-  async execute(): Promise<Notebook> {
+  async execute() {
     const cell = this.notebook.getCell(this.cellId);
-    if (!cell || !(cell instanceof CodeCell)) return this.notebook;
+    if (!cell || !(cell instanceof CodeCell)) return;
 
     const output = await this.notebook.language.run(cell.content);
-    const updatedCell = cell.withOutput(output);
-    return this.notebook.updateCell(this.cellId, updatedCell);
+    cell.withOutput(output);
   }
 }

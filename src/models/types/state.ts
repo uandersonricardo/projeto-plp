@@ -1,14 +1,7 @@
-/**
- * State persistence types
- */
-
 import type { CellType } from "../cell/Cell";
 import type { CellOutput, Language } from "./execution";
 import type { ID } from "./id";
 
-/**
- * Cell state for persistence
- */
 export interface CellState {
   id: ID;
   type: CellType;
@@ -19,9 +12,6 @@ export interface CellState {
   updatedAt: Date;
 }
 
-/**
- * Notebook state for persistence
- */
 export interface NotebookState {
   id: ID;
   name: string;
@@ -31,9 +21,6 @@ export interface NotebookState {
   updatedAt: Date;
 }
 
-/**
- * Workspace state for persistence
- */
 export interface WorkspaceState {
   id: ID;
   name: string;

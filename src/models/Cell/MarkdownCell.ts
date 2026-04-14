@@ -1,7 +1,3 @@
-/**
- * MarkdownCell model - documentation cell
- */
-
 import type { ID } from "../types/id";
 import { Cell } from "./Cell";
 
@@ -12,11 +8,13 @@ export class MarkdownCell extends Cell {
     super(content, id, createdAt, updatedAt, isEditing);
   }
 
-  updateContent(content: string): MarkdownCell {
-    return new MarkdownCell(content, this.id, this.createdAt, new Date(), this.isEditing);
+  updateContent(content: string) {
+    this.content = content;
+    this.updatedAt = new Date();
   }
 
-  setEditing(isEditing: boolean): MarkdownCell {
-    return new MarkdownCell(this.content, this.id, this.createdAt, new Date(), isEditing);
+  setEditing(isEditing: boolean) {
+    this.isEditing = isEditing;
+    this.updatedAt = new Date();
   }
 }

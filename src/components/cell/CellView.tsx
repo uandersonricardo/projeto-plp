@@ -1,43 +1,36 @@
 import { FiPlay } from "react-icons/fi";
-import type { Cell } from "../../models/cell/Cell";
+
 import { CodeCell } from "../../models/cell/CodeCell";
 import { MarkdownCell } from "../../models/cell/MarkdownCell";
-import type { ID } from "../../models/types/id";
 import { CellActionsView } from "./CellActionsView";
 import { CodeCellView } from "./CodeCellView";
 import { MarkdownCellView } from "./MarkdownCellView";
+import type { ID } from "../../models/types/id";
+import { useCell } from "../../hooks/useCell";
+import { useNotebook } from "../../hooks/useNotebook";
 
 interface CellViewProps {
-  cell: Cell;
-  isSelected: boolean;
-  isRunning: boolean;
-  notebookLocked: boolean;
-  runtimeReady: boolean;
-  onSelect: (cellId: ID) => void;
-  onChange: (cellId: ID, value: string) => void;
-  onSetEditing: (cellId: ID, isEditing: boolean) => void;
-  onRun: (cellId: ID) => void;
-  onClearOutput: (cellId: ID) => void;
-  onMoveUp: (cellId: ID) => void;
-  onMoveDown: (cellId: ID) => void;
-  onDelete: (cellId: ID) => void;
+  notebookId: ID;
+  cellId: ID;
 }
 
-export function CellView({
-  cell,
-  isSelected,
-  isRunning,
-  notebookLocked,
-  runtimeReady,
-  onSelect,
-  onChange,
-  onSetEditing,
-  onRun,
-  onClearOutput,
-  onMoveUp,
-  onMoveDown,
-  onDelete,
-}: CellViewProps) {
+export function CellView({ notebookId, cellId }: CellViewProps) {
+  const { runtimeReady, isPreparingLanguage } = useNotebook(notebookId);
+  const {
+    cell,
+    isSelected,
+    isRunning,
+    selectCell,
+    setEditing,
+    moveUp,
+    moveDown,
+    delete: deleteCell,
+    runCell,
+    clearOutput,
+    updateContent,
+  } = useCell(notebookId, cellId);
+
+  const notebookLocked = isPreparingLanguage;
   const isCode = cell instanceof CodeCell;
   const isMarkdown = cell instanceof MarkdownCell;
 
@@ -50,11 +43,12 @@ export function CellView({
         className={`border rounded-lg bg-white p-[10px] grid gap-[10px] cursor-pointer relative${
           isSelected ? " border-gray-900" : " border-gray-200"
         }`}
-        onClick={() => onSelect(cell.id)}
+        onClick={selectCell}
         onDoubleClick={() => {
-          onSelect(cell.id);
+          selectCell();
+
           if (isMarkdown && !cell.isEditing && !notebookLocked) {
-            onSetEditing(cell.id, true);
+            setEditing(true);
           }
         }}
       >
@@ -64,15 +58,19 @@ export function CellView({
               disabled={notebookLocked}
               showEdit={isMarkdown}
               isEditing={isMarkdown ? cell.isEditing : false}
-              onEdit={() => isMarkdown && onSetEditing(cell.id, !cell.isEditing)}
-              onMoveUp={() => onMoveUp(cell.id)}
-              onMoveDown={() => onMoveDown(cell.id)}
-              onDelete={() => onDelete(cell.id)}
+              onEdit={() => isMarkdown && setEditing(!cell.isEditing)}
+              onMoveUp={moveUp}
+              onMoveDown={moveDown}
+              onDelete={deleteCell}
             />
           </div>
         )}
 
-        <div className={isCode ? "grid grid-cols-[2rem_minmax(0,1fr)] gap-x-[0.625rem] items-start" : "flex min-w-0 w-full"}>
+        <div
+          className={
+            isCode ? "grid grid-cols-[2rem_minmax(0,1fr)] gap-x-[0.625rem] items-start" : "flex min-w-0 w-full"
+          }
+        >
           {isCode && isSelected && (
             <div className="flex justify-center items-start pt-2">
               <button
@@ -80,7 +78,7 @@ export function CellView({
                 className="border border-gray-200 bg-white text-gray-900 w-7 h-7 p-0 inline-flex items-center justify-center text-[0.95rem] leading-none rounded-md cursor-pointer hover:bg-[#f5f5f5] disabled:opacity-50 disabled:cursor-default [&_svg]:w-[14px] [&_svg]:h-[14px]"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onRun(cell.id);
+                  runCell();
                 }}
                 disabled={notebookLocked || isRunning || !runtimeReady}
                 aria-label="Run cell"
@@ -100,16 +98,16 @@ export function CellView({
                 cell={cell}
                 disabled={notebookLocked}
                 isRunning={isRunning}
-                onChange={(value) => onChange(cell.id, value)}
-                onClearOutput={() => onClearOutput(cell.id)}
-                onRun={() => onRun(cell.id)}
+                onChange={updateContent}
+                onClearOutput={clearOutput}
+                onRun={runCell}
               />
             ) : (
               <MarkdownCellView
                 cell={cell as MarkdownCell}
                 disabled={notebookLocked}
-                onChange={(value) => onChange(cell.id, value)}
-                onFinishEditing={() => onSetEditing(cell.id, false)}
+                onChange={updateContent}
+                onFinishEditing={() => setEditing(false)}
               />
             )}
           </div>
