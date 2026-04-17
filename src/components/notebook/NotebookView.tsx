@@ -24,7 +24,7 @@ export function NotebookView({ notebookId }: NotebookViewProps) {
   const locked = isPreparingLanguage;
 
   return (
-    <main className="bg-white border border-gray-200 rounded-[10px] h-full flex flex-col overflow-hidden">
+    <main className="bg-white rounded-2xl h-full flex flex-col overflow-hidden">
       <header className="p-[14px] border-b border-gray-200 flex items-center justify-between gap-3 shrink-0">
         <input
           className="border-0 text-[1.1rem] font-bold w-full text-gray-900 focus:outline-none disabled:opacity-55 disabled:cursor-not-allowed bg-transparent"
@@ -35,7 +35,7 @@ export function NotebookView({ notebookId }: NotebookViewProps) {
         />
         <div className="flex gap-2">
           <select
-            className="border border-gray-200 bg-transparent text-gray-900 rounded-md py-2 px-[10px] focus:outline-1 focus:outline-gray-900 disabled:opacity-55 disabled:cursor-not-allowed"
+            className="border border-gray-200 bg-transparent text-gray-900 rounded-md py-2 px-[10px] focus:outline-0 focus:bg-gray-100 disabled:opacity-55 disabled:cursor-not-allowed"
             value={notebook.language.name}
             onChange={(e) => changeLanguage(e.target.value)}
             aria-label="Notebook language"
@@ -60,13 +60,13 @@ export function NotebookView({ notebookId }: NotebookViewProps) {
         </div>
       ) : null}
 
-      <div className="overflow-auto p-4 grid gap-[14px] content-start">
+      <div className="overflow-auto p-4 grid gap-2 content-start flex-1">
         <InsertBoundary index={0} locked={locked} onInsertCode={insertCodeCell} onInsertMarkdown={insertMarkdownCell} />
 
         {notebook.cells.map((cell) => {
           const index = notebook.getCellIndex(cell.id);
           return (
-            <div key={cell.id} className="grid gap-[6px]">
+            <div key={cell.id} className="flex flex-col gap-2">
               <CellView notebookId={notebookId} cellId={cell.id} />
               <InsertBoundary
                 index={index + 1}
@@ -91,12 +91,12 @@ interface InsertBoundaryProps {
 
 function InsertBoundary({ index, locked, onInsertCode, onInsertMarkdown }: InsertBoundaryProps) {
   return (
-    <div className="group relative h-6 flex items-center justify-center">
-      <div className="absolute inset-x-0 border-t border-transparent transition-colors group-hover:border-[#c8d7ef] group-focus-within:border-[#c8d7ef]" />
+    <div className="group relative h-2 flex items-center justify-center z-10">
+      <div className="absolute inset-x-0 border-t border-transparent transition-colors group-hover:border-gray-200 group-focus-within:border-gray-200" />
       <div className="relative flex gap-[10px] justify-center opacity-0 pointer-events-none translate-y-[2px] transition-[opacity,transform] duration-[120ms] ease-[ease] group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0">
         <button
           type="button"
-          className="border border-gray-200 bg-white text-gray-900 rounded-full py-[6px] px-[14px] cursor-pointer font-medium hover:border-gray-900 disabled:opacity-55 disabled:cursor-not-allowed"
+          className="text-sm border border-gray-200 bg-white text-gray-900 rounded-full px-4 py-1.5 cursor-pointer font-medium hover:border-gray-900 disabled:opacity-55 disabled:cursor-not-allowed"
           disabled={locked}
           onClick={() => onInsertCode(index)}
         >
@@ -104,7 +104,7 @@ function InsertBoundary({ index, locked, onInsertCode, onInsertMarkdown }: Inser
         </button>
         <button
           type="button"
-          className="border border-gray-200 bg-white text-gray-900 rounded-full py-[6px] px-[14px] cursor-pointer font-medium hover:border-gray-900 disabled:opacity-55 disabled:cursor-not-allowed"
+          className="text-sm border border-gray-200 bg-white text-gray-900 rounded-full px-4 py-1.5 cursor-pointer font-medium hover:border-gray-900 disabled:opacity-55 disabled:cursor-not-allowed"
           disabled={locked}
           onClick={() => onInsertMarkdown(index)}
         >

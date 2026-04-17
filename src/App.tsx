@@ -4,6 +4,7 @@ import { useWorkspace } from "./hooks/useWorkspace";
 import { RightPanel } from "./components/workspace/RightPanel";
 import { LeftSidebar } from "./components/workspace/LeftSidebar";
 import { NotebookView } from "./components/notebook/NotebookView";
+import { FiCode } from "react-icons/fi";
 
 const MIN_LEFT_WIDTH = 180;
 const MIN_CENTER_WIDTH = 420;
@@ -83,12 +84,15 @@ function App() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center px-[14px] py-3 bg-white border-b border-gray-200 shrink-0">
+      <div className="flex items-center px-[14px] pt-3 shrink-0 gap-2">
+        <div className="bg-gray-900 p-2 rounded-full text-white text-2xl">
+          <FiCode />
+        </div>
         {isEditingTitle ? (
           <input
             ref={titleInputRef}
             type="text"
-            className="m-0 text-[1.2rem] font-bold text-gray-900 border-2 border-gray-900 rounded-md py-1 px-2 font-[inherit] bg-white outline-none focus:shadow-[0_0_0_3px_rgba(17,24,39,0.1)]"
+            className="m-0 text-xl text-gray-900 border-0 rounded-md py-1 px-2 font-[inherit] outline-none focus:shadow-[0_0_0_1px_rgba(17,24,39,0.1)] w-auto"
             value={titleDraft}
             onChange={(e) => setTitleDraft(e.target.value)}
             onBlur={commitTitle}
@@ -104,7 +108,7 @@ function App() {
         ) : (
           <button
             type="button"
-            className="m-0 text-[1.2rem] font-bold text-gray-900 cursor-pointer py-1 px-2 border-0 bg-transparent rounded-md transition-colors hover:bg-gray-100 font-[inherit]"
+            className="m-0 text-xl text-gray-900 cursor-pointer py-1 px-2 border-0 bg-transparent rounded-md transition-colors font-[inherit] hover:shadow-[0_0_0_1px_rgba(17,24,39,0.1)]"
             onClick={() => setIsEditingTitle(true)}
           >
             {workspace.name}

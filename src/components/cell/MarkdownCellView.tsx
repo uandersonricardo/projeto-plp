@@ -30,7 +30,7 @@ export function MarkdownCellView({ cell, disabled, onChange, onFinishEditing }: 
   if (!cell.isEditing) {
     return (
       <div className="">
-        <div className="markdown-editor px-[2px] py-[6px] leading-[1.6] text-[#25344f] [&_h1]:my-1 [&_h2]:my-1 [&_h3]:my-1 [&_h4]:my-1 [&_h5]:my-1 [&_h6]:my-1">
+        <div className="markdown-editor leading-[1.6] text-[#25344f] [&_h1]:my-1 [&_h2]:my-1 [&_h3]:my-1 [&_h4]:my-1 [&_h5]:my-1 [&_h6]:my-1">
           {cell.content ? <ReactMarkdown>{cell.content}</ReactMarkdown> : "Empty markdown cell"}
         </div>
       </div>

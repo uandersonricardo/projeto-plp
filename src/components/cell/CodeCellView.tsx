@@ -1,16 +1,18 @@
 import { type ChangeEvent, type KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FiPlay } from "react-icons/fi";
 import type { CodeCell } from "../../models/cell/CodeCell";
 
 interface CodeCellViewProps {
   cell: CodeCell;
   disabled: boolean;
   isRunning: boolean;
+  runtimeReady: boolean;
   onChange: (value: string) => void;
   onClearOutput: () => void;
   onRun: () => void;
 }
 
-export function CodeCellView({ cell, disabled, isRunning, onChange, onClearOutput, onRun }: CodeCellViewProps) {
+export function CodeCellView({ cell, disabled, isRunning, runtimeReady, onChange, onClearOutput, onRun }: CodeCellViewProps) {
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
@@ -62,21 +64,47 @@ export function CodeCellView({ cell, disabled, isRunning, onChange, onClearOutpu
     }
   };
 
+  const runDisabled = disabled || isRunning || !runtimeReady;
+  const runTitle = disabled ? "Locked" : !runtimeReady ? "Runtime unavailable" : isRunning ? "Running..." : "Run";
+
   return (
     <div className="grid gap-2 min-w-0 w-full">
-      <textarea
-        ref={editorRef}
-        className="w-full min-h-[calc(1.4em+20px)] border-0 outline-none rounded-[10px] p-[10px] resize-none overflow-hidden leading-[1.4] font-mono text-[0.9rem] bg-transparent text-gray-900 focus:outline-none focus:shadow-none disabled:opacity-55 disabled:cursor-not-allowed"
-        value={cell.content}
-        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        spellCheck={false}
-        disabled={disabled}
-      />
+      <div className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-[0.625rem] items-start">
+        {/* Gutter: shows execution time; play button appears on cell hover */}
+        <div className="relative flex justify-center items-start pt-2">
+          <span className="font-mono text-[0.8rem] text-gray-500 select-none group-hover:invisible">
+            [{cell.output?.executionTime.toFixed(0) ?? " "}]
+          </span>
+          <button
+            type="button"
+            className="absolute top-2 left-1/2 -translate-x-1/2 border border-gray-200 bg-white text-gray-900 w-7 h-7 p-0 inline-flex items-center justify-center text-[0.95rem] leading-none rounded-md cursor-pointer hover:bg-[#f5f5f5] disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:w-[14px] [&_svg]:h-[14px] invisible group-hover:visible"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRun();
+            }}
+            disabled={runDisabled}
+            aria-label="Run cell"
+            title={runTitle}
+          >
+            <FiPlay aria-hidden="true" />
+          </button>
+        </div>
+
+        <textarea
+          ref={editorRef}
+          className="w-full min-h-[calc(1.4em+20px)] border-0 outline-none rounded-[10px] p-[10px] resize-none overflow-hidden leading-[1.4] font-mono text-[0.9rem] bg-transparent text-gray-900 focus:outline-none focus:shadow-none disabled:opacity-55 disabled:cursor-not-allowed"
+          value={cell.content}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
+          onKeyDown={handleKeyDown}
+          spellCheck={false}
+          disabled={disabled}
+        />
+      </div>
+
       {cell.output ? (
         <>
-          <div className="h-px bg-gray-200 m-0 w-[calc(100%+2.625rem)] -ml-[2.625rem]" />
-          <div className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-[0.625rem] items-start w-[calc(100%+2.625rem)] -ml-[2.625rem] min-w-0">
+          <div className="h-px bg-gray-200" />
+          <div className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-[0.625rem] items-start min-w-0">
             <div className="relative flex justify-center pt-2" ref={menuRef}>
               <button
                 type="button"

@@ -17,6 +17,7 @@ export interface WorkspaceStore {
   workspace: Workspace;
   availableLanguages: NotebookLanguage[];
   selectedNotebookId: ID;
+  selectedCellIds: Record<ID, ID | undefined>;
 
   // Workspace
   selectNotebook: (id: ID) => void;
@@ -27,6 +28,7 @@ export interface WorkspaceStore {
   // Notebook
   renameNotebook: (notebookId: ID, name: string) => void;
   setNotebookLanguage: (notebookId: ID, language: Language) => void;
+  selectCell: (notebookId: ID, cellId: ID) => void;
 
   // Cells
   insertCodeCell: (notebookId: ID, index: number) => void;
@@ -48,6 +50,9 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
     workspace: initialWorkspace,
     availableLanguages: availableLanguages,
     selectedNotebookId: initialWorkspace.notebooks[0]?.id,
+    selectedCellIds: Object.fromEntries(
+      initialWorkspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id]),
+    ),
 
     selectNotebook: (id) => set({ selectedNotebookId: id }),
 
@@ -62,11 +67,13 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
       set((state) => {
         state.workspace.removeNotebook(notebookId);
         const stillSelected = state.workspace.notebooks.some((nb) => nb.id === state.selectedNotebookId);
+        const { [notebookId]: _dropped, ...remainingCellIds } = state.selectedCellIds;
         return {
           workspace: clone(state.workspace),
           selectedNotebookId: stillSelected
             ? state.selectedNotebookId
             : (state.workspace.notebooks[0]?.id ?? state.selectedNotebookId),
+          selectedCellIds: remainingCellIds,
         };
       }),
 
@@ -90,6 +97,25 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         if (!notebook) return state;
         state.workspace.updateNotebook(notebookId, notebook.setLanguage(language));
         return { workspace: clone(state.workspace) };
+      }),
+
+    selectCell: (notebookId, cellId) =>
+      set((state) => {
+        const prevCellId = state.selectedCellIds[notebookId];
+        const updatedCellIds = { ...state.selectedCellIds, [notebookId]: cellId };
+
+        if (prevCellId && prevCellId !== cellId) {
+          const notebook = state.workspace.getNotebook(notebookId);
+          const prev = notebook?.getCell(prevCellId);
+          if (prev instanceof MarkdownCell && prev.isEditing) {
+            prev.setEditing(false);
+            notebook!.updateCell(prevCellId, clone(prev));
+            state.workspace.updateNotebook(notebookId, clone(notebook!));
+            return { workspace: clone(state.workspace), selectedCellIds: updatedCellIds };
+          }
+        }
+
+        return { selectedCellIds: updatedCellIds };
       }),
 
     insertCodeCell: (notebookId, index) =>

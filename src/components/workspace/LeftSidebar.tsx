@@ -1,15 +1,16 @@
+import { FiBook, FiCode, FiFile } from "react-icons/fi";
 import { useWorkspace } from "../../hooks/useWorkspace";
 
 export function LeftSidebar() {
   const { addNotebook, workspace, selectedNotebookId, selectNotebook } = useWorkspace();
 
   return (
-    <aside className="bg-white border border-gray-200 rounded-[10px] h-full flex flex-col overflow-hidden min-h-0">
-      <div className="flex items-center justify-between p-[14px] border-b border-gray-200 font-semibold">
-        <h2 className="m-0 text-[0.9rem] uppercase tracking-[0.04em] text-gray-500">Notebooks</h2>
+    <aside className="bg-white rounded-2xl h-full flex flex-col overflow-hidden min-h-0">
+      <div className="flex items-center justify-between p-[14px] border-b border-gray-200">
+        <h2>Notebooks</h2>
         <button
           type="button"
-          className="border border-gray-200 bg-white text-gray-900 w-7 h-7 rounded-md cursor-pointer hover:border-gray-900"
+          className="border border-gray-200 bg-white text-gray-900 w-7 h-7 rounded-md cursor-pointer hover:bg-gray-100"
           onClick={addNotebook}
         >
           +
@@ -20,11 +21,12 @@ export function LeftSidebar() {
           <li key={notebook.id}>
             <button
               type="button"
-              className={`w-full text-left border rounded-md p-[10px] cursor-pointer text-gray-900 bg-transparent${
-                notebook.id === selectedNotebookId ? " border-gray-900 bg-gray-100" : " border-gray-200"
+              className={`w-full flex items-center gap-3 text-left border rounded-lg px-3 py-2 cursor-pointer text-gray-900 hover:border-gray-200 ${
+                notebook.id === selectedNotebookId ? "border-gray-100 bg-gray-100" : "border-white"
               }`}
               onClick={() => selectNotebook(notebook.id)}
             >
+              <FiCode className="text-gray-500" />
               {notebook.name}
             </button>
           </li>

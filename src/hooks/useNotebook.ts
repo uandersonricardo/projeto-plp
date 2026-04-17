@@ -2,19 +2,18 @@ import { useState } from "react";
 
 import type { ID } from "../models/types/id";
 import { useWorkspaceStore } from "../contexts/workspace-store-context";
-import { MarkdownCell } from "../models/cell/MarkdownCell";
 
 export function useNotebook(notebookId: ID) {
   const store = useWorkspaceStore();
 
   const notebook = store((state) => state.workspace.getNotebook(notebookId));
   const availableLanguages = store((state) => state.availableLanguages);
+  const selectedCellId = store((state) => state.selectedCellIds[notebookId]);
 
   if (!notebook) throw new Error(`Notebook ${notebookId} not found`);
 
   const [isPreparingLanguage, setIsPreparingLanguage] = useState(false);
   const [preparationMessage, setPreparationMessage] = useState<string | undefined>();
-  const [selectedCellId, setSelectedCellId] = useState<ID | undefined>(notebook.cells[0]?.id);
 
   const selectedLanguage = availableLanguages.find((lang) => lang.name === notebook.language.name);
   const runtimeReady = selectedLanguage?.runtimeReady ?? false;
@@ -24,7 +23,7 @@ export function useNotebook(notebookId: ID) {
   const setNotebookLanguage = store((state) => state.setNotebookLanguage);
   const insertCodeCell = store((state) => state.insertCodeCell);
   const insertMarkdownCell = store((state) => state.insertMarkdownCell);
-  const setCellEditing = store((state) => state.setCellEditing);
+  const selectCell = store((state) => state.selectCell);
 
   const changeLanguage = async (languageName: string) => {
     const language = availableLanguages.find((lang) => lang.name === languageName);
@@ -40,17 +39,6 @@ export function useNotebook(notebookId: ID) {
       setIsPreparingLanguage(false);
       setPreparationMessage(undefined);
     }
-  };
-
-  const selectCell = (notebookId: ID, cellId: ID) => {
-    if (selectedCellId && selectedCellId !== cellId) {
-      const prev = notebook.getCell(selectedCellId);
-      if (prev instanceof MarkdownCell && prev.isEditing) {
-        setCellEditing(notebookId, selectedCellId, false);
-      }
-    }
-
-    setSelectedCellId(cellId);
   };
 
   return {
