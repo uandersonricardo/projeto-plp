@@ -73,7 +73,7 @@ export function CodeCellView({ cell, disabled, isRunning, runtimeReady, onChange
         {/* Gutter: shows execution time; play button appears on cell hover */}
         <div className="relative flex justify-center items-start pt-2">
           <span className="font-mono text-[0.8rem] text-gray-500 select-none group-hover:invisible">
-            [{cell.output?.executionTime.toFixed(0) ?? " "}]
+            [{cell.executionOrder ?? " "}]
           </span>
           <button
             type="button"

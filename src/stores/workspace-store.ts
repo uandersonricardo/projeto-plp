@@ -18,6 +18,7 @@ export interface WorkspaceStore {
   availableLanguages: NotebookLanguage[];
   selectedNotebookId: ID;
   selectedCellIds: Record<ID, ID | undefined>;
+  executionCounters: Record<ID, number>;
 
   // Workspace
   selectNotebook: (id: ID) => void;
@@ -52,6 +53,9 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
     selectedNotebookId: initialWorkspace.notebooks[0]?.id,
     selectedCellIds: Object.fromEntries(
       initialWorkspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id]),
+    ),
+    executionCounters: Object.fromEntries(
+      initialWorkspace.notebooks.map((nb) => [nb.id, 0]),
     ),
 
     selectNotebook: (id) => set({ selectedNotebookId: id }),
@@ -166,10 +170,14 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         if (!notebook) return state;
         const cell = notebook.getCell(cellId);
         if (!(cell instanceof CodeCell)) return state;
-        cell.withOutput(output);
+        const executionOrder = (state.executionCounters[notebookId] ?? 0) + 1;
+        cell.withOutput(output, executionOrder);
         notebook.updateCell(cellId, clone(cell));
         state.workspace.updateNotebook(notebookId, clone(notebook));
-        return { workspace: clone(state.workspace) };
+        return {
+          workspace: clone(state.workspace),
+          executionCounters: { ...state.executionCounters, [notebookId]: executionOrder },
+        };
       }),
 
     clearCellOutput: (notebookId, cellId) =>

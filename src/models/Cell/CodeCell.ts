@@ -5,6 +5,7 @@ import { Cell } from "./Cell";
 export class CodeCell extends Cell {
   readonly type = "code" as const;
   private _output?: CellOutput;
+  private _executionOrder?: number;
 
   constructor(content: string, output?: CellOutput, id?: ID, createdAt?: Date, updatedAt?: Date, isEditing?: boolean) {
     super(content, id, createdAt, updatedAt, isEditing ?? true);
@@ -13,6 +14,10 @@ export class CodeCell extends Cell {
 
   get output() {
     return this._output;
+  }
+
+  get executionOrder() {
+    return this._executionOrder;
   }
 
   updateContent(content: string) {
@@ -25,13 +30,15 @@ export class CodeCell extends Cell {
     this.updatedAt = new Date();
   }
 
-  withOutput(output: CellOutput) {
+  withOutput(output: CellOutput, executionOrder?: number) {
     this._output = output;
+    this._executionOrder = executionOrder;
     this.updatedAt = new Date();
   }
 
   clearOutput() {
     this._output = undefined;
+    this._executionOrder = undefined;
     this.updatedAt = new Date();
   }
 }
