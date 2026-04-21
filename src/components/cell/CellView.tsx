@@ -53,7 +53,7 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
       }}
     >
       {isSelected && (
-        <div className="absolute top-0 right-[0.625rem] -translate-y-1/2 z-[8] pointer-events-none">
+        <div className="absolute top-0 right-[0.625rem] -translate-y-1/2 z-[10] pointer-events-none">
           <CellActionsView
             disabled={notebookLocked}
             showEdit={isMarkdown}

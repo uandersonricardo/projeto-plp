@@ -96,7 +96,7 @@ function InsertBoundary({ index, locked, onInsertCode, onInsertMarkdown }: Inser
       <div className="relative flex gap-[10px] justify-center opacity-0 pointer-events-none translate-y-[2px] transition-[opacity,transform] duration-[120ms] ease-[ease] group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0">
         <button
           type="button"
-          className="text-sm border border-gray-200 bg-white text-gray-900 rounded-full px-4 py-1.5 cursor-pointer font-medium hover:border-gray-900 disabled:opacity-55 disabled:cursor-not-allowed"
+          className="text-sm border border-gray-200 bg-white text-gray-900 rounded-full px-4 py-1.5 cursor-pointer font-medium hover:bg-gray-100 disabled:opacity-55 disabled:cursor-not-allowed"
           disabled={locked}
           onClick={() => onInsertCode(index)}
         >
@@ -104,7 +104,7 @@ function InsertBoundary({ index, locked, onInsertCode, onInsertMarkdown }: Inser
         </button>
         <button
           type="button"
-          className="text-sm border border-gray-200 bg-white text-gray-900 rounded-full px-4 py-1.5 cursor-pointer font-medium hover:border-gray-900 disabled:opacity-55 disabled:cursor-not-allowed"
+          className="text-sm border border-gray-200 bg-white text-gray-900 rounded-full px-4 py-1.5 cursor-pointer font-medium hover:bg-gray-100 disabled:opacity-55 disabled:cursor-not-allowed"
           disabled={locked}
           onClick={() => onInsertMarkdown(index)}
         >

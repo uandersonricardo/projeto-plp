@@ -9,7 +9,3 @@ body,
   color: #111827;
   background: #f7f8fa;
 }
-
-.markdown-editor > * {
-  all: revert;
-}
