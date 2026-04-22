@@ -13,6 +13,13 @@ import { StringValue } from "../expressions/string-value";
 import { SubtractionExpression } from "../expressions/subtraction-expression";
 import { SumExpression } from "../expressions/sum-expression";
 import { Program } from "../program";
+import { Id } from "../expressions/id";
+import { VariableDeclaration } from "../declaration/variable-declaration";
+import { CompositeDeclaration } from "../declaration/composite-declaration";
+import { DeclarationExpression } from "../expressions/declaration-expression";
+import { FunctionDeclaration } from "../declaration/function-declaration";
+import { IfThenElse } from "../expressions/if-then-else";
+import { Application } from "../expressions/application";
 
 const Identifier = createToken({
   name: "Identifier",
@@ -25,6 +32,13 @@ const Not = createToken({ name: "Not", pattern: /not/, longer_alt: Identifier })
 const Length = createToken({ name: "Length", pattern: /length/, longer_alt: Identifier });
 const True = createToken({ name: "True", pattern: /true/, longer_alt: Identifier });
 const False = createToken({ name: "False", pattern: /false/, longer_alt: Identifier });
+const Let = createToken({ name: "Let", pattern: /let/, longer_alt: Identifier });
+const Var = createToken({ name: "Var", pattern: /var/, longer_alt: Identifier });
+const In = createToken({ name: "In", pattern: /in/, longer_alt: Identifier });
+const If = createToken({ name: "If", pattern: /if/, longer_alt: Identifier });
+const Then = createToken({ name: "Then", pattern: /then/, longer_alt: Identifier });
+const Else = createToken({ name: "Else", pattern: /else/, longer_alt: Identifier });
+const Func = createToken({ name: "Func", pattern: /fun/, longer_alt: Identifier });
 
 const IntegerLiteral = createToken({
   name: "IntegerLiteral",
@@ -83,6 +97,13 @@ const allTokens = [
   Length,
   True,
   False,
+  Let,
+  Var,
+  In,
+  If,
+  Then,
+  Else,
+  Func,
   Identifier,
   IntegerLiteral,
   StringLiteral,
@@ -119,13 +140,15 @@ const allTokens = [
   Rem,
 ];
 
-export const exp1Lexer = new Lexer(allTokens);
+export const func1Lexer = new Lexer(allTokens);
 
-export class Exp1Parser extends EmbeddedActionsParser {
+export class Func1Parser extends EmbeddedActionsParser {
   [key: string]: any;
 
   constructor() {
-    super(allTokens);
+    super(allTokens, {
+      maxLookahead: 4,
+    });
 
     const $ = this;
 
@@ -174,6 +197,12 @@ export class Exp1Parser extends EmbeddedActionsParser {
       ]);
     });
 
+    $.RULE("id", () => {
+      const token = $.CONSUME(Identifier);
+      const str = token.image;
+      return new Id(str);
+    });
+
     $.RULE("minus", () => {
       $.CONSUME(Minus);
       const exp: any = $.SUBRULE($.primaryExpr);
@@ -195,6 +224,7 @@ export class Exp1Parser extends EmbeddedActionsParser {
     $.RULE("primaryExpr", () => {
       return $.OR([
         { ALT: () => $.SUBRULE($.value) },
+        { ALT: () => $.SUBRULE($.id) },
         {
           ALT: () => {
             $.CONSUME(LParen);
@@ -204,6 +234,113 @@ export class Exp1Parser extends EmbeddedActionsParser {
           },
         },
       ]);
+    });
+
+    $.RULE("idList", () => {
+      const ids: any[] = [];
+
+      $.MANY(() => {
+        ids.push($.SUBRULE($.id));
+      });
+
+      return ids;
+    });
+
+    $.RULE("variableDeclaration", () => {
+      $.CONSUME(Var);
+      const id: any = $.SUBRULE($.id);
+      $.CONSUME(Assign);
+      const exp: any = $.SUBRULE($.expression);
+      return new VariableDeclaration(id, exp);
+    });
+
+    $.RULE("functionDeclaration", () => {
+      $.CONSUME(Func);
+      const id: any = $.SUBRULE($.id);
+      const params: any = $.SUBRULE($.idList);
+      $.CONSUME(Assign);
+      const exp: any = $.SUBRULE($.expression);
+      return new FunctionDeclaration(id, params, exp);
+    });
+
+    $.RULE("compositeDeclaration", () => {
+      const d1: any = $.SUBRULE($.singleDeclaration);
+      $.CONSUME(Comma);
+      const d2: any = $.SUBRULE($.declaration);
+      return new CompositeDeclaration(d1, d2);
+    });
+
+    $.RULE("singleDeclaration", () => {
+      return $.OR([{ ALT: () => $.SUBRULE($.variableDeclaration) }, { ALT: () => $.SUBRULE($.functionDeclaration) }]);
+    });
+
+    $.RULE("variableDeclarationFollowedByComma", () => {
+      this.SUBRULE($.variableDeclaration);
+      this.CONSUME(Comma);
+    });
+
+    $.RULE("functionDeclarationFollowedByComma", () => {
+      $.SUBRULE($.functionDeclaration);
+      $.CONSUME(Comma);
+    });
+
+    $.RULE("declaration", () => {
+      return $.OR([
+        {
+          GATE: $.BACKTRACK($.variableDeclarationFollowedByComma),
+          ALT: () => $.SUBRULE($.compositeDeclaration),
+        },
+        {
+          GATE: $.BACKTRACK($.functionDeclarationFollowedByComma),
+          ALT: () => $.SUBRULE2($.compositeDeclaration),
+        },
+        { ALT: () => $.SUBRULE($.variableDeclaration) },
+        { ALT: () => $.SUBRULE($.functionDeclaration) },
+        {
+          ALT: () => {
+            $.CONSUME(LParen);
+            const exp: any = $.SUBRULE2($.declaration);
+            $.CONSUME(RParen);
+            return exp;
+          },
+        },
+      ]);
+    });
+
+    $.RULE("declarationExpr", () => {
+      $.CONSUME(Let);
+      const dec: any = $.SUBRULE($.declaration);
+      $.CONSUME(In);
+      const exp: any = $.SUBRULE($.expression);
+      return new DeclarationExpression(dec, exp);
+    });
+
+    $.RULE("conditionalExpr", () => {
+      $.CONSUME(If);
+      const cond: any = $.SUBRULE($.expression);
+      $.CONSUME(Then);
+      const thenExp: any = $.SUBRULE2($.expression);
+      $.CONSUME(Else);
+      const elseExp: any = $.SUBRULE3($.expression);
+      return new IfThenElse(cond, thenExp, elseExp);
+    });
+
+    $.RULE("application", () => {
+      const id: any = $.SUBRULE($.id);
+      $.CONSUME(LParen);
+      const args: any[] = [];
+      args.push($.SUBRULE($.expression));
+      $.MANY(() => {
+        $.CONSUME(Comma);
+        args.push($.SUBRULE2($.expression));
+      });
+      $.CONSUME(RParen);
+      return new Application(id, args);
+    });
+
+    $.RULE("idFollowedByLParen", () => {
+      $.SUBRULE($.id);
+      $.CONSUME(LParen);
     });
 
     $.RULE("unaryExpr", () => {
@@ -216,6 +353,16 @@ export class Exp1Parser extends EmbeddedActionsParser {
         },
         {
           ALT: () => $.SUBRULE($.length),
+        },
+        {
+          ALT: () => $.SUBRULE($.declarationExpr),
+        },
+        {
+          ALT: () => $.SUBRULE($.conditionalExpr),
+        },
+        {
+          GATE: $.BACKTRACK($.idFollowedByLParen),
+          ALT: () => $.SUBRULE($.application),
         },
         {
           ALT: () => $.SUBRULE($.primaryExpr),

@@ -16,7 +16,7 @@ export class DeclarationExpression implements Expression {
     this.expression = expression;
   }
 
-  evaluate(env: ExecutionEnvironment): Value {
+  public evaluate(env: ExecutionEnvironment): Value {
     env.increment();
 
     const aux: ExecutionEnvironment = new ExecutionContext();
@@ -34,7 +34,7 @@ export class DeclarationExpression implements Expression {
     return result;
   }
 
-  checkType(env: CompilationEnvironment): boolean {
+  public checkType(env: CompilationEnvironment): boolean {
     env.increment();
     let result = false;
 
@@ -59,7 +59,7 @@ export class DeclarationExpression implements Expression {
     return result;
   }
 
-  getType(env: CompilationEnvironment): Type {
+  public getType(env: CompilationEnvironment): Type {
     env.increment();
 
     const aux: CompilationEnvironment = new CompilationContext();
@@ -77,7 +77,7 @@ export class DeclarationExpression implements Expression {
     return type;
   }
 
-  reduce(env: ExecutionEnvironment): Expression {
+  public reduce(env: ExecutionEnvironment): Expression {
     env.increment();
 
     this.declaration.reduce(env);
@@ -88,7 +88,7 @@ export class DeclarationExpression implements Expression {
     return this;
   }
 
-  clone(): DeclarationExpression {
+  public clone(): DeclarationExpression {
     return new DeclarationExpression(this.declaration, this.expression.clone());
   }
 }

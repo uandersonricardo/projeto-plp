@@ -18,21 +18,20 @@ import { VariableDeclaration } from "../declaration/variable-declaration";
 import { CompositeDeclaration } from "../declaration/composite-declaration";
 import { DeclarationExpression } from "../expressions/declaration-expression";
 
-const And = createToken({ name: "And", pattern: /and/ });
-const Or = createToken({ name: "Or", pattern: /or/ });
-const Not = createToken({ name: "Not", pattern: /not/ });
-const Length = createToken({ name: "Length", pattern: /length/ });
-const True = createToken({ name: "True", pattern: /true/ });
-const False = createToken({ name: "False", pattern: /false/ });
-const Let = createToken({ name: "Let", pattern: /let/ });
-const Var = createToken({ name: "Var", pattern: /var/ });
-const In = createToken({ name: "In", pattern: /in/ });
-
 const Identifier = createToken({
   name: "Identifier",
   pattern: /[a-zA-Z_$\u00c0-\u1fff\u3040-\ufaff][a-zA-Z0-9_$\u00c0-\u1fff\u3040-\ufaff]*/,
-  longer_alt: [And, Or, Not, Length, True, False, Let, Var, In],
 });
+
+const And = createToken({ name: "And", pattern: /and/, longer_alt: Identifier });
+const Or = createToken({ name: "Or", pattern: /or/, longer_alt: Identifier });
+const Not = createToken({ name: "Not", pattern: /not/, longer_alt: Identifier });
+const Length = createToken({ name: "Length", pattern: /length/, longer_alt: Identifier });
+const True = createToken({ name: "True", pattern: /true/, longer_alt: Identifier });
+const False = createToken({ name: "False", pattern: /false/, longer_alt: Identifier });
+const Let = createToken({ name: "Let", pattern: /let/, longer_alt: Identifier });
+const Var = createToken({ name: "Var", pattern: /var/, longer_alt: Identifier });
+const In = createToken({ name: "In", pattern: /in/, longer_alt: Identifier });
 
 const IntegerLiteral = createToken({
   name: "IntegerLiteral",
@@ -94,6 +93,7 @@ const allTokens = [
   Let,
   Var,
   In,
+  Identifier,
   IntegerLiteral,
   StringLiteral,
   LParen,
@@ -127,7 +127,6 @@ const allTokens = [
   BitOr,
   Xor,
   Rem,
-  Identifier,
 ];
 
 export const exp2Lexer = new Lexer(allTokens);
