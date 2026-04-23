@@ -1,72 +1,44 @@
-/**
- * CodeCell model - executable cell with output
- */
-
-import type { CellOutput } from '../types/execution';
-import type { ID } from '../types/id';
-import { Cell } from './Cell';
+import type { CellOutput } from "../types/execution";
+import type { ID } from "../types/id";
+import { Cell } from "./Cell";
 
 export class CodeCell extends Cell {
-  readonly type = 'code' as const;
-  private readonly _output?: CellOutput;
+  readonly type = "code" as const;
+  private _output?: CellOutput;
+  private _executionOrder?: number;
 
-  constructor(
-    content: string,
-    output?: CellOutput,
-    id?: ID,
-    createdAt?: Date,
-    updatedAt?: Date,
-    isEditing?: boolean,
-  ) {
+  constructor(content: string, output?: CellOutput, id?: ID, createdAt?: Date, updatedAt?: Date, isEditing?: boolean) {
     super(content, id, createdAt, updatedAt, isEditing ?? true);
     this._output = output;
   }
 
-  get output(): CellOutput | undefined {
+  get output() {
     return this._output;
   }
 
-  updateContent(content: string): CodeCell {
-    return new CodeCell(
-      content,
-      this._output,
-      this.id,
-      this.createdAt,
-      new Date(),
-      this.isEditing,
-    );
+  get executionOrder() {
+    return this._executionOrder;
   }
 
-  setEditing(isEditing: boolean): CodeCell {
-    return new CodeCell(
-      this.content,
-      this._output,
-      this.id,
-      this.createdAt,
-      new Date(),
-      isEditing,
-    );
+  updateContent(content: string) {
+    this.content = content;
+    this.updatedAt = new Date();
   }
 
-  withOutput(output: CellOutput): CodeCell {
-    return new CodeCell(
-      this.content,
-      output,
-      this.id,
-      this.createdAt,
-      new Date(),
-      this.isEditing,
-    );
+  setEditing(isEditing: boolean) {
+    this.isEditing = isEditing;
+    this.updatedAt = new Date();
   }
 
-  clearOutput(): CodeCell {
-    return new CodeCell(
-      this.content,
-      undefined,
-      this.id,
-      this.createdAt,
-      new Date(),
-      this.isEditing,
-    );
+  withOutput(output: CellOutput, executionOrder?: number) {
+    this._output = output;
+    this._executionOrder = executionOrder;
+    this.updatedAt = new Date();
+  }
+
+  clearOutput() {
+    this._output = undefined;
+    this._executionOrder = undefined;
+    this.updatedAt = new Date();
   }
 }

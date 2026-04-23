@@ -1,7 +1,7 @@
-import { CompilationContext } from "../exp2/memory/compilation-context";
-import type { CompilationEnvironment } from "../exp2/memory/compilation-environment";
-import { ExecutionContext } from "../exp2/memory/execution-context";
-import type { ExecutionEnvironment } from "../exp2/memory/execution-environment";
+import { CompilationContext } from "./memory/compilation-context";
+import type { CompilationEnvironment } from "./memory/compilation-environment";
+import { ExecutionContext } from "./memory/execution-context";
+import type { ExecutionEnvironment } from "./memory/execution-environment";
 import type { Expression } from "./expressions/expression";
 import type { Value } from "./expressions/value";
 

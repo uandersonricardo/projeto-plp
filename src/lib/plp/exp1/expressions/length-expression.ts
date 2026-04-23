@@ -1,5 +1,5 @@
-import type { CompilationEnvironment } from "../../exp2/memory/compilation-environment";
-import type { ExecutionEnvironment } from "../../exp2/memory/execution-environment";
+import type { CompilationEnvironment } from "../memory/compilation-environment";
+import type { ExecutionEnvironment } from "../memory/execution-environment";
 import { PrimitiveType } from "../utils/primitive-type";
 import type { Type } from "../utils/type";
 import type { Expression } from "./expression";
@@ -19,7 +19,7 @@ export class LengthExpression extends UnaryExpression {
     return new IntegerValue(expressionValue.getValue().length);
   }
 
-  public getType(_env: ExecutionEnvironment): Type {
+  public getType(_env: CompilationEnvironment): Type {
     return PrimitiveType.INTEGER;
   }
 
