@@ -21,7 +21,7 @@ O **colab.io** é uma IDE web voltada ao exercício dos conceitos e linguagens e
 
 A aplicação é inspirada no **Google Colab** e permite criar workspaces com múltiplos notebooks, divididos em células independentes — uma por linguagem, uma por conceito, no ritmo de cada aluno.
 
-<img width="3840" height="2160" alt="localhost_4004_" src="https://github.com/user-attachments/assets/d143c4b5-f888-431b-8a39-e93060fbd331" />
+<img width="3840" height="2160" alt="colab.io screenshot" src="images/colabio.png" />
 
 ---
 
@@ -29,7 +29,7 @@ A aplicação é inspirada no **Google Colab** e permite criar workspaces com m�
 
 - 📓 **Notebooks** — Crie workspaces com múltiplos arquivos e organize seu código em células executáveis.
 - ▶ **Execução** — Execute código diretamente no navegador, com suporte às linguagens da disciplina.
-- 🔤 **Multi-linguagem** — Suporte planejado para todas as linguagens abordadas em PLP.
+- 🔤 **Multi-linguagem** — Suporte implementado para Exp1, Exp2, Func1 e Func2.
 - 📝 **Documentação** — Adicione anotações e documentação junto ao código, em células de texto livre.
 
 ---
@@ -41,9 +41,42 @@ O objetivo atual é converter os parsers das demais linguagens para TypeScript.
 | Linguagem | Status |
 |-----------|--------|
 | Exp1 | ✅ Suportada |
-| Demais linguagens | 🚧 Em desenvolvimento |
+| Exp2 | ✅ Suportada |
+| Func1 | ✅ Suportada |
+| Func2 | ✅ Suportada |
+| Demais linguagens de PLP | 🚧 Em desenvolvimento |
 
 > As BNFs de todas as linguagens estão disponíveis em: https://augustosampaio.github.io/PLP/linguagens
+
+---
+
+## Exemplos suportados
+
+### Exp1
+
+```txt
+1 + 2
+```
+
+### Exp2
+
+```txt
+let var x = 10, var y = 5 in x - y
+```
+
+### Func1
+
+```txt
+let fun soma x y = x + y in soma(2,3)
+```
+
+### Func2
+
+```txt
+let fun add x = fn y . x + y in
+	let var id = add(0), var x = 4 in
+		id(1) + x
+```
 
 ---
 
