@@ -1,4 +1,5 @@
-import type { CellOutput, Language } from "../models/types/execution";
+import type { LanguageCode } from "../../teavm";
+import type { BNFLanguageDefinition, CellOutput, Language } from "../models/types/execution";
 
 export interface NotebookLanguage extends Language {
   runtimeReady: boolean;
@@ -7,117 +8,121 @@ export interface NotebookLanguage extends Language {
   prepare?: () => Promise<void>;
 }
 
+function defineLanguage(name: string, bnf: BNFLanguageDefinition): NotebookLanguage {
+  return {
+    name,
+    bnf,
+    runtimeReady: true,
+    preparationMessage: `Importing and compiling ${name} runtime...`,
+    async prepare() {
+      await Promise.resolve();
+    },
+    run(sourceCode: string): CellOutput {
+      const start = performance.now();
+      try {
+        const result = window.__runCode(name.toLowerCase() as LanguageCode, sourceCode, "");
+        return {
+          stdout: result.output ?? "",
+          stderr: result.message ?? "",
+          result: result.output,
+          executionTime: performance.now() - start,
+          success: result.success,
+        };
+      } catch (error) {
+        return {
+          stdout: "",
+          stderr: error instanceof Error ? error.message : "Unknown execution error",
+          executionTime: performance.now() - start,
+          success: false,
+        };
+      }
+    },
+  };
+}
+
 export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
-  {
-    name: "Exp1",
-    runtimeReady: true,
-    preparationMessage: "Importing and compiling Exp1 runtime...",
-    async prepare() {
-      await Promise.resolve();
-    },
-    run(sourceCode: string): CellOutput {
-      const start = performance.now();
-      try {
-        const result = window.__runCode("exp1", sourceCode, "");
-        return {
-          stdout: result.output ?? "",
-          stderr: result.message ?? "",
-          result: result.output,
-          executionTime: performance.now() - start,
-          success: result.success,
-        };
-      } catch (error) {
-        return {
-          stdout: "",
-          stderr: error instanceof Error ? error.message : "Unknown execution error",
-          executionTime: performance.now() - start,
-          success: false,
-        };
-      }
-    },
-  },
-  {
-    name: "Exp2",
-    runtimeReady: true,
-    preparationMessage: "Importing and compiling Exp2 runtime...",
-    async prepare() {
-      await Promise.resolve();
-    },
-    run(sourceCode: string): CellOutput {
-      const start = performance.now();
-      try {
-        const result = window.__runCode("exp2", sourceCode, "");
-        return {
-          stdout: result.output ?? "",
-          stderr: result.message ?? "",
-          result: result.output,
-          executionTime: performance.now() - start,
-          success: result.success,
-        };
-      } catch (error) {
-        return {
-          stdout: "",
-          stderr: error instanceof Error ? error.message : "Unknown execution error",
-          executionTime: performance.now() - start,
-          success: false,
-        };
-      }
-    },
-  },
-  {
-    name: "Func1",
-    runtimeReady: true,
-    preparationMessage: "Importing and compiling Func1 runtime...",
-    async prepare() {
-      await Promise.resolve();
-    },
-    run(sourceCode: string): CellOutput {
-      const start = performance.now();
-      try {
-        const result = window.__runCode("func1", sourceCode, "");
-        return {
-          stdout: result.output ?? "",
-          stderr: result.message ?? "",
-          result: result.output,
-          executionTime: performance.now() - start,
-          success: result.success,
-        };
-      } catch (error) {
-        return {
-          stdout: "",
-          stderr: error instanceof Error ? error.message : "Unknown execution error",
-          executionTime: performance.now() - start,
-          success: false,
-        };
-      }
-    },
-  },
-  {
-    name: "Func2",
-    runtimeReady: true,
-    preparationMessage: "Importing and compiling Func2 runtime...",
-    async prepare() {
-      await Promise.resolve();
-    },
-    run(sourceCode: string): CellOutput {
-      const start = performance.now();
-      try {
-        const result = window.__runCode("func2", sourceCode, "");
-        return {
-          stdout: result.output ?? "",
-          stderr: result.message ?? "",
-          result: result.output,
-          executionTime: performance.now() - start,
-          success: result.success,
-        };
-      } catch (error) {
-        return {
-          stdout: "",
-          stderr: error instanceof Error ? error.message : "Unknown execution error",
-          executionTime: performance.now() - start,
-          success: false,
-        };
-      }
-    },
-  },
+  defineLanguage("Exp1", { keywords: ["not", "length", "and", "or"], literals: ["true", "false"] }),
+  defineLanguage("Exp2", { keywords: ["not", "length", "and", "or", "let", "var", "in"], literals: ["true", "false"] }),
+  defineLanguage("Func1", {
+    keywords: ["not", "length", "and", "or", "let", "var", "in", "fun", "if", "then", "else"],
+    literals: ["true", "false"],
+  }),
+  defineLanguage("Func2", {
+    keywords: ["not", "length", "and", "or", "let", "var", "in", "fun", "fn", "if", "then", "else"],
+    literals: ["true", "false"],
+  }),
+  defineLanguage("Func3", {
+    keywords: ["not", "length", "and", "or", "let", "var", "in", "fun", "fn", "if", "then", "else", "for"],
+    literals: ["true", "false"],
+    builtins: ["head", "tail"],
+  }),
+  defineLanguage("Imp1", {
+    keywords: ["not", "length", "and", "or", "var", "while", "do", "if", "then", "else", "write", "read"],
+    literals: ["true", "false"],
+  }),
+  defineLanguage("Imp2", {
+    keywords: [
+      "not",
+      "length",
+      "and",
+      "or",
+      "var",
+      "while",
+      "do",
+      "if",
+      "then",
+      "else",
+      "write",
+      "read",
+      "proc",
+      "call",
+    ],
+    literals: ["true", "false"],
+    types: ["string", "int", "boolean"],
+  }),
+  defineLanguage("OO1", {
+    keywords: [
+      "not",
+      "length",
+      "and",
+      "or",
+      "var",
+      "while",
+      "do",
+      "if",
+      "then",
+      "else",
+      "write",
+      "read",
+      "proc",
+      "new",
+      "classe",
+      "this",
+    ],
+    literals: ["true", "false", "null"],
+    types: ["string", "int", "boolean"],
+  }),
+  defineLanguage("OO2", {
+    keywords: [
+      "not",
+      "length",
+      "and",
+      "or",
+      "var",
+      "while",
+      "do",
+      "if",
+      "then",
+      "else",
+      "write",
+      "read",
+      "proc",
+      "new",
+      "classe",
+      "this",
+      "extends",
+    ],
+    literals: ["true", "false", "null"],
+    types: ["string", "int", "boolean"],
+  }),
 ];
