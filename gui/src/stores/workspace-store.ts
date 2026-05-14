@@ -62,8 +62,9 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
     addNotebook: () =>
       set((state) => {
         const nextName = `Notebook ${state.workspace.notebooks.length + 1}`;
-        state.workspace.addNotebook(new Notebook(nextName, availableLanguages[0]));
-        return { workspace: clone(state.workspace) };
+        const notebook = new Notebook(nextName, availableLanguages[0]);
+        state.workspace.addNotebook(notebook);
+        return { workspace: clone(state.workspace), selectedNotebookId: notebook.id };
       }),
 
     removeNotebook: (notebookId) =>
