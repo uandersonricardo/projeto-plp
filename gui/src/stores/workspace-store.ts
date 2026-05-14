@@ -42,6 +42,9 @@ export interface WorkspaceStore {
   moveCellDown: (notebookId: ID, cellId: ID) => void;
   deleteCell: (notebookId: ID, cellId: ID) => void;
 
+  // Import
+  loadWorkspace: (workspace: Workspace) => void;
+
   // Selectors
   getSelectedNotebook: () => Notebook | undefined;
 }
@@ -51,12 +54,8 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
     workspace: initialWorkspace,
     availableLanguages: availableLanguages,
     selectedNotebookId: initialWorkspace.notebooks[0]?.id,
-    selectedCellIds: Object.fromEntries(
-      initialWorkspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id]),
-    ),
-    executionCounters: Object.fromEntries(
-      initialWorkspace.notebooks.map((nb) => [nb.id, 0]),
-    ),
+    selectedCellIds: Object.fromEntries(initialWorkspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id])),
+    executionCounters: Object.fromEntries(initialWorkspace.notebooks.map((nb) => [nb.id, 0])),
 
     selectNotebook: (id) => set({ selectedNotebookId: id }),
 
@@ -218,6 +217,24 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         state.workspace.updateNotebook(notebookId, clone(notebook));
         return { workspace: clone(state.workspace) };
       }),
+
+    loadWorkspace: (workspace) =>
+      set(() => ({
+        workspace,
+        selectedNotebookId: workspace.notebooks[0]?.id,
+        selectedCellIds: Object.fromEntries(workspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id])),
+        executionCounters: Object.fromEntries(
+          workspace.notebooks.map((nb) => {
+            const max = nb.cells.reduce((acc, cell) => {
+              if (cell instanceof CodeCell && cell.executionOrder !== undefined) {
+                return Math.max(acc, cell.executionOrder);
+              }
+              return acc;
+            }, 0);
+            return [nb.id, max];
+          }),
+        ),
+      })),
 
     getSelectedNotebook: () => {
       const { workspace, selectedNotebookId } = get();
