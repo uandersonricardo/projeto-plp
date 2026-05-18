@@ -68,12 +68,21 @@ export function CodeCellView({
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
-      if (!disabled && !isRunning) onRun();
+      if (!disabled && !isRunning && !isEmpty) onRun();
     }
   };
 
-  const runDisabled = disabled || isRunning || !runtimeReady;
-  const runTitle = disabled ? "Locked" : !runtimeReady ? "Runtime unavailable" : isRunning ? "Running..." : "Run";
+  const isEmpty = cell.content.trim() === "";
+  const runDisabled = disabled || isRunning || !runtimeReady || isEmpty;
+  const runTitle = disabled
+    ? "Locked"
+    : !runtimeReady
+      ? "Runtime unavailable"
+      : isRunning
+        ? "Running..."
+        : isEmpty
+          ? "No code to run"
+          : "Run";
 
   return (
     <div className="grid gap-2 min-w-0 w-full">
@@ -104,6 +113,7 @@ export function CodeCellView({
           value={cell.content}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
+          placeholder="Write your code here..."
           spellCheck={false}
           disabled={disabled}
         />
