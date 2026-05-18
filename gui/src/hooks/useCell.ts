@@ -5,6 +5,8 @@ import type { ID } from "../models/types/id";
 import { useWorkspaceStore } from "../contexts/workspace-store-context";
 import { useNotebook } from "./useNotebook";
 import { CodeCell } from "../models/cell/CodeCell";
+import type { NotebookLanguage } from "../config/languages";
+import { buildNotebookScopeCode } from "../lib/utils";
 
 export function useCell(notebookId: ID, cellId: ID) {
   const { isPreparingLanguage, runtimeReady, selectedCellId, selectCell } = useNotebook(notebookId);
@@ -35,7 +37,13 @@ export function useCell(notebookId: ID, cellId: ID) {
     try {
       if (!(cell instanceof CodeCell)) return;
 
-      const output: CellOutput = await notebook.language.run(cell.content);
+      const language = notebook.language as NotebookLanguage;
+      const sourceCode =
+        language.scopeMode === "notebook" ? buildNotebookScopeCode(notebook.cells, cellId) : cell.content;
+
+      console.log(sourceCode);
+
+      const output: CellOutput = await notebook.language.run(sourceCode);
       setCellOutput(notebookId, cellId, output);
     } finally {
       setIsExecuting(false);

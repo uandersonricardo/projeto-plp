@@ -12,7 +12,15 @@ interface CodeCellViewProps {
   onRun: () => void;
 }
 
-export function CodeCellView({ cell, disabled, isRunning, runtimeReady, onChange, onClearOutput, onRun }: CodeCellViewProps) {
+export function CodeCellView({
+  cell,
+  disabled,
+  isRunning,
+  runtimeReady,
+  onChange,
+  onClearOutput,
+  onRun,
+}: CodeCellViewProps) {
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
@@ -120,17 +128,29 @@ export function CodeCellView({ cell, disabled, isRunning, runtimeReady, onChange
               </button>
               {isOutputMenuOpen && (
                 <div className="absolute top-[calc(100%+0.25rem)] left-0 min-w-[140px] p-[6px] border border-gray-200 rounded-md bg-white z-10 grid gap-1">
-                  <button type="button" className="border-0 bg-transparent text-left px-2 py-[6px] rounded-md text-gray-900 cursor-pointer text-[0.86rem] hover:bg-gray-100 w-full" onClick={handleCopyOutput}>
+                  <button
+                    type="button"
+                    className="border-0 bg-transparent text-left px-2 py-[6px] rounded-md text-gray-900 cursor-pointer text-[0.86rem] hover:bg-gray-100 w-full"
+                    onClick={handleCopyOutput}
+                  >
                     Copy output
                   </button>
-                  <button type="button" className="border-0 bg-transparent text-left px-2 py-[6px] rounded-md text-gray-900 cursor-pointer text-[0.86rem] hover:bg-gray-100 w-full" onClick={handleClearOutput}>
+                  <button
+                    type="button"
+                    className="border-0 bg-transparent text-left px-2 py-[6px] rounded-md text-gray-900 cursor-pointer text-[0.86rem] hover:bg-gray-100 w-full"
+                    onClick={handleClearOutput}
+                  >
                     Clear output
                   </button>
                 </div>
               )}
             </div>
             <div className="w-full min-w-0">
-              <pre className={`m-0 p-2 rounded-md font-mono text-[0.85rem] whitespace-pre-wrap${cell.output.success ? " bg-[#effaf5] text-[#027a48]" : " bg-[#fff4f3] text-[#b42318]"}`}>{outputText}</pre>
+              <pre
+                className={`overflow-auto m-0 p-2 rounded-md font-mono text-[0.85rem] whitespace-pre-wrap${cell.output.success ? " bg-[#effaf5] text-[#027a48]" : " bg-[#fff4f3] text-[#b42318]"}`}
+              >
+                {outputText}
+              </pre>
             </div>
           </div>
         </>
