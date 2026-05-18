@@ -29,7 +29,7 @@ export function useCell(notebookId: ID, cellId: ID) {
   const moveCellDown = store((state) => state.moveCellDown);
   const deleteCell = store((state) => state.deleteCell);
 
-  const runCell = async () => {
+  const runCell = async (input = "") => {
     if (isPreparingLanguage || !runtimeReady) return;
 
     setIsExecuting(true);
@@ -43,7 +43,7 @@ export function useCell(notebookId: ID, cellId: ID) {
 
       console.log(sourceCode);
 
-      const output: CellOutput = await notebook.language.run(sourceCode);
+      const output: CellOutput = await notebook.language.run(sourceCode, input);
       setCellOutput(notebookId, cellId, output);
     } finally {
       setIsExecuting(false);
@@ -54,13 +54,14 @@ export function useCell(notebookId: ID, cellId: ID) {
     cell,
     isRunning: isExecuting,
     isSelected: selectedCellId === cellId,
+    scopeMode: (notebook.language as NotebookLanguage).scopeMode,
     updateContent: (content: string) => updateCellContent(notebookId, cellId, content),
     setEditing: (isEditing: boolean) => setCellEditing(notebookId, cellId, isEditing),
     clearOutput: () => clearCellOutput(notebookId, cellId),
     moveUp: () => moveCellUp(notebookId, cellId),
     moveDown: () => moveCellDown(notebookId, cellId),
     delete: () => deleteCell(notebookId, cellId),
-    runCell: () => runCell(),
+    runCell: (input = "") => runCell(input),
     selectCell: () => selectCell(cellId),
   };
 }

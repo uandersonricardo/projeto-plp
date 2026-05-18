@@ -162,10 +162,10 @@ export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
     async prepare() {
       await Promise.resolve();
     },
-    run(sourceCode: string): CellOutput {
+    run(sourceCode: string, input = ""): CellOutput {
       const start = performance.now();
       try {
-        const result = window.__runCode("imp1", sourceCode, "");
+        const result = window.__runCode("imp1", sourceCode, input);
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",
@@ -191,10 +191,10 @@ export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
     async prepare() {
       await Promise.resolve();
     },
-    run(sourceCode: string): CellOutput {
+    run(sourceCode: string, input = ""): CellOutput {
       const start = performance.now();
       try {
-        const result = window.__runCode("imp2", sourceCode, "");
+        const result = window.__runCode("imp2", sourceCode, input);
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",
@@ -220,10 +220,10 @@ export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
     async prepare() {
       await Promise.resolve();
     },
-    run(sourceCode: string): CellOutput {
+    run(sourceCode: string, input = ""): CellOutput {
       const start = performance.now();
       try {
-        const result = window.__runCode("oo1", sourceCode, "");
+        const result = window.__runCode("oo1", sourceCode, input);
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",
@@ -249,10 +249,10 @@ export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
     async prepare() {
       await Promise.resolve();
     },
-    run(sourceCode: string): CellOutput {
+    run(sourceCode: string, input = ""): CellOutput {
       const start = performance.now();
       try {
-        const result = window.__runCode("oo2", sourceCode, "");
+        const result = window.__runCode("oo2", sourceCode, input);
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",

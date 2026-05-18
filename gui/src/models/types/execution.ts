@@ -14,5 +14,5 @@ export interface SourceCode {
 export interface Language {
   name: string;
   version?: string;
-  run(sourceCode: string): CellOutput | Promise<CellOutput>;
+  run(sourceCode: string, input?: string): CellOutput | Promise<CellOutput>;
 }

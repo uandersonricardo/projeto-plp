@@ -7,9 +7,10 @@ interface CodeCellViewProps {
   disabled: boolean;
   isRunning: boolean;
   runtimeReady: boolean;
+  scopeMode: "notebook" | "cell";
   onChange: (value: string) => void;
   onClearOutput: () => void;
-  onRun: () => void;
+  onRun: (input: string) => void;
 }
 
 export function CodeCellView({
@@ -17,6 +18,7 @@ export function CodeCellView({
   disabled,
   isRunning,
   runtimeReady,
+  scopeMode,
   onChange,
   onClearOutput,
   onRun,
@@ -24,6 +26,7 @@ export function CodeCellView({
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
+  const [cellInput, setCellInput] = useState("");
 
   const outputText = cell.output?.success
     ? String(cell.output.result ?? cell.output.stdout ?? "")
@@ -68,11 +71,12 @@ export function CodeCellView({
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
-      if (!disabled && !isRunning && !isEmpty) onRun();
+      if (!disabled && !isRunning && !isEmpty) onRun(cellInput);
     }
   };
 
   const isEmpty = cell.content.trim() === "";
+  const hasReadCall = scopeMode === "notebook" && /\bread\s*\(/.test(cell.content);
   const runDisabled = disabled || isRunning || !runtimeReady || isEmpty;
   const runTitle = disabled
     ? "Locked"
@@ -97,7 +101,7 @@ export function CodeCellView({
             className="absolute top-2 left-1/2 -translate-x-1/2 border border-gray-200 bg-white text-gray-900 w-7 h-7 p-0 inline-flex items-center justify-center text-[0.95rem] leading-none rounded-md cursor-pointer hover:bg-[#f5f5f5] disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:w-[14px] [&_svg]:h-[14px] invisible group-hover:visible"
             onClick={(e) => {
               e.stopPropagation();
-              onRun();
+              onRun(cellInput);
             }}
             disabled={runDisabled}
             aria-label="Run cell"
@@ -118,6 +122,24 @@ export function CodeCellView({
           disabled={disabled}
         />
       </div>
+
+      {hasReadCall && (
+        <div className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-[0.625rem] items-center">
+          <div />
+          <div className="flex items-center gap-2">
+            <label className="text-[0.8rem] text-gray-500 whitespace-nowrap select-none">Input:</label>
+            <input
+              type="text"
+              className="flex-1 border border-gray-200 rounded-md px-2 py-1 font-mono text-[0.85rem] text-gray-900 bg-transparent outline-none focus:border-cyan-600 disabled:opacity-55 disabled:cursor-not-allowed"
+              value={cellInput}
+              onChange={(e) => setCellInput(e.target.value)}
+              placeholder="space-separated values"
+              disabled={disabled}
+              spellCheck={false}
+            />
+          </div>
+        </div>
+      )}
 
       {cell.output ? (
         <>

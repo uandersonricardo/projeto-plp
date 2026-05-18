@@ -34,7 +34,8 @@
         "useParseIntRadix": "off"
       },
       "a11y": {
-        "useGenericFontNames": "off"
+        "useGenericFontNames": "off",
+        "noLabelWithoutControl": "off"
       }
     }
   },
