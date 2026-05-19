@@ -19,10 +19,10 @@ function defineLanguage(name: string, scopeMode: "notebook" | "cell", bnf: BNFLa
     async prepare() {
       await Promise.resolve();
     },
-    run(sourceCode: string): CellOutput {
+    run(sourceCode: string, input = ""): CellOutput {
       const start = performance.now();
       try {
-        const result = window.__runCode(name.toLowerCase() as LanguageCode, sourceCode, "");
+        const result = window.__runCode(name.toLowerCase() as LanguageCode, sourceCode, input);
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",
