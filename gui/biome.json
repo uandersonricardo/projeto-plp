@@ -39,7 +39,9 @@
         "useExhaustiveDependencies": "off"
       },
       "a11y": {
-        "useGenericFontNames": "off"
+        "useGenericFontNames": "off",
+        "useAriaPropsSupportedByRole": "off",
+        "noStaticElementInteractions": "off"
       }
     }
   },

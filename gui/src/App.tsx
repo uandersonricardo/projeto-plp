@@ -4,7 +4,8 @@ import { useWorkspace } from "./hooks/useWorkspace";
 import { RightPanel } from "./components/workspace/RightPanel";
 import { LeftSidebar } from "./components/workspace/LeftSidebar";
 import { NotebookView } from "./components/notebook/NotebookView";
-import { FiCode } from "react-icons/fi";
+import { FiCode, FiDownload, FiUpload } from "react-icons/fi";
+import { exportWorkspace, readWorkspaceFile } from "./lib/io";
 
 const MIN_LEFT_WIDTH = 180;
 const MIN_CENTER_WIDTH = 420;
@@ -14,10 +15,11 @@ const INITIAL_RIGHT_WIDTH = 280;
 const HANDLE_SPACE = 20;
 
 function App() {
-  const { selectedNotebookId, workspace, renameWorkspace } = useWorkspace();
+  const { selectedNotebookId, workspace, availableLanguages, renameWorkspace, loadWorkspace } = useWorkspace();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const titleInputRef = useRef<HTMLInputElement | null>(null);
+  const importInputRef = useRef<HTMLInputElement | null>(null);
 
   const [leftPanelWidth, setLeftPanelWidth] = useState(INITIAL_LEFT_WIDTH);
   const [rightPanelWidth, setRightPanelWidth] = useState(INITIAL_RIGHT_WIDTH);
@@ -45,6 +47,19 @@ function App() {
 
     setTitleDraft(name);
     setIsEditingTitle(false);
+  };
+
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const imported = await readWorkspaceFile(file, availableLanguages);
+      loadWorkspace(imported);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to import workspace");
+    } finally {
+      e.target.value = "";
+    }
   };
 
   useEffect(() => {
@@ -114,6 +129,26 @@ function App() {
             {workspace.name}
           </button>
         )}
+
+        <div className="ml-auto flex items-center gap-3">
+          <input ref={importInputRef} type="file" accept=".plpnb" className="hidden" onChange={handleImport} />
+          <button
+            type="button"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-gray-900 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+            onClick={() => importInputRef.current?.click()}
+          >
+            <FiUpload />
+            Import
+          </button>
+          <button
+            type="button"
+            className="flex items-center gap-2 px-4 py-2 text-sm text-white bg-gray-900 border border-gray-900 rounded-full hover:bg-gray-700 transition-colors cursor-pointer"
+            onClick={() => exportWorkspace(workspace)}
+          >
+            <FiDownload />
+            Export
+          </button>
+        </div>
       </div>
 
       <div
@@ -124,8 +159,6 @@ function App() {
           <LeftSidebar />
         </div>
 
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: drag handle has no semantic HTML element */}
-        {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: decorative drag handle div */}
         <div
           className="relative w-[10px] h-full cursor-col-resize shrink-0 before:content-[''] before:absolute before:left-1/2 before:top-[10px] before:bottom-[10px] before:w-px before:bg-[#c9d6ea] before:-translate-x-1/2 before:transition-colors hover:before:bg-gray-900"
           aria-label="Resize left panel"
@@ -136,8 +169,6 @@ function App() {
           <NotebookView notebookId={selectedNotebookId} />
         </div>
 
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: drag handle has no semantic HTML element */}
-        {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: decorative drag handle div */}
         <div
           className="relative w-[10px] h-full cursor-col-resize shrink-0 before:content-[''] before:absolute before:left-1/2 before:top-[10px] before:bottom-[10px] before:w-px before:bg-[#c9d6ea] before:-translate-x-1/2 before:transition-colors hover:before:bg-gray-900"
           aria-label="Resize right panel"
