@@ -13,7 +13,7 @@ interface CellViewProps {
 }
 
 export function CellView({ notebookId, cellId }: CellViewProps) {
-  const { runtimeReady, isPreparingLanguage } = useNotebook(notebookId);
+  const { runtimeReady, isPreparingLanguage, notebook } = useNotebook(notebookId);
   const {
     cell,
     isSelected,
@@ -70,6 +70,7 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
         {isCode ? (
           <CodeCellView
             cell={cell}
+            language={notebook.language.name}
             disabled={notebookLocked}
             isRunning={isRunning}
             runtimeReady={runtimeReady}
