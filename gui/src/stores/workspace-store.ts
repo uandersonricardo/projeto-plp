@@ -42,6 +42,9 @@ export interface WorkspaceStore {
   moveCellDown: (notebookId: ID, cellId: ID) => void;
   deleteCell: (notebookId: ID, cellId: ID) => void;
 
+  // Import
+  loadWorkspace: (workspace: Workspace) => void;
+
   // Selectors
   getSelectedNotebook: () => Notebook | undefined;
 }
@@ -59,8 +62,9 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
     addNotebook: () =>
       set((state) => {
         const nextName = `Notebook ${state.workspace.notebooks.length + 1}`;
-        state.workspace.addNotebook(new Notebook(nextName, availableLanguages[0]));
-        return { workspace: clone(state.workspace) };
+        const notebook = new Notebook(nextName, availableLanguages[0]);
+        state.workspace.addNotebook(notebook);
+        return { workspace: clone(state.workspace), selectedNotebookId: notebook.id };
       }),
 
     removeNotebook: (notebookId) =>
@@ -214,6 +218,24 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         state.workspace.updateNotebook(notebookId, clone(notebook));
         return { workspace: clone(state.workspace) };
       }),
+
+    loadWorkspace: (workspace) =>
+      set(() => ({
+        workspace,
+        selectedNotebookId: workspace.notebooks[0]?.id,
+        selectedCellIds: Object.fromEntries(workspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id])),
+        executionCounters: Object.fromEntries(
+          workspace.notebooks.map((nb) => {
+            const max = nb.cells.reduce((acc, cell) => {
+              if (cell instanceof CodeCell && cell.executionOrder !== undefined) {
+                return Math.max(acc, cell.executionOrder);
+              }
+              return acc;
+            }, 0);
+            return [nb.id, max];
+          }),
+        ),
+      })),
 
     getSelectedNotebook: () => {
       const { workspace, selectedNotebookId } = get();

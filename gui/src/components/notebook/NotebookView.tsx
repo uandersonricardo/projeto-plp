@@ -1,3 +1,4 @@
+import { FiFile } from "react-icons/fi";
 import { useNotebook } from "../../hooks/useNotebook";
 import { useWorkspace } from "../../hooks/useWorkspace";
 import type { ID } from "../../models/types/id";
@@ -60,8 +61,17 @@ export function NotebookView({ notebookId }: NotebookViewProps) {
         </div>
       ) : null}
 
-      <div className="overflow-auto p-4 grid gap-2 content-start flex-1">
+      <div className="overflow-auto p-4 flex flex-col gap-2 content-start flex-1">
         <InsertBoundary index={0} locked={locked} onInsertCode={insertCodeCell} onInsertMarkdown={insertMarkdownCell} />
+
+        {notebook.cells.length === 0 && (
+          <div className="flex-1 flex flex-col items-center justify-center py-16 text-gray-400 select-none">
+            <span className="text-4xl mb-4">
+              <FiFile />
+            </span>
+            <p className="text-sm">No cells yet. Add a code or text cell to get started.</p>
+          </div>
+        )}
 
         {notebook.cells.map((cell) => {
           const index = notebook.getCellIndex(cell.id);

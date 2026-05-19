@@ -11,8 +11,16 @@ export interface SourceCode {
   language: string;
 }
 
+export interface BNFLanguageDefinition {
+  keywords?: string[];
+  literals?: string[];
+  types?: string[];
+  builtins?: string[];
+}
+
 export interface Language {
   name: string;
   version?: string;
+  bnf: BNFLanguageDefinition;
   run(sourceCode: string, input?: string): CellOutput | Promise<CellOutput>;
 }
