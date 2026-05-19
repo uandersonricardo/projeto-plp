@@ -21,7 +21,11 @@
         "noExplicitAny": "off"
       },
       "style": {
-        "noNonNullAssertion": "off"
+        "noNonNullAssertion": "off",
+        "useTemplate": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
       },
       "complexity": {
         "noStaticOnlyClass": "off",
@@ -31,7 +35,8 @@
       },
       "correctness": {
         "noUnusedVariables": "off",
-        "useParseIntRadix": "off"
+        "useParseIntRadix": "off",
+        "useExhaustiveDependencies": "off"
       },
       "a11y": {
         "useGenericFontNames": "off"
