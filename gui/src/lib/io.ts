@@ -10,6 +10,7 @@ interface SerializedCell {
   id: string;
   type: "code" | "markdown";
   content: string;
+  input?: string;
   output?: CellOutput;
   executionOrder?: number;
   createdAt: string;
@@ -56,6 +57,7 @@ export function exportWorkspace(workspace: Workspace): void {
           updatedAt: cell.updatedAt.toISOString(),
         };
         if (cell instanceof CodeCell) {
+          base.input = cell.input ?? undefined;
           base.output = cell.output;
           base.executionOrder = cell.executionOrder;
         }
@@ -97,6 +99,7 @@ export function readWorkspaceFile(file: File, availableLanguages: NotebookLangua
                 new Date(sc.createdAt),
                 new Date(sc.updatedAt),
                 false,
+                sc.input,
               );
               if (sc.output) cell.withOutput(sc.output, sc.executionOrder);
               return cell;

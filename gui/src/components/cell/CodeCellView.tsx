@@ -31,7 +31,7 @@ export function CodeCellView({
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
-  const [cellInput, setCellInput] = useState("");
+  const [cellInput, setCellInput] = useState(cell.input);
 
   const outputText = cell.output?.success
     ? String(cell.output.result ?? cell.output.stdout ?? "")
@@ -84,7 +84,7 @@ export function CodeCellView({
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
-      if (!disabled && !isRunning && !isEmpty) onRun(cellInput);
+      if (!disabled && !isRunning && !isEmpty) onRun(cell.input);
     }
   };
 

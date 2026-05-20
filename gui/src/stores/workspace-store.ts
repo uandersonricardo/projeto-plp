@@ -35,6 +35,7 @@ export interface WorkspaceStore {
   insertCodeCell: (notebookId: ID, index: number) => void;
   insertMarkdownCell: (notebookId: ID, index: number) => void;
   updateCellContent: (notebookId: ID, cellId: ID, content: string) => void;
+  updateCellInput: (notebookId: ID, cellId: ID, input: string) => void;
   setCellEditing: (notebookId: ID, cellId: ID, isEditing: boolean) => void;
   setCellOutput: (notebookId: ID, cellId: ID, output: CellOutput) => void;
   clearCellOutput: (notebookId: ID, cellId: ID) => void;
@@ -147,6 +148,18 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         const cell = notebook.getCell(cellId);
         if (!cell) return state;
         cell.updateContent(content);
+        notebook.updateCell(cellId, clone(cell));
+        state.workspace.updateNotebook(notebookId, clone(notebook));
+        return { workspace: clone(state.workspace) };
+      }),
+
+    updateCellInput: (notebookId, cellId, input) =>
+      set((state) => {
+        const notebook = state.workspace.getNotebook(notebookId);
+        if (!notebook) return state;
+        const cell = notebook.getCell(cellId);
+        if (!(cell instanceof CodeCell)) return state;
+        cell.updateInput(input);
         notebook.updateCell(cellId, clone(cell));
         state.workspace.updateNotebook(notebookId, clone(notebook));
         return { workspace: clone(state.workspace) };

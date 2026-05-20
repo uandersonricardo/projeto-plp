@@ -22,6 +22,7 @@ export function useCell(notebookId: ID, cellId: ID) {
   const [isExecuting, setIsExecuting] = useState<boolean>(false);
 
   const updateCellContent = store((state) => state.updateCellContent);
+  const updateCellInput = store((state) => state.updateCellInput);
   const setCellEditing = store((state) => state.setCellEditing);
   const setCellOutput = store((state) => state.setCellOutput);
   const clearCellOutput = store((state) => state.clearCellOutput);
@@ -33,6 +34,7 @@ export function useCell(notebookId: ID, cellId: ID) {
     if (isPreparingLanguage || !runtimeReady) return;
 
     setIsExecuting(true);
+    updateCellInput(notebookId, cellId, input);
 
     try {
       if (!(cell instanceof CodeCell)) return;
