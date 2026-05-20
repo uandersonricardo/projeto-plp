@@ -160,7 +160,7 @@ function App() {
         </div>
 
         <div
-          className="relative w-[10px] h-full cursor-col-resize shrink-0 before:content-[''] before:absolute before:left-1/2 before:top-[10px] before:bottom-[10px] before:w-px before:bg-[#c9d6ea] before:-translate-x-1/2 before:transition-colors hover:before:bg-gray-900"
+          className="relative w-[10px] h-full cursor-col-resize shrink-0 before:content-[''] before:absolute before:left-1/2 before:top-[10px] before:bottom-[10px] before:w-px before:bg-gray-300 before:-translate-x-1/2 before:transition-colors hover:before:bg-gray-400"
           aria-label="Resize left panel"
           onMouseDown={() => setDraggingSide("left")}
         />
@@ -170,7 +170,7 @@ function App() {
         </div>
 
         <div
-          className="relative w-[10px] h-full cursor-col-resize shrink-0 before:content-[''] before:absolute before:left-1/2 before:top-[10px] before:bottom-[10px] before:w-px before:bg-[#c9d6ea] before:-translate-x-1/2 before:transition-colors hover:before:bg-gray-900"
+          className="relative w-[10px] h-full cursor-col-resize shrink-0 before:content-[''] before:absolute before:left-1/2 before:top-[10px] before:bottom-[10px] before:w-px before:bg-gray-300 before:-translate-x-1/2 before:transition-colors hover:before:bg-gray-400"
           aria-label="Resize right panel"
           onMouseDown={() => setDraggingSide("right")}
         />
