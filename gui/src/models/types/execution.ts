@@ -2,6 +2,7 @@ export interface CellOutput {
   stdout: string;
   stderr: string;
   result?: unknown;
+  compilationEnv?: unknown;
   executionTime: number;
   success: boolean;
 }

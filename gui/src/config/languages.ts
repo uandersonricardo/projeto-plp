@@ -21,10 +21,25 @@ function defineLanguage(name: string, bnf: BNFLanguageDefinition): NotebookLangu
       const start = performance.now();
       try {
         const result = window.__runCode(name.toLowerCase() as LanguageCode, sourceCode, "");
+        // DEBUG: print compilation environment string returned by the runtime
+        // This helps inspect the ambCompilacao JSON/string emitted by TeaVM
+        // Visible in browser console when running a cell.
+        // eslint-disable-next-line no-console
+        console.debug("[RunCodeResult] compilationEnv:", result.compilationEnv);
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",
           result: result.output,
+          compilationEnv: (() => {
+            try {
+              if (result.compilationEnv == null) return undefined;
+              return typeof result.compilationEnv === "string"
+                ? JSON.parse(result.compilationEnv)
+                : result.compilationEnv;
+            } catch (e) {
+              return result.compilationEnv;
+            }
+          })(),
           executionTime: performance.now() - start,
           success: result.success,
         };

@@ -1,6 +1,8 @@
 package lf3.plp.expressions2.memory;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import lf3.plp.expressions2.expression.Id;
@@ -18,14 +20,22 @@ public class Contexto<T> {
 	protected Stack<HashMap<Id, T>> pilha;
 
 	/**
+	 * Snapshots of each scope created during type checking, in declaration order.
+	 */
+	protected List<HashMap<Id, T>> pilhaSnapshot;
+
+	/**
 	 * Construtor da classe.
 	 */
 	public Contexto() {
 		pilha = new Stack<HashMap<Id, T>>();
+		pilhaSnapshot = new ArrayList<HashMap<Id, T>>();
 	}
 
 	public void incrementa() {
-		pilha.push(new HashMap<Id, T>());
+		HashMap<Id, T> novoFrame = new HashMap<Id, T>();
+		pilha.push(novoFrame);
+		pilhaSnapshot.add(novoFrame);
 	}
 
 	public void restaura() {
@@ -93,6 +103,27 @@ public class Contexto<T> {
 	 */
 	protected void setPilha(Stack<HashMap<Id, T>> pilha) {
 		this.pilha = pilha;
+	}
+
+	/**
+	 * Returns a serializable snapshot of declared identifiers mapped to their values.
+	 * Keys and values are converted to String via toString() to make JSON serialization
+	 * straightforward for the web API.
+	 */
+	public List<java.util.Map<String,String>> getPilhaSnapshot() {
+		List<java.util.Map<String,String>> snapshot = new ArrayList<java.util.Map<String,String>>();
+		if (pilhaSnapshot != null) {
+			for (HashMap<Id, T> frame : pilhaSnapshot) {
+				java.util.HashMap<String,String> frameSnapshot = new java.util.HashMap<String,String>();
+				for (java.util.Map.Entry<Id, T> e : frame.entrySet()) {
+					String k = e.getKey() == null ? "null" : e.getKey().toString();
+					String v = e.getValue() == null ? "null" : e.getValue().toString();
+					frameSnapshot.put(k, v);
+				}
+				snapshot.add(frameSnapshot);
+			}
+		}
+		return snapshot;
 	}
 
 	/*

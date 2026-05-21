@@ -34,6 +34,8 @@ export function useCell(notebookId: ID, cellId: ID) {
 
     try {
       if (!(cell instanceof CodeCell)) return;
+      // ensure the running cell stays selected so Debugger/RightPanel shows its output
+      selectCell(cellId);
 
       const output: CellOutput = await notebook.language.run(cell.content);
       setCellOutput(notebookId, cellId, output);

@@ -12,4 +12,7 @@ public interface PlpResult extends JSObject {
 
   @JSProperty
   String getMessage();
+
+  @JSProperty
+  String getCompilationEnv();
 }
