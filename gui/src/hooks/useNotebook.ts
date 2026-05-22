@@ -21,6 +21,7 @@ export function useNotebook(notebookId: ID) {
 
   const renameNotebook = store((state) => state.renameNotebook);
   const setNotebookLanguage = store((state) => state.setNotebookLanguage);
+  const setNotebookScope = store((state) => state.setNotebookScope);
   const insertCodeCell = store((state) => state.insertCodeCell);
   const insertMarkdownCell = store((state) => state.insertMarkdownCell);
   const selectCell = store((state) => state.selectCell);
@@ -50,6 +51,7 @@ export function useNotebook(notebookId: ID) {
     selectedCellId,
     rename: (name: string) => renameNotebook(notebookId, name),
     changeLanguage: (languageName: string) => changeLanguage(languageName),
+    setNotebookScope: (enabled: boolean) => setNotebookScope(notebookId, enabled),
     insertCodeCell: (index: number) => insertCodeCell(notebookId, index),
     insertMarkdownCell: (index: number) => insertMarkdownCell(notebookId, index),
     selectCell: (cellId: ID) => selectCell(notebookId, cellId),

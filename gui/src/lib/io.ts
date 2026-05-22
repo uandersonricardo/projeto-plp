@@ -21,6 +21,7 @@ interface SerializedNotebook {
   id: string;
   name: string;
   languageName: string;
+  notebookScopeEnabled: boolean;
   cells: SerializedCell[];
   createdAt: string;
   updatedAt: string;
@@ -46,6 +47,7 @@ export function exportWorkspace(workspace: Workspace): void {
       id: nb.id,
       name: nb.name,
       languageName: nb.language.name,
+      notebookScopeEnabled: nb.notebookScopeEnabled,
       createdAt: nb.createdAt.toISOString(),
       updatedAt: nb.updatedAt.toISOString(),
       cells: nb.cells.map((cell) => {
@@ -107,7 +109,15 @@ export function readWorkspaceFile(file: File, availableLanguages: NotebookLangua
             return new MarkdownCell(sc.content, sc.id as ID, new Date(sc.createdAt), new Date(sc.updatedAt), false);
           });
 
-          return new Notebook(nb.name, language, cells, nb.id as ID, new Date(nb.createdAt), new Date(nb.updatedAt));
+          return new Notebook(
+            nb.name,
+            language,
+            cells,
+            nb.id as ID,
+            new Date(nb.createdAt),
+            new Date(nb.updatedAt),
+            nb.notebookScopeEnabled ?? false,
+          );
         });
 
         resolve(new Workspace(data.name, notebooks, data.id as ID, new Date(data.createdAt), new Date(data.updatedAt)));

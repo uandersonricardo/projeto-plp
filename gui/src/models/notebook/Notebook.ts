@@ -7,14 +7,24 @@ export class Notebook {
   name: string;
   language: Language;
   cells: Cell[];
+  notebookScopeEnabled: boolean;
   createdAt: Date;
   updatedAt: Date;
 
-  constructor(name: string, language: Language, cells?: Cell[], id?: ID, createdAt?: Date, updatedAt?: Date) {
+  constructor(
+    name: string,
+    language: Language,
+    cells?: Cell[],
+    id?: ID,
+    createdAt?: Date,
+    updatedAt?: Date,
+    notebookScopeEnabled?: boolean,
+  ) {
     this.id = id ?? createID();
     this.name = name;
     this.language = language;
     this.cells = cells ?? [];
+    this.notebookScopeEnabled = notebookScopeEnabled ?? false;
     this.createdAt = createdAt ?? new Date();
     this.updatedAt = updatedAt ?? new Date();
   }
@@ -64,10 +74,14 @@ export class Notebook {
   }
 
   rename(name: string) {
-    return new Notebook(name, this.language, this.cells, this.id, this.createdAt, new Date());
+    return new Notebook(name, this.language, this.cells, this.id, this.createdAt, new Date(), this.notebookScopeEnabled);
   }
 
   setLanguage(language: Language) {
-    return new Notebook(this.name, language, this.cells, this.id, this.createdAt, new Date());
+    return new Notebook(this.name, language, this.cells, this.id, this.createdAt, new Date(), this.notebookScopeEnabled);
+  }
+
+  setNotebookScope(enabled: boolean) {
+    return new Notebook(this.name, this.language, this.cells, this.id, this.createdAt, new Date(), enabled);
   }
 }

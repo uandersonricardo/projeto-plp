@@ -29,6 +29,7 @@ export interface WorkspaceStore {
   // Notebook
   renameNotebook: (notebookId: ID, name: string) => void;
   setNotebookLanguage: (notebookId: ID, language: Language) => void;
+  setNotebookScope: (notebookId: ID, enabled: boolean) => void;
   selectCell: (notebookId: ID, cellId: ID) => void;
 
   // Cells
@@ -101,6 +102,14 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         const notebook = state.workspace.getNotebook(notebookId);
         if (!notebook) return state;
         state.workspace.updateNotebook(notebookId, notebook.setLanguage(language));
+        return { workspace: clone(state.workspace) };
+      }),
+
+    setNotebookScope: (notebookId, enabled) =>
+      set((state) => {
+        const notebook = state.workspace.getNotebook(notebookId);
+        if (!notebook) return state;
+        state.workspace.updateNotebook(notebookId, notebook.setNotebookScope(enabled));
         return { workspace: clone(state.workspace) };
       }),
 

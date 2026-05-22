@@ -40,8 +40,8 @@ export function useCell(notebookId: ID, cellId: ID) {
       if (!(cell instanceof CodeCell)) return;
 
       const language = notebook.language as NotebookLanguage;
-      const sourceCode =
-        language.scopeMode === "notebook" ? buildNotebookScopeCode(notebook.cells, cellId) : cell.content;
+      const useNotebookScope = notebook.notebookScopeEnabled && language.scopeMode === "notebook";
+      const sourceCode = useNotebookScope ? buildNotebookScopeCode(notebook.cells, cellId) : cell.content;
 
       console.log(sourceCode);
 
