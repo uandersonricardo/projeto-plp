@@ -66,6 +66,21 @@ export function CodeCellView({
     ? String(cell.output.result ?? cell.output.stdout ?? "")
     : (cell.output?.stderr ?? "");
 
+  const localActiveSourceRange = useMemo(() => {
+    if (!activeSourceRange || !compilationEnv) return undefined;
+
+    return compilationEnv.find((frame) => {
+      const range = frame.sourceRange;
+      return (
+        range &&
+        range.startLine === activeSourceRange.startLine &&
+        range.startColumn === activeSourceRange.startColumn &&
+        range.endLine === activeSourceRange.endLine &&
+        range.endColumn === activeSourceRange.endColumn
+      );
+    })?.sourceRange;
+  }, [activeSourceRange, compilationEnv]);
+
   const updateActiveScopeFromSelection = () => {
     if (!compilationEnv) return;
 
@@ -75,7 +90,15 @@ export function CodeCellView({
     const { selectionStart, selectionEnd } = textarea;
     if (selectionStart === selectionEnd) return;
 
-    const matchingFrame = compilationEnv.find((frame) => {
+    const selectedText = cell.content.slice(selectionStart, selectionEnd);
+    const leadingWhitespace = selectedText.match(/^\s*/)?.[0].length ?? 0;
+    const trailingWhitespace = selectedText.match(/\s*$/)?.[0].length ?? 0;
+    const normalizedSelectionStart = selectionStart + leadingWhitespace;
+    const normalizedSelectionEnd = selectionEnd - trailingWhitespace;
+
+    if (normalizedSelectionStart >= normalizedSelectionEnd) return;
+
+    const matchingFrames = compilationEnv.filter((frame) => {
       const range = frame.sourceRange;
       if (!range) return false;
 
@@ -83,10 +106,22 @@ export function CodeCellView({
       const rangeEnd = toOffset(range.endLine, range.endColumn + 1);
 
       return (
-        selectionStart >= rangeStart &&
-        selectionEnd <= rangeEnd
+        (normalizedSelectionStart >= rangeStart && normalizedSelectionEnd <= rangeEnd) ||
+        (normalizedSelectionStart <= rangeStart && normalizedSelectionEnd >= rangeEnd)
       );
     });
+
+    const matchingFrame = matchingFrames
+      .map((frame) => {
+        const range = frame.sourceRange;
+        if (!range) return undefined;
+
+        const rangeStart = toOffset(range.startLine, range.startColumn);
+        const rangeEnd = toOffset(range.endLine, range.endColumn + 1);
+        return { frame, rangeStart, rangeEnd, span: rangeEnd - rangeStart };
+      })
+      .filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate))
+      .sort((left, right) => left.span - right.span)[0]?.frame;
 
     if (matchingFrame?.sourceRange) {
       setActiveSourceRange(matchingFrame.sourceRange);
@@ -98,12 +133,18 @@ export function CodeCellView({
     try {
       const syntaxHighlighted = hljs.highlight(content, { language: language.toLowerCase() }).value;
 
-      if (!activeSourceRange || typeof document === "undefined") {
+      if (!localActiveSourceRange || typeof document === "undefined") {
         return syntaxHighlighted;
       }
 
-      const start = Math.min(toOffset(activeSourceRange.startLine, activeSourceRange.startColumn), cell.content.length);
-      const end = Math.min(toOffset(activeSourceRange.endLine, activeSourceRange.endColumn + 1), cell.content.length);
+      const start = Math.min(
+        toOffset(localActiveSourceRange.startLine, localActiveSourceRange.startColumn),
+        cell.content.length,
+      );
+      const end = Math.min(
+        toOffset(localActiveSourceRange.endLine, localActiveSourceRange.endColumn + 1),
+        cell.content.length,
+      );
 
       if (start >= end) {
         return syntaxHighlighted;
@@ -163,7 +204,7 @@ export function CodeCellView({
     } catch {
       return escapeHtml(content);
     }
-  }, [activeSourceRange, cell.content, language]);
+  }, [cell.content, language, localActiveSourceRange]);
 
   useLayoutEffect(() => {
     const textarea = editorRef.current;

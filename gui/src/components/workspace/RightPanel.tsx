@@ -31,12 +31,6 @@ export function RightPanel() {
     }
   }
 
-  // Debug only: inspect both the raw runtime payload and the parsed snapshot.
-  // eslint-disable-next-line no-console
-  console.debug("[DebuggerPanel] rawCompilationEnv:", rawCompilationEnv);
-  // eslint-disable-next-line no-console
-  console.debug("[DebuggerPanel] compilationEnv:", compilationEnv);
-
   const debuggerCellCode = debuggerCell?.content;
 
   const renderCompilationEnv = () => {
