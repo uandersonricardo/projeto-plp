@@ -39,7 +39,7 @@ public class Programa {
 		return exp;
 	}
 
-	public List<Map<String,String>> getAmbCompSnapshot() {
+	public List<Map<String,Object>> getAmbCompSnapshot() {
 		return ambComp.getPilhaSnapshot();
 	}
 

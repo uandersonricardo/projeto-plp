@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { CodeCell } from "../models/cell/CodeCell";
 import { MarkdownCell } from "../models/cell/MarkdownCell";
 import { Notebook } from "../models/notebook/Notebook";
-import type { CellOutput, Language } from "../models/types/execution";
+import type { CellOutput, Language, SourceRange } from "../models/types/execution";
 import type { ID } from "../models/types/id";
 import type { Workspace } from "../models/workspace/Workspace";
 import type { NotebookLanguage } from "../config/languages";
@@ -19,6 +19,7 @@ export interface WorkspaceStore {
   selectedNotebookId: ID;
   selectedCellIds: Record<ID, ID | undefined>;
   executionCounters: Record<ID, number>;
+  activeSourceRange?: SourceRange;
 
   // Workspace
   selectNotebook: (id: ID) => void;
@@ -30,6 +31,7 @@ export interface WorkspaceStore {
   renameNotebook: (notebookId: ID, name: string) => void;
   setNotebookLanguage: (notebookId: ID, language: Language) => void;
   selectCell: (notebookId: ID, cellId: ID) => void;
+  setActiveSourceRange: (range?: SourceRange) => void;
 
   // Cells
   insertCodeCell: (notebookId: ID, index: number) => void;
@@ -50,19 +52,22 @@ export interface WorkspaceStore {
 }
 
 export function createWorkspaceStore(initialWorkspace: Workspace, availableLanguages: NotebookLanguage[]) {
+  const defaultLanguage = availableLanguages.find((language) => language.name === "Func3") ?? availableLanguages[0];
+
   return create<WorkspaceStore>()((set, get) => ({
     workspace: initialWorkspace,
     availableLanguages: availableLanguages,
     selectedNotebookId: initialWorkspace.notebooks[0]?.id,
     selectedCellIds: Object.fromEntries(initialWorkspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id])),
     executionCounters: Object.fromEntries(initialWorkspace.notebooks.map((nb) => [nb.id, 0])),
+    activeSourceRange: undefined,
 
     selectNotebook: (id) => set({ selectedNotebookId: id }),
 
     addNotebook: () =>
       set((state) => {
         const nextName = `Notebook ${state.workspace.notebooks.length + 1}`;
-        const notebook = new Notebook(nextName, availableLanguages[0]);
+        const notebook = new Notebook(nextName, defaultLanguage);
         state.workspace.addNotebook(notebook);
         return { workspace: clone(state.workspace), selectedNotebookId: notebook.id };
       }),
@@ -119,8 +124,10 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
           }
         }
 
-        return { selectedCellIds: updatedCellIds };
+        return { selectedCellIds: updatedCellIds, activeSourceRange: undefined };
       }),
+
+    setActiveSourceRange: (range) => set({ activeSourceRange: range }),
 
     insertCodeCell: (notebookId, index) =>
       set((state) => {

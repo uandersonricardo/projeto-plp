@@ -276,7 +276,13 @@ public final class PlpWebApi {
 
   private String toJsonString(Object obj) {
     if (obj == null) return "null";
-    if (obj instanceof String) return (String) obj;
+    if (obj instanceof String) return '"' + escapeJson((String) obj) + '"';
+    if (obj instanceof Number || obj instanceof Boolean || obj instanceof Character) {
+      if (obj instanceof Character) {
+        return '"' + escapeJson(obj.toString()) + '"';
+      }
+      return obj.toString();
+    }
     if (obj instanceof java.util.Map) {
       StringBuilder sb = new StringBuilder();
       sb.append("{");
@@ -286,9 +292,8 @@ public final class PlpWebApi {
         if (!first) sb.append(',');
         first = false;
         String key = entry.getKey() == null ? "null" : entry.getKey().toString();
-        String val = entry.getValue() == null ? "null" : entry.getValue().toString();
         sb.append('"').append(escapeJson(key)).append('"').append(":");
-        sb.append('"').append(escapeJson(val)).append('"');
+        sb.append(toJsonString(entry.getValue()));
       }
       sb.append("}");
       return sb.toString();

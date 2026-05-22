@@ -74,6 +74,7 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
             disabled={notebookLocked}
             isRunning={isRunning}
             runtimeReady={runtimeReady}
+            isSelected={isSelected}
             onChange={updateContent}
             onClearOutput={clearOutput}
             onRun={runCell}

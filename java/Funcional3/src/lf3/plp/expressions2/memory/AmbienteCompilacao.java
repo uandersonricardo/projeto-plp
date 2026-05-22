@@ -9,7 +9,9 @@ import lf3.plp.expressions1.util.Tipo;
 
 public interface AmbienteCompilacao extends Ambiente<Tipo> {
 
-	default List<Map<String,String>> getPilhaSnapshot() {
+	void incrementa(SourceRange sourceRange);
+
+	default List<Map<String,Object>> getPilhaSnapshot() {
 		return Collections.emptyList();
 	}
 

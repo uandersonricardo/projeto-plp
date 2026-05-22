@@ -12,6 +12,18 @@ export interface SourceCode {
   language: string;
 }
 
+export interface SourceRange {
+  startLine: number;
+  startColumn: number;
+  endLine: number;
+  endColumn: number;
+}
+
+export interface ScopeSnapshot {
+  bindings: Record<string, string>;
+  sourceRange?: SourceRange;
+}
+
 export interface BNFLanguageDefinition {
   keywords?: string[];
   literals?: string[];

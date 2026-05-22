@@ -2,6 +2,7 @@ import { type ChangeEvent, type KeyboardEvent, useEffect, useLayoutEffect, useMe
 import { FiPlay } from "react-icons/fi";
 import hljs from "highlight.js/lib/core";
 
+import { useWorkspaceStore } from "../../contexts/workspace-store-context";
 import type { CodeCell } from "../../models/cell/CodeCell";
 import { escapeHtml } from "../../lib/utils";
 
@@ -11,6 +12,7 @@ interface CodeCellViewProps {
   disabled: boolean;
   isRunning: boolean;
   runtimeReady: boolean;
+  isSelected: boolean;
   onChange: (value: string) => void;
   onClearOutput: () => void;
   onRun: () => void;
@@ -22,6 +24,7 @@ export function CodeCellView({
   disabled,
   isRunning,
   runtimeReady,
+  isSelected,
   onChange,
   onClearOutput,
   onRun,
@@ -29,6 +32,8 @@ export function CodeCellView({
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
+  const store = useWorkspaceStore();
+  const activeSourceRange = store((state) => state.activeSourceRange);
 
   const outputText = cell.output?.success
     ? String(cell.output.result ?? cell.output.stdout ?? "")
@@ -49,6 +54,27 @@ export function CodeCellView({
     textarea.style.height = "0px";
     textarea.style.height = `${textarea.scrollHeight}px`;
   }, [cell.content]);
+
+  useEffect(() => {
+    const textarea = editorRef.current;
+    if (!textarea || !isSelected || !activeSourceRange) return;
+
+    const toOffset = (line: number, column: number) => {
+      const lines = cell.content.split("\n");
+      const safeLine = Math.max(1, Math.min(line, lines.length || 1));
+      let offset = 0;
+      for (let i = 1; i < safeLine; i++) {
+        offset += (lines[i - 1]?.length ?? 0) + 1;
+      }
+      offset += Math.max(0, column - 1);
+      return offset;
+    };
+
+    const start = Math.min(toOffset(activeSourceRange.startLine, activeSourceRange.startColumn), cell.content.length);
+    const end = Math.min(toOffset(activeSourceRange.endLine, activeSourceRange.endColumn + 1), cell.content.length);
+    textarea.focus();
+    textarea.setSelectionRange(start, Math.max(start, end));
+  }, [activeSourceRange, cell.content, isSelected]);
 
   useEffect(() => {
     if (!isOutputMenuOpen) return;
