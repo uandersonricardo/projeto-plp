@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { useWorkspace } from "./hooks/useWorkspace";
+import { useWorkspaceStore } from "./contexts/workspace-store-context";
 import { RightPanel } from "./components/workspace/RightPanel";
 import { LeftSidebar } from "./components/workspace/LeftSidebar";
 import { NotebookView } from "./components/notebook/NotebookView";
@@ -16,6 +17,8 @@ const HANDLE_SPACE = 20;
 
 function App() {
   const { selectedNotebookId, workspace, availableLanguages, renameWorkspace, loadWorkspace } = useWorkspace();
+  const store = useWorkspaceStore();
+  const clearSourceRange = store((state) => state.setActiveSourceRange);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const titleInputRef = useRef<HTMLInputElement | null>(null);
@@ -92,6 +95,22 @@ function App() {
       window.removeEventListener("mouseup", onMouseUp);
     };
   }, [draggingSide, leftPanelWidth, rightPanelWidth]);
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      if (target.closest("[data-debugger-panel]") || target.closest("[data-code-cell]")) {
+        return;
+      }
+
+      clearSourceRange(undefined);
+    };
+
+    window.addEventListener("pointerdown", handlePointerDown);
+    return () => window.removeEventListener("pointerdown", handlePointerDown);
+  }, [clearSourceRange]);
 
   if (!selectedNotebookId) {
     return <div className="empty-state">No notebooks available.</div>;

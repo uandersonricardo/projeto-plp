@@ -42,6 +42,7 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
     // biome-ignore lint/a11y/noStaticElementInteractions: cell container handles click-to-select and double-click-to-edit
     // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard interactions are handled inside editors and action buttons
     <div
+      data-code-cell={isCode ? "true" : undefined}
       className={`group border rounded-lg bg-white p-4 grid gap-[10px] cursor-pointer relative ${borderClass}`}
       onClick={selectCell}
       onDoubleClick={() => {

@@ -5,6 +5,7 @@ import hljs from "highlight.js/lib/core";
 import { useWorkspaceStore } from "../../contexts/workspace-store-context";
 import type { CodeCell } from "../../models/cell/CodeCell";
 import { escapeHtml } from "../../lib/utils";
+import type { ScopeSnapshot } from "../../models/types/execution";
 
 interface CodeCellViewProps {
   cell: CodeCell;
@@ -34,19 +35,135 @@ export function CodeCellView({
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
   const store = useWorkspaceStore();
   const activeSourceRange = store((state) => state.activeSourceRange);
+  const selectedSourceRange = store((state) => state.selectedSourceRange);
+  const setSelectedSourceRange = store((state) => state.setSelectedSourceRange);
+  const setActiveSourceRange = store((state) => state.setActiveSourceRange);
+
+  const compilationEnv = useMemo(() => {
+    const rawCompilationEnv = cell.output?.compilationEnv;
+    if (!rawCompilationEnv) return undefined;
+
+    try {
+      const parsed = typeof rawCompilationEnv === "string" ? JSON.parse(rawCompilationEnv) : rawCompilationEnv;
+      return Array.isArray(parsed) ? (parsed as ScopeSnapshot[]) : undefined;
+    } catch {
+      return undefined;
+    }
+  }, [cell.output?.compilationEnv]);
+
+  const toOffset = (line: number, column: number) => {
+    const lines = cell.content.split("\n");
+    const safeLine = Math.max(1, Math.min(line, lines.length || 1));
+    let offset = 0;
+    for (let i = 1; i < safeLine; i++) {
+      offset += (lines[i - 1]?.length ?? 0) + 1;
+    }
+    offset += Math.max(0, column - 1);
+    return offset;
+  };
 
   const outputText = cell.output?.success
     ? String(cell.output.result ?? cell.output.stdout ?? "")
     : (cell.output?.stderr ?? "");
 
+  const updateActiveScopeFromSelection = () => {
+    if (!compilationEnv) return;
+
+    const textarea = editorRef.current;
+    if (!textarea) return;
+
+    const { selectionStart, selectionEnd } = textarea;
+    if (selectionStart === selectionEnd) return;
+
+    const matchingFrame = compilationEnv.find((frame) => {
+      const range = frame.sourceRange;
+      if (!range) return false;
+
+      const rangeStart = toOffset(range.startLine, range.startColumn);
+      const rangeEnd = toOffset(range.endLine, range.endColumn + 1);
+
+      return (
+        selectionStart >= rangeStart &&
+        selectionEnd <= rangeEnd
+      );
+    });
+
+    if (matchingFrame?.sourceRange) {
+      setActiveSourceRange(matchingFrame.sourceRange);
+    }
+  };
+
   const highlighted = useMemo(() => {
-    const content = cell.content + "\n";
+    const content = cell.content;
     try {
-      return hljs.highlight(content, { language: language.toLowerCase() }).value;
+      const syntaxHighlighted = hljs.highlight(content, { language: language.toLowerCase() }).value;
+
+      if (!activeSourceRange || typeof document === "undefined") {
+        return syntaxHighlighted;
+      }
+
+      const start = Math.min(toOffset(activeSourceRange.startLine, activeSourceRange.startColumn), cell.content.length);
+      const end = Math.min(toOffset(activeSourceRange.endLine, activeSourceRange.endColumn + 1), cell.content.length);
+
+      if (start >= end) {
+        return syntaxHighlighted;
+      }
+
+      const container = document.createElement("div");
+      container.innerHTML = syntaxHighlighted;
+
+      const textNodes: Text[] = [];
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+      let currentNode: Node | null;
+      while ((currentNode = walker.nextNode())) {
+        textNodes.push(currentNode as Text);
+      }
+
+      let runningOffset = 0;
+      let startNode: Text | null = null;
+      let endNode: Text | null = null;
+      let startOffset = 0;
+      let endOffset = 0;
+
+      for (const textNode of textNodes) {
+        const textLength = textNode.data.length;
+        const nodeStart = runningOffset;
+        const nodeEnd = runningOffset + textLength;
+
+        if (!startNode && start >= nodeStart && start <= nodeEnd) {
+          startNode = textNode;
+          startOffset = Math.max(0, start - nodeStart);
+        }
+
+        if (end >= nodeStart && end <= nodeEnd) {
+          endNode = textNode;
+          endOffset = Math.max(0, end - nodeStart);
+          break;
+        }
+
+        runningOffset += textLength;
+      }
+
+      if (!startNode || !endNode) {
+        return syntaxHighlighted;
+      }
+
+      const range = document.createRange();
+      range.setStart(startNode, startOffset);
+      range.setEnd(endNode, endOffset);
+
+      const fragment = range.extractContents();
+      const highlight = document.createElement("span");
+      highlight.className =
+        "rounded-[3px] bg-cyan-200/80 text-slate-900 shadow-[inset_0_0_0_1px_rgba(8,145,178,0.18)]";
+      highlight.appendChild(fragment);
+      range.insertNode(highlight);
+
+      return container.innerHTML;
     } catch {
       return escapeHtml(content);
     }
-  }, [cell.content, language]);
+  }, [activeSourceRange, cell.content, language]);
 
   useLayoutEffect(() => {
     const textarea = editorRef.current;
@@ -57,24 +174,13 @@ export function CodeCellView({
 
   useEffect(() => {
     const textarea = editorRef.current;
-    if (!textarea || !isSelected || !activeSourceRange) return;
+    if (!textarea || !isSelected || !selectedSourceRange) return;
 
-    const toOffset = (line: number, column: number) => {
-      const lines = cell.content.split("\n");
-      const safeLine = Math.max(1, Math.min(line, lines.length || 1));
-      let offset = 0;
-      for (let i = 1; i < safeLine; i++) {
-        offset += (lines[i - 1]?.length ?? 0) + 1;
-      }
-      offset += Math.max(0, column - 1);
-      return offset;
-    };
-
-    const start = Math.min(toOffset(activeSourceRange.startLine, activeSourceRange.startColumn), cell.content.length);
-    const end = Math.min(toOffset(activeSourceRange.endLine, activeSourceRange.endColumn + 1), cell.content.length);
+    const start = Math.min(toOffset(selectedSourceRange.startLine, selectedSourceRange.startColumn), cell.content.length);
+    const end = Math.min(toOffset(selectedSourceRange.endLine, selectedSourceRange.endColumn + 1), cell.content.length);
     textarea.focus();
     textarea.setSelectionRange(start, Math.max(start, end));
-  }, [activeSourceRange, cell.content, isSelected]);
+  }, [cell.content, isSelected, selectedSourceRange]);
 
   useEffect(() => {
     if (!isOutputMenuOpen) return;
@@ -149,6 +255,13 @@ export function CodeCellView({
             className="w-full min-h-[calc(1.4em+20px)] rounded-[10px] p-[10px] leading-[1.4] font-mono text-[0.9rem] relative border-0 outline-none resize-none overflow-hidden bg-transparent text-transparent caret-gray-900 focus:outline-none focus:shadow-none disabled:cursor-not-allowed"
             value={cell.content}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
+            onMouseUp={updateActiveScopeFromSelection}
+            onKeyUp={updateActiveScopeFromSelection}
+            onDoubleClick={() => {
+              if (activeSourceRange) {
+                setSelectedSourceRange(activeSourceRange);
+              }
+            }}
             onKeyDown={handleKeyDown}
             spellCheck={false}
             disabled={disabled}

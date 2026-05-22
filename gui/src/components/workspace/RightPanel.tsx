@@ -8,6 +8,7 @@ export function RightPanel() {
   const selectedNotebookId = store((state) => state.selectedNotebookId);
   const selectedCellIds = store((state) => state.selectedCellIds);
   const setActiveSourceRange = store((state) => state.setActiveSourceRange);
+  const activeSourceRange = store((state) => state.activeSourceRange);
 
   const notebook = selectedNotebookId ? workspace.getNotebook(selectedNotebookId) : undefined;
   const selectedCellId = selectedNotebookId ? selectedCellIds[selectedNotebookId] : undefined;
@@ -53,7 +54,15 @@ export function RightPanel() {
             <button
               key={`${originalIndex}-${range ? `${range.startLine}:${range.startColumn}` : "no-range"}`}
               type="button"
-              className="w-full rounded-md border border-slate-200 bg-slate-50 p-3 text-left transition-colors hover:border-slate-400 hover:bg-slate-100"
+              className={`w-full rounded-md border p-3 text-left transition-colors hover:border-slate-400 hover:bg-slate-100 ${
+                range && activeSourceRange &&
+                range.startLine === activeSourceRange.startLine &&
+                range.startColumn === activeSourceRange.startColumn &&
+                range.endLine === activeSourceRange.endLine &&
+                range.endColumn === activeSourceRange.endColumn
+                  ? "border-cyan-600 bg-cyan-50 ring-1 ring-cyan-600"
+                  : "border-slate-200 bg-slate-50"
+              }`}
               onClick={() => setActiveSourceRange(range)}
             >
               <div className="mb-2 flex items-center justify-between gap-3">
@@ -86,7 +95,7 @@ export function RightPanel() {
   };
 
   return (
-    <div className="bg-white rounded-2xl h-full flex flex-col overflow-hidden min-h-0">
+    <div data-debugger-panel="true" className="bg-white rounded-2xl h-full flex flex-col overflow-hidden min-h-0">
       <div className="flex items-center justify-between p-[14px] border-b border-gray-200">
         <h2>Debugger</h2>
       </div>
