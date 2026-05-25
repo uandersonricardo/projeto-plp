@@ -1,62 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { useWorkspaceStore } from "../../contexts/workspace-store-context";
-import { CodeCell } from "../../models/cell/CodeCell";
+import { useDebugger } from "../../hooks/useDebugger";
 import type { ScopeSnapshot } from "../../models/types/execution";
 
 export function RightPanel() {
-  const store = useWorkspaceStore();
-  const workspace = store((state) => state.workspace);
-  const selectedNotebookId = store((state) => state.selectedNotebookId);
-  const selectedCellIds = store((state) => state.selectedCellIds);
-  const setActiveSourceRange = store((state) => state.setActiveSourceRange);
-  const activeSourceRange = store((state) => state.activeSourceRange);
+  const { debuggerCellCode, debuggerCellExecutionOrder, compilationEnv, activeSourceRange, isStale, selectScope } =
+    useDebugger();
 
-  const notebook = selectedNotebookId ? workspace.getNotebook(selectedNotebookId) : undefined;
-  const selectedCellId = selectedNotebookId ? selectedCellIds[selectedNotebookId] : undefined;
-  const selectedCell = notebook && selectedCellId ? notebook.getCell(selectedCellId) : undefined;
-  const debuggerCell = !(selectedCell instanceof CodeCell)
-    ? undefined
-    : selectedCell.output?.compilationEnv
-      ? selectedCell
-      : notebook?.cells
-          .slice()
-          .reverse()
-          .find((cell): cell is CodeCell => cell instanceof CodeCell && Boolean(cell.output?.compilationEnv));
-  const rawCompilationEnv = debuggerCell?.output?.compilationEnv;
-  let compilationEnv: ScopeSnapshot[] | undefined = undefined;
-  if (rawCompilationEnv) {
-    try {
-      const parsed = typeof rawCompilationEnv === "string" ? JSON.parse(rawCompilationEnv) : rawCompilationEnv;
-      compilationEnv = Array.isArray(parsed) ? (parsed as ScopeSnapshot[]) : undefined;
-    } catch (e) {
-      compilationEnv = undefined;
-    }
-  }
-
-  const debuggerCellCode = debuggerCell?.content;
-  const debuggerCellRef = useRef(debuggerCell);
-  debuggerCellRef.current = debuggerCell;
-
-  const [compiledSnapshot, setCompiledSnapshot] = useState<{ cellId: string; content: string } | undefined>(undefined);
-
-  useEffect(() => {
-    if (rawCompilationEnv && debuggerCellRef.current) {
-      setCompiledSnapshot({ cellId: debuggerCellRef.current.id, content: debuggerCellRef.current.content });
-    } else {
-      setCompiledSnapshot(undefined);
-    }
-  }, [rawCompilationEnv]);
-
-  const isStale = Boolean(
-    compilationEnv &&
-      debuggerCell &&
-      compiledSnapshot?.cellId === debuggerCell.id &&
-      compiledSnapshot.content !== debuggerCell.content,
-  );
-
-  const renderCompilationEnv = () => {
-    if (!compilationEnv) return null;
-
+  const renderCompilationEnv = (env: ScopeSnapshot[]) => {
     if (isStale) {
       return (
         <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
@@ -65,12 +14,12 @@ export function RightPanel() {
       );
     }
 
-    const scopesInDisplayOrder = [...compilationEnv].reverse();
+    const scopesInDisplayOrder = [...env].reverse();
 
     return (
       <div className="space-y-3">
         {scopesInDisplayOrder.map((frame, index) => {
-          const originalIndex = compilationEnv.length - index - 1;
+          const originalIndex = env.length - index - 1;
           const entries = Object.entries(frame.bindings);
           const range = frame.sourceRange;
           return (
@@ -87,7 +36,7 @@ export function RightPanel() {
                   ? "border-cyan-600 bg-cyan-50 ring-1 ring-cyan-600"
                   : "border-slate-200 bg-slate-50"
               }`}
-              onClick={() => setActiveSourceRange(range, debuggerCell?.id)}
+              onClick={() => selectScope(range)}
             >
               <div className="mb-2 flex items-center justify-between gap-3">
                 <div className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-slate-500">
@@ -131,7 +80,7 @@ export function RightPanel() {
           <section className="rounded-md border border-slate-200 bg-slate-50 p-3">
             <div className="mb-2 flex items-center justify-between">
               <div className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Cell [{debuggerCell?.executionOrder ?? " "}]
+                Cell [{debuggerCellExecutionOrder ?? " "}]
               </div>
               {isStale && <div className="text-[0.72rem] text-amber-600">run to refresh</div>}
             </div>
@@ -146,7 +95,7 @@ export function RightPanel() {
         )}
 
         {compilationEnv ? (
-          renderCompilationEnv()
+          renderCompilationEnv(compilationEnv)
         ) : (
           <span className="block text-center text-sm text-gray-400 p-4">
             Run a code cell to view compilation env output.

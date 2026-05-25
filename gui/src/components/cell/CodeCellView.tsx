@@ -2,10 +2,9 @@ import { type ChangeEvent, type KeyboardEvent, useEffect, useLayoutEffect, useMe
 import { FiPlay } from "react-icons/fi";
 import hljs from "highlight.js/lib/core";
 
-import { useWorkspaceStore } from "../../contexts/workspace-store-context";
 import type { CodeCell } from "../../models/cell/CodeCell";
 import { escapeHtml } from "../../lib/utils";
-import type { ScopeSnapshot } from "../../models/types/execution";
+import type { ScopeSnapshot, SourceRange } from "../../models/types/execution";
 
 interface CodeCellViewProps {
   cell: CodeCell;
@@ -15,6 +14,12 @@ interface CodeCellViewProps {
   runtimeReady: boolean;
   isSelected: boolean;
   scopeMode: "notebook" | "cell";
+  compilationEnv: ScopeSnapshot[] | undefined;
+  localActiveSourceRange: SourceRange | undefined;
+  selectedSourceRange: SourceRange | undefined;
+  onActivateScopeRange: (range: SourceRange) => void;
+  onClearActiveScope: () => void;
+  onCommitSelectionRange: () => void;
   onChange: (value: string) => void;
   onClearOutput: () => void;
   onRun: (input: string) => void;
@@ -28,6 +33,12 @@ export function CodeCellView({
   runtimeReady,
   isSelected,
   scopeMode,
+  compilationEnv,
+  localActiveSourceRange,
+  selectedSourceRange,
+  onActivateScopeRange,
+  onClearActiveScope,
+  onCommitSelectionRange,
   onChange,
   onClearOutput,
   onRun,
@@ -35,24 +46,6 @@ export function CodeCellView({
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
-  const store = useWorkspaceStore();
-  const activeSourceRange = store((state) => state.activeSourceRange);
-  const activeSourceCellId = store((state) => state.activeSourceCellId);
-  const selectedSourceRange = store((state) => state.selectedSourceRange);
-  const setSelectedSourceRange = store((state) => state.setSelectedSourceRange);
-  const setActiveSourceRange = store((state) => state.setActiveSourceRange);
-
-  const compilationEnv = useMemo(() => {
-    const rawCompilationEnv = cell.output?.compilationEnv;
-    if (!rawCompilationEnv) return undefined;
-
-    try {
-      const parsed = typeof rawCompilationEnv === "string" ? JSON.parse(rawCompilationEnv) : rawCompilationEnv;
-      return Array.isArray(parsed) ? (parsed as ScopeSnapshot[]) : undefined;
-    } catch {
-      return undefined;
-    }
-  }, [cell.output?.compilationEnv]);
 
   const toOffset = (line: number, column: number) => {
     const lines = cell.content.split("\n");
@@ -69,21 +62,6 @@ export function CodeCellView({
   const outputText = cell.output?.success
     ? String(cell.output.result ?? cell.output.stdout ?? "")
     : (cell.output?.stderr ?? "");
-
-  const localActiveSourceRange = useMemo(() => {
-    if (!activeSourceRange || !compilationEnv || activeSourceCellId !== cell.id) return undefined;
-
-    return compilationEnv.find((frame) => {
-      const range = frame.sourceRange;
-      return (
-        range &&
-        range.startLine === activeSourceRange.startLine &&
-        range.startColumn === activeSourceRange.startColumn &&
-        range.endLine === activeSourceRange.endLine &&
-        range.endColumn === activeSourceRange.endColumn
-      );
-    })?.sourceRange;
-  }, [activeSourceRange, compilationEnv, activeSourceCellId, cell.id]);
 
   const updateActiveScopeFromSelection = () => {
     if (!compilationEnv) return;
@@ -128,7 +106,7 @@ export function CodeCellView({
       .sort((left, right) => left.span - right.span)[0]?.frame;
 
     if (matchingFrame?.sourceRange) {
-      setActiveSourceRange(matchingFrame.sourceRange, cell.id);
+      onActivateScopeRange(matchingFrame.sourceRange);
     }
   };
 
@@ -312,16 +290,12 @@ export function CodeCellView({
             className="block w-full min-h-[calc(1.4em+20px)] rounded-[10px] p-[10px] leading-[1.4] font-mono text-[0.9rem] relative border-0 outline-none resize-none overflow-hidden bg-transparent text-transparent caret-gray-900 focus:outline-none focus:shadow-none disabled:cursor-not-allowed"
             value={cell.content}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-              setActiveSourceRange(undefined);
+              onClearActiveScope();
               onChange(e.target.value);
             }}
             onMouseUp={updateActiveScopeFromSelection}
             onKeyUp={updateActiveScopeFromSelection}
-            onDoubleClick={() => {
-              if (activeSourceRange) {
-                setSelectedSourceRange(activeSourceRange, cell.id);
-              }
-            }}
+            onDoubleClick={onCommitSelectionRange}
             onKeyDown={handleKeyDown}
             placeholder="Write your code here..."
             spellCheck={false}

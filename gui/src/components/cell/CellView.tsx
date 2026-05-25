@@ -19,6 +19,9 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
     isSelected,
     isRunning,
     scopeMode,
+    compilationEnv,
+    localActiveSourceRange,
+    selectedSourceRange,
     selectCell,
     setEditing,
     moveUp,
@@ -27,6 +30,9 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
     runCell,
     clearOutput,
     updateContent,
+    activateScopeRange,
+    clearActiveScope,
+    commitSelectionRange,
   } = useCell(notebookId, cellId);
 
   const notebookLocked = isPreparingLanguage;
@@ -78,6 +84,12 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
             runtimeReady={runtimeReady}
             isSelected={isSelected}
             scopeMode={scopeMode}
+            compilationEnv={compilationEnv}
+            localActiveSourceRange={localActiveSourceRange}
+            selectedSourceRange={selectedSourceRange}
+            onActivateScopeRange={activateScopeRange}
+            onClearActiveScope={clearActiveScope}
+            onCommitSelectionRange={commitSelectionRange}
             onChange={updateContent}
             onClearOutput={clearOutput}
             onRun={runCell}
