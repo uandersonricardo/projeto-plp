@@ -27,6 +27,16 @@ function defineLanguage(name: string, scopeMode: "notebook" | "cell", bnf: BNFLa
           stdout: result.output ?? "",
           stderr: result.message ?? "",
           result: result.output,
+          compilationEnv: (() => {
+            try {
+              if (result.compilationEnv == null) return undefined;
+              return typeof result.compilationEnv === "string"
+                ? JSON.parse(result.compilationEnv)
+                : result.compilationEnv;
+            } catch (e) {
+              return result.compilationEnv;
+            }
+          })(),
           executionTime: performance.now() - start,
           success: result.success,
         };

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.lang.reflect.Field;
 
 import le1.plp.expressions1.parser.Exp1Parser;
 import le1.plp.expressions1.parser.ParseException;
@@ -36,6 +37,7 @@ public final class PlpWebApi {
 
   private String output;
   private String message;
+  private String compilationEnv;
 
   private static Exp1Parser  exp1Parser;
   private static Exp2Parser  exp2Parser;
@@ -55,6 +57,7 @@ public final class PlpWebApi {
   private PlpResult interpretarCodigo(String sourceCode, String listaEntrada, int selectedIndex) {
     output = null;
     message = null;
+    compilationEnv = null;
 
     try {
       ByteArrayInputStream fis = new ByteArrayInputStream(
@@ -70,13 +73,13 @@ public final class PlpWebApi {
         case IMP2:  interpretarImp2(fis, listaEntrada); break;
         case OO1:   interpretarOO1(fis, listaEntrada);  break;
         case OO2:   interpretarOO2(fis, listaEntrada);  break;
-        default:    return PlpResultImpl.create(false, null, "linguagem inválida");
+        default:    return PlpResultImpl.create(false, null, "linguagem inválida", compilationEnv);
       }
-      return PlpResultImpl.create(true, output, message);
+      return PlpResultImpl.create(true, output, message, compilationEnv);
     } catch (Exception e) {
-      return PlpResultImpl.create(false, null, e.getMessage());
+      return PlpResultImpl.create(false, null, e.getMessage(), compilationEnv);
     } catch (Throwable t) {
-      return PlpResultImpl.create(false, null, t.getMessage());
+      return PlpResultImpl.create(false, null, t.getMessage(), compilationEnv);
     }
   }
 
@@ -136,7 +139,12 @@ public final class PlpWebApi {
     else Func3Parser.ReInit(fis);
     lf3.plp.functional3.Programa prog = Func3Parser.Input();
     message = "sintaxe verificada com sucesso!";
-    output = prog.executar().toString();
+    if (prog.checaTipo()) {
+      compilationEnv = toJsonString(prog.getAmbCompSnapshot());
+      output = prog.executar().toString();
+    } else {
+      throw new RuntimeException("erro de tipos!");
+    }
   }
 
   private void interpretarImp1(InputStream fis, String entradaStr) throws Exception {
@@ -245,5 +253,96 @@ public final class PlpWebApi {
         valores.add(new loo2.plp.orientadaObjetos1.expressao.valor.ValorString(p));
     }
     return OO2Parser.criaListaValor(valores);
+  }
+
+  private String debugString(Object compilationContext) {
+    try {
+      Class<?> current = compilationContext.getClass();
+      while (current != null) {
+        try {
+          Field field = current.getDeclaredField("pilha");
+          field.setAccessible(true);
+          Object value = field.get(compilationContext);
+          return value == null ? null : value.toString();
+        } catch (NoSuchFieldException ignored) {
+          current = current.getSuperclass();
+        }
+      }
+      return null;
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private String toJsonString(Object obj) {
+    if (obj == null) return "null";
+    if (obj instanceof String) return '"' + escapeJson((String) obj) + '"';
+    if (obj instanceof Number || obj instanceof Boolean || obj instanceof Character) {
+      if (obj instanceof Character) {
+        return '"' + escapeJson(obj.toString()) + '"';
+      }
+      return obj.toString();
+    }
+    if (obj instanceof java.util.Map) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("{");
+      boolean first = true;
+      java.util.Map<?,?> map = (java.util.Map<?,?>) obj;
+      for (java.util.Map.Entry<?,?> entry : map.entrySet()) {
+        if (!first) sb.append(',');
+        first = false;
+        String key = entry.getKey() == null ? "null" : entry.getKey().toString();
+        sb.append('"').append(escapeJson(key)).append('"').append(":");
+        sb.append(toJsonString(entry.getValue()));
+      }
+      sb.append("}");
+      return sb.toString();
+    }
+    if (obj instanceof java.util.Collection) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("[");
+      boolean first = true;
+      for (Object item : (java.util.Collection<?>) obj) {
+        if (!first) sb.append(',');
+        first = false;
+        sb.append(toJsonString(item));
+      }
+      sb.append("]");
+      return sb.toString();
+    }
+    if (obj.getClass().isArray()) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("[");
+      int length = java.lang.reflect.Array.getLength(obj);
+      for (int i = 0; i < length; i++) {
+        if (i > 0) sb.append(',');
+        sb.append(toJsonString(java.lang.reflect.Array.get(obj, i)));
+      }
+      sb.append("]");
+      return sb.toString();
+    }
+    // fallback to debugString representation
+    String s = debugString(obj);
+    if (s == null) return "null";
+    return '"' + escapeJson(s) + '"';
+  }
+
+  private String escapeJson(String s) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      switch (c) {
+        case '\\': sb.append("\\\\"); break;
+        case '"': sb.append("\\\""); break;
+        case '\n': sb.append("\\n"); break;
+        case '\r': sb.append("\\r"); break;
+        case '\t': sb.append("\\t"); break;
+        default:
+          if (c < 0x20) {
+            sb.append(String.format("\\u%04x", (int) c));
+          } else sb.append(c);
+      }
+    }
+    return sb.toString();
   }
 }

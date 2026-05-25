@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-import type { CellOutput } from "../models/types/execution";
+import type { CellOutput, ScopeSnapshot, SourceRange } from "../models/types/execution";
 import type { ID } from "../models/types/id";
 import { useWorkspaceStore } from "../contexts/workspace-store-context";
 import { useNotebook } from "./useNotebook";
@@ -30,6 +30,37 @@ export function useCell(notebookId: ID, cellId: ID) {
   const moveCellDown = store((state) => state.moveCellDown);
   const deleteCell = store((state) => state.deleteCell);
 
+  const activeSourceRange = store((state) => state.activeSourceRange);
+  const activeSourceCellId = store((state) => state.activeSourceCellId);
+  const selectedSourceRange = store((state) => state.selectedSourceRange);
+  const setActiveSourceRange = store((state) => state.setActiveSourceRange);
+  const setSelectedSourceRange = store((state) => state.setSelectedSourceRange);
+
+  const rawCompilationEnv = cell instanceof CodeCell ? cell.output?.compilationEnv : undefined;
+  const compilationEnv = useMemo<ScopeSnapshot[] | undefined>(() => {
+    if (!rawCompilationEnv) return undefined;
+    try {
+      const parsed = typeof rawCompilationEnv === "string" ? JSON.parse(rawCompilationEnv) : rawCompilationEnv;
+      return Array.isArray(parsed) ? (parsed as ScopeSnapshot[]) : undefined;
+    } catch {
+      return undefined;
+    }
+  }, [rawCompilationEnv]);
+
+  const localActiveSourceRange = useMemo<SourceRange | undefined>(() => {
+    if (!activeSourceRange || !compilationEnv || activeSourceCellId !== cell.id) return undefined;
+    return compilationEnv.find((frame) => {
+      const range = frame.sourceRange;
+      return (
+        range &&
+        range.startLine === activeSourceRange.startLine &&
+        range.startColumn === activeSourceRange.startColumn &&
+        range.endLine === activeSourceRange.endLine &&
+        range.endColumn === activeSourceRange.endColumn
+      );
+    })?.sourceRange;
+  }, [activeSourceRange, compilationEnv, activeSourceCellId, cell.id]);
+
   const runCell = async (input = "") => {
     if (isPreparingLanguage || !runtimeReady) return;
 
@@ -38,6 +69,8 @@ export function useCell(notebookId: ID, cellId: ID) {
 
     try {
       if (!(cell instanceof CodeCell)) return;
+      // ensure the running cell stays selected so Debugger/RightPanel shows its output
+      selectCell(cellId);
 
       const language = notebook.language as NotebookLanguage;
       const useNotebookScope = notebook.notebookScopeEnabled && language.scopeMode === "notebook";
@@ -57,6 +90,9 @@ export function useCell(notebookId: ID, cellId: ID) {
     isRunning: isExecuting,
     isSelected: selectedCellId === cellId,
     scopeMode: (notebook.language as NotebookLanguage).scopeMode,
+    compilationEnv,
+    localActiveSourceRange,
+    selectedSourceRange,
     updateContent: (content: string) => updateCellContent(notebookId, cellId, content),
     setEditing: (isEditing: boolean) => setCellEditing(notebookId, cellId, isEditing),
     clearOutput: () => clearCellOutput(notebookId, cellId),
@@ -65,5 +101,10 @@ export function useCell(notebookId: ID, cellId: ID) {
     delete: () => deleteCell(notebookId, cellId),
     runCell: (input = "") => runCell(input),
     selectCell: () => selectCell(cellId),
+    activateScopeRange: (range: SourceRange) => setActiveSourceRange(range, cell.id),
+    clearActiveScope: () => setActiveSourceRange(undefined),
+    commitSelectionRange: () => {
+      if (activeSourceRange) setSelectedSourceRange(activeSourceRange, cell.id);
+    },
   };
 }

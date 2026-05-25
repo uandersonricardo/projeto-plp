@@ -2,6 +2,7 @@ export interface CellOutput {
   stdout: string;
   stderr: string;
   result?: unknown;
+  compilationEnv?: unknown;
   executionTime: number;
   success: boolean;
 }
@@ -9,6 +10,18 @@ export interface CellOutput {
 export interface SourceCode {
   code: string;
   language: string;
+}
+
+export interface SourceRange {
+  startLine: number;
+  startColumn: number;
+  endLine: number;
+  endColumn: number;
+}
+
+export interface ScopeSnapshot {
+  bindings: Record<string, string>;
+  sourceRange?: SourceRange;
 }
 
 export interface BNFLanguageDefinition {

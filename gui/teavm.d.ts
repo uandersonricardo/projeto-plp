@@ -4,6 +4,7 @@ export interface RunCodeResult {
   success: boolean;
   output: string | null;
   message: string | null;
+  compilationEnv: string | null;
 }
 
 declare global {

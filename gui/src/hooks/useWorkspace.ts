@@ -15,6 +15,7 @@ export function useWorkspace() {
   const removeNotebook = store((state) => state.removeNotebook);
   const renameWorkspace = store((state) => state.renameWorkspace);
   const loadWorkspace = store((state) => state.loadWorkspace);
+  const setActiveSourceRange = store((state) => state.setActiveSourceRange);
 
   return {
     workspace,
@@ -26,5 +27,6 @@ export function useWorkspace() {
     removeNotebook: (notebookId: ID) => removeNotebook(notebookId),
     renameWorkspace: (name: string) => renameWorkspace(name),
     loadWorkspace: (ws: Workspace) => loadWorkspace(ws),
+    clearActiveScope: () => setActiveSourceRange(undefined),
   };
 }

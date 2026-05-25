@@ -1,6 +1,9 @@
 package lf3.plp.expressions2.memory;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Stack;
 
 import lf3.plp.expressions2.expression.Id;
@@ -18,18 +21,60 @@ public class Contexto<T> {
 	protected Stack<HashMap<Id, T>> pilha;
 
 	/**
+	 * Snapshots of each scope created during type checking, in declaration order.
+	 */
+	protected List<HashMap<String, Object>> pilhaSnapshot;
+	protected Stack<HashMap<String, Object>> pilhaSnapshotFrames;
+	protected Stack<java.util.Map<String, String>> pilhaSnapshotBindings;
+	protected Stack<Boolean> pilhaSnapshotMarkers;
+
+	/**
 	 * Construtor da classe.
 	 */
 	public Contexto() {
 		pilha = new Stack<HashMap<Id, T>>();
+		pilhaSnapshot = new ArrayList<HashMap<String, Object>>();
+		pilhaSnapshotFrames = new Stack<HashMap<String, Object>>();
+		pilhaSnapshotBindings = new Stack<java.util.Map<String, String>>();
+		pilhaSnapshotMarkers = new Stack<Boolean>();
 	}
 
 	public void incrementa() {
 		pilha.push(new HashMap<Id, T>());
+		pilhaSnapshotMarkers.push(Boolean.FALSE);
+	}
+
+	public void incrementa(SourceRange sourceRange) {
+		HashMap<Id, T> novoFrame = new HashMap<Id, T>();
+		pilha.push(novoFrame);
+		pilhaSnapshotMarkers.push(Boolean.TRUE);
+
+		HashMap<String, Object> snapshotFrame = new LinkedHashMap<String, Object>();
+		java.util.Map<String, String> bindings = new LinkedHashMap<String, String>();
+		snapshotFrame.put("bindings", bindings);
+		if (sourceRange != null) {
+			HashMap<String, Integer> range = new LinkedHashMap<String, Integer>();
+			range.put("startLine", sourceRange.getStartLine());
+			range.put("startColumn", sourceRange.getStartColumn());
+			range.put("endLine", sourceRange.getEndLine());
+			range.put("endColumn", sourceRange.getEndColumn());
+			snapshotFrame.put("sourceRange", range);
+		}
+		pilhaSnapshot.add(snapshotFrame);
+		pilhaSnapshotFrames.push(snapshotFrame);
+		pilhaSnapshotBindings.push(bindings);
 	}
 
 	public void restaura() {
 		pilha.pop();
+		if (!pilhaSnapshotMarkers.empty() && pilhaSnapshotMarkers.pop()) {
+			if (!pilhaSnapshotFrames.empty()) {
+				pilhaSnapshotFrames.pop();
+			}
+			if (!pilhaSnapshotBindings.empty()) {
+				pilhaSnapshotBindings.pop();
+			}
+		}
 	}
 
 	/**
@@ -43,6 +88,10 @@ public class Contexto<T> {
 			HashMap<Id, T> aux = pilha.peek();
 			if (aux.put(idArg, valorId) != null)
 				throw new IdentificadorJaDeclaradoException();
+			if (!pilhaSnapshotFrames.empty()) {
+				java.util.Map<String, String> bindings = pilhaSnapshotBindings.peek();
+				bindings.put(idArg == null ? "null" : idArg.toString(), valorId == null ? "null" : valorId.toString());
+			}
 		} catch (IdentificadorJaDeclaradoException e) {
 			throw new VariavelJaDeclaradaException(idArg);
 		}
@@ -93,6 +142,26 @@ public class Contexto<T> {
 	 */
 	protected void setPilha(Stack<HashMap<Id, T>> pilha) {
 		this.pilha = pilha;
+	}
+
+	/**
+	 * Returns a serializable snapshot of declared identifiers mapped to their values.
+	 * Keys and values are converted to String via toString() to make JSON serialization
+	 * straightforward for the web API.
+	 */
+	public List<java.util.Map<String,Object>> getPilhaSnapshot() {
+		List<java.util.Map<String,Object>> snapshot = new ArrayList<java.util.Map<String,Object>>();
+		if (pilhaSnapshot != null) {
+			for (HashMap<String, Object> frame : pilhaSnapshot) {
+				java.util.LinkedHashMap<String, Object> frameSnapshot = new java.util.LinkedHashMap<String, Object>();
+				frameSnapshot.put("bindings", frame.get("bindings"));
+				if (frame.containsKey("sourceRange")) {
+					frameSnapshot.put("sourceRange", frame.get("sourceRange"));
+				}
+				snapshot.add(frameSnapshot);
+			}
+		}
+		return snapshot;
 	}
 
 	/*

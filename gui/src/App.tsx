@@ -15,7 +15,7 @@ const INITIAL_RIGHT_WIDTH = 280;
 const HANDLE_SPACE = 20;
 
 function App() {
-  const { selectedNotebookId, workspace, renameWorkspace } = useWorkspace();
+  const { selectedNotebookId, workspace, availableLanguages, renameWorkspace, loadWorkspace, clearActiveScope } = useWorkspace();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const titleInputRef = useRef<HTMLInputElement | null>(null);
@@ -78,6 +78,22 @@ function App() {
       window.removeEventListener("mouseup", onMouseUp);
     };
   }, [draggingSide, leftPanelWidth, rightPanelWidth]);
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      if (target.closest("[data-debugger-panel]") || target.closest("[data-code-cell]")) {
+        return;
+      }
+
+      clearActiveScope();
+    };
+
+    window.addEventListener("pointerdown", handlePointerDown);
+    return () => window.removeEventListener("pointerdown", handlePointerDown);
+  }, [clearActiveScope]);
 
   if (!selectedNotebookId) {
     return <div className="empty-state">No notebooks available.</div>;

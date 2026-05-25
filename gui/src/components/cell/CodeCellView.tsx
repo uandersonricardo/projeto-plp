@@ -4,6 +4,7 @@ import hljs from "highlight.js/lib/core";
 
 import type { CodeCell } from "../../models/cell/CodeCell";
 import { escapeHtml } from "../../lib/utils";
+import type { ScopeSnapshot, SourceRange } from "../../models/types/execution";
 
 interface CodeCellViewProps {
   cell: CodeCell;
@@ -11,7 +12,14 @@ interface CodeCellViewProps {
   disabled: boolean;
   isRunning: boolean;
   runtimeReady: boolean;
+  isSelected: boolean;
   scopeMode: "notebook" | "cell";
+  compilationEnv: ScopeSnapshot[] | undefined;
+  localActiveSourceRange: SourceRange | undefined;
+  selectedSourceRange: SourceRange | undefined;
+  onActivateScopeRange: (range: SourceRange) => void;
+  onClearActiveScope: () => void;
+  onCommitSelectionRange: () => void;
   onChange: (value: string) => void;
   onClearOutput: () => void;
   onRun: (input: string) => void;
@@ -23,7 +31,14 @@ export function CodeCellView({
   disabled,
   isRunning,
   runtimeReady,
+  isSelected,
   scopeMode,
+  compilationEnv,
+  localActiveSourceRange,
+  selectedSourceRange,
+  onActivateScopeRange,
+  onClearActiveScope,
+  onCommitSelectionRange,
   onChange,
   onClearOutput,
   onRun,
@@ -31,20 +46,146 @@ export function CodeCellView({
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
+
+  const toOffset = (line: number, column: number) => {
+    const lines = cell.content.split("\n");
+    const safeLine = Math.max(1, Math.min(line, lines.length || 1));
+    let offset = 0;
+    for (let i = 1; i < safeLine; i++) {
+      offset += (lines[i - 1]?.length ?? 0) + 1;
+    }
+    offset += Math.max(0, column - 1);
+    return offset;
+  };
   const [cellInput, setCellInput] = useState(cell.input);
 
   const outputText = cell.output?.success
     ? String(cell.output.result ?? cell.output.stdout ?? "")
     : (cell.output?.stderr ?? "");
 
+  const updateActiveScopeFromSelection = () => {
+    if (!compilationEnv) return;
+
+    const textarea = editorRef.current;
+    if (!textarea) return;
+
+    const { selectionStart, selectionEnd } = textarea;
+    if (selectionStart === selectionEnd) return;
+
+    const selectedText = cell.content.slice(selectionStart, selectionEnd);
+    const leadingWhitespace = selectedText.match(/^\s*/)?.[0].length ?? 0;
+    const trailingWhitespace = selectedText.match(/\s*$/)?.[0].length ?? 0;
+    const normalizedSelectionStart = selectionStart + leadingWhitespace;
+    const normalizedSelectionEnd = selectionEnd - trailingWhitespace;
+
+    if (normalizedSelectionStart >= normalizedSelectionEnd) return;
+
+    const matchingFrames = compilationEnv.filter((frame) => {
+      const range = frame.sourceRange;
+      if (!range) return false;
+
+      const rangeStart = toOffset(range.startLine, range.startColumn);
+      const rangeEnd = toOffset(range.endLine, range.endColumn + 1);
+
+      return (
+        (normalizedSelectionStart >= rangeStart && normalizedSelectionEnd <= rangeEnd) ||
+        (normalizedSelectionStart <= rangeStart && normalizedSelectionEnd >= rangeEnd)
+      );
+    });
+
+    const matchingFrame = matchingFrames
+      .map((frame) => {
+        const range = frame.sourceRange;
+        if (!range) return undefined;
+
+        const rangeStart = toOffset(range.startLine, range.startColumn);
+        const rangeEnd = toOffset(range.endLine, range.endColumn + 1);
+        return { frame, rangeStart, rangeEnd, span: rangeEnd - rangeStart };
+      })
+      .filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate))
+      .sort((left, right) => left.span - right.span)[0]?.frame;
+
+    if (matchingFrame?.sourceRange) {
+      onActivateScopeRange(matchingFrame.sourceRange);
+    }
+  };
+
   const highlighted = useMemo(() => {
-    const content = cell.content + "\n";
+    const content = cell.content;
     try {
-      return hljs.highlight(content, { language: language.toLowerCase() }).value;
+      const syntaxHighlighted = hljs.highlight(content, { language: language.toLowerCase() }).value;
+
+      if (!localActiveSourceRange || typeof document === "undefined") {
+        return syntaxHighlighted;
+      }
+
+      const start = Math.min(
+        toOffset(localActiveSourceRange.startLine, localActiveSourceRange.startColumn),
+        cell.content.length,
+      );
+      const end = Math.min(
+        toOffset(localActiveSourceRange.endLine, localActiveSourceRange.endColumn + 1),
+        cell.content.length,
+      );
+
+      if (start >= end) {
+        return syntaxHighlighted;
+      }
+
+      const container = document.createElement("div");
+      container.innerHTML = syntaxHighlighted;
+
+      const textNodes: Text[] = [];
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+      let currentNode: Node | null;
+      while ((currentNode = walker.nextNode())) {
+        textNodes.push(currentNode as Text);
+      }
+
+      let runningOffset = 0;
+      let startNode: Text | null = null;
+      let endNode: Text | null = null;
+      let startOffset = 0;
+      let endOffset = 0;
+
+      for (const textNode of textNodes) {
+        const textLength = textNode.data.length;
+        const nodeStart = runningOffset;
+        const nodeEnd = runningOffset + textLength;
+
+        if (!startNode && start >= nodeStart && start <= nodeEnd) {
+          startNode = textNode;
+          startOffset = Math.max(0, start - nodeStart);
+        }
+
+        if (end >= nodeStart && end <= nodeEnd) {
+          endNode = textNode;
+          endOffset = Math.max(0, end - nodeStart);
+          break;
+        }
+
+        runningOffset += textLength;
+      }
+
+      if (!startNode || !endNode) {
+        return syntaxHighlighted;
+      }
+
+      const range = document.createRange();
+      range.setStart(startNode, startOffset);
+      range.setEnd(endNode, endOffset);
+
+      const fragment = range.extractContents();
+      const highlight = document.createElement("span");
+      highlight.className = "rounded-[3px] bg-cyan-200/50 text-slate-900 shadow-[inset_0_0_0_1px_rgba(8,145,178,0.18)]";
+      highlight.appendChild(fragment);
+      range.insertNode(highlight);
+
+      return container.innerHTML;
     } catch {
       return escapeHtml(content);
     }
-  }, [cell.content, language]);
+  }, [cell.content, language, localActiveSourceRange]);
 
   useLayoutEffect(() => {
     const textarea = editorRef.current;
@@ -52,6 +193,19 @@ export function CodeCellView({
     textarea.style.height = "0px";
     textarea.style.height = `${textarea.scrollHeight}px`;
   }, [cell.content]);
+
+  useEffect(() => {
+    const textarea = editorRef.current;
+    if (!textarea || !isSelected || !selectedSourceRange) return;
+
+    const start = Math.min(
+      toOffset(selectedSourceRange.startLine, selectedSourceRange.startColumn),
+      cell.content.length,
+    );
+    const end = Math.min(toOffset(selectedSourceRange.endLine, selectedSourceRange.endColumn + 1), cell.content.length);
+    textarea.focus();
+    textarea.setSelectionRange(start, Math.max(start, end));
+  }, [cell.content, isSelected, selectedSourceRange]);
 
   useEffect(() => {
     if (!isOutputMenuOpen) return;
@@ -135,7 +289,13 @@ export function CodeCellView({
             ref={editorRef}
             className="block w-full min-h-[calc(1.4em+20px)] rounded-[10px] p-[10px] leading-[1.4] font-mono text-[0.9rem] relative border-0 outline-none resize-none overflow-hidden bg-transparent text-transparent caret-gray-900 focus:outline-none focus:shadow-none disabled:cursor-not-allowed"
             value={cell.content}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              onClearActiveScope();
+              onChange(e.target.value);
+            }}
+            onMouseUp={updateActiveScopeFromSelection}
+            onKeyUp={updateActiveScopeFromSelection}
+            onDoubleClick={onCommitSelectionRange}
             onKeyDown={handleKeyDown}
             placeholder="Write your code here..."
             spellCheck={false}
