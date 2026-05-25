@@ -20,6 +20,7 @@ export interface WorkspaceStore {
   selectedCellIds: Record<ID, ID | undefined>;
   executionCounters: Record<ID, number>;
   activeSourceRange?: SourceRange;
+  activeSourceCellId?: ID;
   selectedSourceRange?: SourceRange;
 
   // Workspace
@@ -33,8 +34,8 @@ export interface WorkspaceStore {
   setNotebookLanguage: (notebookId: ID, language: Language) => void;
   setNotebookScope: (notebookId: ID, enabled: boolean) => void;
   selectCell: (notebookId: ID, cellId: ID) => void;
-  setActiveSourceRange: (range?: SourceRange) => void;
-  setSelectedSourceRange: (range?: SourceRange) => void;
+  setActiveSourceRange: (range?: SourceRange, cellId?: ID) => void;
+  setSelectedSourceRange: (range?: SourceRange, cellId?: ID) => void;
 
   // Cells
   insertCodeCell: (notebookId: ID, index: number) => void;
@@ -65,6 +66,7 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
     selectedCellIds: Object.fromEntries(initialWorkspace.notebooks.map((nb) => [nb.id, nb.cells[0]?.id])),
     executionCounters: Object.fromEntries(initialWorkspace.notebooks.map((nb) => [nb.id, 0])),
     activeSourceRange: undefined,
+    activeSourceCellId: undefined,
     selectedSourceRange: undefined,
 
     selectNotebook: (id) => set({ selectedNotebookId: id }),
@@ -141,12 +143,12 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
           }
         }
 
-        return { selectedCellIds: updatedCellIds, activeSourceRange: undefined, selectedSourceRange: undefined };
+        return { selectedCellIds: updatedCellIds, activeSourceRange: undefined, activeSourceCellId: undefined, selectedSourceRange: undefined };
       }),
 
-    setActiveSourceRange: (range) => set({ activeSourceRange: range, selectedSourceRange: undefined }),
+    setActiveSourceRange: (range, cellId) => set({ activeSourceRange: range, activeSourceCellId: cellId, selectedSourceRange: undefined }),
 
-    setSelectedSourceRange: (range) => set({ activeSourceRange: range, selectedSourceRange: range }),
+    setSelectedSourceRange: (range, cellId) => set({ activeSourceRange: range, activeSourceCellId: cellId, selectedSourceRange: range }),
 
     insertCodeCell: (notebookId, index) =>
       set((state) => {

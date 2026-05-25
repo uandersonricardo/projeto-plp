@@ -37,6 +37,7 @@ export function CodeCellView({
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
   const store = useWorkspaceStore();
   const activeSourceRange = store((state) => state.activeSourceRange);
+  const activeSourceCellId = store((state) => state.activeSourceCellId);
   const selectedSourceRange = store((state) => state.selectedSourceRange);
   const setSelectedSourceRange = store((state) => state.setSelectedSourceRange);
   const setActiveSourceRange = store((state) => state.setActiveSourceRange);
@@ -70,7 +71,7 @@ export function CodeCellView({
     : (cell.output?.stderr ?? "");
 
   const localActiveSourceRange = useMemo(() => {
-    if (!activeSourceRange || !compilationEnv) return undefined;
+    if (!activeSourceRange || !compilationEnv || activeSourceCellId !== cell.id) return undefined;
 
     return compilationEnv.find((frame) => {
       const range = frame.sourceRange;
@@ -82,7 +83,7 @@ export function CodeCellView({
         range.endColumn === activeSourceRange.endColumn
       );
     })?.sourceRange;
-  }, [activeSourceRange, compilationEnv]);
+  }, [activeSourceRange, compilationEnv, activeSourceCellId, cell.id]);
 
   const updateActiveScopeFromSelection = () => {
     if (!compilationEnv) return;
@@ -127,7 +128,7 @@ export function CodeCellView({
       .sort((left, right) => left.span - right.span)[0]?.frame;
 
     if (matchingFrame?.sourceRange) {
-      setActiveSourceRange(matchingFrame.sourceRange);
+      setActiveSourceRange(matchingFrame.sourceRange, cell.id);
     }
   };
 
@@ -198,8 +199,7 @@ export function CodeCellView({
 
       const fragment = range.extractContents();
       const highlight = document.createElement("span");
-      highlight.className =
-        "rounded-[3px] bg-cyan-200/80 text-slate-900 shadow-[inset_0_0_0_1px_rgba(8,145,178,0.18)]";
+      highlight.className = "rounded-[3px] bg-cyan-200/50 text-slate-900 shadow-[inset_0_0_0_1px_rgba(8,145,178,0.18)]";
       highlight.appendChild(fragment);
       range.insertNode(highlight);
 
@@ -220,7 +220,10 @@ export function CodeCellView({
     const textarea = editorRef.current;
     if (!textarea || !isSelected || !selectedSourceRange) return;
 
-    const start = Math.min(toOffset(selectedSourceRange.startLine, selectedSourceRange.startColumn), cell.content.length);
+    const start = Math.min(
+      toOffset(selectedSourceRange.startLine, selectedSourceRange.startColumn),
+      cell.content.length,
+    );
     const end = Math.min(toOffset(selectedSourceRange.endLine, selectedSourceRange.endColumn + 1), cell.content.length);
     textarea.focus();
     textarea.setSelectionRange(start, Math.max(start, end));
@@ -308,12 +311,15 @@ export function CodeCellView({
             ref={editorRef}
             className="block w-full min-h-[calc(1.4em+20px)] rounded-[10px] p-[10px] leading-[1.4] font-mono text-[0.9rem] relative border-0 outline-none resize-none overflow-hidden bg-transparent text-transparent caret-gray-900 focus:outline-none focus:shadow-none disabled:cursor-not-allowed"
             value={cell.content}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              setActiveSourceRange(undefined);
+              onChange(e.target.value);
+            }}
             onMouseUp={updateActiveScopeFromSelection}
             onKeyUp={updateActiveScopeFromSelection}
             onDoubleClick={() => {
               if (activeSourceRange) {
-                setSelectedSourceRange(activeSourceRange);
+                setSelectedSourceRange(activeSourceRange, cell.id);
               }
             }}
             onKeyDown={handleKeyDown}
