@@ -6,26 +6,23 @@ export interface NotebookLanguage extends Language {
   runtimeStatusMessage?: string;
   preparationMessage?: string;
   prepare?: () => Promise<void>;
+  scopeMode: "notebook" | "cell";
 }
 
-function defineLanguage(name: string, bnf: BNFLanguageDefinition): NotebookLanguage {
+function defineLanguage(name: string, scopeMode: "notebook" | "cell", bnf: BNFLanguageDefinition): NotebookLanguage {
   return {
     name,
+    scopeMode,
     bnf,
     runtimeReady: true,
     preparationMessage: `Importing and compiling ${name} runtime...`,
     async prepare() {
       await Promise.resolve();
     },
-    run(sourceCode: string): CellOutput {
+    run(sourceCode: string, input = ""): CellOutput {
       const start = performance.now();
       try {
-        const result = window.__runCode(name.toLowerCase() as LanguageCode, sourceCode, "");
-        // DEBUG: print compilation environment string returned by the runtime
-        // This helps inspect the ambCompilacao JSON/string emitted by TeaVM
-        // Visible in browser console when running a cell.
-        // eslint-disable-next-line no-console
-        console.debug("[RunCodeResult] compilationEnv:", result.compilationEnv);
+        const result = window.__runCode(name.toLowerCase() as LanguageCode, sourceCode, input);
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",
@@ -56,26 +53,32 @@ function defineLanguage(name: string, bnf: BNFLanguageDefinition): NotebookLangu
 }
 
 export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
-  defineLanguage("Exp1", { keywords: ["not", "length", "and", "or"], literals: ["true", "false"] }),
-  defineLanguage("Exp2", { keywords: ["not", "length", "and", "or", "let", "var", "in"], literals: ["true", "false"] }),
-  defineLanguage("Func1", {
+  defineLanguage("Exp1", "cell", {
+    keywords: ["not", "length", "and", "or"],
+    literals: ["true", "false"],
+  }),
+  defineLanguage("Exp2", "cell", {
+    keywords: ["not", "length", "and", "or", "let", "var", "in"],
+    literals: ["true", "false"],
+  }),
+  defineLanguage("Func1", "cell", {
     keywords: ["not", "length", "and", "or", "let", "var", "in", "fun", "if", "then", "else"],
     literals: ["true", "false"],
   }),
-  defineLanguage("Func2", {
+  defineLanguage("Func2", "cell", {
     keywords: ["not", "length", "and", "or", "let", "var", "in", "fun", "fn", "if", "then", "else"],
     literals: ["true", "false"],
   }),
-  defineLanguage("Func3", {
+  defineLanguage("Func3", "cell", {
     keywords: ["not", "length", "and", "or", "let", "var", "in", "fun", "fn", "if", "then", "else", "for"],
     literals: ["true", "false"],
     builtins: ["head", "tail"],
   }),
-  defineLanguage("Imp1", {
+  defineLanguage("Imp1", "notebook", {
     keywords: ["not", "length", "and", "or", "var", "while", "do", "if", "then", "else", "write", "read"],
     literals: ["true", "false"],
   }),
-  defineLanguage("Imp2", {
+  defineLanguage("Imp2", "notebook", {
     keywords: [
       "not",
       "length",
@@ -95,7 +98,7 @@ export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
     literals: ["true", "false"],
     types: ["string", "int", "boolean"],
   }),
-  defineLanguage("OO1", {
+  defineLanguage("OO1", "notebook", {
     keywords: [
       "not",
       "length",
@@ -117,7 +120,7 @@ export const AVAILABLE_LANGUAGES: NotebookLanguage[] = [
     literals: ["true", "false", "null"],
     types: ["string", "int", "boolean"],
   }),
-  defineLanguage("OO2", {
+  defineLanguage("OO2", "notebook", {
     keywords: [
       "not",
       "length",

@@ -31,6 +31,7 @@ export interface WorkspaceStore {
   // Notebook
   renameNotebook: (notebookId: ID, name: string) => void;
   setNotebookLanguage: (notebookId: ID, language: Language) => void;
+  setNotebookScope: (notebookId: ID, enabled: boolean) => void;
   selectCell: (notebookId: ID, cellId: ID) => void;
   setActiveSourceRange: (range?: SourceRange) => void;
   setSelectedSourceRange: (range?: SourceRange) => void;
@@ -39,6 +40,7 @@ export interface WorkspaceStore {
   insertCodeCell: (notebookId: ID, index: number) => void;
   insertMarkdownCell: (notebookId: ID, index: number) => void;
   updateCellContent: (notebookId: ID, cellId: ID, content: string) => void;
+  updateCellInput: (notebookId: ID, cellId: ID, input: string) => void;
   setCellEditing: (notebookId: ID, cellId: ID, isEditing: boolean) => void;
   setCellOutput: (notebookId: ID, cellId: ID, output: CellOutput) => void;
   clearCellOutput: (notebookId: ID, cellId: ID) => void;
@@ -111,6 +113,14 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         return { workspace: clone(state.workspace) };
       }),
 
+    setNotebookScope: (notebookId, enabled) =>
+      set((state) => {
+        const notebook = state.workspace.getNotebook(notebookId);
+        if (!notebook) return state;
+        state.workspace.updateNotebook(notebookId, notebook.setNotebookScope(enabled));
+        return { workspace: clone(state.workspace) };
+      }),
+
     selectCell: (notebookId, cellId) =>
       set((state) => {
         const prevCellId = state.selectedCellIds[notebookId];
@@ -168,6 +178,18 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         return { workspace: clone(state.workspace) };
       }),
 
+    updateCellInput: (notebookId, cellId, input) =>
+      set((state) => {
+        const notebook = state.workspace.getNotebook(notebookId);
+        if (!notebook) return state;
+        const cell = notebook.getCell(cellId);
+        if (!(cell instanceof CodeCell)) return state;
+        cell.updateInput(input);
+        notebook.updateCell(cellId, clone(cell));
+        state.workspace.updateNotebook(notebookId, clone(notebook));
+        return { workspace: clone(state.workspace) };
+      }),
+
     setCellEditing: (notebookId, cellId, isEditing) =>
       set((state) => {
         const notebook = state.workspace.getNotebook(notebookId);
@@ -187,7 +209,7 @@ export function createWorkspaceStore(initialWorkspace: Workspace, availableLangu
         const cell = notebook.getCell(cellId);
         if (!(cell instanceof CodeCell)) return state;
         const executionOrder = (state.executionCounters[notebookId] ?? 0) + 1;
-        cell.withOutput(output, executionOrder);
+        cell.withOutput(output, output.success ? executionOrder : undefined);
         notebook.updateCell(cellId, clone(cell));
         state.workspace.updateNotebook(notebookId, clone(notebook));
         return {

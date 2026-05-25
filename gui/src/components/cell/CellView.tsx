@@ -18,6 +18,7 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
     cell,
     isSelected,
     isRunning,
+    scopeMode,
     selectCell,
     setEditing,
     moveUp,
@@ -76,6 +77,7 @@ export function CellView({ notebookId, cellId }: CellViewProps) {
             isRunning={isRunning}
             runtimeReady={runtimeReady}
             isSelected={isSelected}
+            scopeMode={scopeMode}
             onChange={updateContent}
             onClearOutput={clearOutput}
             onRun={runCell}
