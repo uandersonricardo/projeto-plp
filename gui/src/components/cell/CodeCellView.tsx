@@ -11,9 +11,10 @@ interface CodeCellViewProps {
   disabled: boolean;
   isRunning: boolean;
   runtimeReady: boolean;
+  scopeMode: "notebook" | "cell";
   onChange: (value: string) => void;
   onClearOutput: () => void;
-  onRun: () => void;
+  onRun: (input: string) => void;
 }
 
 export function CodeCellView({
@@ -22,6 +23,7 @@ export function CodeCellView({
   disabled,
   isRunning,
   runtimeReady,
+  scopeMode,
   onChange,
   onClearOutput,
   onRun,
@@ -29,6 +31,7 @@ export function CodeCellView({
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [isOutputMenuOpen, setIsOutputMenuOpen] = useState(false);
+  const [cellInput, setCellInput] = useState(cell.input);
 
   const outputText = cell.output?.success
     ? String(cell.output.result ?? cell.output.stdout ?? "")
@@ -81,12 +84,22 @@ export function CodeCellView({
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
-      if (!disabled && !isRunning) onRun();
+      if (!disabled && !isRunning && !isEmpty) onRun(cell.input);
     }
   };
 
-  const runDisabled = disabled || isRunning || !runtimeReady;
-  const runTitle = disabled ? "Locked" : !runtimeReady ? "Runtime unavailable" : isRunning ? "Running..." : "Run";
+  const isEmpty = cell.content.trim() === "";
+  const hasReadCall = scopeMode === "notebook" && /\bread\s*\(/.test(cell.content);
+  const runDisabled = disabled || isRunning || !runtimeReady || isEmpty;
+  const runTitle = disabled
+    ? "Locked"
+    : !runtimeReady
+      ? "Runtime unavailable"
+      : isRunning
+        ? "Running..."
+        : isEmpty
+          ? "No code to run"
+          : "Run";
 
   return (
     <div className="grid gap-2 min-w-0 w-full">
@@ -100,7 +113,7 @@ export function CodeCellView({
             className="absolute top-2 left-1/2 -translate-x-1/2 border border-gray-200 bg-white text-gray-900 w-7 h-7 p-0 inline-flex items-center justify-center text-[0.95rem] leading-none rounded-md cursor-pointer hover:bg-[#f5f5f5] disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:w-[14px] [&_svg]:h-[14px] invisible group-hover:visible"
             onClick={(e) => {
               e.stopPropagation();
-              onRun();
+              onRun(cellInput);
             }}
             disabled={runDisabled}
             aria-label="Run cell"
@@ -120,15 +133,34 @@ export function CodeCellView({
 
           <textarea
             ref={editorRef}
-            className="w-full min-h-[calc(1.4em+20px)] rounded-[10px] p-[10px] leading-[1.4] font-mono text-[0.9rem] relative border-0 outline-none resize-none overflow-hidden bg-transparent text-transparent caret-gray-900 focus:outline-none focus:shadow-none disabled:cursor-not-allowed"
+            className="block w-full min-h-[calc(1.4em+20px)] rounded-[10px] p-[10px] leading-[1.4] font-mono text-[0.9rem] relative border-0 outline-none resize-none overflow-hidden bg-transparent text-transparent caret-gray-900 focus:outline-none focus:shadow-none disabled:cursor-not-allowed"
             value={cell.content}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
             onKeyDown={handleKeyDown}
+            placeholder="Write your code here..."
             spellCheck={false}
             disabled={disabled}
           />
         </div>
       </div>
+
+      {hasReadCall && (
+        <div className="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-[0.625rem] items-center">
+          <div />
+          <div className="flex items-center gap-2">
+            <label className="text-[0.8rem] text-gray-500 whitespace-nowrap select-none">Input:</label>
+            <input
+              type="text"
+              className="flex-1 border border-gray-200 rounded-md px-2 py-1 font-mono text-[0.85rem] text-gray-900 bg-transparent outline-none focus:border-cyan-600 disabled:opacity-55 disabled:cursor-not-allowed"
+              value={cellInput}
+              onChange={(e) => setCellInput(e.target.value)}
+              placeholder="space-separated values"
+              disabled={disabled}
+              spellCheck={false}
+            />
+          </div>
+        </div>
+      )}
 
       {cell.output ? (
         <>
@@ -168,7 +200,7 @@ export function CodeCellView({
             </div>
             <div className="w-full min-w-0">
               <pre
-                className={`m-0 p-2 rounded-md font-mono text-[0.85rem] whitespace-pre-wrap${cell.output.success ? " bg-[#effaf5] text-[#027a48]" : " bg-[#fff4f3] text-[#b42318]"}`}
+                className={`overflow-auto m-0 p-2 rounded-md font-mono text-[0.85rem] whitespace-pre-wrap${cell.output.success ? " bg-[#effaf5] text-[#027a48]" : " bg-[#fff4f3] text-[#b42318]"}`}
               >
                 {outputText}
               </pre>
