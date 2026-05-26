@@ -23,20 +23,26 @@ function defineLanguage(name: string, scopeMode: "notebook" | "cell", bnf: BNFLa
       const start = performance.now();
       try {
         const result = window.__runCode(name.toLowerCase() as LanguageCode, sourceCode, input);
+        const rawCompilationEnv = result.compilationEnv;
+        const parsedCompilationEnv = (() => {
+          try {
+            if (rawCompilationEnv == null) return undefined;
+            return typeof rawCompilationEnv === "string" ? JSON.parse(rawCompilationEnv) : rawCompilationEnv;
+          } catch {
+            return rawCompilationEnv;
+          }
+        })();
+
+        console.debug(`[${name}] compilationEnv`, {
+          raw: rawCompilationEnv,
+          parsed: parsedCompilationEnv,
+        });
+
         return {
           stdout: result.output ?? "",
           stderr: result.message ?? "",
           result: result.output,
-          compilationEnv: (() => {
-            try {
-              if (result.compilationEnv == null) return undefined;
-              return typeof result.compilationEnv === "string"
-                ? JSON.parse(result.compilationEnv)
-                : result.compilationEnv;
-            } catch (e) {
-              return result.compilationEnv;
-            }
-          })(),
+          compilationEnv: parsedCompilationEnv,
           executionTime: performance.now() - start,
           success: result.success,
         };

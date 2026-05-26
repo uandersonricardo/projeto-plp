@@ -1,9 +1,18 @@
 import { useDebugger } from "../../hooks/useDebugger";
-import type { ScopeSnapshot } from "../../models/types/execution";
+import { describeBindingSnapshot, type ScopeSnapshot } from "../../models/types/execution";
 
 export function RightPanel() {
-  const { debuggerCellCode, debuggerCellExecutionOrder, compilationEnv, activeSourceRange, isStale, selectScope } =
-    useDebugger();
+  const {
+    debuggerCellCode,
+    debuggerCellExecutionOrder,
+    debuggerLanguageName,
+    compilationEnv,
+    compilationEnvError,
+    hasCompilationEnv,
+    activeSourceRange,
+    isStale,
+    selectScope,
+  } = useDebugger();
 
   const renderCompilationEnv = (env: ScopeSnapshot[]) => {
     if (isStale) {
@@ -22,6 +31,13 @@ export function RightPanel() {
           const originalIndex = env.length - index - 1;
           const entries = Object.entries(frame.bindings);
           const range = frame.sourceRange;
+          const scopeLabel = frame.name
+            ? frame.scope
+              ? `${frame.name} · ${frame.scope}`
+              : frame.name
+            : frame.scope
+              ? `${frame.scope}`
+              : `Scope ${originalIndex + 1}`;
           return (
             <button
               key={`${originalIndex}-${range ? `${range.startLine}:${range.startColumn}` : "no-range"}`}
@@ -40,7 +56,7 @@ export function RightPanel() {
             >
               <div className="mb-2 flex items-center justify-between gap-3">
                 <div className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  Scope {originalIndex + 1}
+                  {scopeLabel}
                 </div>
                 {range && (
                   <div className="font-mono text-[0.72rem] text-slate-400">
@@ -50,15 +66,24 @@ export function RightPanel() {
               </div>
               {entries.length > 0 ? (
                 <div className="space-y-2">
-                  {entries.map(([name, value]) => (
-                    <div
-                      key={name}
-                      className="flex items-start justify-between gap-3 rounded-sm bg-white px-3 py-2 text-sm"
-                    >
-                      <span className="font-mono text-slate-700">{name}</span>
-                      <span className="font-mono text-slate-500">{value}</span>
-                    </div>
-                  ))}
+                  {entries.map(([name, value]) => {
+                    const binding = describeBindingSnapshot(value as never);
+                    return (
+                      <div
+                        key={name}
+                        className="flex items-start justify-between gap-3 rounded-sm bg-white px-3 py-2 text-sm"
+                      >
+                        <span className="font-mono text-slate-700">{name}</span>
+                        <div className="min-w-0 text-right font-mono text-xs text-slate-500">
+                          <div className="truncate text-slate-700">{binding.display ?? binding.value ?? binding.type ?? "?"}</div>
+                          <div className="truncate text-[0.68rem] uppercase tracking-[0.16em] text-slate-400">
+                            {binding.type ? `type: ${binding.type}` : "type: unknown"}
+                            {binding.value && binding.value !== binding.display ? ` · value: ${binding.value}` : ""}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="font-mono text-sm text-slate-400">{`{}`}</div>
@@ -96,9 +121,18 @@ export function RightPanel() {
 
         {compilationEnv ? (
           renderCompilationEnv(compilationEnv)
+        ) : debuggerCellCode ? (
+          <span className="block text-center text-sm text-gray-400 p-4">
+            {hasCompilationEnv
+              ? compilationEnvError === "Debugger compilation env frames were present but none matched the expected shape." &&
+                debuggerLanguageName === "Exp1"
+                ? "This language does not expose debugger scope frames."
+                : compilationEnvError ?? "The selected cell did not produce any debugger frames."
+              : "Run the selected code cell to view compilation env output."}
+          </span>
         ) : (
           <span className="block text-center text-sm text-gray-400 p-4">
-            Run a code cell to view compilation env output.
+            Select a code cell to inspect its source here.
           </span>
         )}
       </div>

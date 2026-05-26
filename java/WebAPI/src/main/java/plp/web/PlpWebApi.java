@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import le1.plp.expressions1.parser.Exp1Parser;
 import le1.plp.expressions1.parser.ParseException;
@@ -99,12 +100,19 @@ public final class PlpWebApi {
     }
   }
 
+  private String compilationEnvJson(String languageId, java.util.List<? extends java.util.Map<String, ?>> frames) {
+    return toJsonString(CompilationSnapshot.fromGenericSnapshot(languageId, frames));
+  }
+
   private void interpretarExp1(InputStream fis) throws ParseException {
     if (exp1Parser == null) exp1Parser = new Exp1Parser(fis);
     else Exp1Parser.ReInit(fis);
     le1.plp.expressions1.Programa prog = Exp1Parser.Input();
     message = "sintaxe verificada com sucesso!";
-    if (prog.checaTipo()) output = prog.executar().toString();
+    if (prog.checaTipo()) {
+      compilationEnv = compilationEnvJson("exp1", prog.getAmbCompSnapshot());
+      output = prog.executar().toString();
+    }
     else throw new RuntimeException("erro de tipos!");
   }
 
@@ -113,7 +121,10 @@ public final class PlpWebApi {
     else Exp2Parser.ReInit(fis);
     le2.plp.expressions2.Programa prog = Exp2Parser.Input();
     message = "sintaxe verificada com sucesso!";
-    if (prog.checaTipo()) output = prog.executar().toString();
+    if (prog.checaTipo()) {
+      compilationEnv = compilationEnvJson("exp2", prog.getAmbCompSnapshot());
+      output = prog.executar().toString();
+    }
     else throw new RuntimeException("erro de tipos!");
   }
 
@@ -122,7 +133,10 @@ public final class PlpWebApi {
     else Func1Parser.ReInit(fis);
     lf1.plp.functional1.Programa prog = Func1Parser.Input();
     message = "sintaxe verificada com sucesso!";
-    if (prog.checaTipo()) output = prog.executar().toString();
+    if (prog.checaTipo()) {
+      compilationEnv = compilationEnvJson("func1", prog.getAmbCompSnapshot());
+      output = prog.executar().toString();
+    }
     else throw new RuntimeException("erro de tipos!");
   }
 
@@ -131,7 +145,11 @@ public final class PlpWebApi {
     else Func2Parser.ReInit(fis);
     lf2.plp.functional2.Programa prog = Func2Parser.Input();
     message = "sintaxe verificada com sucesso!";
-    output = prog.executar().toString();
+    if (prog.checaTipo()) {
+      compilationEnv = compilationEnvJson("func2", prog.getAmbCompSnapshot());
+      output = prog.executar().toString();
+    }
+    else throw new RuntimeException("erro de tipos!");
   }
 
   private void interpretarFunc3(InputStream fis) throws Exception {
@@ -140,7 +158,10 @@ public final class PlpWebApi {
     lf3.plp.functional3.Programa prog = Func3Parser.Input();
     message = "sintaxe verificada com sucesso!";
     if (prog.checaTipo()) {
-      compilationEnv = toJsonString(prog.getAmbCompSnapshot());
+      // convert Func3's generic snapshot to a standardized CompilationSnapshot
+      java.util.List<java.util.Map<String,Object>> generic = prog.getAmbCompSnapshot();
+      CompilationSnapshot cs = CompilationSnapshot.fromGenericSnapshot("func3", generic);
+      compilationEnv = toJsonString(cs);
       output = prog.executar().toString();
     } else {
       throw new RuntimeException("erro de tipos!");
@@ -153,8 +174,10 @@ public final class PlpWebApi {
     li1.plp.imperative1.Programa prog = Imp1Parser.Input();
     message = "sintaxe verificada com sucesso!";
     li1.plp.imperative1.memory.ListaValor entrada = obterListaEntradaImp1(entradaStr);
-    if (prog.checaTipo(new ContextoCompilacaoImperativa(entrada)))
+    if (prog.checaTipo(new ContextoCompilacaoImperativa(entrada))) {
+      compilationEnv = compilationEnvJson("imp1", prog.getAmbCompSnapshot());
       output = prog.executar(new ContextoExecucaoImperativa(entrada)).toString();
+    }
     else throw new RuntimeException("erro de tipos!");
   }
 
@@ -164,8 +187,10 @@ public final class PlpWebApi {
     li2.plp.imperative2.Programa prog = Imp2Parser.Input();
     message = "sintaxe verificada com sucesso!";
     li2.plp.imperative1.memory.ListaValor entrada = obterListaEntradaImp2(entradaStr);
-    if (prog.checaTipo(new li2.plp.imperative1.memory.ContextoCompilacaoImperativa(entrada)))
+    if (prog.checaTipo(new li2.plp.imperative1.memory.ContextoCompilacaoImperativa(entrada))) {
+      compilationEnv = compilationEnvJson("imp2", prog.getAmbCompSnapshot());
       output = prog.executar(new ContextoExecucaoImperativa2(entrada)).toString();
+    }
     else throw new RuntimeException("erro de tipos!");
   }
 
@@ -175,8 +200,10 @@ public final class PlpWebApi {
     loo1.plp.orientadaObjetos1.Programa prog = oo1Parser.processaEntrada();
     message = "sintaxe verificada com sucesso!";
     loo1.plp.orientadaObjetos1.memoria.colecao.ListaValor entrada = obterListaEntradaOO1(entradaStr);
-    if (prog.checaTipo(new loo1.plp.orientadaObjetos1.memoria.ContextoCompilacaoOO1(entrada)))
+    if (prog.checaTipo(new loo1.plp.orientadaObjetos1.memoria.ContextoCompilacaoOO1(entrada))) {
+      compilationEnv = compilationEnvJson("oo1", prog.getAmbCompSnapshot());
       output = prog.executar(new loo1.plp.orientadaObjetos1.memoria.ContextoExecucaoOO1(entrada)).toString();
+    }
     else throw new RuntimeException("erro de tipos!");
   }
 
@@ -186,8 +213,10 @@ public final class PlpWebApi {
     loo2.plp.orientadaObjetos2.Programa prog = oo2Parser.processaEntrada();
     message = "sintaxe verificada com sucesso!";
     loo2.plp.orientadaObjetos1.memoria.colecao.ListaValor entrada = obterListaEntradaOO2(entradaStr);
-    if (prog.checaTipo(new loo2.plp.orientadaObjetos2.memoria.ContextoCompilacaoOO2(entrada)))
+    if (prog.checaTipo(new loo2.plp.orientadaObjetos2.memoria.ContextoCompilacaoOO2(entrada))) {
+      compilationEnv = compilationEnvJson("oo2", prog.getAmbCompSnapshot());
       output = prog.executar(new loo2.plp.orientadaObjetos2.memoria.ContextoExecucaoOO2(entrada)).toString();
+    }
     else throw new RuntimeException("erro de tipos!");
   }
 
@@ -283,6 +312,60 @@ public final class PlpWebApi {
       }
       return obj.toString();
     }
+    if (obj instanceof CompilationSnapshot) {
+      CompilationSnapshot snapshot = (CompilationSnapshot) obj;
+      StringBuilder sb = new StringBuilder();
+      sb.append("{");
+      boolean first = true;
+      if (snapshot.getLanguageId() != null) {
+        sb.append("\"languageId\":").append(toJsonString(snapshot.getLanguageId()));
+        first = false;
+      }
+      if (!first) sb.append(',');
+      sb.append("\"frames\":").append(toJsonString(snapshot.getFrames()));
+      sb.append("}");
+      return sb.toString();
+    }
+    if (obj instanceof Frame) {
+      Frame frame = (Frame) obj;
+      StringBuilder sb = new StringBuilder();
+      sb.append("{");
+      boolean first = true;
+      if (frame.getName() != null) {
+        sb.append("\"name\":").append(toJsonString(frame.getName()));
+        first = false;
+      }
+      if (frame.getScope() != null) {
+        if (!first) sb.append(',');
+        sb.append("\"scope\":").append(toJsonString(frame.getScope()));
+        first = false;
+      }
+      if (!first) sb.append(',');
+      sb.append("\"bindings\":").append(toJsonString(frame.getBindings()));
+      if (frame.getSourceRange() != null) {
+        sb.append(',');
+        sb.append("\"sourceRange\":").append(toJsonString(frame.getSourceRange()));
+      }
+      sb.append("}");
+      return sb.toString();
+    }
+    if (obj instanceof SourceRange) {
+      SourceRange range = (SourceRange) obj;
+      StringBuilder sb = new StringBuilder();
+      sb.append("{");
+      sb.append("\"startLine\":").append(range.getStartLine());
+      sb.append(',');
+      sb.append("\"startColumn\":").append(range.getStartColumn());
+      sb.append(',');
+      sb.append("\"endLine\":").append(range.getEndLine());
+      sb.append(',');
+      sb.append("\"endColumn\":").append(range.getEndColumn());
+      sb.append("}");
+      return sb.toString();
+    }
+    if (obj instanceof Enum<?>) {
+      return '"' + escapeJson(((Enum<?>) obj).name()) + '"';
+    }
     if (obj instanceof java.util.Map) {
       StringBuilder sb = new StringBuilder();
       sb.append("{");
@@ -321,10 +404,46 @@ public final class PlpWebApi {
       sb.append("]");
       return sb.toString();
     }
+
+    String jsonObject = toJsonObjectString(obj);
+    if (jsonObject != null) return jsonObject;
+
     // fallback to debugString representation
     String s = debugString(obj);
     if (s == null) return "null";
     return '"' + escapeJson(s) + '"';
+  }
+
+  private String toJsonObjectString(Object obj) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("{");
+    boolean first = true;
+    boolean hasField = false;
+
+    Class<?> current = obj.getClass();
+    while (current != null && current != Object.class) {
+      Field[] fields = current.getDeclaredFields();
+      for (Field field : fields) {
+        int modifiers = field.getModifiers();
+        if (Modifier.isStatic(modifiers) || Modifier.isTransient(modifiers)) continue;
+        hasField = true;
+        if (!first) sb.append(',');
+        first = false;
+        try {
+          field.setAccessible(true);
+          Object value = field.get(obj);
+          sb.append('"').append(escapeJson(field.getName())).append('"').append(':');
+          sb.append(toJsonString(value));
+        } catch (IllegalAccessException e) {
+          return null;
+        }
+      }
+      current = current.getSuperclass();
+    }
+
+    if (!hasField) return null;
+    sb.append("}");
+    return sb.toString();
   }
 
   private String escapeJson(String s) {

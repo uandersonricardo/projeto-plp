@@ -9,7 +9,7 @@ import loo2.plp.expressions1.util.Tipo;
 
 public interface AmbienteCompilacao extends Ambiente<Tipo> {
 
-	default List<Map<String,String>> getPilhaSnapshot() {
+	default List<Map<String,Object>> getPilhaSnapshot() {
 		return Collections.emptyList();
 	}
 

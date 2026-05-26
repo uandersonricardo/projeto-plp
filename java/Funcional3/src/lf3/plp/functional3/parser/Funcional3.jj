@@ -39,7 +39,8 @@ import lf3.plp.expressions2.expression.ExpAnd;
 import lf3.plp.expressions2.expression.ExpOr;
 import lf3.plp.expressions2.expression.ExpEquals;
 import lf3.plp.expressions2.expression.ExpConcat;
-import lf3.plp.expressions2.memory.SourceRange;
+import lf3.plp.expressions2.memory.InfoEscopo;
+import lf3.plp.expressions2.memory.TrechoCodigoFonte;
 
 public class Func3Parser
 {
@@ -601,7 +602,7 @@ Expressao PExpDeclaracao() :
     return new ExpDeclaracao(
       declaracoes,
       expressao,
-      new SourceRange(letToken.beginLine, letToken.beginColumn, inToken.endLine, inToken.endColumn)
+      new InfoEscopo(new TrechoCodigoFonte(letToken.beginLine, letToken.beginColumn, inToken.endLine, inToken.endColumn), "let-in")
     );
   }
 }
