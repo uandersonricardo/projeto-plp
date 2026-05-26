@@ -1186,7 +1186,7 @@ var __runCode;
         jl_Integer_$callClinit();
         if (!($radix >= 2 && $radix <= 36))
             $radix = 10;
-        return ((jl_AbstractStringBuilder__init_3(20)).$append2($i, $radix)).$toString();
+        return ((jl_AbstractStringBuilder__init_1(20)).$append2($i, $radix)).$toString();
     },
     jl_Integer_hashCode0 = $value => {
         jl_Integer_$callClinit();
@@ -1658,16 +1658,10 @@ var __runCode;
             try {
                 $result = null;
                 $auxStack = ju_Stack__init_();
-                b: {
-                    while (true) {
-                        if ($result !== null)
-                            break b;
-                        if ($this.$pilha4.$empty())
-                            break;
-                        $aux = $this.$pilha4.$pop();
-                        $auxStack.$push($aux);
-                        $result = $aux.$get($idArg);
-                    }
+                while ($result === null && !$this.$pilha4.$empty()) {
+                    $aux = $this.$pilha4.$pop();
+                    $auxStack.$push($aux);
+                    $result = $aux.$get($idArg);
                 }
                 while (!$auxStack.$empty()) {
                     $this.$pilha4.$push($auxStack.$pop());
@@ -1680,10 +1674,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            c: {
+            b: {
                 try {
                     if ($result === null)
-                        break c;
+                        break b;
                 } catch ($$e) {
                     $$je = $rt_wrapException($$e);
                     if ($$je instanceof lpem_IdentificadorNaoDeclaradoException) {
@@ -1929,7 +1923,7 @@ var __runCode;
         var$1.$push(jl_Boolean_FALSE);
     },
     lpem_PilhaSnapshot_registraEscopo2 = ($this, $info) => {
-        let $visivel, $quadro, var$4, var$5, $sourceRangeKey;
+        let $visivel, $quadro, var$4, $sourceRangeKey;
         if ($this.$marcadores0.$empty())
             return;
         $visivel = ($this.$marcadores0.$pop()).$booleanValue();
@@ -1939,8 +1933,7 @@ var __runCode;
             $this.$marcadores0.$push(jl_Boolean_TRUE);
             $quadro = new lpem_QuadroEscopo0;
             var$4 = $info === null ? null : $info.$getEscopo();
-            var$5 = $info === null ? null : $info.$getTrechoCodigoFonte();
-            lpem_QuadroEscopo__init_1($quadro, var$4, var$5);
+            lpem_QuadroEscopo__init_1($quadro, var$4, $info === null ? null : $info.$getTrechoCodigoFonte());
             $sourceRangeKey = lpem_PilhaSnapshot_sourceRangeKey1($this, $info === null ? null : $info.$getTrechoCodigoFonte());
             if (!($sourceRangeKey !== null && !$this.$sourceRangesPublicados5.$add($sourceRangeKey)))
                 $this.$quadros.$add($quadro);
@@ -1970,9 +1963,9 @@ var __runCode;
         let var$2;
         if ($trechoCodigoFonte === null)
             return null;
-        var$2 = (((jl_StringBuilder__init_0(jl_String_valueOf1($trechoCodigoFonte.$getLinhaInicio()))).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
-        var$2 = ((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim());
-        return var$2.$toString();
+        var$2 = ((((jl_StringBuilder__init_()).$append3($trechoCodigoFonte.$getLinhaInicio())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
+        var$2 = (((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim())).$toString();
+        return var$2;
     },
     jl_CharSequence = $rt_classWithoutFields(0);
     function lpem_TrechoCodigoFonte2() {
@@ -4246,7 +4239,7 @@ var __runCode;
     let jl_AbstractStringBuilder__init_0 = $this => {
         jl_AbstractStringBuilder__init_($this, 16);
     },
-    jl_AbstractStringBuilder__init_6 = () => {
+    jl_AbstractStringBuilder__init_2 = () => {
         let var_0 = new jl_AbstractStringBuilder();
         jl_AbstractStringBuilder__init_0(var_0);
         return var_0;
@@ -4255,33 +4248,9 @@ var __runCode;
         jl_Object__init_($this);
         $this.$buffer = $rt_createCharArray($capacity);
     },
-    jl_AbstractStringBuilder__init_3 = var_0 => {
+    jl_AbstractStringBuilder__init_1 = var_0 => {
         let var_1 = new jl_AbstractStringBuilder();
         jl_AbstractStringBuilder__init_(var_1, var_0);
-        return var_1;
-    },
-    jl_AbstractStringBuilder__init_1 = ($this, $value) => {
-        jl_AbstractStringBuilder__init_2($this, $value);
-    },
-    jl_AbstractStringBuilder__init_5 = var_0 => {
-        let var_1 = new jl_AbstractStringBuilder();
-        jl_AbstractStringBuilder__init_1(var_1, var_0);
-        return var_1;
-    },
-    jl_AbstractStringBuilder__init_2 = ($this, $value) => {
-        let $i;
-        jl_Object__init_($this);
-        $this.$buffer = $rt_createCharArray($value.$length());
-        $i = 0;
-        while ($i < $this.$buffer.data.length) {
-            $this.$buffer.data[$i] = $value.$charAt($i);
-            $i = $i + 1 | 0;
-        }
-        $this.$length0 = $value.$length();
-    },
-    jl_AbstractStringBuilder__init_4 = var_0 => {
-        let var_1 = new jl_AbstractStringBuilder();
-        jl_AbstractStringBuilder__init_2(var_1, var_0);
         return var_1;
     },
     jl_AbstractStringBuilder_append4 = ($this, $obj) => {
@@ -9818,16 +9787,10 @@ var __runCode;
         let $result, $auxStack, $aux;
         $result = null;
         $auxStack = ju_Stack__init_();
-        a: {
-            while (true) {
-                if ($result !== null)
-                    break a;
-                if ($this.$pilha8.$empty())
-                    break;
-                $aux = $this.$pilha8.$pop();
-                $auxStack.$push($aux);
-                $result = $aux.$get($idArg);
-            }
+        while ($result === null && !$this.$pilha8.$empty()) {
+            $aux = $this.$pilha8.$pop();
+            $auxStack.$push($aux);
+            $result = $aux.$get($idArg);
         }
         while (!$auxStack.$empty()) {
             $this.$pilha8.$push($auxStack.$pop());
@@ -9846,11 +9809,11 @@ var __runCode;
     lpom_ContextoCompilacaoOO1_getPilhaSnapshot0 = $this => {
         return $this.$metadadosDepuracao0.$toSnapshot();
     },
-    lpom_ContextoCompilacaoOO1_map1 = (var$0, var$1, var$2) => {
-        var$0.$map2(var$1, var$2);
+    lpom_ContextoCompilacaoOO1_get = ($this, var$1) => {
+        return $this.$get4(var$1);
     },
-    lpom_ContextoCompilacaoOO1_get = (var$0, var$1) => {
-        return var$0.$get4(var$1);
+    lpom_ContextoCompilacaoOO1_map1 = ($this, var$1, var$2) => {
+        $this.$map2(var$1, var$2);
     },
     lpee_Expressao = $rt_classWithoutFields(0);
     function lpee_ExpBinaria() {
@@ -10098,16 +10061,10 @@ var __runCode;
             try {
                 $result = null;
                 $auxStack = ju_Stack__init_();
-                b: {
-                    while (true) {
-                        if ($result !== null)
-                            break b;
-                        if ($this.$pilha5.$empty())
-                            break;
-                        $aux = $this.$pilha5.$pop();
-                        $auxStack.$push($aux);
-                        $result = $aux.$get($idArg);
-                    }
+                while ($result === null && !$this.$pilha5.$empty()) {
+                    $aux = $this.$pilha5.$pop();
+                    $auxStack.$push($aux);
+                    $result = $aux.$get($idArg);
                 }
                 while (!$auxStack.$empty()) {
                     $this.$pilha5.$push($auxStack.$pop());
@@ -10120,10 +10077,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            c: {
+            b: {
                 try {
                     if ($result === null)
-                        break c;
+                        break b;
                 } catch ($$e) {
                     $$je = $rt_wrapException($$e);
                     if ($$je instanceof lpem_IdentificadorNaoDeclaradoException0) {
@@ -13448,7 +13405,7 @@ var __runCode;
         return $this.$valor11 != $obj.$valor0() ? 0 : 1;
     },
     lpoev_ValorBooleano_toString = $this => {
-        return jl_String_valueOf2($this.$valor11);
+        return jl_String_valueOf1($this.$valor11);
     },
     lpoev_ValorBooleano_checaTipo0 = ($this, $amb) => {
         return 1;
@@ -13502,7 +13459,7 @@ var __runCode;
         var$1.$push(jl_Boolean_FALSE);
     },
     lpem_PilhaSnapshot_registraEscopo1 = ($this, $info) => {
-        let $visivel, $quadro, var$4, var$5, $sourceRangeKey;
+        let $visivel, $quadro, var$4, $sourceRangeKey;
         if ($this.$marcadores1.$empty())
             return;
         $visivel = ($this.$marcadores1.$pop()).$booleanValue();
@@ -13512,8 +13469,7 @@ var __runCode;
             $this.$marcadores1.$push(jl_Boolean_TRUE);
             $quadro = new lpem_QuadroEscopo1;
             var$4 = $info === null ? null : $info.$getEscopo();
-            var$5 = $info === null ? null : $info.$getTrechoCodigoFonte1();
-            lpem_QuadroEscopo__init_0($quadro, var$4, var$5);
+            lpem_QuadroEscopo__init_0($quadro, var$4, $info === null ? null : $info.$getTrechoCodigoFonte1());
             $sourceRangeKey = lpem_PilhaSnapshot_sourceRangeKey3($this, $info === null ? null : $info.$getTrechoCodigoFonte1());
             if (!($sourceRangeKey !== null && !$this.$sourceRangesPublicados4.$add($sourceRangeKey)))
                 $this.$quadros3.$add($quadro);
@@ -13543,9 +13499,9 @@ var __runCode;
         let var$2;
         if ($trechoCodigoFonte === null)
             return null;
-        var$2 = (((jl_StringBuilder__init_0(jl_String_valueOf1($trechoCodigoFonte.$getLinhaInicio()))).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
-        var$2 = ((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim());
-        return var$2.$toString();
+        var$2 = ((((jl_StringBuilder__init_()).$append3($trechoCodigoFonte.$getLinhaInicio())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
+        var$2 = (((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim())).$toString();
+        return var$2;
     };
     function lpem_Contexto3() {
         let a = this; jl_Object.call(a);
@@ -13599,16 +13555,10 @@ var __runCode;
             try {
                 $result = null;
                 $auxStack = ju_Stack__init_();
-                b: {
-                    while (true) {
-                        if ($result !== null)
-                            break b;
-                        if ($this.$pilha2.$empty())
-                            break;
-                        $aux = $this.$pilha2.$pop();
-                        $auxStack.$push($aux);
-                        $result = $aux.$get($idArg);
-                    }
+                while ($result === null && !$this.$pilha2.$empty()) {
+                    $aux = $this.$pilha2.$pop();
+                    $auxStack.$push($aux);
+                    $result = $aux.$get($idArg);
                 }
                 while (!$auxStack.$empty()) {
                     $this.$pilha2.$push($auxStack.$pop());
@@ -13621,10 +13571,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            c: {
+            b: {
                 try {
                     if ($result === null)
-                        break c;
+                        break b;
                 } catch ($$e) {
                     $$je = $rt_wrapException($$e);
                     if ($$je instanceof lpem_IdentificadorNaoDeclaradoException2) {
@@ -14468,7 +14418,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        jlr_AccessibleObject.$meta.fields = [];
         jlr_Field.$meta.fields = [
             {
                 name : "declaringClass",
@@ -14520,6 +14469,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        jlr_AccessibleObject.$meta.fields = [];
         jl_String.$meta.fields = [
             {
                 name : "EMPTY_CHARS",
@@ -14550,16 +14500,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        ju_AbstractCollection.$meta.fields = [];
-        ju_AbstractList.$meta.fields = [
-            {
-                name : "modCount",
-                modifiers : 4096,
-                accessLevel : 2,
-                type : $rt_intcls,
-                getter : null,
-                setter : null
-            }];
         ju_ArrayList.$meta.fields = [
             {
                 name : "array",
@@ -14576,22 +14516,16 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        jl_Enum.$meta.fields = [
+        ju_AbstractList.$meta.fields = [
             {
-                name : "name",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "ordinal",
-                modifiers : 0,
-                accessLevel : 1,
+                name : "modCount",
+                modifiers : 4096,
+                accessLevel : 2,
                 type : $rt_intcls,
                 getter : null,
                 setter : null
             }];
+        ju_AbstractCollection.$meta.fields = [];
         jm_RoundingMode.$meta.fields = [
             {
                 name : "UP",
@@ -14664,6 +14598,22 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        jl_Enum.$meta.fields = [
+            {
+                name : "name",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "ordinal",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_intcls,
+                getter : null,
+                setter : null
+            }];
         pw_Frame.$meta.fields = [
             {
                 name : "name",
@@ -14694,6 +14644,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpee_ExpEquals0.$meta.fields = [];
         lpee_ExpBinaria0.$meta.fields = [
             {
                 name : "esq",
@@ -14717,7 +14668,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ExpEquals0.$meta.fields = [];
+        lpee_ExpEquals1.$meta.fields = [];
         lpee_ExpBinaria1.$meta.fields = [
             {
                 name : "esq",
@@ -14741,7 +14692,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ExpEquals1.$meta.fields = [];
         lpfe_Aplicacao.$meta.fields = [
             {
                 name : "func",
@@ -14758,6 +14708,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpee_ExpAnd.$meta.fields = [];
         lpee_ExpBinaria.$meta.fields = [
             {
                 name : "esq",
@@ -14781,168 +14732,21 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ExpAnd.$meta.fields = [];
         lpee_ExpOr0.$meta.fields = [];
         lpfe_ExpMaiorQue.$meta.fields = [];
-        lpee_ExpAnd0.$meta.fields = [];
-        lpee_ExpMenos.$meta.fields = [];
-        lpee_Id2.$meta.fields = [
+        lpfe_Aplicacao0.$meta.fields = [
             {
-                name : "idName",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        lpfe_ExpDeclaracao.$meta.fields = [
-            {
-                name : "declaracao",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpfd_DeclaracaoFuncional1,
-                getter : null,
-                setter : null
-            }, {
-                name : "expressao",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpee_Expressao0,
-                getter : null,
-                setter : null
-            }, {
-                name : "infoEscopo",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpem_InfoEscopo2,
-                getter : null,
-                setter : null
-            }];
-        lpfe_ExpDeclaracao0.$meta.fields = [
-            {
-                name : "declaracao",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpfd_DeclaracaoFuncional,
-                getter : null,
-                setter : null
-            }, {
-                name : "expressao",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpee_Expressao,
-                getter : null,
-                setter : null
-            }, {
-                name : "infoEscopo",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpem_InfoEscopo1,
-                getter : null,
-                setter : null
-            }];
-        lpfe_ValorLista.$meta.fields = [
-            {
-                name : "head",
+                name : "func",
                 modifiers : 0,
                 accessLevel : 1,
                 type : lpee_Expressao,
                 getter : null,
                 setter : null
             }, {
-                name : "tail",
+                name : "argsExpressao",
                 modifiers : 0,
                 accessLevel : 1,
-                type : lpfe_ValorLista,
-                getter : null,
-                setter : null
-            }];
-        lpfe_ExpCompreensaoLista.$meta.fields = [
-            {
-                name : "expressao",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpee_Expressao,
-                getter : null,
-                setter : null
-            }, {
-                name : "filtro",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpee_Expressao,
-                getter : null,
-                setter : null
-            }, {
-                name : "gerador",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpfe_Gerador,
-                getter : null,
-                setter : null
-            }];
-        lpee_ExpOr.$meta.fields = [];
-        lpee_ExpSoma0.$meta.fields = [];
-        lpee_ExpMenos0.$meta.fields = [];
-        lpee_ExpConcat1.$meta.fields = [];
-        lpee_ExpEquals.$meta.fields = [];
-        lpfe_ExpConcatLista.$meta.fields = [];
-        lpee_ValorInteiro2.$meta.fields = [];
-        lpee_ExpSub0.$meta.fields = [];
-        lpee_ValorBooleano3.$meta.fields = [];
-        lpee_ValorString4.$meta.fields = [];
-        lpee_ExpConcat0.$meta.fields = [];
-        lpee_Id3.$meta.fields = [
-            {
-                name : "idName",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        lpfe_IfThenElse0.$meta.fields = [
-            {
-                name : "condicao",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpee_Expressao0,
-                getter : null,
-                setter : null
-            }, {
-                name : "then",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpee_Expressao0,
-                getter : null,
-                setter : null
-            }, {
-                name : "elseExpressao",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpee_Expressao0,
-                getter : null,
-                setter : null
-            }];
-        lpfe_Gerador.$meta.fields = [
-            {
-                name : "id",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpee_Id0,
-                getter : null,
-                setter : null
-            }, {
-                name : "expressao",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpee_Expressao,
-                getter : null,
-                setter : null
-            }, {
-                name : "proximo",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpfe_Gerador,
+                type : ju_List,
                 getter : null,
                 setter : null
             }];
@@ -14969,13 +14773,22 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ValorInteiro1.$meta.fields = [];
-        lpee_ExpNot.$meta.fields = [];
+        lpee_ExpSub1.$meta.fields = [];
+        lpee_ExpSoma0.$meta.fields = [];
+        lpee_ExpMenos1.$meta.fields = [];
+        lpee_ValorBooleano5.$meta.fields = [];
         lpee_ValorInteiro.$meta.fields = [];
-        lpee_ExpLength.$meta.fields = [];
-        lpee_ValorString1.$meta.fields = [];
-        lpfe_ExpCons.$meta.fields = [];
-        lpfe_ValorFuncao0.$meta.fields = [
+        lpee_ExpSub0.$meta.fields = [];
+        lpee_Id2.$meta.fields = [
+            {
+                name : "idName",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpfe_Gerador.$meta.fields = [
             {
                 name : "id",
                 modifiers : 0,
@@ -14983,15 +14796,59 @@ var __runCode;
                 type : lpee_Id0,
                 getter : null,
                 setter : null
+            }, {
+                name : "expressao",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Expressao,
+                getter : null,
+                setter : null
+            }, {
+                name : "proximo",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpfe_Gerador,
+                getter : null,
+                setter : null
+            }];
+        lpfe_ExpMenorQue.$meta.fields = [];
+        lpee_ExpConcat0.$meta.fields = [];
+        lpfe_ExpDeclaracao.$meta.fields = [
+            {
+                name : "declaracao",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpfd_DeclaracaoFuncional1,
+                getter : null,
+                setter : null
+            }, {
+                name : "expressao",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpee_Expressao0,
+                getter : null,
+                setter : null
+            }, {
+                name : "infoEscopo",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpem_InfoEscopo2,
+                getter : null,
+                setter : null
             }];
         lpee_ExpSub.$meta.fields = [];
-        lpee_ExpNot1.$meta.fields = [];
-        lpee_ExpSoma1.$meta.fields = [];
-        lpfe_ExpMenorQue.$meta.fields = [];
-        lpee_ExpConcat.$meta.fields = [];
-        lpfe_ExpHead.$meta.fields = [];
-        lpfe_ExpMult.$meta.fields = [];
-        lpee_ExpMenos1.$meta.fields = [];
+        lpee_Id0.$meta.fields = [
+            {
+                name : "idName",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpee_ValorInteiro1.$meta.fields = [];
+        lpee_ExpSoma.$meta.fields = [];
+        lpee_ExpMenos0.$meta.fields = [];
         lpfe_Aplicacao1.$meta.fields = [
             {
                 name : "func",
@@ -15008,16 +14865,20 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpfe_ValorFuncao.$meta.fields = [
+        lpee_ExpLength.$meta.fields = [];
+        lpee_ExpLength0.$meta.fields = [];
+        lpee_ExpConcat.$meta.fields = [];
+        lpee_ExpMenos.$meta.fields = [];
+        lpfe_ExpSequencia.$meta.fields = [];
+        lpee_Id3.$meta.fields = [
             {
-                name : "id",
+                name : "idName",
                 modifiers : 0,
                 accessLevel : 1,
-                type : lpee_Id2,
+                type : jl_String,
                 getter : null,
                 setter : null
             }];
-        lpee_ValorBooleano.$meta.fields = [];
         lpfe_ExpDeclaracao1.$meta.fields = [
             {
                 name : "declaracao",
@@ -15041,40 +14902,30 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ExpSub1.$meta.fields = [];
-        lpee_ExpSoma.$meta.fields = [];
-        lpee_ExpLength0.$meta.fields = [];
-        lpee_ValorString.$meta.fields = [];
-        lpfe_ExpSequencia.$meta.fields = [];
-        lpee_ExpLength1.$meta.fields = [];
-        lpee_ExpOr1.$meta.fields = [];
-        lpee_ExpNot0.$meta.fields = [];
-        lpfe_ExpTail.$meta.fields = [];
-        lpfe_Aplicacao0.$meta.fields = [
+        lpfe_ExpDeclaracao0.$meta.fields = [
             {
-                name : "func",
+                name : "declaracao",
                 modifiers : 0,
-                accessLevel : 1,
+                accessLevel : 2,
+                type : lpfd_DeclaracaoFuncional,
+                getter : null,
+                setter : null
+            }, {
+                name : "expressao",
+                modifiers : 0,
+                accessLevel : 2,
                 type : lpee_Expressao,
                 getter : null,
                 setter : null
             }, {
-                name : "argsExpressao",
+                name : "infoEscopo",
                 modifiers : 0,
-                accessLevel : 1,
-                type : ju_List,
+                accessLevel : 2,
+                type : lpem_InfoEscopo1,
                 getter : null,
                 setter : null
             }];
-        lpee_Id0.$meta.fields = [
-            {
-                name : "idName",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
+        lpee_ExpNot1.$meta.fields = [];
         lpfe_IfThenElse1.$meta.fields = [
             {
                 name : "condicao",
@@ -15098,7 +14949,75 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ExpAnd1.$meta.fields = [];
+        lpee_ExpConcat1.$meta.fields = [];
+        lpee_ExpNot0.$meta.fields = [];
+        lpfe_ExpCompreensaoLista.$meta.fields = [
+            {
+                name : "expressao",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Expressao,
+                getter : null,
+                setter : null
+            }, {
+                name : "filtro",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Expressao,
+                getter : null,
+                setter : null
+            }, {
+                name : "gerador",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpfe_Gerador,
+                getter : null,
+                setter : null
+            }];
+        lpfe_ExpHead.$meta.fields = [];
+        lpee_ExpNot.$meta.fields = [];
+        lpfe_ExpConcatLista.$meta.fields = [];
+        lpfe_ValorFuncao.$meta.fields = [
+            {
+                name : "id",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Id2,
+                getter : null,
+                setter : null
+            }];
+        lpee_ExpLength1.$meta.fields = [];
+        lpfe_IfThenElse0.$meta.fields = [
+            {
+                name : "condicao",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Expressao0,
+                getter : null,
+                setter : null
+            }, {
+                name : "then",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Expressao0,
+                getter : null,
+                setter : null
+            }, {
+                name : "elseExpressao",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Expressao0,
+                getter : null,
+                setter : null
+            }];
+        lpee_ExpSoma1.$meta.fields = [];
+        lpee_ValorString1.$meta.fields = [];
+        lpee_ValorString.$meta.fields = [];
+        lpee_ValorBooleano3.$meta.fields = [];
+        lpfe_ExpCons.$meta.fields = [];
+        lpfe_ExpTail.$meta.fields = [];
+        lpee_ExpOr.$meta.fields = [];
+        lpfe_ExpMult.$meta.fields = [];
         lpfe_IfThenElse.$meta.fields = [
             {
                 name : "condicao",
@@ -15122,8 +15041,49 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ValorBooleano5.$meta.fields = [];
-        lpfu_DefFuncao0.$meta.fields = [
+        lpee_ValorInteiro2.$meta.fields = [];
+        lpee_ValorBooleano.$meta.fields = [];
+        lpee_ExpOr1.$meta.fields = [];
+        lpfe_ValorLista.$meta.fields = [
+            {
+                name : "head",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Expressao,
+                getter : null,
+                setter : null
+            }, {
+                name : "tail",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpfe_ValorLista,
+                getter : null,
+                setter : null
+            }];
+        lpee_ExpAnd1.$meta.fields = [];
+        lpee_ExpEquals.$meta.fields = [];
+        lpee_ExpAnd0.$meta.fields = [];
+        lpee_ValorString4.$meta.fields = [];
+        lpfe_ValorFuncao0.$meta.fields = [
+            {
+                name : "id",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpee_Id0,
+                getter : null,
+                setter : null
+            }];
+        jl_Number.$meta.fields = [];
+        lpee_ValorConcreto1.$meta.fields = [
+            {
+                name : "valor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_Object,
+                getter : null,
+                setter : null
+            }];
+        lpfu_DefFuncao.$meta.fields = [
             {
                 name : "argsId",
                 modifiers : 0,
@@ -15135,32 +15095,7 @@ var __runCode;
                 name : "exp",
                 modifiers : 0,
                 accessLevel : 2,
-                type : lpee_Expressao0,
-                getter : null,
-                setter : null
-            }];
-        lpee_ExpUnaria0.$meta.fields = [
-            {
-                name : "exp",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpee_Expressao1,
-                getter : null,
-                setter : null
-            }, {
-                name : "operador",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        lpee_ValorConcreto0.$meta.fields = [
-            {
-                name : "valor",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_Object,
+                type : lpee_Expressao,
                 getter : null,
                 setter : null
             }];
@@ -15189,6 +15124,47 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpee_ValorConcreto0.$meta.fields = [
+            {
+                name : "valor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_Object,
+                getter : null,
+                setter : null
+            }];
+        lpee_ExpUnaria0.$meta.fields = [
+            {
+                name : "exp",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpee_Expressao1,
+                getter : null,
+                setter : null
+            }, {
+                name : "operador",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpfu_DefFuncao0.$meta.fields = [
+            {
+                name : "argsId",
+                modifiers : 0,
+                accessLevel : 2,
+                type : ju_List,
+                getter : null,
+                setter : null
+            }, {
+                name : "exp",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpee_Expressao0,
+                getter : null,
+                setter : null
+            }];
         lpee_ExpUnaria1.$meta.fields = [
             {
                 name : "exp",
@@ -15205,32 +15181,45 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpfu_DefFuncao.$meta.fields = [
+        ju_LinkedHashMap.$meta.fields = [
             {
-                name : "argsId",
+                name : "accessOrder",
                 modifiers : 0,
-                accessLevel : 2,
+                accessLevel : 1,
+                type : $rt_booleancls,
+                getter : null,
+                setter : null
+            }, {
+                name : "head",
+                modifiers : 4096,
+                accessLevel : 0,
+                type : ju_LinkedHashMap$LinkedHashMapEntry,
+                getter : null,
+                setter : null
+            }, {
+                name : "tail",
+                modifiers : 4096,
+                accessLevel : 0,
+                type : ju_LinkedHashMap$LinkedHashMapEntry,
+                getter : null,
+                setter : null
+            }];
+        lpfu_TipoFuncao1.$meta.fields = [
+            {
+                name : "dominio",
+                modifiers : 0,
+                accessLevel : 1,
                 type : ju_List,
                 getter : null,
                 setter : null
             }, {
-                name : "exp",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpee_Expressao,
-                getter : null,
-                setter : null
-            }];
-        lpee_ValorConcreto1.$meta.fields = [
-            {
-                name : "valor",
+                name : "imagem",
                 modifiers : 0,
                 accessLevel : 1,
-                type : jl_Object,
+                type : lpeu_Tipo1,
                 getter : null,
                 setter : null
             }];
-        jl_Number.$meta.fields = [];
         ju_HashMap.$meta.fields = [
             {
                 name : "elementCount",
@@ -15268,12 +15257,19 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        jt_DecimalFormat$TextField.$meta.fields = [
+        lpfu_TipoFuncao0.$meta.fields = [
             {
-                name : "text",
+                name : "dominio",
                 modifiers : 0,
                 accessLevel : 1,
-                type : jl_String,
+                type : ju_List,
+                getter : null,
+                setter : null
+            }, {
+                name : "imagem",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpeu_Tipo,
                 getter : null,
                 setter : null
             }];
@@ -15283,6 +15279,45 @@ var __runCode;
                 modifiers : 0,
                 accessLevel : 1,
                 type : lpeu_Tipo,
+                getter : null,
+                setter : null
+            }];
+        pw_SourceRange.$meta.fields = [
+            {
+                name : "startLine",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_intcls,
+                getter : null,
+                setter : null
+            }, {
+                name : "startColumn",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_intcls,
+                getter : null,
+                setter : null
+            }, {
+                name : "endLine",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_intcls,
+                getter : null,
+                setter : null
+            }, {
+                name : "endColumn",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_intcls,
+                getter : null,
+                setter : null
+            }];
+        jt_DecimalFormat$TextField.$meta.fields = [
+            {
+                name : "text",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_String,
                 getter : null,
                 setter : null
             }];
@@ -15323,38 +15358,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpfu_TipoFuncao1.$meta.fields = [
-            {
-                name : "dominio",
-                modifiers : 0,
-                accessLevel : 1,
-                type : ju_List,
-                getter : null,
-                setter : null
-            }, {
-                name : "imagem",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpeu_Tipo1,
-                getter : null,
-                setter : null
-            }];
-        lpfu_TipoFuncao0.$meta.fields = [
-            {
-                name : "dominio",
-                modifiers : 0,
-                accessLevel : 1,
-                type : ju_List,
-                getter : null,
-                setter : null
-            }, {
-                name : "imagem",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpeu_Tipo,
-                getter : null,
-                setter : null
-            }];
         lpeu_TipoPrimitivo4.$meta.fields = [
             {
                 name : "INTEIRO",
@@ -15389,59 +15392,6 @@ var __runCode;
                 modifiers : 548,
                 accessLevel : 1,
                 type : $rt_arraycls(lpeu_TipoPrimitivo4),
-                getter : null,
-                setter : null
-            }];
-        ju_LinkedHashMap.$meta.fields = [
-            {
-                name : "accessOrder",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_booleancls,
-                getter : null,
-                setter : null
-            }, {
-                name : "head",
-                modifiers : 4096,
-                accessLevel : 0,
-                type : ju_LinkedHashMap$LinkedHashMapEntry,
-                getter : null,
-                setter : null
-            }, {
-                name : "tail",
-                modifiers : 4096,
-                accessLevel : 0,
-                type : ju_LinkedHashMap$LinkedHashMapEntry,
-                getter : null,
-                setter : null
-            }];
-        pw_SourceRange.$meta.fields = [
-            {
-                name : "startLine",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_intcls,
-                getter : null,
-                setter : null
-            }, {
-                name : "startColumn",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_intcls,
-                getter : null,
-                setter : null
-            }, {
-                name : "endLine",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_intcls,
-                getter : null,
-                setter : null
-            }, {
-                name : "endColumn",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_intcls,
                 getter : null,
                 setter : null
             }];
@@ -15485,29 +15435,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpfu_TipoPolimorfico1.$meta.fields = [
-            {
-                name : "CURINGA",
-                modifiers : 516,
-                accessLevel : 3,
-                type : lpeu_Tipo0,
-                getter : null,
-                setter : null
-            }, {
-                name : "tipoInferido",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpeu_Tipo0,
-                getter : null,
-                setter : null
-            }, {
-                name : "tipoInstanciado",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpeu_Tipo0,
-                getter : null,
-                setter : null
-            }];
         lpfu_TipoPolimorfico.$meta.fields = [
             {
                 name : "CURINGA",
@@ -15531,32 +15458,26 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpoev_ValorString0.$meta.fields = [
+        lpfu_TipoPolimorfico1.$meta.fields = [
             {
-                name : "valor",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_String,
+                name : "CURINGA",
+                modifiers : 516,
+                accessLevel : 3,
+                type : lpeu_Tipo0,
                 getter : null,
                 setter : null
-            }];
-        lpee_ValorString3.$meta.fields = [];
-        lpee_ValorInteiro4.$meta.fields = [];
-        lpoev_ValorInteiro.$meta.fields = [
-            {
-                name : "valor",
+            }, {
+                name : "tipoInferido",
                 modifiers : 0,
                 accessLevel : 1,
-                type : $rt_intcls,
+                type : lpeu_Tipo0,
                 getter : null,
                 setter : null
-            }];
-        lpoev_ValorBooleano0.$meta.fields = [
-            {
-                name : "valor",
+            }, {
+                name : "tipoInstanciado",
                 modifiers : 0,
                 accessLevel : 1,
-                type : $rt_booleancls,
+                type : lpeu_Tipo0,
                 getter : null,
                 setter : null
             }];
@@ -15569,6 +15490,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpee_ValorBooleano4.$meta.fields = [];
         lpoev_ValorInteiro0.$meta.fields = [
             {
                 name : "valor",
@@ -15578,6 +15500,9 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpee_ValorString3.$meta.fields = [];
+        lpee_ValorBooleano1.$meta.fields = [];
+        lpee_ValorInteiro4.$meta.fields = [];
         lpoev_ValorBooleano.$meta.fields = [
             {
                 name : "valor",
@@ -15587,9 +15512,34 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpoev_ValorString0.$meta.fields = [
+            {
+                name : "valor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpoev_ValorInteiro.$meta.fields = [
+            {
+                name : "valor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_intcls,
+                getter : null,
+                setter : null
+            }];
         lpee_ValorInteiro3.$meta.fields = [];
-        lpee_ValorBooleano4.$meta.fields = [];
-        lpee_ValorBooleano1.$meta.fields = [];
+        lpoev_ValorBooleano0.$meta.fields = [
+            {
+                name : "valor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_booleancls,
+                getter : null,
+                setter : null
+            }];
         lpee_ValorString2.$meta.fields = [];
         lpee_ValorConcreto4.$meta.fields = [
             {
@@ -15656,7 +15606,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        jt_DecimalFormat$CurrencyField.$meta.fields = [];
         lpom_QuadroEscopo0.$meta.fields = [
             {
                 name : "nome",
@@ -15687,6 +15636,8 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        jt_DecimalFormat$CurrencyField.$meta.fields = [];
+        jt_DecimalFormat$PerMillField.$meta.fields = [];
         jl_Boolean.$meta.fields = [
             {
                 name : "TRUE",
@@ -15717,31 +15668,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        jt_DecimalFormat$PerMillField.$meta.fields = [];
         jt_DecimalFormat$PercentField.$meta.fields = [];
-        lpem_QuadroEscopo.$meta.fields = [
-            {
-                name : "escopo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "trechoCodigoFonte",
-                modifiers : 4,
-                accessLevel : 1,
-                type : lpem_TrechoCodigoFonte1,
-                getter : null,
-                setter : null
-            }, {
-                name : "bindings",
-                modifiers : 4,
-                accessLevel : 1,
-                type : ju_Map,
-                getter : null,
-                setter : null
-            }];
         lpem_QuadroEscopo4.$meta.fields = [
             {
                 name : "escopo",
@@ -15755,6 +15682,52 @@ var __runCode;
                 modifiers : 4,
                 accessLevel : 1,
                 type : lpem_TrechoCodigoFonte4,
+                getter : null,
+                setter : null
+            }, {
+                name : "bindings",
+                modifiers : 4,
+                accessLevel : 1,
+                type : ju_Map,
+                getter : null,
+                setter : null
+            }];
+        lpou_SuperClasseMap.$meta.fields = [
+            {
+                name : "classe",
+                modifiers : 0,
+                accessLevel : 0,
+                type : lpee_Id,
+                getter : null,
+                setter : null
+            }, {
+                name : "superClasse",
+                modifiers : 0,
+                accessLevel : 0,
+                type : lpee_Id,
+                getter : null,
+                setter : null
+            }];
+        lpom_QuadroEscopo.$meta.fields = [
+            {
+                name : "nome",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "escopo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "trechoCodigoFonte",
+                modifiers : 4,
+                accessLevel : 1,
+                type : lpom_TrechoCodigoFonte,
                 getter : null,
                 setter : null
             }, {
@@ -15795,45 +15768,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpem_QuadroEscopo1.$meta.fields = [
-            {
-                name : "escopo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "trechoCodigoFonte",
-                modifiers : 4,
-                accessLevel : 1,
-                type : lpem_TrechoCodigoFonte2,
-                getter : null,
-                setter : null
-            }, {
-                name : "bindings",
-                modifiers : 4,
-                accessLevel : 1,
-                type : ju_Map,
-                getter : null,
-                setter : null
-            }];
-        lpou_SuperClasseMap.$meta.fields = [
-            {
-                name : "classe",
-                modifiers : 0,
-                accessLevel : 0,
-                type : lpee_Id,
-                getter : null,
-                setter : null
-            }, {
-                name : "superClasse",
-                modifiers : 0,
-                accessLevel : 0,
-                type : lpee_Id,
-                getter : null,
-                setter : null
-            }];
         lpem_QuadroEscopo3.$meta.fields = [
             {
                 name : "escopo",
@@ -15847,36 +15781,6 @@ var __runCode;
                 modifiers : 4,
                 accessLevel : 1,
                 type : lpem_TrechoCodigoFonte0,
-                getter : null,
-                setter : null
-            }, {
-                name : "bindings",
-                modifiers : 4,
-                accessLevel : 1,
-                type : ju_Map,
-                getter : null,
-                setter : null
-            }];
-        lpom_QuadroEscopo.$meta.fields = [
-            {
-                name : "nome",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "escopo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "trechoCodigoFonte",
-                modifiers : 4,
-                accessLevel : 1,
-                type : lpom_TrechoCodigoFonte,
                 getter : null,
                 setter : null
             }, {
@@ -15910,7 +15814,52 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpfe_ValorIrredutivel.$meta.fields = [];
+        lpem_QuadroEscopo1.$meta.fields = [
+            {
+                name : "escopo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "trechoCodigoFonte",
+                modifiers : 4,
+                accessLevel : 1,
+                type : lpem_TrechoCodigoFonte2,
+                getter : null,
+                setter : null
+            }, {
+                name : "bindings",
+                modifiers : 4,
+                accessLevel : 1,
+                type : ju_Map,
+                getter : null,
+                setter : null
+            }];
+        lpem_QuadroEscopo.$meta.fields = [
+            {
+                name : "escopo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "trechoCodigoFonte",
+                modifiers : 4,
+                accessLevel : 1,
+                type : lpem_TrechoCodigoFonte1,
+                getter : null,
+                setter : null
+            }, {
+                name : "bindings",
+                modifiers : 4,
+                accessLevel : 1,
+                type : ju_Map,
+                getter : null,
+                setter : null
+            }];
         lpfu_TipoFuncao.$meta.fields = [
             {
                 name : "dominio",
@@ -15927,6 +15876,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpfe_ValorIrredutivel.$meta.fields = [];
         lpeu_TipoPrimitivo3.$meta.fields = [
             {
                 name : "INTEIRO",
@@ -15964,8 +15914,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpoev_ValorNull0.$meta.fields = [];
-        jnci_AsciiCharset.$meta.fields = [];
         lpom_InfoBinding0.$meta.fields = [
             {
                 name : "tipo",
@@ -15982,103 +15930,110 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        ju_Currency.$meta.fields = [
+        lpodp_ListaDeclaracaoParametro0.$meta.fields = [];
+        lpoev_ValorNull.$meta.fields = [];
+        lpeu_TipoPrimitivo0.$meta.fields = [
             {
-                name : "currencies",
-                modifiers : 512,
-                accessLevel : 1,
-                type : ju_Map,
+                name : "INTEIRO",
+                modifiers : 524,
+                accessLevel : 3,
+                type : lpeu_TipoPrimitivo0,
                 getter : null,
                 setter : null
             }, {
-                name : "resource",
+                name : "BOOLEANO",
+                modifiers : 524,
+                accessLevel : 3,
+                type : lpeu_TipoPrimitivo0,
+                getter : null,
+                setter : null
+            }, {
+                name : "STRING",
+                modifiers : 524,
+                accessLevel : 3,
+                type : lpeu_TipoPrimitivo0,
+                getter : null,
+                setter : null
+            }, {
+                name : "nome",
                 modifiers : 0,
+                accessLevel : 2,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "$VALUES",
+                modifiers : 548,
                 accessLevel : 1,
-                type : otcic_CurrencyResource,
+                type : $rt_arraycls(lpeu_TipoPrimitivo0),
                 getter : null,
                 setter : null
             }];
-        lpid_DefProcedimento.$meta.fields = [
+        lpoev_ValorRef.$meta.fields = [
             {
-                name : "parametrosFormais",
+                name : "valor",
                 modifiers : 0,
                 accessLevel : 1,
-                type : lpid_ListaDeclaracaoParametro,
-                getter : null,
-                setter : null
-            }, {
-                name : "comando",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpic_Comando,
-                getter : null,
-                setter : null
-            }, {
-                name : "infoEscopo",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpem_InfoEscopo,
+                type : $rt_intcls,
                 getter : null,
                 setter : null
             }];
-        lpom_Objeto0.$meta.fields = [
+        ju_LinkedHashSet.$meta.fields = [];
+        lpou_TipoClasse.$meta.fields = [
             {
-                name : "classeObjeto",
+                name : "tipoClasse",
                 modifiers : 0,
                 accessLevel : 1,
                 type : lpoel_Id,
                 getter : null,
                 setter : null
             }, {
+                name : "NULL",
+                modifiers : 516,
+                accessLevel : 3,
+                type : lpoel_Id,
+                getter : null,
+                setter : null
+            }, {
+                name : "TIPO_NULL",
+                modifiers : 516,
+                accessLevel : 3,
+                type : lpou_Tipo,
+                getter : null,
+                setter : null
+            }];
+        lpom_DefClasseOO2.$meta.fields = [
+            {
+                name : "nomeSuperClasse",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpoel_Id,
+                getter : null,
+                setter : null
+            }, {
+                name : "construtor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpod_DecConstrutor,
+                getter : null,
+                setter : null
+            }];
+        lpom_Objeto.$meta.fields = [
+            {
+                name : "classeObjeto",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpoel_Id0,
+                getter : null,
+                setter : null
+            }, {
                 name : "estado",
                 modifiers : 0,
                 accessLevel : 1,
-                type : lpom_ContextoObjeto0,
+                type : lpom_ContextoObjeto,
                 getter : null,
                 setter : null
             }];
-        lpem_InfoBinding.$meta.fields = [
-            {
-                name : "tipo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "valor",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        lpem_InfoBinding4.$meta.fields = [
-            {
-                name : "tipo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "valor",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        jnci_UTF8Charset.$meta.fields = [
-            {
-                name : "INSTANCE",
-                modifiers : 516,
-                accessLevel : 3,
-                type : jnci_UTF8Charset,
-                getter : null,
-                setter : null
-            }];
-        lpee_ValorString0.$meta.fields = [];
         lpou_TipoClasse0.$meta.fields = [
             {
                 name : "tipoClasse",
@@ -16102,68 +16057,40 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpem_InfoBinding1.$meta.fields = [
+        lpeu_TipoPrimitivo1.$meta.fields = [
             {
-                name : "tipo",
-                modifiers : 4,
-                accessLevel : 1,
+                name : "INTEIRO",
+                modifiers : 524,
+                accessLevel : 3,
+                type : lpeu_TipoPrimitivo1,
+                getter : null,
+                setter : null
+            }, {
+                name : "BOOLEANO",
+                modifiers : 524,
+                accessLevel : 3,
+                type : lpeu_TipoPrimitivo1,
+                getter : null,
+                setter : null
+            }, {
+                name : "STRING",
+                modifiers : 524,
+                accessLevel : 3,
+                type : lpeu_TipoPrimitivo1,
+                getter : null,
+                setter : null
+            }, {
+                name : "nome",
+                modifiers : 0,
+                accessLevel : 2,
                 type : jl_String,
                 getter : null,
                 setter : null
             }, {
-                name : "valor",
-                modifiers : 4,
+                name : "$VALUES",
+                modifiers : 548,
                 accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        lpom_DefClasseOO2.$meta.fields = [
-            {
-                name : "nomeSuperClasse",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpoel_Id,
-                getter : null,
-                setter : null
-            }, {
-                name : "construtor",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpod_DecConstrutor,
-                getter : null,
-                setter : null
-            }];
-        lpodp_ListaDeclaracaoParametro.$meta.fields = [];
-        lpoev_ValorRef.$meta.fields = [
-            {
-                name : "valor",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_intcls,
-                getter : null,
-                setter : null
-            }];
-        lpom_DefClasse0.$meta.fields = [
-            {
-                name : "decVariavel",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpodv_DecVariavel0,
-                getter : null,
-                setter : null
-            }, {
-                name : "decProcedimento",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpodp_DecProcedimento0,
-                getter : null,
-                setter : null
-            }, {
-                name : "idClasse",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpoel_Id0,
+                type : $rt_arraycls(lpeu_TipoPrimitivo1),
                 getter : null,
                 setter : null
             }];
@@ -16218,105 +16145,6 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpodp_ListaDeclaracaoParametro0.$meta.fields = [];
-        lpem_InfoBinding3.$meta.fields = [
-            {
-                name : "tipo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "valor",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        ju_LinkedHashSet.$meta.fields = [];
-        lpfu_DefFuncao1.$meta.fields = [
-            {
-                name : "argsId",
-                modifiers : 0,
-                accessLevel : 2,
-                type : ju_List,
-                getter : null,
-                setter : null
-            }, {
-                name : "exp",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpee_Expressao1,
-                getter : null,
-                setter : null
-            }];
-        lpoev_ValorNull.$meta.fields = [];
-        lpom_InfoBinding.$meta.fields = [
-            {
-                name : "tipo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "valor",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        lpem_InfoBinding2.$meta.fields = [
-            {
-                name : "tipo",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "valor",
-                modifiers : 4,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }];
-        lpou_TipoClasse.$meta.fields = [
-            {
-                name : "tipoClasse",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpoel_Id,
-                getter : null,
-                setter : null
-            }, {
-                name : "NULL",
-                modifiers : 516,
-                accessLevel : 3,
-                type : lpoel_Id,
-                getter : null,
-                setter : null
-            }, {
-                name : "TIPO_NULL",
-                modifiers : 516,
-                accessLevel : 3,
-                type : lpou_Tipo,
-                getter : null,
-                setter : null
-            }];
-        lpoev_ValorRef0.$meta.fields = [
-            {
-                name : "valor",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_intcls,
-                getter : null,
-                setter : null
-            }];
         jnci_UTF16Charset.$meta.fields = [
             {
                 name : "bom",
@@ -16333,57 +16161,42 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpeu_TipoPrimitivo0.$meta.fields = [
+        lpid_DefProcedimento.$meta.fields = [
             {
-                name : "INTEIRO",
-                modifiers : 524,
-                accessLevel : 3,
-                type : lpeu_TipoPrimitivo0,
-                getter : null,
-                setter : null
-            }, {
-                name : "BOOLEANO",
-                modifiers : 524,
-                accessLevel : 3,
-                type : lpeu_TipoPrimitivo0,
-                getter : null,
-                setter : null
-            }, {
-                name : "STRING",
-                modifiers : 524,
-                accessLevel : 3,
-                type : lpeu_TipoPrimitivo0,
-                getter : null,
-                setter : null
-            }, {
-                name : "nome",
+                name : "parametrosFormais",
                 modifiers : 0,
-                accessLevel : 2,
+                accessLevel : 1,
+                type : lpid_ListaDeclaracaoParametro,
+                getter : null,
+                setter : null
+            }, {
+                name : "comando",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpic_Comando,
+                getter : null,
+                setter : null
+            }, {
+                name : "infoEscopo",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpem_InfoEscopo,
+                getter : null,
+                setter : null
+            }];
+        lpem_InfoBinding.$meta.fields = [
+            {
+                name : "tipo",
+                modifiers : 4,
+                accessLevel : 1,
                 type : jl_String,
                 getter : null,
                 setter : null
             }, {
-                name : "$VALUES",
-                modifiers : 548,
+                name : "valor",
+                modifiers : 4,
                 accessLevel : 1,
-                type : $rt_arraycls(lpeu_TipoPrimitivo0),
-                getter : null,
-                setter : null
-            }];
-        lpee_ValorBooleano0.$meta.fields = [];
-        lpom_Objeto.$meta.fields = [
-            {
-                name : "classeObjeto",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpoel_Id0,
-                getter : null,
-                setter : null
-            }, {
-                name : "estado",
-                modifiers : 0,
-                accessLevel : 1,
-                type : lpom_ContextoObjeto,
+                type : jl_String,
                 getter : null,
                 setter : null
             }];
@@ -16403,45 +16216,17 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_ValorInteiro0.$meta.fields = [];
-        jnci_Iso8859Charset.$meta.fields = [];
-        lpeu_TipoPrimitivo1.$meta.fields = [
+        jnci_UTF8Charset.$meta.fields = [
             {
-                name : "INTEIRO",
-                modifiers : 524,
+                name : "INSTANCE",
+                modifiers : 516,
                 accessLevel : 3,
-                type : lpeu_TipoPrimitivo1,
-                getter : null,
-                setter : null
-            }, {
-                name : "BOOLEANO",
-                modifiers : 524,
-                accessLevel : 3,
-                type : lpeu_TipoPrimitivo1,
-                getter : null,
-                setter : null
-            }, {
-                name : "STRING",
-                modifiers : 524,
-                accessLevel : 3,
-                type : lpeu_TipoPrimitivo1,
-                getter : null,
-                setter : null
-            }, {
-                name : "nome",
-                modifiers : 0,
-                accessLevel : 2,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "$VALUES",
-                modifiers : 548,
-                accessLevel : 1,
-                type : $rt_arraycls(lpeu_TipoPrimitivo1),
+                type : jnci_UTF8Charset,
                 getter : null,
                 setter : null
             }];
+        lpee_ValorString0.$meta.fields = [];
+        jnci_Iso8859Charset.$meta.fields = [];
         lpou_TipoPrimitivo.$meta.fields = [
             {
                 name : "TIPO_INTEIRO",
@@ -16493,6 +16278,212 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
+        lpfu_DefFuncao1.$meta.fields = [
+            {
+                name : "argsId",
+                modifiers : 0,
+                accessLevel : 2,
+                type : ju_List,
+                getter : null,
+                setter : null
+            }, {
+                name : "exp",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpee_Expressao1,
+                getter : null,
+                setter : null
+            }];
+        lpoev_ValorNull0.$meta.fields = [];
+        ju_Currency.$meta.fields = [
+            {
+                name : "currencies",
+                modifiers : 512,
+                accessLevel : 1,
+                type : ju_Map,
+                getter : null,
+                setter : null
+            }, {
+                name : "resource",
+                modifiers : 0,
+                accessLevel : 1,
+                type : otcic_CurrencyResource,
+                getter : null,
+                setter : null
+            }];
+        lpee_ValorInteiro0.$meta.fields = [];
+        lpom_Objeto0.$meta.fields = [
+            {
+                name : "classeObjeto",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpoel_Id,
+                getter : null,
+                setter : null
+            }, {
+                name : "estado",
+                modifiers : 0,
+                accessLevel : 1,
+                type : lpom_ContextoObjeto0,
+                getter : null,
+                setter : null
+            }];
+        lpem_InfoBinding3.$meta.fields = [
+            {
+                name : "tipo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "valor",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpem_InfoBinding4.$meta.fields = [
+            {
+                name : "tipo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "valor",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpem_InfoBinding2.$meta.fields = [
+            {
+                name : "tipo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "valor",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpodp_ListaDeclaracaoParametro.$meta.fields = [];
+        lpee_ValorBooleano0.$meta.fields = [];
+        lpoev_ValorRef0.$meta.fields = [
+            {
+                name : "valor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_intcls,
+                getter : null,
+                setter : null
+            }];
+        lpom_InfoBinding.$meta.fields = [
+            {
+                name : "tipo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "valor",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        jnci_AsciiCharset.$meta.fields = [];
+        lpem_InfoBinding1.$meta.fields = [
+            {
+                name : "tipo",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "valor",
+                modifiers : 4,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }];
+        lpom_DefClasse0.$meta.fields = [
+            {
+                name : "decVariavel",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpodv_DecVariavel0,
+                getter : null,
+                setter : null
+            }, {
+                name : "decProcedimento",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpodp_DecProcedimento0,
+                getter : null,
+                setter : null
+            }, {
+                name : "idClasse",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpoel_Id0,
+                getter : null,
+                setter : null
+            }];
+        lpiu_Lista.$meta.fields = [
+            {
+                name : "head",
+                modifiers : 0,
+                accessLevel : 2,
+                type : jl_Object,
+                getter : null,
+                setter : null
+            }, {
+                name : "tail",
+                modifiers : 0,
+                accessLevel : 2,
+                type : lpiu_Lista,
+                getter : null,
+                setter : null
+            }];
+        jnc_Charset.$meta.fields = [
+            {
+                name : "canonicalName",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_String,
+                getter : null,
+                setter : null
+            }, {
+                name : "aliases",
+                modifiers : 0,
+                accessLevel : 1,
+                type : $rt_arraycls(jl_String),
+                getter : null,
+                setter : null
+            }];
+        lpee_ValorConcreto3.$meta.fields = [
+            {
+                name : "valor",
+                modifiers : 0,
+                accessLevel : 1,
+                type : jl_Object,
+                getter : null,
+                setter : null
+            }];
         lpom_DefClasse.$meta.fields = [
             {
                 name : "decVariavel",
@@ -16516,53 +16507,12 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        jnc_Charset.$meta.fields = [
-            {
-                name : "canonicalName",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_String,
-                getter : null,
-                setter : null
-            }, {
-                name : "aliases",
-                modifiers : 0,
-                accessLevel : 1,
-                type : $rt_arraycls(jl_String),
-                getter : null,
-                setter : null
-            }];
         ju_HashSet.$meta.fields = [
             {
                 name : "backingMap",
                 modifiers : 4096,
                 accessLevel : 0,
                 type : ju_HashMap,
-                getter : null,
-                setter : null
-            }];
-        lpee_ValorConcreto3.$meta.fields = [
-            {
-                name : "valor",
-                modifiers : 0,
-                accessLevel : 1,
-                type : jl_Object,
-                getter : null,
-                setter : null
-            }];
-        lpiu_Lista.$meta.fields = [
-            {
-                name : "head",
-                modifiers : 0,
-                accessLevel : 2,
-                type : jl_Object,
-                getter : null,
-                setter : null
-            }, {
-                name : "tail",
-                modifiers : 0,
-                accessLevel : 2,
-                type : lpiu_Lista,
                 getter : null,
                 setter : null
             }];
@@ -16583,9 +16533,9 @@ var __runCode;
                 setter : null
             }];
         ju_AbstractSet.$meta.fields = [];
-        lpoel_Id.$meta.fields = [];
         lpoel_Id0.$meta.fields = [];
-        lpee_Id1.$meta.fields = [
+        lpoel_Id.$meta.fields = [];
+        lpee_Id.$meta.fields = [
             {
                 name : "idName",
                 modifiers : 0,
@@ -16603,7 +16553,7 @@ var __runCode;
                 getter : null,
                 setter : null
             }];
-        lpee_Id.$meta.fields = [
+        lpee_Id1.$meta.fields = [
             {
                 name : "idName",
                 modifiers : 0,
@@ -20905,16 +20855,10 @@ var __runCode;
             try {
                 $result = null;
                 $auxStack = ju_Stack__init_();
-                b: {
-                    while (true) {
-                        if ($result !== null)
-                            break b;
-                        if ($this.$pilha7.$empty())
-                            break;
-                        $aux = $this.$pilha7.$pop();
-                        $auxStack.$push($aux);
-                        $result = $aux.$get($idArg);
-                    }
+                while ($result === null && !$this.$pilha7.$empty()) {
+                    $aux = $this.$pilha7.$pop();
+                    $auxStack.$push($aux);
+                    $result = $aux.$get($idArg);
                 }
                 while (!$auxStack.$empty()) {
                     $this.$pilha7.$push($auxStack.$pop());
@@ -20927,10 +20871,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            c: {
+            b: {
                 try {
                     if ($result === null)
-                        break c;
+                        break b;
                 } catch ($$e) {
                     $$je = $rt_wrapException($$e);
                     if ($$je instanceof lpem_IdentificadorNaoDeclaradoException1) {
@@ -21821,16 +21765,10 @@ var __runCode;
         let $result, $auxStack, $aux;
         $result = null;
         $auxStack = ju_Stack__init_();
-        a: {
-            while (true) {
-                if ($result !== null)
-                    break a;
-                if ($this.$pilha6.$empty())
-                    break;
-                $aux = $this.$pilha6.$pop();
-                $auxStack.$push($aux);
-                $result = $aux.$get($idArg);
-            }
+        while ($result === null && !$this.$pilha6.$empty()) {
+            $aux = $this.$pilha6.$pop();
+            $auxStack.$push($aux);
+            $result = $aux.$get($idArg);
         }
         while (!$auxStack.$empty()) {
             $this.$pilha6.$push($auxStack.$pop());
@@ -21849,11 +21787,11 @@ var __runCode;
     lpom_ContextoCompilacaoOO1_getPilhaSnapshot = $this => {
         return $this.$metadadosDepuracao3.$toSnapshot();
     },
-    lpom_ContextoCompilacaoOO1_map0 = (var$0, var$1, var$2) => {
-        var$0.$map5(var$1, var$2);
+    lpom_ContextoCompilacaoOO1_get1 = ($this, var$1) => {
+        return $this.$get7(var$1);
     },
-    lpom_ContextoCompilacaoOO1_get1 = (var$0, var$1) => {
-        return var$0.$get7(var$1);
+    lpom_ContextoCompilacaoOO1_map0 = ($this, var$1, var$2) => {
+        $this.$map5(var$1, var$2);
     },
     lpom_AmbienteCompilacaoOO2 = $rt_classWithoutFields(0);
     function lpom_ContextoCompilacaoOO2() {
@@ -22015,7 +21953,7 @@ var __runCode;
         return pw_PlpWebApi_interpretarCodigo(pw_PlpWebApi__init_0(), $sourceCode, $input, pw_PlpWebApi_parseLanguage($language));
     },
     pw_PlpWebApi_interpretarCodigo = ($this, $sourceCode, $listaEntrada, $selectedIndex) => {
-        let $fis, $e, $t, var$7, var$8, var$9, var$10, $$je;
+        let $fis, $e, $t, var$7, var$8, var$9, $$je;
         $this.$output = null;
         $this.$message = null;
         $this.$compilationEnv = null;
@@ -22048,8 +21986,7 @@ var __runCode;
                                                 k: {
                                                     l: {
                                                         try {
-                                                            var$7 = $sourceCode.$getBytes();
-                                                            ji_ByteArrayInputStream__init_($fis, var$7);
+                                                            ji_ByteArrayInputStream__init_($fis, $sourceCode.$getBytes());
                                                             switch ($selectedIndex) {
                                                                 case 0:
                                                                     break l;
@@ -22071,9 +22008,9 @@ var __runCode;
                                                                     break d;
                                                                 default:
                                                             }
-                                                            var$8 = null;
-                                                            var$9 = $this.$compilationEnv;
-                                                            var$8 = pw_PlpResultImpl_create$js_body$_1(!!0, $rt_ustr(var$8), "linguagem inválida", $rt_ustr(var$9));
+                                                            var$7 = null;
+                                                            var$8 = $this.$compilationEnv;
+                                                            var$7 = pw_PlpResultImpl_create$js_body$_1(!!0, $rt_ustr(var$7), "linguagem inválida", $rt_ustr(var$8));
                                                         } catch ($$e) {
                                                             $$je = $rt_wrapException($$e);
                                                             if ($$je instanceof jl_Exception) {
@@ -22086,7 +22023,7 @@ var __runCode;
                                                                 throw $$e;
                                                             }
                                                         }
-                                                        return var$8;
+                                                        return var$7;
                                                     }
                                                     try {
                                                         pw_PlpWebApi_interpretarExp1($this, $fis);
@@ -22233,10 +22170,10 @@ var __runCode;
                     }
                 }
                 try {
-                    var$8 = $this.$output;
-                    var$10 = $this.$message;
-                    var$9 = $this.$compilationEnv;
-                    var$8 = pw_PlpResultImpl_create$js_body$_1(!!1, $rt_ustr(var$8), $rt_ustr(var$10), $rt_ustr(var$9));
+                    var$7 = $this.$output;
+                    var$9 = $this.$message;
+                    var$8 = $this.$compilationEnv;
+                    var$7 = pw_PlpResultImpl_create$js_body$_1(!!1, $rt_ustr(var$7), $rt_ustr(var$9), $rt_ustr(var$8));
                 } catch ($$e) {
                     $$je = $rt_wrapException($$e);
                     if ($$je instanceof jl_Exception) {
@@ -22249,61 +22186,92 @@ var __runCode;
                         throw $$e;
                     }
                 }
-                return var$8;
+                return var$7;
             }
             return pw_PlpResultImpl_create$js_body$_1(!!0, $rt_ustr(null), $rt_ustr($e.$getMessage()), $rt_ustr($this.$compilationEnv));
         }
         return pw_PlpResultImpl_create$js_body$_1(!!0, $rt_ustr(null), $rt_ustr($t.$getMessage()), $rt_ustr($this.$compilationEnv));
     },
     pw_PlpWebApi_parseLanguage = $language => {
-        let var$2;
+        let var$2, var$3;
         pw_PlpWebApi_$callClinit();
         if ($language === null)
             return (-1);
         a: {
             var$2 = ($language.$trim()).$toLowerCase();
+            var$3 = (-1);
             switch (var$2.$hashCode()) {
                 case 110161:
-                    break;
+                    if (!var$2.$equals($rt_s(236)))
+                        break a;
+                    var$3 = 7;
+                    break a;
                 case 110162:
-                    if (var$2.$equals($rt_s(236)))
-                        return 8;
+                    if (!var$2.$equals($rt_s(237)))
+                        break a;
+                    var$3 = 8;
                     break a;
                 case 3127732:
-                    if (var$2.$equals($rt_s(237)))
-                        return 0;
+                    if (!var$2.$equals($rt_s(238)))
+                        break a;
+                    var$3 = 0;
                     break a;
                 case 3127733:
-                    if (var$2.$equals($rt_s(238)))
-                        return 1;
+                    if (!var$2.$equals($rt_s(239)))
+                        break a;
+                    var$3 = 1;
                     break a;
                 case 3236325:
-                    if (var$2.$equals($rt_s(239)))
-                        return 5;
+                    if (!var$2.$equals($rt_s(240)))
+                        break a;
+                    var$3 = 5;
                     break a;
                 case 3236326:
-                    if (var$2.$equals($rt_s(240)))
-                        return 6;
+                    if (!var$2.$equals($rt_s(241)))
+                        break a;
+                    var$3 = 6;
                     break a;
                 case 97793517:
-                    if (var$2.$equals($rt_s(241)))
-                        return 2;
+                    if (!var$2.$equals($rt_s(242)))
+                        break a;
+                    var$3 = 2;
                     break a;
                 case 97793518:
-                    if (var$2.$equals($rt_s(242)))
-                        return 3;
+                    if (!var$2.$equals($rt_s(243)))
+                        break a;
+                    var$3 = 3;
                     break a;
                 case 97793519:
-                    if (var$2.$equals($rt_s(243)))
-                        return 4;
+                    if (!var$2.$equals($rt_s(244)))
+                        break a;
+                    var$3 = 4;
                     break a;
                 default:
-                    break a;
             }
-            if (var$2.$equals($rt_s(244)))
-                return 7;
         }
-        return (-1);
+        switch (var$3) {
+            case 0:
+                break;
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            case 3:
+                return 3;
+            case 4:
+                return 4;
+            case 5:
+                return 5;
+            case 6:
+                return 6;
+            case 7:
+                return 7;
+            case 8:
+                return 8;
+            default:
+                return (-1);
+        }
+        return 0;
     },
     pw_PlpWebApi_compilationEnvJson = ($this, $languageId, $frames) => {
         return pw_PlpWebApi_toJsonString($this, pw_CompilationSnapshot_fromGenericSnapshot($languageId, $frames));
@@ -22319,7 +22287,7 @@ var __runCode;
         $this.$message = $rt_s(245);
         if (!$prog.$checaTipo8())
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(237), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(238), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar0()).$toString();
     },
     pw_PlpWebApi_interpretarExp2 = ($this, $fis) => {
@@ -22333,7 +22301,7 @@ var __runCode;
         $this.$message = $rt_s(245);
         if (!$prog.$checaTipo8())
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(238), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(239), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar1()).$toString();
     },
     pw_PlpWebApi_interpretarFunc1 = ($this, $fis) => {
@@ -22347,7 +22315,7 @@ var __runCode;
         $this.$message = $rt_s(245);
         if (!$prog.$checaTipo8())
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(241), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(242), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar2()).$toString();
     },
     pw_PlpWebApi_interpretarFunc2 = ($this, $fis) => {
@@ -22361,7 +22329,7 @@ var __runCode;
         $this.$message = $rt_s(245);
         if (!$prog.$checaTipo8())
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(242), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(243), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar3()).$toString();
     },
     pw_PlpWebApi_interpretarFunc3 = ($this, $fis) => {
@@ -22376,7 +22344,7 @@ var __runCode;
         if (!$prog.$checaTipo8())
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
         $generic = $prog.$getAmbCompSnapshot();
-        $cs = pw_CompilationSnapshot_fromGenericSnapshot($rt_s(243), $generic);
+        $cs = pw_CompilationSnapshot_fromGenericSnapshot($rt_s(244), $generic);
         $this.$compilationEnv = pw_PlpWebApi_toJsonString($this, $cs);
         $this.$output = ($prog.$executar4()).$toString();
     },
@@ -22392,7 +22360,7 @@ var __runCode;
         $entrada = pw_PlpWebApi_obterListaEntradaImp1($this, $entradaStr);
         if (!$prog.$checaTipo9(lpim_ContextoCompilacaoImperativa__init_2($entrada)))
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(239), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(240), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar5(lpim_ContextoExecucaoImperativa__init_1($entrada))).$toString();
     },
     pw_PlpWebApi_interpretarImp2 = ($this, $fis, $entradaStr) => {
@@ -22407,7 +22375,7 @@ var __runCode;
         $entrada = pw_PlpWebApi_obterListaEntradaImp2($this, $entradaStr);
         if (!$prog.$checaTipo10(lpim_ContextoCompilacaoImperativa__init_1($entrada)))
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(240), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(241), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar6(lpim_ContextoExecucaoImperativa2__init_0($entrada))).$toString();
     },
     pw_PlpWebApi_interpretarOO1 = ($this, $fis, $entradaStr) => {
@@ -22422,7 +22390,7 @@ var __runCode;
         $entrada = pw_PlpWebApi_obterListaEntradaOO1($this, $entradaStr);
         if (!$prog.$checaTipo4(lpom_ContextoCompilacaoOO1__init_1($entrada)))
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(244), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(236), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar7(lpom_ContextoExecucaoOO1__init_5($entrada))).$toString();
     },
     pw_PlpWebApi_interpretarOO2 = ($this, $fis, $entradaStr) => {
@@ -22437,7 +22405,7 @@ var __runCode;
         $entrada = pw_PlpWebApi_obterListaEntradaOO2($this, $entradaStr);
         if (!$prog.$checaTipo11(lpom_ContextoCompilacaoOO2__init_0($entrada)))
             $rt_throw(jl_RuntimeException__init_2($rt_s(246)));
-        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(236), $prog.$getAmbCompSnapshot());
+        $this.$compilationEnv = pw_PlpWebApi_compilationEnvJson($this, $rt_s(237), $prog.$getAmbCompSnapshot());
         $this.$output = ($prog.$executar8(lpom_ContextoExecucaoOO2__init_1($entrada))).$toString();
     },
     pw_PlpWebApi_obterListaEntradaImp1 = ($this, $texto) => {
@@ -22459,11 +22427,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248))) {
+            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248)))
                 $valores.$add(lpee_ValorString__init_6($p));
-                continue;
-            }
-            $valores.$add(lpee_ValorBooleano__init_3(jl_Boolean_parseBoolean($p)));
+            else
+                $valores.$add(lpee_ValorBooleano__init_3(jl_Boolean_parseBoolean($p)));
         }
         return lpip_Imp1Parser_criaListaValor($valores);
     },
@@ -22486,11 +22453,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248))) {
+            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248)))
                 $valores.$add(lpee_ValorString__init_8($p));
-                continue;
-            }
-            $valores.$add(lpee_ValorBooleano__init_2(jl_Boolean_parseBoolean($p)));
+            else
+                $valores.$add(lpee_ValorBooleano__init_2(jl_Boolean_parseBoolean($p)));
         }
         return lpip_Imp2Parser_criaListaValor($valores);
     },
@@ -22513,11 +22479,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248))) {
+            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248)))
                 $valores.$add(lpoev_ValorString__init_1($p));
-                continue;
-            }
-            $valores.$add(lpoev_ValorBooleano__init_(jl_Boolean_parseBoolean($p)));
+            else
+                $valores.$add(lpoev_ValorBooleano__init_(jl_Boolean_parseBoolean($p)));
         }
         return lpop_OO1Parser_criaListaValor($valores);
     },
@@ -22540,11 +22505,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248))) {
+            if (!$p.$equalsIgnoreCase($rt_s(247)) && !$p.$equalsIgnoreCase($rt_s(248)))
                 $valores.$add(lpoev_ValorString__init_($p));
-                continue;
-            }
-            $valores.$add(lpoev_ValorBooleano__init_0(jl_Boolean_parseBoolean($p)));
+            else
+                $valores.$add(lpoev_ValorBooleano__init_0(jl_Boolean_parseBoolean($p)));
         }
         return lpop_OO2Parser_criaListaValor($valores);
     },
@@ -22597,7 +22561,18 @@ var __runCode;
                 }
                 return var$6;
             }
-            return null;
+            try {
+                var$6 = null;
+            } catch ($$e) {
+                $$je = $rt_wrapException($$e);
+                if ($$je instanceof jl_IllegalAccessException) {
+                    $e = $$je;
+                    break a;
+                } else {
+                    throw $$e;
+                }
+            }
+            return var$6;
         }
         $rt_throw(jl_RuntimeException__init_1($e));
     },
@@ -22606,7 +22581,7 @@ var __runCode;
         if ($obj === null)
             return $rt_s(16);
         if ($obj instanceof jl_String)
-            return (((jl_StringBuilder__init_0(jl_String_valueOf(34))).$append1(pw_PlpWebApi_escapeJson($this, $obj))).$append0(34)).$toString();
+            return ((((jl_StringBuilder__init_()).$append0(34)).$append1(pw_PlpWebApi_escapeJson($this, $obj))).$append0(34)).$toString();
         if (!($obj instanceof jl_Number) && !($obj instanceof jl_Boolean) && !($obj instanceof jl_Character)) {
             if ($obj instanceof pw_CompilationSnapshot) {
                 $snapshot = $obj;
@@ -22639,7 +22614,7 @@ var __runCode;
                     return $sb.$toString();
                 }
                 if ($obj instanceof jl_Enum)
-                    return (((jl_StringBuilder__init_0(jl_String_valueOf(34))).$append1(pw_PlpWebApi_escapeJson($this, jl_Enum_name($obj)))).$append0(34)).$toString();
+                    return ((((jl_StringBuilder__init_()).$append0(34)).$append1(pw_PlpWebApi_escapeJson($this, jl_Enum_name($obj)))).$append0(34)).$toString();
                 if (!$rt_isInstance($obj, ju_Map)) {
                     if ($rt_isInstance($obj, ju_Collection)) {
                         $sb = jl_StringBuilder__init_();
@@ -22663,7 +22638,7 @@ var __runCode;
                         $s = pw_PlpWebApi_debugString($this, $obj);
                         if ($s === null)
                             return $rt_s(16);
-                        return (((jl_StringBuilder__init_0(jl_String_valueOf(34))).$append1(pw_PlpWebApi_escapeJson($this, $s))).$append0(34)).$toString();
+                        return ((((jl_StringBuilder__init_()).$append0(34)).$append1(pw_PlpWebApi_escapeJson($this, $s))).$append0(34)).$toString();
                     }
                     $sb = jl_StringBuilder__init_();
                     $sb.$append1($rt_s(258));
@@ -22721,7 +22696,7 @@ var __runCode;
         }
         if (!($obj instanceof jl_Character))
             return $obj.$toString();
-        return (((jl_StringBuilder__init_0(jl_String_valueOf(34))).$append1(pw_PlpWebApi_escapeJson($this, $obj.$toString()))).$append0(34)).$toString();
+        return ((((jl_StringBuilder__init_()).$append0(34)).$append1(pw_PlpWebApi_escapeJson($this, $obj.$toString()))).$append0(34)).$toString();
     },
     pw_PlpWebApi_toJsonObjectString = ($this, $obj) => {
         let $sb, $first, $hasField, $current, $fields, var$7, var$8, var$9, $field, $modifiers, $value, $$je;
@@ -23977,7 +23952,7 @@ var __runCode;
         jl_String_$callClinit();
         return $obj === null ? $rt_s(16) : $obj.$toString();
     },
-    jl_String_valueOf2 = $b => {
+    jl_String_valueOf1 = $b => {
         jl_String_$callClinit();
         return !$b ? $rt_s(248) : $rt_s(247);
     },
@@ -23990,7 +23965,7 @@ var __runCode;
         jl_String__init_2(var$2, var$3);
         return var$2;
     },
-    jl_String_valueOf1 = $i => {
+    jl_String_valueOf2 = $i => {
         jl_String_$callClinit();
         return ((jl_StringBuilder__init_()).$append3($i)).$toString();
     },
@@ -26170,16 +26145,10 @@ var __runCode;
             try {
                 $result = null;
                 $auxStack = ju_Stack__init_();
-                b: {
-                    while (true) {
-                        if ($result !== null)
-                            break b;
-                        if ($this.$pilha1.$empty())
-                            break;
-                        $aux = $this.$pilha1.$pop();
-                        $auxStack.$push($aux);
-                        $result = $aux.$get($idArg);
-                    }
+                while ($result === null && !$this.$pilha1.$empty()) {
+                    $aux = $this.$pilha1.$pop();
+                    $auxStack.$push($aux);
+                    $result = $aux.$get($idArg);
                 }
                 while (!$auxStack.$empty()) {
                     $this.$pilha1.$push($auxStack.$pop());
@@ -26192,10 +26161,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            c: {
+            b: {
                 try {
                     if ($result === null)
-                        break c;
+                        break b;
                 } catch ($$e) {
                     $$je = $rt_wrapException($$e);
                     if ($$je instanceof lpem_IdentificadorNaoDeclaradoException4) {
@@ -27138,7 +27107,7 @@ var __runCode;
         var$1.$push(jl_Boolean_FALSE);
     },
     lpem_PilhaSnapshot_registraEscopo5 = ($this, $info) => {
-        let $visivel, $quadro, var$4, var$5, $sourceRangeKey;
+        let $visivel, $quadro, var$4, $sourceRangeKey;
         if ($this.$marcadores.$empty())
             return;
         $visivel = ($this.$marcadores.$pop()).$booleanValue();
@@ -27148,8 +27117,7 @@ var __runCode;
             $this.$marcadores.$push(jl_Boolean_TRUE);
             $quadro = new lpem_QuadroEscopo;
             var$4 = $info === null ? null : $info.$getEscopo();
-            var$5 = $info === null ? null : $info.$getTrechoCodigoFonte2();
-            lpem_QuadroEscopo__init_2($quadro, var$4, var$5);
+            lpem_QuadroEscopo__init_2($quadro, var$4, $info === null ? null : $info.$getTrechoCodigoFonte2());
             $sourceRangeKey = lpem_PilhaSnapshot_sourceRangeKey2($this, $info === null ? null : $info.$getTrechoCodigoFonte2());
             if (!($sourceRangeKey !== null && !$this.$sourceRangesPublicados.$add($sourceRangeKey)))
                 $this.$quadros6.$add($quadro);
@@ -27179,9 +27147,9 @@ var __runCode;
         let var$2;
         if ($trechoCodigoFonte === null)
             return null;
-        var$2 = (((jl_StringBuilder__init_0(jl_String_valueOf1($trechoCodigoFonte.$getLinhaInicio()))).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
-        var$2 = ((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim());
-        return var$2.$toString();
+        var$2 = ((((jl_StringBuilder__init_()).$append3($trechoCodigoFonte.$getLinhaInicio())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
+        var$2 = (((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim())).$toString();
+        return var$2;
     },
     otcic_CurrencyHelper = $rt_classWithoutFields(),
     otcic_CurrencyHelper_$$metadata$$0 = null,
@@ -41768,19 +41736,12 @@ var __runCode;
         $result = null;
         $auxStack = ju_Stack__init_();
         $stack = $this.$getPilha();
-        a: {
-            while (true) {
-                if ($result !== null)
-                    break a;
-                if ($stack.$empty())
-                    break;
-                $aux = $stack.$pop();
-                $auxStack.$push($aux);
-                $result = $aux.$get($idArg);
-                if ($result === null)
-                    continue;
+        while ($result === null && !$stack.$empty()) {
+            $aux = $stack.$pop();
+            $auxStack.$push($aux);
+            $result = $aux.$get($idArg);
+            if ($result !== null)
                 $aux.$put($idArg, $valorId);
-            }
         }
         while (!$auxStack.$empty()) {
             $stack.$push($auxStack.$pop());
@@ -41902,9 +41863,9 @@ var __runCode;
         let var$2;
         if ($trechoCodigoFonte === null)
             return null;
-        var$2 = (((jl_StringBuilder__init_0(jl_String_valueOf1($trechoCodigoFonte.$getLinhaInicio()))).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
-        var$2 = ((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim());
-        return var$2.$toString();
+        var$2 = ((((jl_StringBuilder__init_()).$append3($trechoCodigoFonte.$getLinhaInicio())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
+        var$2 = (((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim())).$toString();
+        return var$2;
     };
     function jl_Object$monitorExit$lambda$_8_0() {
         jl_Object.call(this);
@@ -42526,9 +42487,9 @@ var __runCode;
         let var$2;
         if ($trechoCodigoFonte === null)
             return null;
-        var$2 = (((jl_StringBuilder__init_0(jl_String_valueOf1($trechoCodigoFonte.$getLinhaInicio()))).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
-        var$2 = ((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim());
-        return var$2.$toString();
+        var$2 = ((((jl_StringBuilder__init_()).$append3($trechoCodigoFonte.$getLinhaInicio())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
+        var$2 = (((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim())).$toString();
+        return var$2;
     };
     function lpoel_AcessoAtributoThis0() {
         lpoel_AcessoAtributo.call(this);
@@ -53192,9 +53153,9 @@ var __runCode;
         let var$2;
         if ($trechoCodigoFonte === null)
             return null;
-        var$2 = (((jl_StringBuilder__init_0(jl_String_valueOf1($trechoCodigoFonte.$getLinhaInicio()))).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
-        var$2 = ((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim());
-        return var$2.$toString();
+        var$2 = ((((jl_StringBuilder__init_()).$append3($trechoCodigoFonte.$getLinhaInicio())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
+        var$2 = (((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim())).$toString();
+        return var$2;
     },
     jl_StringIndexOutOfBoundsException = $rt_classWithoutFields(jl_IndexOutOfBoundsException),
     jl_StringIndexOutOfBoundsException__init_0 = $this => {
@@ -53231,7 +53192,7 @@ var __runCode;
         return $this.$valor12 != $obj.$valor0() ? 0 : 1;
     },
     lpoev_ValorBooleano_toString0 = $this => {
-        return jl_String_valueOf2($this.$valor12);
+        return jl_String_valueOf1($this.$valor12);
     },
     lpoev_ValorBooleano_checaTipo = ($this, $amb) => {
         return 1;
@@ -53696,16 +53657,10 @@ var __runCode;
             try {
                 $result = null;
                 $auxStack = ju_Stack__init_();
-                b: {
-                    while (true) {
-                        if ($result !== null)
-                            break b;
-                        if ($this.$pilha3.$empty())
-                            break;
-                        $aux = $this.$pilha3.$pop();
-                        $auxStack.$push($aux);
-                        $result = $aux.$get($idArg);
-                    }
+                while ($result === null && !$this.$pilha3.$empty()) {
+                    $aux = $this.$pilha3.$pop();
+                    $auxStack.$push($aux);
+                    $result = $aux.$get($idArg);
                 }
                 while (!$auxStack.$empty()) {
                     $this.$pilha3.$push($auxStack.$pop());
@@ -53718,10 +53673,10 @@ var __runCode;
                     throw $$e;
                 }
             }
-            c: {
+            b: {
                 try {
                     if ($result === null)
-                        break c;
+                        break b;
                 } catch ($$e) {
                     $$je = $rt_wrapException($$e);
                     if ($$je instanceof lpem_IdentificadorNaoDeclaradoException3) {
@@ -53909,9 +53864,9 @@ var __runCode;
         let var$2;
         if ($trechoCodigoFonte === null)
             return null;
-        var$2 = (((jl_StringBuilder__init_0(jl_String_valueOf1($trechoCodigoFonte.$getLinhaInicio()))).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
-        var$2 = ((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim());
-        return var$2.$toString();
+        var$2 = ((((jl_StringBuilder__init_()).$append3($trechoCodigoFonte.$getLinhaInicio())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaInicio())).$append1($rt_s(38));
+        var$2 = (((var$2.$append3($trechoCodigoFonte.$getLinhaFim())).$append1($rt_s(37))).$append3($trechoCodigoFonte.$getColunaFim())).$toString();
+        return var$2;
     },
     lpim_EntradaVaziaException = $rt_classWithoutFields(jl_Exception),
     lpim_EntradaVaziaException__init_ = $this => {
@@ -60726,7 +60681,7 @@ var __runCode;
         if (!$this.$size0)
             return $rt_s(175);
         $length = $this.$size0 - 1 | 0;
-        $buffer = jl_StringBuilder__init_2($this.$size0 * 16 | 0);
+        $buffer = jl_StringBuilder__init_1($this.$size0 * 16 | 0);
         $buffer.$append0(91);
         $i = 0;
         while ($i < $length) {
@@ -64958,29 +64913,21 @@ var __runCode;
         return lpeu_TipoPrimitivo_INTEIRO1;
     },
     jl_StringBuilder = $rt_classWithoutFields(jl_AbstractStringBuilder),
-    jl_StringBuilder__init_1 = ($this, $capacity) => {
+    jl_StringBuilder__init_0 = ($this, $capacity) => {
         jl_AbstractStringBuilder__init_($this, $capacity);
     },
-    jl_StringBuilder__init_2 = var_0 => {
+    jl_StringBuilder__init_1 = var_0 => {
         let var_1 = new jl_StringBuilder();
-        jl_StringBuilder__init_1(var_1, var_0);
+        jl_StringBuilder__init_0(var_1, var_0);
         return var_1;
     },
-    jl_StringBuilder__init_4 = $this => {
+    jl_StringBuilder__init_2 = $this => {
         jl_AbstractStringBuilder__init_0($this);
     },
     jl_StringBuilder__init_ = () => {
         let var_0 = new jl_StringBuilder();
-        jl_StringBuilder__init_4(var_0);
+        jl_StringBuilder__init_2(var_0);
         return var_0;
-    },
-    jl_StringBuilder__init_3 = ($this, $value) => {
-        jl_AbstractStringBuilder__init_1($this, $value);
-    },
-    jl_StringBuilder__init_0 = var_0 => {
-        let var_1 = new jl_StringBuilder();
-        jl_StringBuilder__init_3(var_1, var_0);
-        return var_1;
     },
     jl_StringBuilder_append = ($this, $obj) => {
         jl_AbstractStringBuilder_append4($this, $obj);
@@ -65059,14 +65006,14 @@ var __runCode;
     },
     jl_StringBuilder_toString = $this => {
         return jl_AbstractStringBuilder_toString($this);
-    };
-    let jl_StringBuilder_ensureCapacity = ($this, var$1) => {
+    },
+    jl_StringBuilder_ensureCapacity = ($this, var$1) => {
         jl_AbstractStringBuilder_ensureCapacity($this, var$1);
     },
     jl_StringBuilder_insert6 = ($this, var$1, var$2) => {
         return $this.$insert10(var$1, var$2);
-    },
-    jl_StringBuilder_insert5 = ($this, var$1, var$2) => {
+    };
+    let jl_StringBuilder_insert5 = ($this, var$1, var$2) => {
         return $this.$insert11(var$1, var$2);
     },
     jl_StringBuilder_insert3 = ($this, var$1, var$2) => {
@@ -66008,7 +65955,7 @@ var __runCode;
         return $this.$valor13 != $obj.$valor1() ? 0 : 1;
     },
     lpoev_ValorInteiro_toString0 = $this => {
-        return jl_String_valueOf1($this.$valor13);
+        return jl_String_valueOf2($this.$valor13);
     },
     lpoev_ValorInteiro_checaTipo = ($this, $amb) => {
         return 1;
@@ -70357,7 +70304,7 @@ var __runCode;
         return $this.$valor14 != $obj.$valor1() ? 0 : 1;
     },
     lpoev_ValorInteiro_toString = $this => {
-        return jl_String_valueOf1($this.$valor14);
+        return jl_String_valueOf2($this.$valor14);
     },
     lpoev_ValorInteiro_checaTipo0 = ($this, $amb) => {
         return 1;
@@ -71155,7 +71102,7 @@ var __runCode;
         let $diff, $sb, $i;
         if ($this.$width > $str.$length()) {
             $diff = $this.$width - $str.$length() | 0;
-            $sb = jl_StringBuilder__init_2($diff);
+            $sb = jl_StringBuilder__init_1($diff);
             $i = 0;
             while ($i < $diff) {
                 $sb.$append0(32);
@@ -74692,11 +74639,11 @@ var __runCode;
     lpip_Imp2Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpip_Imp2Parser$JJCalls__init_0)],
     lpee_Expressao3, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpee_ExpBinaria4, 0, jl_Object, [lpee_Expressao3], 1, 3, 0, 0, ["$_init_4", $rt_wrapFunction3(lpee_ExpBinaria__init_3), "$getEsq", $rt_wrapFunction0(lpee_ExpBinaria_getEsq5), "$getDir", $rt_wrapFunction0(lpee_ExpBinaria_getDir1), "$checaTipo", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo4)],
-    jnci_BufferedEncoder$Controller, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_144", $rt_wrapFunction2(jnci_BufferedEncoder$Controller__init_), "$hasMoreInput", $rt_wrapFunction0(jnci_BufferedEncoder$Controller_hasMoreInput), "$hasMoreOutput", $rt_wrapFunction1(jnci_BufferedEncoder$Controller_hasMoreOutput), "$setInPosition", $rt_wrapFunction1(jnci_BufferedEncoder$Controller_setInPosition), "$setOutPosition", $rt_wrapFunction1(jnci_BufferedEncoder$Controller_setOutPosition)],
+    jnci_BufferedEncoder$Controller, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_143", $rt_wrapFunction2(jnci_BufferedEncoder$Controller__init_), "$hasMoreInput", $rt_wrapFunction0(jnci_BufferedEncoder$Controller_hasMoreInput), "$hasMoreOutput", $rt_wrapFunction1(jnci_BufferedEncoder$Controller_hasMoreOutput), "$setInPosition", $rt_wrapFunction1(jnci_BufferedEncoder$Controller_setInPosition), "$setOutPosition", $rt_wrapFunction1(jnci_BufferedEncoder$Controller_setOutPosition)],
     jl_Throwable, 0, jl_Object, [], 0, 3, 0, 0, ["$fillInStackTrace", $rt_wrapFunction0(jl_Throwable_fillInStackTrace), "$getMessage", $rt_wrapFunction0(jl_Throwable_getMessage), "$getLocalizedMessage", $rt_wrapFunction0(jl_Throwable_getLocalizedMessage), "$getCause", $rt_wrapFunction0(jl_Throwable_getCause), "$printStackTrace0", $rt_wrapFunction0(jl_Throwable_printStackTrace0), "$printStackTrace", $rt_wrapFunction1(jl_Throwable_printStackTrace)],
     jl_Exception, 0, jl_Throwable, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_Exception__init_0), "$_init_", $rt_wrapFunction1(jl_Exception__init_), "$_init_3", $rt_wrapFunction1(jl_Exception__init_1)],
-    lpoed_ProcedimentoJaDeclaradoException0, "ProcedimentoJaDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpoed_ProcedimentoJaDeclaradoException__init_)],
-    lpee_ExpEquals2, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_77", $rt_wrapFunction2(lpee_ExpEquals__init_0), "$avaliar", $rt_wrapFunction1(lpee_ExpEquals_avaliar0), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal5), "$getTipo", $rt_wrapFunction1(lpee_ExpEquals_getTipo2)],
+    lpoed_ProcedimentoJaDeclaradoException0, "ProcedimentoJaDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpoed_ProcedimentoJaDeclaradoException__init_)],
+    lpee_ExpEquals2, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpee_ExpEquals__init_0), "$avaliar", $rt_wrapFunction1(lpee_ExpEquals_avaliar0), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal5), "$getTipo", $rt_wrapFunction1(lpee_ExpEquals_getTipo2)],
     lpic_Comando, "Comando", 53, jl_Object, [], 3, 3, 0, 0, 0,
     lpoc_Comando0, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpoc_Atribuicao, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_25", $rt_wrapFunction2(lpoc_Atribuicao__init_), "$executar", $rt_wrapFunction1(lpoc_Atribuicao_executar0), "$checaTipo0", $rt_wrapFunction1(lpoc_Atribuicao_checaTipo)],
@@ -74721,27 +74668,27 @@ var __runCode;
     lpem_AmbienteCompilacao, 0, jl_Object, [lpem_Ambiente1], 3, 3, 0, 0, 0,
     lpem_ContextoCompilacao, 0, lpem_Contexto5, [lpem_AmbienteCompilacao], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoCompilacao__init_3)],
     lpim_AmbienteCompilacaoImperativa, 0, jl_Object, [lpem_AmbienteCompilacao], 3, 3, 0, 0, 0,
-    lpim_ContextoCompilacaoImperativa0, 0, lpem_ContextoCompilacao, [lpim_AmbienteCompilacaoImperativa], 0, 3, 0, 0, ["$_init_136", $rt_wrapFunction1(lpim_ContextoCompilacaoImperativa__init_0)],
+    lpim_ContextoCompilacaoImperativa0, 0, lpem_ContextoCompilacao, [lpim_AmbienteCompilacaoImperativa], 0, 3, 0, 0, ["$_init_135", $rt_wrapFunction1(lpim_ContextoCompilacaoImperativa__init_0)],
     jl_Error, 0, jl_Throwable, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_Error__init_1), "$_init_10", $rt_wrapFunction2(jl_Error__init_3), "$_init_", $rt_wrapFunction1(jl_Error__init_0), "$_init_3", $rt_wrapFunction1(jl_Error__init_4)],
-    lpip_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpip_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpip_TokenMgrError__init_0), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpip_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpip_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpip_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpip_TokenMgrError__init_0), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpip_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
     jl_RuntimeException, "RuntimeException", 8, jl_Exception, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_RuntimeException__init_), "$_init_", $rt_wrapFunction1(jl_RuntimeException__init_0), "$_init_3", $rt_wrapFunction1(jl_RuntimeException__init_3)],
     lpem_IdentificadorNaoDeclaradoException2, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_3), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorNaoDeclaradoException__init_9)],
-    lpem_VariavelNaoDeclaradaException2, "VariavelNaoDeclaradaException", 124, lpem_IdentificadorNaoDeclaradoException2, [], 0, 3, 0, 0, ["$_init_98", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_9)],
+    lpem_VariavelNaoDeclaradaException2, "VariavelNaoDeclaradaException", 124, lpem_IdentificadorNaoDeclaradoException2, [], 0, 3, 0, 0, ["$_init_97", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_9)],
     lpem_Ambiente0, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpem_AmbienteCompilacao0, 0, jl_Object, [lpem_Ambiente0], 3, 3, 0, 0, 0,
     lpim_AmbienteCompilacaoImperativa0, 0, jl_Object, [lpem_AmbienteCompilacao0], 3, 3, 0, 0, 0,
     lpem_PilhaSnapshot0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_PilhaSnapshot__init_), "$incrementa", $rt_wrapFunction0(lpem_PilhaSnapshot_incrementa0), "$registraEscopo6", $rt_wrapFunction1(lpem_PilhaSnapshot_registraEscopo2), "$map", $rt_wrapFunction2(lpem_PilhaSnapshot_map4), "$restaura", $rt_wrapFunction0(lpem_PilhaSnapshot_restaura1), "$getQuadros", $rt_wrapFunction0(lpem_PilhaSnapshot_getQuadros2)],
     jl_CharSequence, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpem_TrechoCodigoFonte2, "TrechoCodigoFonte", 124, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_0), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio4), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio1), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim4), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim1)],
+    lpem_TrechoCodigoFonte2, "TrechoCodigoFonte", 124, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_0), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio4), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio1), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim4), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim1)],
     ju_Map, "Map", 1, jl_Object, [], 3, 3, 0, 0, 0]);
     $rt_metadata([ju_SequencedMap, 0, jl_Object, [ju_Map], 3, 3, 0, 0, 0,
     lpfd_DeclaracaoFuncional0, "DeclaracaoFuncional", 78, jl_Object, [], 3, 3, 0, 0, 0,
-    lpfd_DecComposta1, 0, jl_Object, [lpfd_DeclaracaoFuncional0], 0, 3, 0, 0, ["$_init_259", $rt_wrapFunction2(lpfd_DecComposta__init_3), "$checaTipo1", $rt_wrapFunction1(lpfd_DecComposta_checaTipo0), "$elabora", $rt_wrapFunction2(lpfd_DecComposta_elabora1), "$elabora0", $rt_wrapFunction2(lpfd_DecComposta_elabora), "$incluir", $rt_wrapFunction2(lpfd_DecComposta_incluir4), "$incluir0", $rt_wrapFunction2(lpfd_DecComposta_incluir0)],
+    lpfd_DecComposta1, 0, jl_Object, [lpfd_DeclaracaoFuncional0], 0, 3, 0, 0, ["$_init_258", $rt_wrapFunction2(lpfd_DecComposta__init_3), "$checaTipo1", $rt_wrapFunction1(lpfd_DecComposta_checaTipo0), "$elabora", $rt_wrapFunction2(lpfd_DecComposta_elabora1), "$elabora0", $rt_wrapFunction2(lpfd_DecComposta_elabora), "$incluir", $rt_wrapFunction2(lpfd_DecComposta_incluir4), "$incluir0", $rt_wrapFunction2(lpfd_DecComposta_incluir0)],
     lpop_JavaCharStream, 0, jl_Object, [], 0, 3, 0, 0, ["$ExpandBuff", $rt_wrapFunction1(lpop_JavaCharStream_ExpandBuff), "$FillBuff", $rt_wrapFunction0(lpop_JavaCharStream_FillBuff0), "$ReadByte", $rt_wrapFunction0(lpop_JavaCharStream_ReadByte), "$BeginToken", $rt_wrapFunction0(lpop_JavaCharStream_BeginToken), "$AdjustBuffSize", $rt_wrapFunction0(lpop_JavaCharStream_AdjustBuffSize), "$UpdateLineColumn", $rt_wrapFunction1(lpop_JavaCharStream_UpdateLineColumn0), "$readChar", $rt_wrapFunction0(lpop_JavaCharStream_readChar),
     "$getEndColumn", $rt_wrapFunction0(lpop_JavaCharStream_getEndColumn0), "$getEndLine", $rt_wrapFunction0(lpop_JavaCharStream_getEndLine0), "$getBeginColumn", $rt_wrapFunction0(lpop_JavaCharStream_getBeginColumn), "$getBeginLine", $rt_wrapFunction0(lpop_JavaCharStream_getBeginLine), "$backup", $rt_wrapFunction1(lpop_JavaCharStream_backup0), "$_init_14", $rt_wrapFunction4(lpop_JavaCharStream__init_2), "$ReInit", $rt_wrapFunction4(lpop_JavaCharStream_ReInit), "$_init_17", function(var_1, var_2, var_3, var_4,
     var_5) { lpop_JavaCharStream__init_1(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpop_JavaCharStream__init_3), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpop_JavaCharStream_ReInit4(this, var_1, var_2, var_3, var_4, var_5); }, "$ReInit2", $rt_wrapFunction4(lpop_JavaCharStream_ReInit3), "$GetImage", $rt_wrapFunction0(lpop_JavaCharStream_GetImage0)],
     lpem_IdentificadorNaoDeclaradoException0, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_2), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorNaoDeclaradoException__init_8)],
-    lpem_VariavelNaoDeclaradaException5, "VariavelNaoDeclaradaException", 80, lpem_IdentificadorNaoDeclaradoException0, [], 0, 3, 0, 0, ["$_init_68", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_4)],
+    lpem_VariavelNaoDeclaradaException5, "VariavelNaoDeclaradaException", 80, lpem_IdentificadorNaoDeclaradoException0, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_4)],
     otji_JSWrapper$Helper, 0, jl_Object, [], 0, 0, 0, otji_JSWrapper$Helper_$callClinit, 0,
     lpee_Expressao5, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpee_ExpBinaria3, 0, jl_Object, [lpee_Expressao5], 1, 3, 0, 0, ["$_init_19", $rt_wrapFunction3(lpee_ExpBinaria__init_4), "$getEsq0", $rt_wrapFunction0(lpee_ExpBinaria_getEsq1), "$getDir0", $rt_wrapFunction0(lpee_ExpBinaria_getDir0), "$checaTipo2", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo5)],
@@ -74756,13 +74703,13 @@ var __runCode;
     "$getFuncao", $rt_wrapFunction1(lpfm_ContextoExecucaoFuncional_getFuncao0), "$get1", $rt_wrapFunction1(lpfm_ContextoExecucaoFuncional_get), "$map0", $rt_wrapFunction2(lpfm_ContextoExecucaoFuncional_map), "$getFuncao1", $rt_wrapFunction1(lpfm_ContextoExecucaoFuncional_getFuncao), "$mapFuncao0", $rt_wrapFunction2(lpfm_ContextoExecucaoFuncional_mapFuncao)],
     lpoc_AtribuicaoOO2, 0, lpoc_Atribuicao, [], 0, 3, 0, 0, ["$_init_25", $rt_wrapFunction2(lpoc_AtribuicaoOO2__init_), "$checaTipo0", $rt_wrapFunction1(lpoc_AtribuicaoOO2_checaTipo)],
     lpee_Expressao2, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpee_ExpBinaria5, 0, jl_Object, [lpee_Expressao2], 1, 3, 0, 0, ["$_init_228", $rt_wrapFunction3(lpee_ExpBinaria__init_1), "$getEsq1", $rt_wrapFunction0(lpee_ExpBinaria_getEsq4), "$getDir1", $rt_wrapFunction0(lpee_ExpBinaria_getDir4), "$checaTipo3", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo2)],
+    lpee_ExpBinaria5, 0, jl_Object, [lpee_Expressao2], 1, 3, 0, 0, ["$_init_227", $rt_wrapFunction3(lpee_ExpBinaria__init_1), "$getEsq1", $rt_wrapFunction0(lpee_ExpBinaria_getEsq4), "$getDir1", $rt_wrapFunction0(lpee_ExpBinaria_getDir4), "$checaTipo3", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo2)],
     lpoe_Expressao, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpoeb_ExpBinaria0, 0, jl_Object, [lpoe_Expressao], 1, 3, 0, 0, ["$_init_26", $rt_wrapFunction3(lpoeb_ExpBinaria__init_), "$getEsq2", $rt_wrapFunction0(lpoeb_ExpBinaria_getEsq0), "$getDir2", $rt_wrapFunction0(lpoeb_ExpBinaria_getDir), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpBinaria_checaTipo0)],
-    lpoeb_ExpOr0, "ExpOr", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoeb_ExpOr__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpOr_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpOr_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpOr_getTipo)],
-    lpoeb_ExpConcat, "ExpConcat", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoeb_ExpConcat__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpConcat_avaliar0), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpConcat_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpConcat_getTipo)],
-    lpfp_TokenMgrError1, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpfp_TokenMgrError_getMessage1), "$_init_11", $rt_wrapFunction2(lpfp_TokenMgrError__init_0), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpfp_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
-    lpoc_Procedimento, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_120", $rt_wrapFunction2(lpoc_Procedimento__init_1), "$getParametrosFormais", $rt_wrapFunction0(lpoc_Procedimento_getParametrosFormais), "$getComando", $rt_wrapFunction0(lpoc_Procedimento_getComando)],
+    lpoeb_ExpOr0, "ExpOr", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_173", $rt_wrapFunction2(lpoeb_ExpOr__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpOr_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpOr_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpOr_getTipo)],
+    lpoeb_ExpConcat, "ExpConcat", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_173", $rt_wrapFunction2(lpoeb_ExpConcat__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpConcat_avaliar0), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpConcat_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpConcat_getTipo)],
+    lpfp_TokenMgrError1, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpfp_TokenMgrError_getMessage1), "$_init_11", $rt_wrapFunction2(lpfp_TokenMgrError__init_0), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpfp_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpoc_Procedimento, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction2(lpoc_Procedimento__init_1), "$getParametrosFormais", $rt_wrapFunction0(lpoc_Procedimento_getParametrosFormais), "$getComando", $rt_wrapFunction0(lpoc_Procedimento_getComando)],
     ju_Currency, "Currency", 1, jl_Object, [ji_Serializable], 4, 3, 0, 0, ["$getCurrencyCode", $rt_wrapFunction0(ju_Currency_getCurrencyCode), "$getSymbol", $rt_wrapFunction1(ju_Currency_getSymbol), "$toString", $rt_wrapFunction0(ju_Currency_toString)],
     jl_ClassCastException, "ClassCastException", 8, jl_RuntimeException, [], 0, 3, 0, 0, 0,
     lpee_Expressao0, "Expressao", 147, jl_Object, [], 3, 3, 0, 0, 0,
@@ -74775,41 +74722,41 @@ var __runCode;
     $rt_wrapFunction0(ju_HashMap_rehash0), "$remove", $rt_wrapFunction1(ju_HashMap_remove), "$removeEntry", $rt_wrapFunction1(ju_HashMap_removeEntry), "$removeByKey", $rt_wrapFunction1(ju_HashMap_removeByKey), "$size", $rt_wrapFunction0(ju_HashMap_size)],
     ju_LinkedHashMap, "LinkedHashMap", 1, ju_HashMap, [ju_SequencedMap], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_LinkedHashMap__init_0), "$newElementArray", $rt_wrapFunction1(ju_LinkedHashMap_newElementArray), "$getOrDefault", $rt_wrapFunction2(ju_LinkedHashMap_getOrDefault), "$get", $rt_wrapFunction1(ju_LinkedHashMap_get), "$put", $rt_wrapFunction2(ju_LinkedHashMap_put), "$putImpl0", $rt_wrapFunction4(ju_LinkedHashMap_putImpl), "$entrySet", $rt_wrapFunction0(ju_LinkedHashMap_entrySet), "$keySet", $rt_wrapFunction0(ju_LinkedHashMap_keySet),
     "$sequencedKeySet", $rt_wrapFunction0(ju_LinkedHashMap_sequencedKeySet), "$removeLinkedEntry", $rt_wrapFunction1(ju_LinkedHashMap_removeLinkedEntry), "$removeEldestEntry", $rt_wrapFunction1(ju_LinkedHashMap_removeEldestEntry)],
-    lpfp_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpfp_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpfp_TokenMgrError__init_1), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpfp_TokenMgrError__init_3(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpfp_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpfp_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpfp_TokenMgrError__init_1), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpfp_TokenMgrError__init_3(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
     lpod_Declaracao, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpodc_DecClasse, 0, jl_Object, [lpod_Declaracao], 3, 3, 0, 0, 0,
-    lpodc_DecClasseComposta, 0, jl_Object, [lpodc_DecClasse], 0, 3, 0, 0, ["$_init_53", $rt_wrapFunction2(lpodc_DecClasseComposta__init_), "$elabora1", $rt_wrapFunction1(lpodc_DecClasseComposta_elabora), "$checaTipo4", $rt_wrapFunction1(lpodc_DecClasseComposta_checaTipo)],
+    lpodc_DecClasseComposta, 0, jl_Object, [lpodc_DecClasse], 0, 3, 0, 0, ["$_init_52", $rt_wrapFunction2(lpodc_DecClasseComposta__init_), "$elabora1", $rt_wrapFunction1(lpodc_DecClasseComposta_elabora), "$checaTipo4", $rt_wrapFunction1(lpodc_DecClasseComposta_checaTipo)],
     lpee_Valor3, 0, jl_Object, [lpee_Expressao2], 3, 3, 0, 0, 0,
     lpee_ValorConcreto3, "ValorConcreto", 110, jl_Object, [lpee_Valor3], 1, 3, 0, 0, ["$toString", $rt_wrapFunction0(lpee_ValorConcreto_toString), "$_init_2", $rt_wrapFunction1(lpee_ValorConcreto__init_2), "$valor", $rt_wrapFunction0(lpee_ValorConcreto_valor5), "$isEquals4", $rt_wrapFunction1(lpee_ValorConcreto_isEquals5), "$avaliar8", $rt_wrapFunction1(lpee_ValorConcreto_avaliar5), "$checaTipo3", $rt_wrapFunction1(lpee_ValorConcreto_checaTipo2), "$hashCode", $rt_wrapFunction0(lpee_ValorConcreto_hashCode0),
     "$equals", $rt_wrapFunction1(lpee_ValorConcreto_equals2)],
     lpee_ValorString0, "ValorString", 110, lpee_ValorConcreto3, [], 0, 3, [0,0,0], 0, ["$_init_", $rt_wrapFunction1(lpee_ValorString__init_2), "$getTipo10", $rt_wrapFunction1(lpee_ValorString_getTipo2), "$toString", $rt_wrapFunction0(lpee_ValorString_toString0)],
-    jl_AbstractStringBuilder, 0, jl_Object, [ji_Serializable, jl_CharSequence], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_AbstractStringBuilder__init_0), "$_init_6", $rt_wrapFunction1(jl_AbstractStringBuilder__init_), "$_init_", $rt_wrapFunction1(jl_AbstractStringBuilder__init_1), "$_init_32", $rt_wrapFunction1(jl_AbstractStringBuilder__init_2), "$append12", $rt_wrapFunction1(jl_AbstractStringBuilder_append4), "$append7", $rt_wrapFunction1(jl_AbstractStringBuilder_append), "$insert0", $rt_wrapFunction2(jl_AbstractStringBuilder_insert),
-    "$append13", $rt_wrapFunction1(jl_AbstractStringBuilder_append1), "$append2", $rt_wrapFunction2(jl_AbstractStringBuilder_append7), "$insert1", $rt_wrapFunction3(jl_AbstractStringBuilder_insert6), "$append14", $rt_wrapFunction1(jl_AbstractStringBuilder_append5), "$insert2", $rt_wrapFunction2(jl_AbstractStringBuilder_insert2), "$insert3", $rt_wrapFunction3(jl_AbstractStringBuilder_insert5), "$append15", $rt_wrapFunction1(jl_AbstractStringBuilder_append3), "$insert4", $rt_wrapFunction2(jl_AbstractStringBuilder_insert4),
-    "$append8", $rt_wrapFunction1(jl_AbstractStringBuilder_append0), "$insert5", $rt_wrapFunction2(jl_AbstractStringBuilder_insert0), "$insert", $rt_wrapFunction2(jl_AbstractStringBuilder_insert1), "$ensureCapacity", $rt_wrapFunction1(jl_AbstractStringBuilder_ensureCapacity), "$toString", $rt_wrapFunction0(jl_AbstractStringBuilder_toString), "$length", $rt_wrapFunction0(jl_AbstractStringBuilder_length), "$charAt", $rt_wrapFunction1(jl_AbstractStringBuilder_charAt), "$append6", $rt_wrapFunction3(jl_AbstractStringBuilder_append2),
-    "$insert6", $rt_wrapFunction4(jl_AbstractStringBuilder_insert3), "$append16", $rt_wrapFunction1(jl_AbstractStringBuilder_append6), "$setLength", $rt_wrapFunction1(jl_AbstractStringBuilder_setLength), "$delete0", $rt_wrapFunction2(jl_AbstractStringBuilder_delete)],
+    jl_AbstractStringBuilder, 0, jl_Object, [ji_Serializable, jl_CharSequence], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_AbstractStringBuilder__init_0), "$_init_6", $rt_wrapFunction1(jl_AbstractStringBuilder__init_), "$append12", $rt_wrapFunction1(jl_AbstractStringBuilder_append4), "$append7", $rt_wrapFunction1(jl_AbstractStringBuilder_append), "$insert0", $rt_wrapFunction2(jl_AbstractStringBuilder_insert), "$append13", $rt_wrapFunction1(jl_AbstractStringBuilder_append1), "$append2", $rt_wrapFunction2(jl_AbstractStringBuilder_append7),
+    "$insert1", $rt_wrapFunction3(jl_AbstractStringBuilder_insert6), "$append14", $rt_wrapFunction1(jl_AbstractStringBuilder_append5), "$insert2", $rt_wrapFunction2(jl_AbstractStringBuilder_insert2), "$insert3", $rt_wrapFunction3(jl_AbstractStringBuilder_insert5), "$append15", $rt_wrapFunction1(jl_AbstractStringBuilder_append3), "$insert4", $rt_wrapFunction2(jl_AbstractStringBuilder_insert4), "$append8", $rt_wrapFunction1(jl_AbstractStringBuilder_append0), "$insert5", $rt_wrapFunction2(jl_AbstractStringBuilder_insert0),
+    "$insert", $rt_wrapFunction2(jl_AbstractStringBuilder_insert1), "$ensureCapacity", $rt_wrapFunction1(jl_AbstractStringBuilder_ensureCapacity), "$toString", $rt_wrapFunction0(jl_AbstractStringBuilder_toString), "$length", $rt_wrapFunction0(jl_AbstractStringBuilder_length), "$charAt", $rt_wrapFunction1(jl_AbstractStringBuilder_charAt), "$append6", $rt_wrapFunction3(jl_AbstractStringBuilder_append2), "$insert6", $rt_wrapFunction4(jl_AbstractStringBuilder_insert3), "$append16", $rt_wrapFunction1(jl_AbstractStringBuilder_append6),
+    "$setLength", $rt_wrapFunction1(jl_AbstractStringBuilder_setLength), "$delete0", $rt_wrapFunction2(jl_AbstractStringBuilder_delete)],
     jl_Appendable, 0, jl_Object, [], 3, 3, 0, 0, 0,
     jl_StringBuffer, 0, jl_AbstractStringBuilder, [jl_Appendable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_StringBuffer__init_0), "$append4", $rt_wrapFunction1(jl_StringBuffer_append), "$append5", $rt_wrapFunction1(jl_StringBuffer_append0), "$insert7", $rt_wrapFunction2(jl_StringBuffer_insert2), "$insert8", $rt_wrapFunction2(jl_StringBuffer_insert0), "$toString", $rt_wrapFunction0(jl_StringBuffer_toString), "$ensureCapacity", $rt_wrapFunction1(jl_StringBuffer_ensureCapacity), "$insert5", $rt_wrapFunction2(jl_StringBuffer_insert1),
     "$insert0", $rt_wrapFunction2(jl_StringBuffer_insert)],
     jn_Buffer, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(jn_Buffer__init_), "$capacity", $rt_wrapFunction0(jn_Buffer_capacity), "$position0", $rt_wrapFunction0(jn_Buffer_position), "$position2", $rt_wrapFunction1(jn_Buffer_position0), "$limit", $rt_wrapFunction0(jn_Buffer_limit), "$flip0", $rt_wrapFunction0(jn_Buffer_flip), "$remaining", $rt_wrapFunction0(jn_Buffer_remaining), "$hasRemaining", $rt_wrapFunction0(jn_Buffer_hasRemaining)],
     lpic_Comando0, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpic_IO, 0, jl_Object, [lpic_Comando0], 3, 3, 0, 0, 0,
-    lpic_Read0, 0, jl_Object, [lpic_IO], 0, 3, 0, 0, ["$_init_72", $rt_wrapFunction1(lpic_Read__init_0), "$executar11", $rt_wrapFunction1(lpic_Read_executar), "$checaTipo9", $rt_wrapFunction1(lpic_Read_checaTipo)],
-    lpiu_Lista, "Lista", 38, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_2), "$_init_33", $rt_wrapFunction2(lpiu_Lista__init_), "$length", $rt_wrapFunction0(lpiu_Lista_length0), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead0), "$getTail", $rt_wrapFunction0(lpiu_Lista_getTail2), "$toString", $rt_wrapFunction0(lpiu_Lista_toString1)],
-    lpodp_ListaDeclaracaoParametro0, "ListaDeclaracaoParametro", 28, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpodp_ListaDeclaracaoParametro__init_0), "$_init_187", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro__init_5), "$_init_188", $rt_wrapFunction2(lpodp_ListaDeclaracaoParametro__init_), "$checaTipo0", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_checaTipo), "$declaraParametro", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_declaraParametro0)]]);
+    lpic_Read0, 0, jl_Object, [lpic_IO], 0, 3, 0, 0, ["$_init_71", $rt_wrapFunction1(lpic_Read__init_0), "$executar11", $rt_wrapFunction1(lpic_Read_executar), "$checaTipo9", $rt_wrapFunction1(lpic_Read_checaTipo)],
+    lpiu_Lista, "Lista", 38, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_2), "$_init_32", $rt_wrapFunction2(lpiu_Lista__init_), "$length", $rt_wrapFunction0(lpiu_Lista_length0), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead0), "$getTail", $rt_wrapFunction0(lpiu_Lista_getTail2), "$toString", $rt_wrapFunction0(lpiu_Lista_toString1)],
+    lpodp_ListaDeclaracaoParametro0, "ListaDeclaracaoParametro", 28, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpodp_ListaDeclaracaoParametro__init_0), "$_init_186", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro__init_5), "$_init_187", $rt_wrapFunction2(lpodp_ListaDeclaracaoParametro__init_), "$checaTipo0", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_checaTipo), "$declaraParametro", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_declaraParametro0)]]);
     $rt_metadata([lpem_Ambiente4, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpoc_Comando, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpoc_IO0, 0, jl_Object, [lpoc_Comando], 3, 3, 0, 0, 0,
-    lpoc_Write0, 0, jl_Object, [lpoc_IO0], 0, 3, 0, 0, ["$_init_45", $rt_wrapFunction1(lpoc_Write__init_0), "$executar10", $rt_wrapFunction1(lpoc_Write_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_Write_checaTipo0)],
+    lpoc_Write0, 0, jl_Object, [lpoc_IO0], 0, 3, 0, 0, ["$_init_44", $rt_wrapFunction1(lpoc_Write__init_0), "$executar10", $rt_wrapFunction1(lpoc_Write_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_Write_checaTipo0)],
     lpoee_EntradaNaoFornecidaException, "EntradaNaoFornecidaException", 89, jl_Exception, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoee_EntradaNaoFornecidaException__init_)],
-    lpee_ExpUnaria5, 0, jl_Object, [lpee_Expressao3], 1, 3, 0, 0, ["$_init_34", $rt_wrapFunction2(lpee_ExpUnaria__init_0), "$getExp", $rt_wrapFunction0(lpee_ExpUnaria_getExp1), "$checaTipo", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo)],
+    lpee_ExpUnaria5, 0, jl_Object, [lpee_Expressao3], 1, 3, 0, 0, ["$_init_33", $rt_wrapFunction2(lpee_ExpUnaria__init_0), "$getExp", $rt_wrapFunction0(lpee_ExpUnaria_getExp1), "$checaTipo", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo)],
     lpem_Ambiente2, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpem_AmbienteExecucao3, 0, jl_Object, [lpem_Ambiente2], 3, 3, 0, 0, 0,
     lpfm_AmbienteFuncional, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpfm_AmbienteExecucaoFuncional, 0, jl_Object, [lpem_AmbienteExecucao3, lpfm_AmbienteFuncional], 3, 3, 0, 0, 0,
-    lpop_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpop_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpop_TokenMgrError__init_), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpop_TokenMgrError__init_1(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpop_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpop_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpop_TokenMgrError__init_), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpop_TokenMgrError__init_1(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
     lpem_Ambiente3, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpee_ExpLength5, 0, lpee_ExpUnaria5, [], 0, 3, 0, 0, ["$_init_73", $rt_wrapFunction1(lpee_ExpLength__init_7), "$avaliar", $rt_wrapFunction1(lpee_ExpLength_avaliar2), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal4), "$getTipo", $rt_wrapFunction1(lpee_ExpLength_getTipo3)],
-    lpom_DefClasse0, "DefClasse", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_117", $rt_wrapFunction3(lpom_DefClasse__init_0), "$getDecVariavel0", $rt_wrapFunction0(lpom_DefClasse_getDecVariavel0), "$getMetodo0", $rt_wrapFunction1(lpom_DefClasse_getMetodo0), "$getTipoAtributo0", $rt_wrapFunction1(lpom_DefClasse_getTipoAtributo0)],
+    lpee_ExpLength5, 0, lpee_ExpUnaria5, [], 0, 3, 0, 0, ["$_init_72", $rt_wrapFunction1(lpee_ExpLength__init_7), "$avaliar", $rt_wrapFunction1(lpee_ExpLength_avaliar2), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal4), "$getTipo", $rt_wrapFunction1(lpee_ExpLength_getTipo3)],
+    lpom_DefClasse0, "DefClasse", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_116", $rt_wrapFunction3(lpom_DefClasse__init_0), "$getDecVariavel0", $rt_wrapFunction0(lpom_DefClasse_getDecVariavel0), "$getMetodo0", $rt_wrapFunction1(lpom_DefClasse_getMetodo0), "$getTipoAtributo0", $rt_wrapFunction1(lpom_DefClasse_getTipoAtributo0)],
     lpim_EntradaVaziaException0, "EntradaVaziaException", 52, jl_Exception, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpim_EntradaVaziaException__init_0)],
     lpem_MetadadosDepuracao, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_MetadadosDepuracao__init_3), "$getPilhaSnapshot", $rt_wrapFunction0(lpem_MetadadosDepuracao_getPilhaSnapshot3), "$toSnapshot", $rt_wrapFunction0(lpem_MetadadosDepuracao_toSnapshot2)],
     lpop_OO1ParserConstants, 0, jl_Object, [], 3, 3, 0, lpop_OO1ParserConstants_$callClinit, 0,
@@ -74829,71 +74776,71 @@ var __runCode;
     lpem_Ambiente7, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpom_AmbienteOO1, 0, jl_Object, [lpem_Ambiente7], 3, 3, 0, 0, 0,
     lpom_AmbienteCompilacaoOO10, 0, jl_Object, [lpom_AmbienteOO1], 3, 3, 0, 0, 0,
-    lpom_ContextoCompilacaoOO10, 0, jl_Object, [lpom_AmbienteCompilacaoOO10], 0, 3, 0, 0, ["$_init_137", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1__init_0), "$incrementa", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_incrementa), "$registraEscopo1", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_registraEscopo1), "$registraEscopo2", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_registraEscopo0), "$restaura", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_restaura0), "$map2", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map),
-    "$mapParametrosProcedimento0", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapParametrosProcedimento0), "$mapDefClasse", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapDefClasse0), "$get4", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get2), "$getDefClasse0", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_getDefClasse0), "$getPilhaSnapshot5", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_getPilhaSnapshot0), "$map3", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map1), "$get5", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get)],
+    lpom_ContextoCompilacaoOO10, 0, jl_Object, [lpom_AmbienteCompilacaoOO10], 0, 3, 0, 0, ["$_init_136", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1__init_0), "$incrementa", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_incrementa), "$registraEscopo1", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_registraEscopo1), "$registraEscopo2", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_registraEscopo0), "$restaura", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_restaura0), "$map2", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map),
+    "$mapParametrosProcedimento0", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapParametrosProcedimento0), "$mapDefClasse", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapDefClasse0), "$get4", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get2), "$getDefClasse0", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_getDefClasse0), "$getPilhaSnapshot5", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_getPilhaSnapshot0), "$get5", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get), "$map3", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map1)],
     lpee_Expressao, "Expressao", 123, jl_Object, [], 3, 3, 0, 0, 0,
-    lpee_ExpBinaria, "ExpBinaria", 123, jl_Object, [lpee_Expressao], 1, 3, 0, 0, ["$_init_66", $rt_wrapFunction3(lpee_ExpBinaria__init_), "$getEsq3", $rt_wrapFunction0(lpee_ExpBinaria_getEsq3), "$getDir3", $rt_wrapFunction0(lpee_ExpBinaria_getDir3), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString), "$checaTipo5", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo0), "$reduzir", $rt_wrapFunction1(lpee_ExpBinaria_reduzir0)],
-    lpfe_ExpMult, "ExpMult", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpfe_ExpMult__init_), "$avaliar3", $rt_wrapFunction1(lpfe_ExpMult_avaliar), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpMult_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpfe_ExpMult_getTipo), "$clone2", $rt_wrapFunction0(lpfe_ExpMult_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpMult_clone0)],
-    lpip_ParseException, "ParseException", 71, jl_Exception, [], 0, 3, 0, 0, ["$_init_82", $rt_wrapFunction3(lpip_ParseException__init_1), "$_init_0", $rt_wrapFunction0(lpip_ParseException__init_3)],
+    lpee_ExpBinaria, "ExpBinaria", 123, jl_Object, [lpee_Expressao], 1, 3, 0, 0, ["$_init_65", $rt_wrapFunction3(lpee_ExpBinaria__init_), "$getEsq3", $rt_wrapFunction0(lpee_ExpBinaria_getEsq3), "$getDir3", $rt_wrapFunction0(lpee_ExpBinaria_getDir3), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString), "$checaTipo5", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo0), "$reduzir", $rt_wrapFunction1(lpee_ExpBinaria_reduzir0)],
+    lpfe_ExpMult, "ExpMult", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpfe_ExpMult__init_), "$avaliar3", $rt_wrapFunction1(lpfe_ExpMult_avaliar), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpMult_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpfe_ExpMult_getTipo), "$clone2", $rt_wrapFunction0(lpfe_ExpMult_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpMult_clone0)],
+    lpip_ParseException, "ParseException", 71, jl_Exception, [], 0, 3, 0, 0, ["$_init_81", $rt_wrapFunction3(lpip_ParseException__init_1), "$_init_0", $rt_wrapFunction0(lpip_ParseException__init_3)],
     lpem_Contexto, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_Contexto__init_), "$incrementa", $rt_wrapFunction0(lpem_Contexto_incrementa3), "$registraEscopo3", $rt_wrapFunction1(lpem_Contexto_registraEscopo2), "$restaura", $rt_wrapFunction0(lpem_Contexto_restaura4), "$map0", $rt_wrapFunction2(lpem_Contexto_map), "$get1", $rt_wrapFunction1(lpem_Contexto_get2), "$getPilhaSnapshot5", $rt_wrapFunction0(lpem_Contexto_getPilhaSnapshot5)],
     lpfm_ContextoFuncional, 0, lpem_Contexto, [lpem_Ambiente], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfm_ContextoFuncional__init_)],
     lpem_AmbienteExecucao5, 0, jl_Object, [lpem_Ambiente4], 3, 3, 0, 0, 0,
-    lpfd_DecVariavel, 0, jl_Object, [lpfd_DeclaracaoFuncional0], 0, 3, 0, 0, ["$_init_257", $rt_wrapFunction2(lpfd_DecVariavel__init_0), "$getExpressao", $rt_wrapFunction0(lpfd_DecVariavel_getExpressao1), "$getId0", $rt_wrapFunction0(lpfd_DecVariavel_getId), "$getTipo6", $rt_wrapFunction1(lpfd_DecVariavel_getTipo1), "$checaTipo1", $rt_wrapFunction1(lpfd_DecVariavel_checaTipo), "$elabora0", $rt_wrapFunction2(lpfd_DecVariavel_elabora4), "$incluir0", $rt_wrapFunction2(lpfd_DecVariavel_incluir3), "$elabora", $rt_wrapFunction2(lpfd_DecVariavel_elabora),
+    lpfd_DecVariavel, 0, jl_Object, [lpfd_DeclaracaoFuncional0], 0, 3, 0, 0, ["$_init_256", $rt_wrapFunction2(lpfd_DecVariavel__init_0), "$getExpressao", $rt_wrapFunction0(lpfd_DecVariavel_getExpressao1), "$getId0", $rt_wrapFunction0(lpfd_DecVariavel_getId), "$getTipo6", $rt_wrapFunction1(lpfd_DecVariavel_getTipo1), "$checaTipo1", $rt_wrapFunction1(lpfd_DecVariavel_checaTipo), "$elabora0", $rt_wrapFunction2(lpfd_DecVariavel_elabora4), "$incluir0", $rt_wrapFunction2(lpfd_DecVariavel_incluir3), "$elabora", $rt_wrapFunction2(lpfd_DecVariavel_elabora),
     "$incluir", $rt_wrapFunction2(lpfd_DecVariavel_incluir4)],
     lpeu_Tipo, "Tipo", 126, jl_Object, [], 3, 3, 0, 0, 0,
-    lpfu_TipoFuncao0, "TipoFuncao", 120, jl_Object, [lpeu_Tipo], 0, 3, [0,0,0], 0, ["$_init_138", $rt_wrapFunction2(lpfu_TipoFuncao__init_4), "$getNome", $rt_wrapFunction0(lpfu_TipoFuncao_getNome0), "$getDominio", $rt_wrapFunction0(lpfu_TipoFuncao_getDominio), "$getImagem", $rt_wrapFunction0(lpfu_TipoFuncao_getImagem0), "$eBooleano", $rt_wrapFunction0(lpfu_TipoFuncao_eBooleano0), "$eInteiro", $rt_wrapFunction0(lpfu_TipoFuncao_eInteiro1), "$eString", $rt_wrapFunction0(lpfu_TipoFuncao_eString0), "$eValido", $rt_wrapFunction0(lpfu_TipoFuncao_eValido0),
+    lpfu_TipoFuncao0, "TipoFuncao", 120, jl_Object, [lpeu_Tipo], 0, 3, [0,0,0], 0, ["$_init_137", $rt_wrapFunction2(lpfu_TipoFuncao__init_4), "$getNome", $rt_wrapFunction0(lpfu_TipoFuncao_getNome0), "$getDominio", $rt_wrapFunction0(lpfu_TipoFuncao_getDominio), "$getImagem", $rt_wrapFunction0(lpfu_TipoFuncao_getImagem0), "$eBooleano", $rt_wrapFunction0(lpfu_TipoFuncao_eBooleano0), "$eInteiro", $rt_wrapFunction0(lpfu_TipoFuncao_eInteiro1), "$eString", $rt_wrapFunction0(lpfu_TipoFuncao_eString0), "$eValido", $rt_wrapFunction0(lpfu_TipoFuncao_eValido0),
     "$eIgual0", $rt_wrapFunction1(lpfu_TipoFuncao_eIgual), "$intersecao3", $rt_wrapFunction1(lpfu_TipoFuncao_intersecao0), "$toString", $rt_wrapFunction0(lpfu_TipoFuncao_toString1), "$checaTipo13", $rt_wrapFunction2(lpfu_TipoFuncao_checaTipo0), "$getTipo16", $rt_wrapFunction2(lpfu_TipoFuncao_getTipo1)],
     lpip_Imp1ParserConstants, 0, jl_Object, [], 3, 3, 0, lpip_Imp1ParserConstants_$callClinit, 0,
     lpip_Imp1Parser, 0, jl_Object, [lpip_Imp1ParserConstants], 0, 3, 0, lpip_Imp1Parser_$callClinit, ["$_init_16", $rt_wrapFunction1(lpip_Imp1Parser__init_0), "$_init_15", $rt_wrapFunction2(lpip_Imp1Parser__init_)],
     otji_JS, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    jnc_Charset, "Charset", 3, jl_Object, [jl_Comparable], 1, 3, 0, 0, ["$_init_84", $rt_wrapFunction2(jnc_Charset__init_), "$name", $rt_wrapFunction0(jnc_Charset_name), "$encode", $rt_wrapFunction1(jnc_Charset_encode)],
-    jnci_UTF16Charset, "UTF16Charset", 4, jnc_Charset, [], 0, 3, 0, 0, ["$_init_276", $rt_wrapFunction3(jnci_UTF16Charset__init_0), "$newDecoder", $rt_wrapFunction0(jnci_UTF16Charset_newDecoder)],
+    jnc_Charset, "Charset", 3, jl_Object, [jl_Comparable], 1, 3, 0, 0, ["$_init_83", $rt_wrapFunction2(jnc_Charset__init_), "$name", $rt_wrapFunction0(jnc_Charset_name), "$encode", $rt_wrapFunction1(jnc_Charset_encode)],
+    jnci_UTF16Charset, "UTF16Charset", 4, jnc_Charset, [], 0, 3, 0, 0, ["$_init_275", $rt_wrapFunction3(jnci_UTF16Charset__init_0), "$newDecoder", $rt_wrapFunction0(jnci_UTF16Charset_newDecoder)],
     lpoe_Expressao0, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpoev_Valor0, 0, jl_Object, [lpoe_Expressao0], 3, 3, 0, 0, 0,
     lpoev_ValorConcreto, 0, jl_Object, [lpoev_Valor0], 3, 3, 0, 0, 0,
-    lpee_ExpUnaria1, "ExpUnaria", 147, jl_Object, [lpee_Expressao0], 1, 3, 0, 0, ["$_init_86", $rt_wrapFunction2(lpee_ExpUnaria__init_1), "$getExp0", $rt_wrapFunction0(lpee_ExpUnaria_getExp3), "$checaTipo6", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo4), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString), "$reduzir0", $rt_wrapFunction1(lpee_ExpUnaria_reduzir0)],
-    lpee_ExpMenos, "ExpMenos", 147, lpee_ExpUnaria1, [], 0, 3, 0, 0, ["$_init_87", $rt_wrapFunction1(lpee_ExpMenos__init_2), "$avaliar5", $rt_wrapFunction1(lpee_ExpMenos_avaliar4), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal0), "$getTipo7", $rt_wrapFunction1(lpee_ExpMenos_getTipo5), "$clone4", $rt_wrapFunction0(lpee_ExpMenos_clone), "$clone3", $rt_wrapFunction0(lpee_ExpMenos_clone2)],
+    lpee_ExpUnaria1, "ExpUnaria", 147, jl_Object, [lpee_Expressao0], 1, 3, 0, 0, ["$_init_85", $rt_wrapFunction2(lpee_ExpUnaria__init_1), "$getExp0", $rt_wrapFunction0(lpee_ExpUnaria_getExp3), "$checaTipo6", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo4), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString), "$reduzir0", $rt_wrapFunction1(lpee_ExpUnaria_reduzir0)],
+    lpee_ExpMenos, "ExpMenos", 147, lpee_ExpUnaria1, [], 0, 3, 0, 0, ["$_init_86", $rt_wrapFunction1(lpee_ExpMenos__init_2), "$avaliar5", $rt_wrapFunction1(lpee_ExpMenos_avaliar4), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal0), "$getTipo7", $rt_wrapFunction1(lpee_ExpMenos_getTipo5), "$clone4", $rt_wrapFunction0(lpee_ExpMenos_clone), "$clone3", $rt_wrapFunction0(lpee_ExpMenos_clone2)],
     otciu_UnicodeHelper, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    lpoed_ClasseJaDeclaradaException0, "ClasseJaDeclaradaException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpoed_ClasseJaDeclaradaException__init_0)],
+    lpoed_ClasseJaDeclaradaException0, "ClasseJaDeclaradaException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpoed_ClasseJaDeclaradaException__init_0)],
     otp_PlatformRunnable, 0, jl_Object, [], 3, 3, 0, 0, 0,
     jl_Object$monitorEnterWait$lambda$_6_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, 0, ["$_init_1", $rt_wrapFunction4(jl_Object$monitorEnterWait$lambda$_6_0__init_), "$run", $rt_wrapFunction0(jl_Object$monitorEnterWait$lambda$_6_0_run)]]);
     $rt_metadata([lpem_IdentificadorJaDeclaradoException3, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_2), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorJaDeclaradoException__init_8)],
     lpoel_LeftExpression0, 0, jl_Object, [lpoe_Expressao0], 3, 3, 0, 0, 0,
-    lpoel_AcessoAtributo, 0, jl_Object, [lpoel_LeftExpression0], 1, 3, 0, 0, ["$_init_49", $rt_wrapFunction1(lpoel_AcessoAtributo__init_), "$getId4", $rt_wrapFunction0(lpoel_AcessoAtributo_getId0)],
+    lpoel_AcessoAtributo, 0, jl_Object, [lpoel_LeftExpression0], 1, 3, 0, 0, ["$_init_48", $rt_wrapFunction1(lpoel_AcessoAtributo__init_), "$getId4", $rt_wrapFunction0(lpoel_AcessoAtributo_getId0)],
     otj_JSObject, 0, jl_Object, [], 3, 3, 0, 0, 0,
     otjc_JSUndefined, 0, jl_Object, [otj_JSObject], 0, 3, 0, 0, 0,
-    lpoc_ChamadaMetodo, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_122", $rt_wrapFunction3(lpoc_ChamadaMetodo__init_)],
-    jnc_CharsetEncoder, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_90", $rt_wrapFunction4(jnc_CharsetEncoder__init_0), "$_init_143", $rt_wrapFunction3(jnc_CharsetEncoder__init_), "$onMalformedInput", $rt_wrapFunction1(jnc_CharsetEncoder_onMalformedInput), "$implOnMalformedInput", $rt_wrapFunction1(jnc_CharsetEncoder_implOnMalformedInput), "$onUnmappableCharacter", $rt_wrapFunction1(jnc_CharsetEncoder_onUnmappableCharacter), "$implOnUnmappableCharacter", $rt_wrapFunction1(jnc_CharsetEncoder_implOnUnmappableCharacter),
+    lpoc_ChamadaMetodo, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_121", $rt_wrapFunction3(lpoc_ChamadaMetodo__init_)],
+    jnc_CharsetEncoder, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_89", $rt_wrapFunction4(jnc_CharsetEncoder__init_0), "$_init_142", $rt_wrapFunction3(jnc_CharsetEncoder__init_), "$onMalformedInput", $rt_wrapFunction1(jnc_CharsetEncoder_onMalformedInput), "$implOnMalformedInput", $rt_wrapFunction1(jnc_CharsetEncoder_implOnMalformedInput), "$onUnmappableCharacter", $rt_wrapFunction1(jnc_CharsetEncoder_onUnmappableCharacter), "$implOnUnmappableCharacter", $rt_wrapFunction1(jnc_CharsetEncoder_implOnUnmappableCharacter),
     "$encode0", $rt_wrapFunction3(jnc_CharsetEncoder_encode), "$encode", $rt_wrapFunction1(jnc_CharsetEncoder_encode0), "$flush", $rt_wrapFunction1(jnc_CharsetEncoder_flush), "$implFlush", $rt_wrapFunction1(jnc_CharsetEncoder_implFlush), "$reset", $rt_wrapFunction0(jnc_CharsetEncoder_reset), "$implReset", $rt_wrapFunction0(jnc_CharsetEncoder_implReset)],
     jnci_AsciiCharset, "AsciiCharset", 4, jnc_Charset, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jnci_AsciiCharset__init_), "$newDecoder", $rt_wrapFunction0(jnci_AsciiCharset_newDecoder)],
     jl_ArrayStoreException, "ArrayStoreException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_ArrayStoreException__init_0)],
-    lpip_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpip_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpip_TokenMgrError__init_), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpip_TokenMgrError__init_1(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
-    lpoeu_ExpUnaria, 0, jl_Object, [lpoe_Expressao0], 1, 3, 0, 0, ["$_init_92", $rt_wrapFunction2(lpoeu_ExpUnaria__init_), "$getExp1", $rt_wrapFunction0(lpoeu_ExpUnaria_getExp0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpUnaria_checaTipo)],
-    lpoeu_ExpNot, "ExpNot", 97, lpoeu_ExpUnaria, [], 0, 3, 0, 0, ["$_init_45", $rt_wrapFunction1(lpoeu_ExpNot__init_0), "$avaliar2", $rt_wrapFunction1(lpoeu_ExpNot_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpNot_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeu_ExpNot_getTipo)],
-    lpfe_IfThenElse1, "IfThenElse", 75, jl_Object, [lpee_Expressao1], 0, 3, 0, 0, ["$_init_262", $rt_wrapFunction3(lpfe_IfThenElse__init_0), "$avaliar4", $rt_wrapFunction1(lpfe_IfThenElse_avaliar), "$checaTipo1", $rt_wrapFunction1(lpfe_IfThenElse_checaTipo0), "$getTipo6", $rt_wrapFunction1(lpfe_IfThenElse_getTipo1), "$toString", $rt_wrapFunction0(lpfe_IfThenElse_toString1)],
-    lpfp_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Token__init_7), "$_init_93", $rt_wrapFunction2(lpfp_Token__init_), "$toString", $rt_wrapFunction0(lpfp_Token_toString1)],
-    lpoc_Read0, 0, jl_Object, [lpoc_IO0], 0, 3, 0, 0, ["$_init_49", $rt_wrapFunction1(lpoc_Read__init_), "$executar10", $rt_wrapFunction1(lpoc_Read_executar), "$checaTipo4", $rt_wrapFunction1(lpoc_Read_checaTipo0)],
-    lpic_Write0, 0, jl_Object, [lpic_IO], 0, 3, 0, 0, ["$_init_73", $rt_wrapFunction1(lpic_Write__init_), "$executar11", $rt_wrapFunction1(lpic_Write_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_Write_checaTipo)],
-    lpop_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpop_Token__init_3), "$_init_93", $rt_wrapFunction2(lpop_Token__init_2), "$toString", $rt_wrapFunction0(lpop_Token_toString)],
-    lpid_DefProcedimento, "DefProcedimento", 50, jl_Object, [], 0, 3, [0,0,0], 0, ["$_init_94", $rt_wrapFunction2(lpid_DefProcedimento__init_), "$_init_215", $rt_wrapFunction3(lpid_DefProcedimento__init_0), "$getComando0", $rt_wrapFunction0(lpid_DefProcedimento_getComando), "$getInfoEscopo", $rt_wrapFunction0(lpid_DefProcedimento_getInfoEscopo), "$getParametrosFormais0", $rt_wrapFunction0(lpid_DefProcedimento_getParametrosFormais), "$getTipo15", $rt_wrapFunction0(lpid_DefProcedimento_getTipo)],
+    lpip_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpip_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpip_TokenMgrError__init_), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpip_TokenMgrError__init_1(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpoeu_ExpUnaria, 0, jl_Object, [lpoe_Expressao0], 1, 3, 0, 0, ["$_init_91", $rt_wrapFunction2(lpoeu_ExpUnaria__init_), "$getExp1", $rt_wrapFunction0(lpoeu_ExpUnaria_getExp0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpUnaria_checaTipo)],
+    lpoeu_ExpNot, "ExpNot", 97, lpoeu_ExpUnaria, [], 0, 3, 0, 0, ["$_init_44", $rt_wrapFunction1(lpoeu_ExpNot__init_0), "$avaliar2", $rt_wrapFunction1(lpoeu_ExpNot_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpNot_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeu_ExpNot_getTipo)],
+    lpfe_IfThenElse1, "IfThenElse", 75, jl_Object, [lpee_Expressao1], 0, 3, 0, 0, ["$_init_261", $rt_wrapFunction3(lpfe_IfThenElse__init_0), "$avaliar4", $rt_wrapFunction1(lpfe_IfThenElse_avaliar), "$checaTipo1", $rt_wrapFunction1(lpfe_IfThenElse_checaTipo0), "$getTipo6", $rt_wrapFunction1(lpfe_IfThenElse_getTipo1), "$toString", $rt_wrapFunction0(lpfe_IfThenElse_toString1)],
+    lpfp_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Token__init_7), "$_init_92", $rt_wrapFunction2(lpfp_Token__init_), "$toString", $rt_wrapFunction0(lpfp_Token_toString1)],
+    lpoc_Read0, 0, jl_Object, [lpoc_IO0], 0, 3, 0, 0, ["$_init_48", $rt_wrapFunction1(lpoc_Read__init_), "$executar10", $rt_wrapFunction1(lpoc_Read_executar), "$checaTipo4", $rt_wrapFunction1(lpoc_Read_checaTipo0)],
+    lpic_Write0, 0, jl_Object, [lpic_IO], 0, 3, 0, 0, ["$_init_72", $rt_wrapFunction1(lpic_Write__init_), "$executar11", $rt_wrapFunction1(lpic_Write_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_Write_checaTipo)],
+    lpop_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpop_Token__init_3), "$_init_92", $rt_wrapFunction2(lpop_Token__init_2), "$toString", $rt_wrapFunction0(lpop_Token_toString)],
+    lpid_DefProcedimento, "DefProcedimento", 50, jl_Object, [], 0, 3, [0,0,0], 0, ["$_init_93", $rt_wrapFunction2(lpid_DefProcedimento__init_), "$_init_214", $rt_wrapFunction3(lpid_DefProcedimento__init_0), "$getComando0", $rt_wrapFunction0(lpid_DefProcedimento_getComando), "$getInfoEscopo", $rt_wrapFunction0(lpid_DefProcedimento_getInfoEscopo), "$getParametrosFormais0", $rt_wrapFunction0(lpid_DefProcedimento_getParametrosFormais), "$getTipo15", $rt_wrapFunction0(lpid_DefProcedimento_getTipo)],
     lpem_AmbienteExecucao1, 0, jl_Object, [lpem_Ambiente3], 3, 3, 0, 0, 0,
-    lpic_Atribuicao, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpic_Atribuicao__init_0), "$executar9", $rt_wrapFunction1(lpic_Atribuicao_executar), "$checaTipo10", $rt_wrapFunction1(lpic_Atribuicao_checaTipo)],
+    lpic_Atribuicao, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_207", $rt_wrapFunction2(lpic_Atribuicao__init_0), "$executar9", $rt_wrapFunction1(lpic_Atribuicao_executar), "$checaTipo10", $rt_wrapFunction1(lpic_Atribuicao_checaTipo)],
     lpee_ExpOr5, 0, lpee_ExpBinaria3, [], 0, 3, 0, 0, ["$_init_21", $rt_wrapFunction2(lpee_ExpOr__init_4), "$avaliar1", $rt_wrapFunction1(lpee_ExpOr_avaliar), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal3), "$getTipo1", $rt_wrapFunction1(lpee_ExpOr_getTipo5)],
     lpee_Expressao7, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpem_IdentificadorJaDeclaradoException0, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_4), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorJaDeclaradoException__init_10)],
-    lpem_VariavelJaDeclaradaException6, "VariavelJaDeclaradaException", 124, lpem_IdentificadorJaDeclaradoException0, [], 0, 3, 0, 0, ["$_init_98", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_8)],
+    lpem_VariavelJaDeclaradaException6, "VariavelJaDeclaradaException", 124, lpem_IdentificadorJaDeclaradoException0, [], 0, 3, 0, 0, ["$_init_97", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_8)],
     lpeu_ToStringProvider2, 0, jl_Object, [], 0, 3, 0, 0, 0,
     jl_IllegalArgumentException, "IllegalArgumentException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_IllegalArgumentException__init_2), "$_init_", $rt_wrapFunction1(jl_IllegalArgumentException__init_)],
     jnc_IllegalCharsetNameException, "IllegalCharsetNameException", 3, jl_IllegalArgumentException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(jnc_IllegalCharsetNameException__init_0)],
-    lpep_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpep_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpep_TokenMgrError__init_0), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpep_TokenMgrError__init_1(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpep_TokenMgrError, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpep_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpep_TokenMgrError__init_0), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpep_TokenMgrError__init_1(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
     jl_AutoCloseable, 0, jl_Object, [], 3, 3, 0, 0, 0,
     ji_Closeable, 0, jl_Object, [jl_AutoCloseable], 3, 3, 0, 0, 0,
     ji_Flushable, 0, jl_Object, [], 3, 3, 0, 0, 0,
     ji_OutputStream, 0, jl_Object, [ji_Closeable, ji_Flushable], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ji_OutputStream__init_)],
-    ji_FilterOutputStream, 0, ji_OutputStream, [], 0, 3, 0, 0, ["$_init_96", $rt_wrapFunction1(ji_FilterOutputStream__init_)],
-    ji_PrintStream, 0, ji_FilterOutputStream, [jl_Appendable], 0, 3, 0, 0, ["$_init_269", $rt_wrapFunction3(ji_PrintStream__init_)],
+    ji_FilterOutputStream, 0, ji_OutputStream, [], 0, 3, 0, 0, ["$_init_95", $rt_wrapFunction1(ji_FilterOutputStream__init_)],
+    ji_PrintStream, 0, ji_FilterOutputStream, [jl_Appendable], 0, 3, 0, 0, ["$_init_268", $rt_wrapFunction3(ji_PrintStream__init_)],
     lpeu_Tipo3, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpee_ValorInteiro4, "ValorInteiro", 43, lpee_ValorConcreto4, [], 0, 3, [0,0,0], 0, ["$_init_35", $rt_wrapFunction1(lpee_ValorInteiro__init_9), "$getTipo9", $rt_wrapFunction1(lpee_ValorInteiro_getTipo1)],
+    lpee_ValorInteiro4, "ValorInteiro", 43, lpee_ValorConcreto4, [], 0, 3, [0,0,0], 0, ["$_init_34", $rt_wrapFunction1(lpee_ValorInteiro__init_9), "$getTipo9", $rt_wrapFunction1(lpee_ValorInteiro_getTipo1)],
     ju_IllegalFormatException, 0, jl_IllegalArgumentException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ju_IllegalFormatException__init_)],
     ju_UnknownFormatConversionException, "UnknownFormatConversionException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ju_UnknownFormatConversionException__init_0)],
     lpoev_Valor, 0, jl_Object, [lpoe_Expressao], 3, 3, 0, 0, 0,
@@ -74906,17 +74853,17 @@ var __runCode;
     lpip_JavaCharStream0, 0, jl_Object, [], 0, 3, 0, lpip_JavaCharStream_$callClinit0, ["$_init_14", $rt_wrapFunction4(lpip_JavaCharStream__init_), "$ReInit", $rt_wrapFunction4(lpip_JavaCharStream_ReInit1), "$_init_17", function(var_1, var_2, var_3, var_4, var_5) { lpip_JavaCharStream__init_0(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpip_JavaCharStream__init_3), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpip_JavaCharStream_ReInit3(this, var_1, var_2, var_3,
     var_4, var_5); }, "$ReInit2", $rt_wrapFunction4(lpip_JavaCharStream_ReInit)],
     ju_IllegalFormatCodePointException, "IllegalFormatCodePointException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(ju_IllegalFormatCodePointException__init_)],
-    lpom_QuadroEscopo, "QuadroEscopo", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_248", $rt_wrapFunction2(lpom_QuadroEscopo__init_1), "$_init_99", $rt_wrapFunction3(lpom_QuadroEscopo__init_), "$adicionaBinding4", $rt_wrapFunction2(lpom_QuadroEscopo_adicionaBinding), "$getNome", $rt_wrapFunction0(lpom_QuadroEscopo_getNome0), "$getEscopo", $rt_wrapFunction0(lpom_QuadroEscopo_getEscopo), "$getTrechoCodigoFonte4", $rt_wrapFunction0(lpom_QuadroEscopo_getTrechoCodigoFonte), "$getBindings", $rt_wrapFunction0(lpom_QuadroEscopo_getBindings0)],
+    lpom_QuadroEscopo, "QuadroEscopo", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_247", $rt_wrapFunction2(lpom_QuadroEscopo__init_1), "$_init_98", $rt_wrapFunction3(lpom_QuadroEscopo__init_), "$adicionaBinding4", $rt_wrapFunction2(lpom_QuadroEscopo_adicionaBinding), "$getNome", $rt_wrapFunction0(lpom_QuadroEscopo_getNome0), "$getEscopo", $rt_wrapFunction0(lpom_QuadroEscopo_getEscopo), "$getTrechoCodigoFonte4", $rt_wrapFunction0(lpom_QuadroEscopo_getTrechoCodigoFonte), "$getBindings", $rt_wrapFunction0(lpom_QuadroEscopo_getBindings0)],
     lpee_Id1, "Id", 103, jl_Object, [lpee_Expressao7], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_1), "$toString", $rt_wrapFunction0(lpee_Id_toString), "$getIdName", $rt_wrapFunction0(lpee_Id_getIdName), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode6), "$equals", $rt_wrapFunction1(lpee_Id_equals6)],
     lpoel_Id0, "Id", 98, lpee_Id1, [lpoel_LeftExpression0], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpoel_Id__init_1), "$toString", $rt_wrapFunction0(lpoel_Id_toString0), "$avaliar2", $rt_wrapFunction1(lpoel_Id_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoel_Id_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoel_Id_getTipo), "$getId4", $rt_wrapFunction0(lpoel_Id_getId0)]]);
-    $rt_metadata([lpem_TrechoCodigoFonte3, "TrechoCodigoFonte", 109, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_5), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio0), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio2), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim3), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim2)],
+    $rt_metadata([lpem_TrechoCodigoFonte3, "TrechoCodigoFonte", 109, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_5), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio0), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio2), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim3), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim2)],
     jlr_AnnotatedElement, 0, jl_Object, [], 3, 3, 0, 0, 0,
     jlr_Type, 0, jl_Object, [], 3, 3, 0, 0, 0,
     jl_Class, "Class", 8, jl_Object, [jlr_AnnotatedElement, jlr_Type], 4, 3, 0, 0, ["$toString", $rt_wrapFunction0(jl_Class_toString), "$getPlatformClass", $rt_wrapFunction0(jl_Class_getPlatformClass), "$isInstance0", $rt_wrapFunction1(jl_Class_isInstance), "$isAssignableFrom", $rt_wrapFunction1(jl_Class_isAssignableFrom), "$getName", $rt_wrapFunction0(jl_Class_getName), "$getSimpleName", $rt_wrapFunction0(jl_Class_getSimpleName), "$isPrimitive", $rt_wrapFunction0(jl_Class_isPrimitive), "$isArray", $rt_wrapFunction0(jl_Class_isArray),
     "$isInterface", $rt_wrapFunction0(jl_Class_isInterface), "$getComponentType", $rt_wrapFunction0(jl_Class_getComponentType), "$getDeclaredFields", $rt_wrapFunction0(jl_Class_getDeclaredFields), "$getDeclaredField", $rt_wrapFunction1(jl_Class_getDeclaredField), "$desiredAssertionStatus", $rt_wrapFunction0(jl_Class_desiredAssertionStatus), "$getSuperclass", $rt_wrapFunction0(jl_Class_getSuperclass), "$getEnclosingClass", $rt_wrapFunction0(jl_Class_getEnclosingClass)],
     lpem_IdentificadorJaDeclaradoException2, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_3), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorJaDeclaradoException__init_11)],
     lpoel_LeftExpression, 0, jl_Object, [lpoe_Expressao], 3, 3, 0, 0, 0,
-    lpoel_AcessoAtributo0, 0, jl_Object, [lpoel_LeftExpression], 1, 3, 0, 0, ["$_init_131", $rt_wrapFunction1(lpoel_AcessoAtributo__init_0), "$getId", $rt_wrapFunction0(lpoel_AcessoAtributo_getId)],
+    lpoel_AcessoAtributo0, 0, jl_Object, [lpoel_LeftExpression], 1, 3, 0, 0, ["$_init_130", $rt_wrapFunction1(lpoel_AcessoAtributo__init_0), "$getId", $rt_wrapFunction0(lpoel_AcessoAtributo_getId)],
     lpem_IdentificadorJaDeclaradoException, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorJaDeclaradoException__init_12)],
     lpim_ProcedimentoJaDeclaradoException, "ProcedimentoJaDeclaradoException", 47, lpem_IdentificadorJaDeclaradoException, [], 0, 3, 0, 0, ["$_init_9", $rt_wrapFunction1(lpim_ProcedimentoJaDeclaradoException__init_)],
     jl_Float, 0, jl_Number, [jl_Comparable], 0, 3, 0, jl_Float_$callClinit, 0,
@@ -74924,74 +74871,74 @@ var __runCode;
     lpeu_Tipo0, "Tipo", 83, jl_Object, [], 3, 3, 0, 0, 0,
     lpeu_TipoPrimitivo3, "TipoPrimitivo", 83, jl_Enum, [lpeu_Tipo0], 12, 3, [0,0,0], lpeu_TipoPrimitivo_$callClinit2, ["$getNome", $rt_wrapFunction0(lpeu_TipoPrimitivo_getNome0), "$eInteiro", $rt_wrapFunction0(lpeu_TipoPrimitivo_eInteiro), "$eBooleano", $rt_wrapFunction0(lpeu_TipoPrimitivo_eBooleano), "$eString", $rt_wrapFunction0(lpeu_TipoPrimitivo_eString), "$eIgual1", $rt_wrapFunction1(lpeu_TipoPrimitivo_eIgual1), "$eValido", $rt_wrapFunction0(lpeu_TipoPrimitivo_eValido0), "$intersecao0", $rt_wrapFunction1(lpeu_TipoPrimitivo_intersecao0),
     "$toString", $rt_wrapFunction0(lpeu_TipoPrimitivo_toString0), "$intersecao", $rt_wrapFunction1(lpeu_TipoPrimitivo_intersecao4)],
-    lpfe_IfThenElse0, "IfThenElse", 142, jl_Object, [lpee_Expressao0], 0, 3, 0, 0, ["$_init_103", $rt_wrapFunction3(lpfe_IfThenElse__init_2), "$avaliar5", $rt_wrapFunction1(lpfe_IfThenElse_avaliar1), "$checaTipo6", $rt_wrapFunction1(lpfe_IfThenElse_checaTipo1), "$getTipo7", $rt_wrapFunction1(lpfe_IfThenElse_getTipo), "$toString", $rt_wrapFunction0(lpfe_IfThenElse_toString0), "$reduzir0", $rt_wrapFunction1(lpfe_IfThenElse_reduzir0), "$clone5", $rt_wrapFunction0(lpfe_IfThenElse_clone), "$clone3", $rt_wrapFunction0(lpfe_IfThenElse_clone0)],
-    lpee_ExpBinaria0, "ExpBinaria", 81, jl_Object, [lpee_Expressao1], 1, 3, 0, 0, ["$_init_104", $rt_wrapFunction3(lpee_ExpBinaria__init_2), "$getEsq4", $rt_wrapFunction0(lpee_ExpBinaria_getEsq0), "$getDir4", $rt_wrapFunction0(lpee_ExpBinaria_getDir2), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString0), "$checaTipo1", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo)],
-    lpee_ExpOr, "ExpOr", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_264", $rt_wrapFunction2(lpee_ExpOr__init_5), "$avaliar4", $rt_wrapFunction1(lpee_ExpOr_avaliar3), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal5), "$getTipo6", $rt_wrapFunction1(lpee_ExpOr_getTipo4)],
+    lpfe_IfThenElse0, "IfThenElse", 142, jl_Object, [lpee_Expressao0], 0, 3, 0, 0, ["$_init_102", $rt_wrapFunction3(lpfe_IfThenElse__init_2), "$avaliar5", $rt_wrapFunction1(lpfe_IfThenElse_avaliar1), "$checaTipo6", $rt_wrapFunction1(lpfe_IfThenElse_checaTipo1), "$getTipo7", $rt_wrapFunction1(lpfe_IfThenElse_getTipo), "$toString", $rt_wrapFunction0(lpfe_IfThenElse_toString0), "$reduzir0", $rt_wrapFunction1(lpfe_IfThenElse_reduzir0), "$clone5", $rt_wrapFunction0(lpfe_IfThenElse_clone), "$clone3", $rt_wrapFunction0(lpfe_IfThenElse_clone0)],
+    lpee_ExpBinaria0, "ExpBinaria", 81, jl_Object, [lpee_Expressao1], 1, 3, 0, 0, ["$_init_103", $rt_wrapFunction3(lpee_ExpBinaria__init_2), "$getEsq4", $rt_wrapFunction0(lpee_ExpBinaria_getEsq0), "$getDir4", $rt_wrapFunction0(lpee_ExpBinaria_getDir2), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString0), "$checaTipo1", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo)],
+    lpee_ExpOr, "ExpOr", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_263", $rt_wrapFunction2(lpee_ExpOr__init_5), "$avaliar4", $rt_wrapFunction1(lpee_ExpOr_avaliar3), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal5), "$getTipo6", $rt_wrapFunction1(lpee_ExpOr_getTipo4)],
     lpfp_Func3ParserConstants, 0, jl_Object, [], 3, 3, 0, lpfp_Func3ParserConstants_$callClinit, 0,
     lpfp_Func3Parser, 0, jl_Object, [lpfp_Func3ParserConstants], 0, 3, 0, lpfp_Func3Parser_$callClinit, ["$_init_16", $rt_wrapFunction1(lpfp_Func3Parser__init_0), "$_init_15", $rt_wrapFunction2(lpfp_Func3Parser__init_)],
-    lpodc_DecClasseSimples0, 0, jl_Object, [lpodc_DecClasse], 0, 3, 0, 0, ["$_init_117", $rt_wrapFunction3(lpodc_DecClasseSimples__init_), "$_init_52", $rt_wrapFunction4(lpodc_DecClasseSimples__init_2), "$checaTipo4", $rt_wrapFunction1(lpodc_DecClasseSimples_checaTipo), "$elabora1", $rt_wrapFunction1(lpodc_DecClasseSimples_elabora)],
+    lpodc_DecClasseSimples0, 0, jl_Object, [lpodc_DecClasse], 0, 3, 0, 0, ["$_init_116", $rt_wrapFunction3(lpodc_DecClasseSimples__init_), "$_init_51", $rt_wrapFunction4(lpodc_DecClasseSimples__init_2), "$checaTipo4", $rt_wrapFunction1(lpodc_DecClasseSimples_checaTipo), "$elabora1", $rt_wrapFunction1(lpodc_DecClasseSimples_elabora)],
     lpodp_DecProcedimento, "DecProcedimento", 28, jl_Object, [], 3, 3, 0, 0, 0,
-    lpodp_DecProcedimentoSimples, 0, jl_Object, [lpodp_DecProcedimento], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction3(lpodp_DecProcedimentoSimples__init_), "$_init_186", $rt_wrapFunction4(lpodp_DecProcedimentoSimples__init_2), "$getProcedimento1", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_getProcedimento), "$checaTipo0", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_checaTipo)],
+    lpodp_DecProcedimentoSimples, 0, jl_Object, [lpodp_DecProcedimento], 0, 3, 0, 0, ["$_init_117", $rt_wrapFunction3(lpodp_DecProcedimentoSimples__init_), "$_init_185", $rt_wrapFunction4(lpodp_DecProcedimentoSimples__init_2), "$getProcedimento1", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_getProcedimento), "$checaTipo0", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_checaTipo)],
     lpom_InfoBinding0, "InfoBinding", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpom_InfoBinding__init_), "$getTipo4", $rt_wrapFunction0(lpom_InfoBinding_getTipo), "$getValor", $rt_wrapFunction0(lpom_InfoBinding_getValor0)],
     lpop_JavaCharStream0, 0, jl_Object, [], 0, 3, 0, 0, ["$ExpandBuff", $rt_wrapFunction1(lpop_JavaCharStream_ExpandBuff0), "$FillBuff", $rt_wrapFunction0(lpop_JavaCharStream_FillBuff), "$ReadByte", $rt_wrapFunction0(lpop_JavaCharStream_ReadByte0), "$BeginToken", $rt_wrapFunction0(lpop_JavaCharStream_BeginToken0), "$AdjustBuffSize", $rt_wrapFunction0(lpop_JavaCharStream_AdjustBuffSize0), "$UpdateLineColumn", $rt_wrapFunction1(lpop_JavaCharStream_UpdateLineColumn), "$readChar", $rt_wrapFunction0(lpop_JavaCharStream_readChar0),
     "$getEndColumn", $rt_wrapFunction0(lpop_JavaCharStream_getEndColumn), "$getEndLine", $rt_wrapFunction0(lpop_JavaCharStream_getEndLine), "$getBeginColumn", $rt_wrapFunction0(lpop_JavaCharStream_getBeginColumn0), "$getBeginLine", $rt_wrapFunction0(lpop_JavaCharStream_getBeginLine0), "$backup", $rt_wrapFunction1(lpop_JavaCharStream_backup), "$_init_14", $rt_wrapFunction4(lpop_JavaCharStream__init_), "$ReInit", $rt_wrapFunction4(lpop_JavaCharStream_ReInit1), "$_init_17", function(var_1, var_2, var_3, var_4,
     var_5) { lpop_JavaCharStream__init_0(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpop_JavaCharStream__init_4), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpop_JavaCharStream_ReInit2(this, var_1, var_2, var_3, var_4, var_5); }, "$ReInit2", $rt_wrapFunction4(lpop_JavaCharStream_ReInit0), "$GetImage", $rt_wrapFunction0(lpop_JavaCharStream_GetImage)],
-    lpfe_ExpConcatLista, "ExpConcatLista", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpfe_ExpConcatLista__init_), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpConcatLista_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpConcatLista_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpConcatLista_getTipo), "$clone7", $rt_wrapFunction0(lpfe_ExpConcatLista_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpConcatLista_clone)],
+    lpfe_ExpConcatLista, "ExpConcatLista", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpfe_ExpConcatLista__init_), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpConcatLista_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpConcatLista_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpConcatLista_getTipo), "$clone7", $rt_wrapFunction0(lpfe_ExpConcatLista_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpConcatLista_clone)],
     lpem_IdentificadorNaoDeclaradoException, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorNaoDeclaradoException__init_11)],
     lpem_VariavelNaoDeclaradaException3, "VariavelNaoDeclaradaException", 42, lpem_IdentificadorNaoDeclaradoException, [], 0, 3, 0, 0, ["$_init_9", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_1)],
-    lpom_QuadroEscopo0, "QuadroEscopo", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_250", $rt_wrapFunction2(lpom_QuadroEscopo__init_2), "$_init_121", $rt_wrapFunction3(lpom_QuadroEscopo__init_0), "$adicionaBinding5", $rt_wrapFunction2(lpom_QuadroEscopo_adicionaBinding0), "$getNome", $rt_wrapFunction0(lpom_QuadroEscopo_getNome), "$getEscopo", $rt_wrapFunction0(lpom_QuadroEscopo_getEscopo0), "$getTrechoCodigoFonte5", $rt_wrapFunction0(lpom_QuadroEscopo_getTrechoCodigoFonte0), "$getBindings", $rt_wrapFunction0(lpom_QuadroEscopo_getBindings)],
-    lpoc_ChamadaMetodoOO2, 0, lpoc_ChamadaMetodo, [], 0, 3, 0, 0, ["$_init_122", $rt_wrapFunction3(lpoc_ChamadaMetodoOO2__init_), "$executar", $rt_wrapFunction1(lpoc_ChamadaMetodoOO2_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_ChamadaMetodoOO2_checaTipo)],
-    lpoeb_ExpBinaria, 0, jl_Object, [lpoe_Expressao0], 1, 3, 0, 0, ["$_init_126", $rt_wrapFunction3(lpoeb_ExpBinaria__init_0), "$getEsq5", $rt_wrapFunction0(lpoeb_ExpBinaria_getEsq), "$getDir5", $rt_wrapFunction0(lpoeb_ExpBinaria_getDir0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpBinaria_checaTipo)],
-    lpoeb_ExpOr, "ExpOr", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_50", $rt_wrapFunction2(lpoeb_ExpOr__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpOr_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpOr_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpOr_getTipo0)],
+    lpom_QuadroEscopo0, "QuadroEscopo", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_249", $rt_wrapFunction2(lpom_QuadroEscopo__init_2), "$_init_120", $rt_wrapFunction3(lpom_QuadroEscopo__init_0), "$adicionaBinding5", $rt_wrapFunction2(lpom_QuadroEscopo_adicionaBinding0), "$getNome", $rt_wrapFunction0(lpom_QuadroEscopo_getNome), "$getEscopo", $rt_wrapFunction0(lpom_QuadroEscopo_getEscopo0), "$getTrechoCodigoFonte5", $rt_wrapFunction0(lpom_QuadroEscopo_getTrechoCodigoFonte0), "$getBindings", $rt_wrapFunction0(lpom_QuadroEscopo_getBindings)],
+    lpoc_ChamadaMetodoOO2, 0, lpoc_ChamadaMetodo, [], 0, 3, 0, 0, ["$_init_121", $rt_wrapFunction3(lpoc_ChamadaMetodoOO2__init_), "$executar", $rt_wrapFunction1(lpoc_ChamadaMetodoOO2_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_ChamadaMetodoOO2_checaTipo)],
+    lpoeb_ExpBinaria, 0, jl_Object, [lpoe_Expressao0], 1, 3, 0, 0, ["$_init_125", $rt_wrapFunction3(lpoeb_ExpBinaria__init_0), "$getEsq5", $rt_wrapFunction0(lpoeb_ExpBinaria_getEsq), "$getDir5", $rt_wrapFunction0(lpoeb_ExpBinaria_getDir0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpBinaria_checaTipo)],
+    lpoeb_ExpOr, "ExpOr", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_49", $rt_wrapFunction2(lpoeb_ExpOr__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpOr_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpOr_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpOr_getTipo0)],
     lpfu_TipoPolimorfico, "TipoPolimorfico", 120, jl_Object, [lpeu_Tipo], 0, 3, [0,0,0], lpfu_TipoPolimorfico_$callClinit, ["$_init_0", $rt_wrapFunction0(lpfu_TipoPolimorfico__init_3), "$getNome", $rt_wrapFunction0(lpfu_TipoPolimorfico_getNome1), "$getTipoInstanciado", $rt_wrapFunction0(lpfu_TipoPolimorfico_getTipoInstanciado0), "$eInteiro", $rt_wrapFunction0(lpfu_TipoPolimorfico_eInteiro1), "$eBooleano", $rt_wrapFunction0(lpfu_TipoPolimorfico_eBooleano1), "$eString", $rt_wrapFunction0(lpfu_TipoPolimorfico_eString),
     "$eIgual0", $rt_wrapFunction1(lpfu_TipoPolimorfico_eIgual0), "$eValido", $rt_wrapFunction0(lpfu_TipoPolimorfico_eValido), "$inferir0", $rt_wrapFunction0(lpfu_TipoPolimorfico_inferir0), "$limpar", $rt_wrapFunction0(lpfu_TipoPolimorfico_limpar0), "$intersecao3", $rt_wrapFunction1(lpfu_TipoPolimorfico_intersecao), "$toString", $rt_wrapFunction0(lpfu_TipoPolimorfico_toString1)],
     lpem_Contexto1, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_Contexto__init_4), "$incrementa", $rt_wrapFunction0(lpem_Contexto_incrementa2), "$registraEscopo6", $rt_wrapFunction1(lpem_Contexto_registraEscopo1), "$restaura", $rt_wrapFunction0(lpem_Contexto_restaura2), "$map10", $rt_wrapFunction2(lpem_Contexto_map4), "$get16", $rt_wrapFunction1(lpem_Contexto_get0), "$getPilhaSnapshot5", $rt_wrapFunction0(lpem_Contexto_getPilhaSnapshot)],
-    lpoeb_ExpSub0, "ExpSub", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoeb_ExpSub__init_), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpSub_avaliar0), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpSub_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpSub_getTipo0)],
+    lpoeb_ExpSub0, "ExpSub", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_173", $rt_wrapFunction2(lpoeb_ExpSub__init_), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpSub_avaliar0), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpSub_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpSub_getTipo0)],
     ju_Set, "Set", 1, jl_Object, [ju_Collection], 3, 3, 0, 0, 0,
     ju_SequencedSet, 0, jl_Object, [ju_SequencedCollection, ju_Set], 3, 3, 0, 0, 0,
-    lpee_ExpUnaria4, 0, jl_Object, [lpee_Expressao2], 1, 3, 0, 0, ["$_init_128", $rt_wrapFunction2(lpee_ExpUnaria__init_2), "$getExp2", $rt_wrapFunction0(lpee_ExpUnaria_getExp0), "$checaTipo3", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo0)],
-    lpee_ExpLength2, 0, lpee_ExpUnaria4, [], 0, 3, 0, 0, ["$_init_293", $rt_wrapFunction1(lpee_ExpLength__init_1), "$avaliar8", $rt_wrapFunction1(lpee_ExpLength_avaliar), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal2), "$getTipo10", $rt_wrapFunction1(lpee_ExpLength_getTipo2)],
+    lpee_ExpUnaria4, 0, jl_Object, [lpee_Expressao2], 1, 3, 0, 0, ["$_init_127", $rt_wrapFunction2(lpee_ExpUnaria__init_2), "$getExp2", $rt_wrapFunction0(lpee_ExpUnaria_getExp0), "$checaTipo3", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo0)],
+    lpee_ExpLength2, 0, lpee_ExpUnaria4, [], 0, 3, 0, 0, ["$_init_292", $rt_wrapFunction1(lpee_ExpLength__init_1), "$avaliar8", $rt_wrapFunction1(lpee_ExpLength_avaliar), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal2), "$getTipo10", $rt_wrapFunction1(lpee_ExpLength_getTipo2)],
     jl_Readable, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    jn_CharBuffer, 0, jn_Buffer, [jl_Comparable, jl_Appendable, jl_CharSequence, jl_Readable], 1, 3, 0, 0, ["$_init_130", $rt_wrapFunction3(jn_CharBuffer__init_), "$get11", $rt_wrapFunction3(jn_CharBuffer_get), "$put5", $rt_wrapFunction3(jn_CharBuffer_put1), "$put1", $rt_wrapFunction3(jn_CharBuffer_put0), "$put4", $rt_wrapFunction1(jn_CharBuffer_put), "$flip1", $rt_wrapFunction0(jn_CharBuffer_flip), "$position", $rt_wrapFunction1(jn_CharBuffer_position)],
-    jn_CharBufferImpl, 0, jn_CharBuffer, [], 1, 0, 0, 0, ["$_init_130", $rt_wrapFunction3(jn_CharBufferImpl__init_), "$compact", $rt_wrapFunction0(jn_CharBufferImpl_compact), "$isReadOnly", $rt_wrapFunction0(jn_CharBufferImpl_isReadOnly)],
-    jn_CharBufferOverArray, 0, jn_CharBufferImpl, [], 0, 0, 0, 0, ["$_init_129", function(var_1, var_2, var_3, var_4, var_5, var_6) { jn_CharBufferOverArray__init_(this, var_1, var_2, var_3, var_4, var_5, var_6); }, "$getChar", $rt_wrapFunction1(jn_CharBufferOverArray_getChar), "$putChar", $rt_wrapFunction2(jn_CharBufferOverArray_putChar), "$readOnly", $rt_wrapFunction0(jn_CharBufferOverArray_readOnly)],
-    lpoel_AcessoAtributoThis, 0, lpoel_AcessoAtributo0, [], 0, 3, 0, 0, ["$_init_175", $rt_wrapFunction2(lpoel_AcessoAtributoThis__init_), "$avaliar0", $rt_wrapFunction1(lpoel_AcessoAtributoThis_avaliar0), "$getExpressaoObjeto", $rt_wrapFunction0(lpoel_AcessoAtributoThis_getExpressaoObjeto)],
+    jn_CharBuffer, 0, jn_Buffer, [jl_Comparable, jl_Appendable, jl_CharSequence, jl_Readable], 1, 3, 0, 0, ["$_init_129", $rt_wrapFunction3(jn_CharBuffer__init_), "$get11", $rt_wrapFunction3(jn_CharBuffer_get), "$put5", $rt_wrapFunction3(jn_CharBuffer_put1), "$put1", $rt_wrapFunction3(jn_CharBuffer_put0), "$put4", $rt_wrapFunction1(jn_CharBuffer_put), "$flip1", $rt_wrapFunction0(jn_CharBuffer_flip), "$position", $rt_wrapFunction1(jn_CharBuffer_position)],
+    jn_CharBufferImpl, 0, jn_CharBuffer, [], 1, 0, 0, 0, ["$_init_129", $rt_wrapFunction3(jn_CharBufferImpl__init_), "$compact", $rt_wrapFunction0(jn_CharBufferImpl_compact), "$isReadOnly", $rt_wrapFunction0(jn_CharBufferImpl_isReadOnly)],
+    jn_CharBufferOverArray, 0, jn_CharBufferImpl, [], 0, 0, 0, 0, ["$_init_128", function(var_1, var_2, var_3, var_4, var_5, var_6) { jn_CharBufferOverArray__init_(this, var_1, var_2, var_3, var_4, var_5, var_6); }, "$getChar", $rt_wrapFunction1(jn_CharBufferOverArray_getChar), "$putChar", $rt_wrapFunction2(jn_CharBufferOverArray_putChar), "$readOnly", $rt_wrapFunction0(jn_CharBufferOverArray_readOnly)],
+    lpoel_AcessoAtributoThis, 0, lpoel_AcessoAtributo0, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoel_AcessoAtributoThis__init_), "$avaliar0", $rt_wrapFunction1(lpoel_AcessoAtributoThis_avaliar0), "$getExpressaoObjeto", $rt_wrapFunction0(lpoel_AcessoAtributoThis_getExpressaoObjeto)],
     lpfp_JavaCharStream, 0, jl_Object, [], 0, 3, 0, lpfp_JavaCharStream_$callClinit0, ["$_init_14", $rt_wrapFunction4(lpfp_JavaCharStream__init_3), "$ReInit", $rt_wrapFunction4(lpfp_JavaCharStream_ReInit3), "$_init_17", function(var_1, var_2, var_3, var_4, var_5) { lpfp_JavaCharStream__init_(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpfp_JavaCharStream__init_5), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpfp_JavaCharStream_ReInit7(this, var_1, var_2, var_3, var_4,
     var_5); }, "$ReInit2", $rt_wrapFunction4(lpfp_JavaCharStream_ReInit4)],
     lpem_Ambiente6, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpom_AmbienteOO10, 0, jl_Object, [lpem_Ambiente6], 3, 3, 0, 0, 0,
     lpom_AmbienteCompilacaoOO1, 0, jl_Object, [lpom_AmbienteOO10], 3, 3, 0, 0, 0,
-    lpom_ContextoCompilacaoOO1, 0, jl_Object, [lpom_AmbienteCompilacaoOO1], 0, 3, 0, 0, ["$_init_132", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1__init_), "$incrementa", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_incrementa0), "$registraEscopo5", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_registraEscopo), "$restaura", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_restaura), "$map5", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map2), "$mapParametrosProcedimento", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapParametrosProcedimento),
-    "$mapDefClasse0", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapDefClasse), "$get7", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get0), "$getDefClasse", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_getDefClasse), "$getPilhaSnapshot5", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_getPilhaSnapshot), "$map4", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map0), "$get15", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get1)],
+    lpom_ContextoCompilacaoOO1, 0, jl_Object, [lpom_AmbienteCompilacaoOO1], 0, 3, 0, 0, ["$_init_131", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1__init_), "$incrementa", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_incrementa0), "$registraEscopo5", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_registraEscopo), "$restaura", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_restaura), "$map5", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map2), "$mapParametrosProcedimento", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapParametrosProcedimento),
+    "$mapDefClasse0", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_mapDefClasse), "$get7", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get0), "$getDefClasse", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_getDefClasse), "$getPilhaSnapshot5", $rt_wrapFunction0(lpom_ContextoCompilacaoOO1_getPilhaSnapshot), "$get15", $rt_wrapFunction1(lpom_ContextoCompilacaoOO1_get1), "$map4", $rt_wrapFunction2(lpom_ContextoCompilacaoOO1_map0)],
     lpom_AmbienteCompilacaoOO2, 0, jl_Object, [lpom_AmbienteCompilacaoOO1], 3, 3, 0, 0, 0,
-    lpom_ContextoCompilacaoOO2, 0, lpom_ContextoCompilacaoOO1, [lpom_AmbienteCompilacaoOO2], 0, 3, 0, 0, ["$_init_132", $rt_wrapFunction1(lpom_ContextoCompilacaoOO2__init_), "$mapSuperClasse", $rt_wrapFunction2(lpom_ContextoCompilacaoOO2_mapSuperClasse), "$getSuperClasse", $rt_wrapFunction1(lpom_ContextoCompilacaoOO2_getSuperClasse)],
+    lpom_ContextoCompilacaoOO2, 0, lpom_ContextoCompilacaoOO1, [lpom_AmbienteCompilacaoOO2], 0, 3, 0, 0, ["$_init_131", $rt_wrapFunction1(lpom_ContextoCompilacaoOO2__init_), "$mapSuperClasse", $rt_wrapFunction2(lpom_ContextoCompilacaoOO2_mapSuperClasse), "$getSuperClasse", $rt_wrapFunction1(lpom_ContextoCompilacaoOO2_getSuperClasse)],
     lpem_IdentificadorNaoDeclaradoException3, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_4), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorNaoDeclaradoException__init_7)]]);
-    $rt_metadata([lpfp_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpfp_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpfp_TokenMgrError__init_), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpfp_TokenMgrError__init_4(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    $rt_metadata([lpfp_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpfp_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpfp_TokenMgrError__init_), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpfp_TokenMgrError__init_4(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
     pw_PlpWebApi, 0, jl_Object, [], 4, 3, 0, pw_PlpWebApi_$callClinit, ["$_init_0", $rt_wrapFunction0(pw_PlpWebApi__init_)],
-    lpee_ExpLength0, "ExpLength", 147, lpee_ExpUnaria1, [], 0, 3, 0, 0, ["$_init_87", $rt_wrapFunction1(lpee_ExpLength__init_4), "$avaliar5", $rt_wrapFunction1(lpee_ExpLength_avaliar3), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal1), "$getTipo7", $rt_wrapFunction1(lpee_ExpLength_getTipo0), "$clone4", $rt_wrapFunction0(lpee_ExpLength_clone2), "$clone3", $rt_wrapFunction0(lpee_ExpLength_clone0)],
+    lpee_ExpLength0, "ExpLength", 147, lpee_ExpUnaria1, [], 0, 3, 0, 0, ["$_init_86", $rt_wrapFunction1(lpee_ExpLength__init_4), "$avaliar5", $rt_wrapFunction1(lpee_ExpLength_avaliar3), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal1), "$getTipo7", $rt_wrapFunction1(lpee_ExpLength_getTipo0), "$clone4", $rt_wrapFunction0(lpee_ExpLength_clone2), "$clone3", $rt_wrapFunction0(lpee_ExpLength_clone0)],
     ju_LinkedHashMapIterator, 0, jl_Object, [], 0, 0, 0, 0, ["$_init_31", $rt_wrapFunction2(ju_LinkedHashMapIterator__init_), "$hasNext", $rt_wrapFunction0(ju_LinkedHashMapIterator_hasNext), "$checkConcurrentMod", $rt_wrapFunction0(ju_LinkedHashMapIterator_checkConcurrentMod), "$makeNext", $rt_wrapFunction0(ju_LinkedHashMapIterator_makeNext)],
     jnc_UnsupportedCharsetException, "UnsupportedCharsetException", 3, jl_IllegalArgumentException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(jnc_UnsupportedCharsetException__init_)],
     lpee_ValorConcreto1, "ValorConcreto", 81, jl_Object, [lpee_Valor4], 1, 3, 0, 0, ["$toString", $rt_wrapFunction0(lpee_ValorConcreto_toString2), "$_init_2", $rt_wrapFunction1(lpee_ValorConcreto__init_0), "$valor", $rt_wrapFunction0(lpee_ValorConcreto_valor0), "$isEquals1", $rt_wrapFunction1(lpee_ValorConcreto_isEquals), "$avaliar4", $rt_wrapFunction1(lpee_ValorConcreto_avaliar4), "$checaTipo1", $rt_wrapFunction1(lpee_ValorConcreto_checaTipo0), "$hashCode", $rt_wrapFunction0(lpee_ValorConcreto_hashCode1), "$equals",
     $rt_wrapFunction1(lpee_ValorConcreto_equals)],
     lpee_ValorString, "ValorString", 81, lpee_ValorConcreto1, [], 0, 3, [0,0,0], 0, ["$_init_", $rt_wrapFunction1(lpee_ValorString__init_1), "$getTipo6", $rt_wrapFunction1(lpee_ValorString_getTipo4), "$toString", $rt_wrapFunction0(lpee_ValorString_toString2)],
-    lpem_QuadroEscopo3, "QuadroEscopo", 80, jl_Object, [], 0, 3, 0, 0, ["$_init_252", $rt_wrapFunction2(lpem_QuadroEscopo__init_5), "$adicionaBinding6", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding2), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo3), "$getTrechoCodigoFonte6", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte4), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings1)],
+    lpem_QuadroEscopo3, "QuadroEscopo", 80, jl_Object, [], 0, 3, 0, 0, ["$_init_251", $rt_wrapFunction2(lpem_QuadroEscopo__init_5), "$adicionaBinding6", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding2), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo3), "$getTrechoCodigoFonte6", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte4), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings1)],
     lpfd_DeclaracaoFuncional, "DeclaracaoFuncional", 121, jl_Object, [], 3, 3, 0, 0, 0,
-    lpfd_DecFuncao1, 0, jl_Object, [lpfd_DeclaracaoFuncional], 0, 3, 0, 0, ["$_init_109", $rt_wrapFunction2(lpfd_DecFuncao__init_3), "$getId1", $rt_wrapFunction0(lpfd_DecFuncao_getId0), "$getFuncao0", $rt_wrapFunction0(lpfd_DecFuncao_getFuncao1), "$checaTipo5", $rt_wrapFunction1(lpfd_DecFuncao_checaTipo1), "$getTipo5", $rt_wrapFunction1(lpfd_DecFuncao_getTipo), "$setValorFuncao", $rt_wrapFunction1(lpfd_DecFuncao_setValorFuncao0), "$clone11", $rt_wrapFunction0(lpfd_DecFuncao_clone), "$elabora10", $rt_wrapFunction2(lpfd_DecFuncao_elabora),
+    lpfd_DecFuncao1, 0, jl_Object, [lpfd_DeclaracaoFuncional], 0, 3, 0, 0, ["$_init_108", $rt_wrapFunction2(lpfd_DecFuncao__init_3), "$getId1", $rt_wrapFunction0(lpfd_DecFuncao_getId0), "$getFuncao0", $rt_wrapFunction0(lpfd_DecFuncao_getFuncao1), "$checaTipo5", $rt_wrapFunction1(lpfd_DecFuncao_checaTipo1), "$getTipo5", $rt_wrapFunction1(lpfd_DecFuncao_getTipo), "$setValorFuncao", $rt_wrapFunction1(lpfd_DecFuncao_setValorFuncao0), "$clone11", $rt_wrapFunction0(lpfd_DecFuncao_clone), "$elabora10", $rt_wrapFunction2(lpfd_DecFuncao_elabora),
     "$elabora11", $rt_wrapFunction2(lpfd_DecFuncao_elabora1), "$incluir5", $rt_wrapFunction2(lpfd_DecFuncao_incluir0), "$incluir6", $rt_wrapFunction3(lpfd_DecFuncao_incluir), "$reduzir2", $rt_wrapFunction1(lpfd_DecFuncao_reduzir0), "$clone21", $rt_wrapFunction0(lpfd_DecFuncao_clone0)],
     jl_AssertionError, 0, jl_Error, [], 0, 3, 0, 0, ["$_init_10", $rt_wrapFunction2(jl_AssertionError__init_)],
-    lpiu_Lista0, "Lista", 105, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_4), "$_init_139", $rt_wrapFunction2(lpiu_Lista__init_0), "$length", $rt_wrapFunction0(lpiu_Lista_length), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead), "$getTail0", $rt_wrapFunction0(lpiu_Lista_getTail0), "$toString", $rt_wrapFunction0(lpiu_Lista_toString)],
-    lpomc_ListaValor0, 0, lpiu_Lista0, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpomc_ListaValor__init_4), "$_init_279", $rt_wrapFunction1(lpomc_ListaValor__init_5), "$_init_36", $rt_wrapFunction2(lpomc_ListaValor__init_2), "$write1", $rt_wrapFunction1(lpomc_ListaValor_write0)],
+    lpiu_Lista0, "Lista", 105, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_4), "$_init_138", $rt_wrapFunction2(lpiu_Lista__init_0), "$length", $rt_wrapFunction0(lpiu_Lista_length), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead), "$getTail0", $rt_wrapFunction0(lpiu_Lista_getTail0), "$toString", $rt_wrapFunction0(lpiu_Lista_toString)],
+    lpomc_ListaValor0, 0, lpiu_Lista0, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpomc_ListaValor__init_4), "$_init_278", $rt_wrapFunction1(lpomc_ListaValor__init_5), "$_init_35", $rt_wrapFunction2(lpomc_ListaValor__init_2), "$write1", $rt_wrapFunction1(lpomc_ListaValor_write0)],
     jt_Format, 0, jl_Object, [ji_Serializable, jl_Cloneable], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_Format__init_), "$format7", $rt_wrapFunction1(jt_Format_format)],
     jt_NumberFormat, 0, jt_Format, [], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_NumberFormat__init_), "$getCurrency", $rt_wrapFunction0(jt_NumberFormat_getCurrency), "$format0", $rt_wrapFunction3(jt_NumberFormat_format), "$getMaximumFractionDigits", $rt_wrapFunction0(jt_NumberFormat_getMaximumFractionDigits), "$getMaximumIntegerDigits", $rt_wrapFunction0(jt_NumberFormat_getMaximumIntegerDigits), "$getMinimumFractionDigits", $rt_wrapFunction0(jt_NumberFormat_getMinimumFractionDigits), "$getMinimumIntegerDigits",
     $rt_wrapFunction0(jt_NumberFormat_getMinimumIntegerDigits), "$isGroupingUsed", $rt_wrapFunction0(jt_NumberFormat_isGroupingUsed), "$setGroupingUsed", $rt_wrapFunction1(jt_NumberFormat_setGroupingUsed), "$setMaximumFractionDigits", $rt_wrapFunction1(jt_NumberFormat_setMaximumFractionDigits), "$setMaximumIntegerDigits", $rt_wrapFunction1(jt_NumberFormat_setMaximumIntegerDigits), "$setMinimumFractionDigits", $rt_wrapFunction1(jt_NumberFormat_setMinimumFractionDigits), "$setMinimumIntegerDigits", $rt_wrapFunction1(jt_NumberFormat_setMinimumIntegerDigits),
     "$getRoundingMode", $rt_wrapFunction0(jt_NumberFormat_getRoundingMode)],
-    lpoc_ChamadaProcedimento, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_124", $rt_wrapFunction3(lpoc_ChamadaProcedimento__init_2), "$_init_125", $rt_wrapFunction2(lpoc_ChamadaProcedimento__init_1), "$executar", $rt_wrapFunction1(lpoc_ChamadaProcedimento_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_ChamadaProcedimento_checaTipo)],
+    lpoc_ChamadaProcedimento, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_123", $rt_wrapFunction3(lpoc_ChamadaProcedimento__init_2), "$_init_124", $rt_wrapFunction2(lpoc_ChamadaProcedimento__init_1), "$executar", $rt_wrapFunction1(lpoc_ChamadaProcedimento_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_ChamadaProcedimento_checaTipo)],
     jm_Division, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    lpf_Programa0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_256", $rt_wrapFunction1(lpf_Programa__init_), "$executar2", $rt_wrapFunction0(lpf_Programa_executar), "$checaTipo8", $rt_wrapFunction0(lpf_Programa_checaTipo0), "$getAmbCompSnapshot", $rt_wrapFunction0(lpf_Programa_getAmbCompSnapshot0)],
+    lpf_Programa0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_255", $rt_wrapFunction1(lpf_Programa__init_), "$executar2", $rt_wrapFunction0(lpf_Programa_executar), "$checaTipo8", $rt_wrapFunction0(lpf_Programa_checaTipo0), "$getAmbCompSnapshot", $rt_wrapFunction0(lpf_Programa_getAmbCompSnapshot0)],
     jm_BitLevel, 0, jl_Object, [], 0, 0, 0, 0, 0,
     lpem_MetadadosDepuracao3, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_MetadadosDepuracao__init_), "$getPilhaSnapshot2", $rt_wrapFunction0(lpem_MetadadosDepuracao_getPilhaSnapshot), "$toSnapshot", $rt_wrapFunction0(lpem_MetadadosDepuracao_toSnapshot)],
     lpoee_EntradaInvalidaException, "EntradaInvalidaException", 89, jl_Exception, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpoee_EntradaInvalidaException__init_2)],
-    jl_String, "String", 8, jl_Object, [ji_Serializable, jl_Comparable, jl_CharSequence], 0, 3, 0, jl_String_$callClinit, ["$_init_0", $rt_wrapFunction0(jl_String__init_3), "$_init_88", $rt_wrapFunction1(jl_String__init_2), "$_init_2", $rt_wrapFunction1(jl_String__init_4), "$_init_18", $rt_wrapFunction3(jl_String__init_5), "$charAt", $rt_wrapFunction1(jl_String_charAt), "$length", $rt_wrapFunction0(jl_String_length), "$isEmpty", $rt_wrapFunction0(jl_String_isEmpty), "$indexOf", $rt_wrapFunction2(jl_String_indexOf0),
+    jl_String, "String", 8, jl_Object, [ji_Serializable, jl_Comparable, jl_CharSequence], 0, 3, 0, jl_String_$callClinit, ["$_init_0", $rt_wrapFunction0(jl_String__init_3), "$_init_87", $rt_wrapFunction1(jl_String__init_2), "$_init_2", $rt_wrapFunction1(jl_String__init_4), "$_init_18", $rt_wrapFunction3(jl_String__init_5), "$charAt", $rt_wrapFunction1(jl_String_charAt), "$length", $rt_wrapFunction0(jl_String_length), "$isEmpty", $rt_wrapFunction0(jl_String_isEmpty), "$indexOf", $rt_wrapFunction2(jl_String_indexOf0),
     "$indexOf0", $rt_wrapFunction1(jl_String_indexOf), "$lastIndexOf0", $rt_wrapFunction2(jl_String_lastIndexOf0), "$lastIndexOf", $rt_wrapFunction1(jl_String_lastIndexOf), "$substring", $rt_wrapFunction2(jl_String_substring), "$substring0", $rt_wrapFunction1(jl_String_substring0), "$subSequence", $rt_wrapFunction2(jl_String_subSequence), "$trim", $rt_wrapFunction0(jl_String_trim), "$toString", $rt_wrapFunction0(jl_String_toString), "$toCharArray", $rt_wrapFunction0(jl_String_toCharArray), "$equals", $rt_wrapFunction1(jl_String_equals),
     "$equalsIgnoreCase", $rt_wrapFunction1(jl_String_equalsIgnoreCase), "$getBytes", $rt_wrapFunction0(jl_String_getBytes), "$getBytes0", $rt_wrapFunction1(jl_String_getBytes0), "$hashCode", $rt_wrapFunction0(jl_String_hashCode), "$toLowerCase", $rt_wrapFunction0(jl_String_toLowerCase), "$toUpperCase", $rt_wrapFunction0(jl_String_toUpperCase)],
     lpip_Imp1Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpip_Imp1Parser$JJCalls__init_0)],
@@ -74999,18 +74946,18 @@ var __runCode;
     ju_HashSet, "HashSet", 1, ju_AbstractSet, [jl_Cloneable, ji_Serializable], 0, 3, 0, 0, ["$_init_29", $rt_wrapFunction1(ju_HashSet__init_), "$add", $rt_wrapFunction1(ju_HashSet_add), "$contains", $rt_wrapFunction1(ju_HashSet_contains), "$iterator", $rt_wrapFunction0(ju_HashSet_iterator), "$size", $rt_wrapFunction0(ju_HashSet_size)],
     ju_LinkedHashSet, "LinkedHashSet", 1, ju_HashSet, [ju_SequencedSet, jl_Cloneable, ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_LinkedHashSet__init_0)],
     lpem_Ambiente5, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    jnci_BufferedEncoder, 0, jnc_CharsetEncoder, [], 1, 3, 0, 0, ["$_init_143", $rt_wrapFunction3(jnci_BufferedEncoder__init_), "$encodeLoop", $rt_wrapFunction2(jnci_BufferedEncoder_encodeLoop)],
-    jnci_UTF8Encoder, 0, jnci_BufferedEncoder, [], 0, 3, 0, 0, ["$_init_91", $rt_wrapFunction1(jnci_UTF8Encoder__init_), "$arrayEncode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_UTF8Encoder_arrayEncode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    jnci_BufferedEncoder, 0, jnc_CharsetEncoder, [], 1, 3, 0, 0, ["$_init_142", $rt_wrapFunction3(jnci_BufferedEncoder__init_), "$encodeLoop", $rt_wrapFunction2(jnci_BufferedEncoder_encodeLoop)],
+    jnci_UTF8Encoder, 0, jnci_BufferedEncoder, [], 0, 3, 0, 0, ["$_init_90", $rt_wrapFunction1(jnci_UTF8Encoder__init_), "$arrayEncode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_UTF8Encoder_arrayEncode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
     ju_EmptyStackException, "EmptyStackException", 1, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_EmptyStackException__init_0)],
     ju_Dictionary, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Dictionary__init_)],
     ju_Hashtable, 0, ju_Dictionary, [ju_Map, jl_Cloneable, ji_Serializable], 0, 3, 0, ju_Hashtable_$callClinit, ["$_init_0", $rt_wrapFunction0(ju_Hashtable__init_), "$_init_6", $rt_wrapFunction1(ju_Hashtable__init_0), "$get", $rt_wrapFunction1(ju_Hashtable_get), "$put", $rt_wrapFunction2(ju_Hashtable_put), "$rehash", $rt_wrapFunction0(ju_Hashtable_rehash)],
-    ju_Properties, 0, ju_Hashtable, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Properties__init_0), "$_init_285", $rt_wrapFunction1(ju_Properties__init_), "$getProperty0", $rt_wrapFunction1(ju_Properties_getProperty)],
+    ju_Properties, 0, ju_Hashtable, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Properties__init_0), "$_init_284", $rt_wrapFunction1(ju_Properties__init_), "$getProperty0", $rt_wrapFunction1(ju_Properties_getProperty)],
     lpod_Declaracao0, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpodv_DecVariavel, "DecVariavel", 27, jl_Object, [lpod_Declaracao0], 3, 3, 0, 0, 0,
-    lpodv_DecVariavelObjeto, 0, jl_Object, [lpodv_DecVariavel], 0, 3, 0, 0, ["$_init_278", $rt_wrapFunction3(lpodv_DecVariavelObjeto__init_), "$getTipo12", $rt_wrapFunction1(lpodv_DecVariavelObjeto_getTipo0), "$getTipo11", $rt_wrapFunction0(lpodv_DecVariavelObjeto_getTipo1), "$getObjeto1", $rt_wrapFunction0(lpodv_DecVariavelObjeto_getObjeto), "$getClasse", $rt_wrapFunction0(lpodv_DecVariavelObjeto_getClasse)],
-    lpfp_ParseException1, "ParseException", 77, jl_Exception, [], 0, 3, 0, 0, ["$_init_266", $rt_wrapFunction3(lpfp_ParseException__init_2), "$_init_0", $rt_wrapFunction0(lpfp_ParseException__init_7)],
-    lpee_ExpDeclaracao, 0, jl_Object, [lpee_Expressao2], 0, 3, 0, 0, ["$_init_296", $rt_wrapFunction3(lpee_ExpDeclaracao__init_), "$avaliar8", $rt_wrapFunction1(lpee_ExpDeclaracao_avaliar), "$checaTipo3", $rt_wrapFunction1(lpee_ExpDeclaracao_checaTipo), "$getTipo10", $rt_wrapFunction1(lpee_ExpDeclaracao_getTipo)],
-    lpop_ParseException, "ParseException", 17, jl_Exception, [], 0, 3, 0, 0, ["$_init_192", $rt_wrapFunction3(lpop_ParseException__init_2), "$_init_0", $rt_wrapFunction0(lpop_ParseException__init_4)],
+    lpodv_DecVariavelObjeto, 0, jl_Object, [lpodv_DecVariavel], 0, 3, 0, 0, ["$_init_277", $rt_wrapFunction3(lpodv_DecVariavelObjeto__init_), "$getTipo12", $rt_wrapFunction1(lpodv_DecVariavelObjeto_getTipo0), "$getTipo11", $rt_wrapFunction0(lpodv_DecVariavelObjeto_getTipo1), "$getObjeto1", $rt_wrapFunction0(lpodv_DecVariavelObjeto_getObjeto), "$getClasse", $rt_wrapFunction0(lpodv_DecVariavelObjeto_getClasse)],
+    lpfp_ParseException1, "ParseException", 77, jl_Exception, [], 0, 3, 0, 0, ["$_init_265", $rt_wrapFunction3(lpfp_ParseException__init_2), "$_init_0", $rt_wrapFunction0(lpfp_ParseException__init_7)],
+    lpee_ExpDeclaracao, 0, jl_Object, [lpee_Expressao2], 0, 3, 0, 0, ["$_init_295", $rt_wrapFunction3(lpee_ExpDeclaracao__init_), "$avaliar8", $rt_wrapFunction1(lpee_ExpDeclaracao_avaliar), "$checaTipo3", $rt_wrapFunction1(lpee_ExpDeclaracao_checaTipo), "$getTipo10", $rt_wrapFunction1(lpee_ExpDeclaracao_getTipo)],
+    lpop_ParseException, "ParseException", 17, jl_Exception, [], 0, 3, 0, 0, ["$_init_191", $rt_wrapFunction3(lpop_ParseException__init_2), "$_init_0", $rt_wrapFunction0(lpop_ParseException__init_4)],
     jt_DecimalFormat$TextField, "DecimalFormat$TextField", 7, jl_Object, [jt_DecimalFormat$FormatField], 0, 0, 0, 0, ["$_init_", $rt_wrapFunction1(jt_DecimalFormat$TextField__init_0), "$render", $rt_wrapFunction2(jt_DecimalFormat$TextField_render), "$equals", $rt_wrapFunction1(jt_DecimalFormat$TextField_equals), "$hashCode", $rt_wrapFunction0(jt_DecimalFormat$TextField_hashCode)],
     lpem_ContextoExecucao4, 0, lpem_Contexto, [lpem_AmbienteExecucao0], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoExecucao__init_8)],
     lpoc_Skip, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoc_Skip__init_2), "$executar", $rt_wrapFunction1(lpoc_Skip_executar0), "$checaTipo0", $rt_wrapFunction1(lpoc_Skip_checaTipo)],
@@ -75019,99 +74966,99 @@ var __runCode;
     lpem_AmbienteExecucao4, 0, jl_Object, [lpem_Ambiente5], 3, 3, 0, 0, 0,
     lpem_ContextoExecucao5, 0, lpem_Contexto2, [lpem_AmbienteExecucao4], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoExecucao__init_7)],
     ji_Reader, 0, jl_Object, [ji_Closeable, jl_Readable], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ji_Reader__init_), "$_init_2", $rt_wrapFunction1(ji_Reader__init_0)],
-    ji_BufferedReader, 0, ji_Reader, [], 0, 3, 0, 0, ["$_init_146", $rt_wrapFunction2(ji_BufferedReader__init_), "$_init_277", $rt_wrapFunction1(ji_BufferedReader__init_1), "$readLine", $rt_wrapFunction0(ji_BufferedReader_readLine)],
-    jt_DecimalFormatSymbols, 0, jl_Object, [jl_Cloneable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormatSymbols__init_1), "$_init_141", $rt_wrapFunction1(jt_DecimalFormatSymbols__init_0), "$getZeroDigit", $rt_wrapFunction0(jt_DecimalFormatSymbols_getZeroDigit), "$getGroupingSeparator", $rt_wrapFunction0(jt_DecimalFormatSymbols_getGroupingSeparator), "$getPerMill", $rt_wrapFunction0(jt_DecimalFormatSymbols_getPerMill), "$getPercent", $rt_wrapFunction0(jt_DecimalFormatSymbols_getPercent), "$getLocale",
+    ji_BufferedReader, 0, ji_Reader, [], 0, 3, 0, 0, ["$_init_145", $rt_wrapFunction2(ji_BufferedReader__init_), "$_init_276", $rt_wrapFunction1(ji_BufferedReader__init_1), "$readLine", $rt_wrapFunction0(ji_BufferedReader_readLine)],
+    jt_DecimalFormatSymbols, 0, jl_Object, [jl_Cloneable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormatSymbols__init_1), "$_init_140", $rt_wrapFunction1(jt_DecimalFormatSymbols__init_0), "$getZeroDigit", $rt_wrapFunction0(jt_DecimalFormatSymbols_getZeroDigit), "$getGroupingSeparator", $rt_wrapFunction0(jt_DecimalFormatSymbols_getGroupingSeparator), "$getPerMill", $rt_wrapFunction0(jt_DecimalFormatSymbols_getPerMill), "$getPercent", $rt_wrapFunction0(jt_DecimalFormatSymbols_getPercent), "$getLocale",
     $rt_wrapFunction0(jt_DecimalFormatSymbols_getLocale), "$getDecimalSeparator", $rt_wrapFunction0(jt_DecimalFormatSymbols_getDecimalSeparator), "$getNaN", $rt_wrapFunction0(jt_DecimalFormatSymbols_getNaN), "$getInfinity", $rt_wrapFunction0(jt_DecimalFormatSymbols_getInfinity), "$getMinusSign", $rt_wrapFunction0(jt_DecimalFormatSymbols_getMinusSign), "$getExponentSeparator", $rt_wrapFunction0(jt_DecimalFormatSymbols_getExponentSeparator), "$clone0", $rt_wrapFunction0(jt_DecimalFormatSymbols_clone)],
     otcir_Converter, 0, jl_Object, [], 4, 3, 0, 0, 0]);
     $rt_metadata([ju_HashMap$AbstractMapIterator, 0, jl_Object, [], 0, 0, 0, 0, ["$_init_29", $rt_wrapFunction1(ju_HashMap$AbstractMapIterator__init_), "$hasNext", $rt_wrapFunction0(ju_HashMap$AbstractMapIterator_hasNext), "$checkConcurrentMod", $rt_wrapFunction0(ju_HashMap$AbstractMapIterator_checkConcurrentMod), "$makeNext", $rt_wrapFunction0(ju_HashMap$AbstractMapIterator_makeNext)],
-    ju_Formatter, 0, jl_Object, [ji_Closeable, ji_Flushable], 4, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Formatter__init_1), "$_init_141", $rt_wrapFunction1(ju_Formatter__init_), "$_init_147", $rt_wrapFunction2(ju_Formatter__init_0), "$toString", $rt_wrapFunction0(ju_Formatter_toString), "$format3", $rt_wrapFunction2(ju_Formatter_format), "$format4", $rt_wrapFunction3(ju_Formatter_format0)],
-    lpee_ExpUnaria, "ExpUnaria", 123, jl_Object, [lpee_Expressao], 1, 3, 0, 0, ["$_init_152", $rt_wrapFunction2(lpee_ExpUnaria__init_), "$getExp3", $rt_wrapFunction0(lpee_ExpUnaria_getExp5), "$checaTipo5", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo2), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString2), "$reduzir", $rt_wrapFunction1(lpee_ExpUnaria_reduzir)],
+    ju_Formatter, 0, jl_Object, [ji_Closeable, ji_Flushable], 4, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Formatter__init_1), "$_init_140", $rt_wrapFunction1(ju_Formatter__init_), "$_init_146", $rt_wrapFunction2(ju_Formatter__init_0), "$toString", $rt_wrapFunction0(ju_Formatter_toString), "$format3", $rt_wrapFunction2(ju_Formatter_format), "$format4", $rt_wrapFunction3(ju_Formatter_format0)],
+    lpee_ExpUnaria, "ExpUnaria", 123, jl_Object, [lpee_Expressao], 1, 3, 0, 0, ["$_init_151", $rt_wrapFunction2(lpee_ExpUnaria__init_), "$getExp3", $rt_wrapFunction0(lpee_ExpUnaria_getExp5), "$checaTipo5", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo2), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString2), "$reduzir", $rt_wrapFunction1(lpee_ExpUnaria_reduzir)],
     jl_Object$Monitor, "Object$Monitor", 8, jl_Object, [], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_Object$Monitor__init_)],
     ju_LinkedHashMapEntrySet, 0, ju_AbstractSet, [ju_SequencedSet], 0, 0, 0, 0, ["$_init_31", $rt_wrapFunction2(ju_LinkedHashMapEntrySet__init_), "$iterator", $rt_wrapFunction0(ju_LinkedHashMapEntrySet_iterator)],
-    lpodp_DecParametro0, "DecParametro", 28, jl_Object, [], 0, 3, 0, 0, ["$_init_189", $rt_wrapFunction2(lpodp_DecParametro__init_), "$getId", $rt_wrapFunction0(lpodp_DecParametro_getId0), "$getTipo11", $rt_wrapFunction0(lpodp_DecParametro_getTipo0), "$checaTipo0", $rt_wrapFunction1(lpodp_DecParametro_checaTipo0), "$declaraParametro", $rt_wrapFunction1(lpodp_DecParametro_declaraParametro)],
-    lpoed_ClasseJaDeclaradaException, "ClasseJaDeclaradaException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpoed_ClasseJaDeclaradaException__init_2)],
-    lpod_ConstrutorNaoDeclaradoException, "ConstrutorNaoDeclaradoException", 15, jl_Exception, [], 0, 3, 0, 0, ["$_init_131", $rt_wrapFunction1(lpod_ConstrutorNaoDeclaradoException__init_)],
+    lpodp_DecParametro0, "DecParametro", 28, jl_Object, [], 0, 3, 0, 0, ["$_init_188", $rt_wrapFunction2(lpodp_DecParametro__init_), "$getId", $rt_wrapFunction0(lpodp_DecParametro_getId0), "$getTipo11", $rt_wrapFunction0(lpodp_DecParametro_getTipo0), "$checaTipo0", $rt_wrapFunction1(lpodp_DecParametro_checaTipo0), "$declaraParametro", $rt_wrapFunction1(lpodp_DecParametro_declaraParametro)],
+    lpoed_ClasseJaDeclaradaException, "ClasseJaDeclaradaException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpoed_ClasseJaDeclaradaException__init_2)],
+    lpod_ConstrutorNaoDeclaradoException, "ConstrutorNaoDeclaradoException", 15, jl_Exception, [], 0, 3, 0, 0, ["$_init_130", $rt_wrapFunction1(lpod_ConstrutorNaoDeclaradoException__init_)],
     lpid_Declaracao0, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpid_Declaracao__init_0)],
-    lpid_DeclaracaoComposta, 0, lpid_Declaracao0, [], 0, 3, 0, 0, ["$_init_80", $rt_wrapFunction2(lpid_DeclaracaoComposta__init_), "$elabora4", $rt_wrapFunction1(lpid_DeclaracaoComposta_elabora0), "$checaTipo9", $rt_wrapFunction1(lpid_DeclaracaoComposta_checaTipo0)],
+    lpid_DeclaracaoComposta, 0, lpid_Declaracao0, [], 0, 3, 0, 0, ["$_init_79", $rt_wrapFunction2(lpid_DeclaracaoComposta__init_), "$elabora4", $rt_wrapFunction1(lpid_DeclaracaoComposta_elabora0), "$checaTipo9", $rt_wrapFunction1(lpid_DeclaracaoComposta_checaTipo0)],
     lpem_AmbienteExecucao2, 0, jl_Object, [lpem_Ambiente0], 3, 3, 0, 0, 0,
     lpim_AmbienteExecucaoImperativa0, 0, jl_Object, [lpem_AmbienteExecucao2], 3, 3, 0, 0, 0,
-    lpee_ExpUnaria2, 0, jl_Object, [lpee_Expressao4], 1, 3, 0, 0, ["$_init_194", $rt_wrapFunction2(lpee_ExpUnaria__init_5), "$getExp4", $rt_wrapFunction0(lpee_ExpUnaria_getExp4), "$checaTipo7", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo1), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString1)],
-    lpo_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_166", $rt_wrapFunction2(lpo_Programa__init_), "$executar8", $rt_wrapFunction1(lpo_Programa_executar), "$checaTipo11", $rt_wrapFunction1(lpo_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpo_Programa_getAmbCompSnapshot)],
+    lpee_ExpUnaria2, 0, jl_Object, [lpee_Expressao4], 1, 3, 0, 0, ["$_init_193", $rt_wrapFunction2(lpee_ExpUnaria__init_5), "$getExp4", $rt_wrapFunction0(lpee_ExpUnaria_getExp4), "$checaTipo7", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo1), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString1)],
+    lpo_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_165", $rt_wrapFunction2(lpo_Programa__init_), "$executar8", $rt_wrapFunction1(lpo_Programa_executar), "$checaTipo11", $rt_wrapFunction1(lpo_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpo_Programa_getAmbCompSnapshot)],
     ji_InputStream, 0, jl_Object, [ji_Closeable], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ji_InputStream__init_), "$read3", $rt_wrapFunction3(ji_InputStream_read), "$close", $rt_wrapFunction0(ji_InputStream_close)],
     jl_ConsoleInputStream, 0, ji_InputStream, [], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_ConsoleInputStream__init_), "$read2", $rt_wrapFunction0(jl_ConsoleInputStream_read)],
-    lpodv_SimplesDecVariavel0, 0, jl_Object, [lpodv_DecVariavel], 0, 3, 0, 0, ["$_init_184", $rt_wrapFunction3(lpodv_SimplesDecVariavel__init_2), "$getTipo12", $rt_wrapFunction1(lpodv_SimplesDecVariavel_getTipo), "$elabora9", $rt_wrapFunction1(lpodv_SimplesDecVariavel_elabora), "$checaTipo0", $rt_wrapFunction1(lpodv_SimplesDecVariavel_checaTipo0)],
-    lpem_TrechoCodigoFonte4, "TrechoCodigoFonte", 66, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_2), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio0), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim2), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim4)],
-    lpem_TrechoCodigoFonte, "TrechoCodigoFonte", 42, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio2), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim0), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim)],
+    lpodv_SimplesDecVariavel0, 0, jl_Object, [lpodv_DecVariavel], 0, 3, 0, 0, ["$_init_183", $rt_wrapFunction3(lpodv_SimplesDecVariavel__init_2), "$getTipo12", $rt_wrapFunction1(lpodv_SimplesDecVariavel_getTipo), "$elabora9", $rt_wrapFunction1(lpodv_SimplesDecVariavel_elabora), "$checaTipo0", $rt_wrapFunction1(lpodv_SimplesDecVariavel_checaTipo0)],
+    lpem_TrechoCodigoFonte4, "TrechoCodigoFonte", 66, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_2), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio0), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim2), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim4)],
+    lpem_TrechoCodigoFonte, "TrechoCodigoFonte", 42, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio2), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim0), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim)],
     lpem_IdentificadorJaDeclaradoException4, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_0), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorJaDeclaradoException__init_9)],
-    lpem_VariavelJaDeclaradaException2, "VariavelJaDeclaradaException", 109, lpem_IdentificadorJaDeclaradoException4, [], 0, 3, 0, 0, ["$_init_127", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_1)],
+    lpem_VariavelJaDeclaradaException2, "VariavelJaDeclaradaException", 109, lpem_IdentificadorJaDeclaradoException4, [], 0, 3, 0, 0, ["$_init_126", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_1)],
     jn_BufferOverflowException, "BufferOverflowException", 2, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jn_BufferOverflowException__init_0)],
-    lpee_ExpSub0, "ExpSub", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_264", $rt_wrapFunction2(lpee_ExpSub__init_2), "$avaliar4", $rt_wrapFunction1(lpee_ExpSub_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpSub_getTipo4)],
-    lpem_InfoEscopo1, "InfoEscopo", 124, jl_Object, [], 0, 3, 0, 0, ["$_init_112", $rt_wrapFunction2(lpem_InfoEscopo__init_0), "$getTrechoCodigoFonte1", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte4), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo)],
+    lpee_ExpSub0, "ExpSub", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_263", $rt_wrapFunction2(lpee_ExpSub__init_2), "$avaliar4", $rt_wrapFunction1(lpee_ExpSub_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpSub_getTipo4)],
+    lpem_InfoEscopo1, "InfoEscopo", 124, jl_Object, [], 0, 3, 0, 0, ["$_init_111", $rt_wrapFunction2(lpem_InfoEscopo__init_0), "$getTrechoCodigoFonte1", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte4), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo)],
     lpfd_DeclaracaoFuncional1, "DeclaracaoFuncional", 144, jl_Object, [], 3, 3, 0, 0, 0,
-    lpfd_DecComposta, 0, jl_Object, [lpfd_DeclaracaoFuncional1], 0, 3, 0, 0, ["$_init_149", $rt_wrapFunction2(lpfd_DecComposta__init_0), "$checaTipo6", $rt_wrapFunction1(lpfd_DecComposta_checaTipo), "$elabora6", $rt_wrapFunction2(lpfd_DecComposta_elabora0), "$elabora7", $rt_wrapFunction2(lpfd_DecComposta_elabora3), "$incluir3", $rt_wrapFunction2(lpfd_DecComposta_incluir2), "$incluir4", $rt_wrapFunction3(lpfd_DecComposta_incluir3), "$clone12", $rt_wrapFunction0(lpfd_DecComposta_clone0), "$reduzir1", $rt_wrapFunction1(lpfd_DecComposta_reduzir)],
+    lpfd_DecComposta, 0, jl_Object, [lpfd_DeclaracaoFuncional1], 0, 3, 0, 0, ["$_init_148", $rt_wrapFunction2(lpfd_DecComposta__init_0), "$checaTipo6", $rt_wrapFunction1(lpfd_DecComposta_checaTipo), "$elabora6", $rt_wrapFunction2(lpfd_DecComposta_elabora0), "$elabora7", $rt_wrapFunction2(lpfd_DecComposta_elabora3), "$incluir3", $rt_wrapFunction2(lpfd_DecComposta_incluir2), "$incluir4", $rt_wrapFunction3(lpfd_DecComposta_incluir3), "$clone12", $rt_wrapFunction0(lpfd_DecComposta_clone0), "$reduzir1", $rt_wrapFunction1(lpfd_DecComposta_reduzir)],
     lpe_Programa0, 0, jl_Object, [], 0, 3, 0, 0, ["$executar0", $rt_wrapFunction0(lpe_Programa_executar0), "$checaTipo8", $rt_wrapFunction0(lpe_Programa_checaTipo0), "$_init_20", $rt_wrapFunction1(lpe_Programa__init_0), "$getAmbCompSnapshot", $rt_wrapFunction0(lpe_Programa_getAmbCompSnapshot)],
     lpodc_DecClasse0, 0, jl_Object, [lpod_Declaracao0], 3, 3, 0, 0, 0,
-    lpodc_DecClasseSimples, 0, jl_Object, [lpodc_DecClasse0], 0, 3, 0, 0, ["$_init_150", $rt_wrapFunction3(lpodc_DecClasseSimples__init_0), "$_init_199", $rt_wrapFunction4(lpodc_DecClasseSimples__init_1)],
+    lpodc_DecClasseSimples, 0, jl_Object, [lpodc_DecClasse0], 0, 3, 0, 0, ["$_init_149", $rt_wrapFunction3(lpodc_DecClasseSimples__init_0), "$_init_198", $rt_wrapFunction4(lpodc_DecClasseSimples__init_1)],
     lpeu_Tipo1, "Tipo", 149, jl_Object, [], 3, 3, 0, 0, 0,
     lpeu_TipoPrimitivo2, "TipoPrimitivo", 149, jl_Enum, [lpeu_Tipo1], 12, 3, [0,0,0], lpeu_TipoPrimitivo_$callClinit0, ["$getNome", $rt_wrapFunction0(lpeu_TipoPrimitivo_getNome5), "$eInteiro", $rt_wrapFunction0(lpeu_TipoPrimitivo_eInteiro2), "$eBooleano", $rt_wrapFunction0(lpeu_TipoPrimitivo_eBooleano1), "$eString", $rt_wrapFunction0(lpeu_TipoPrimitivo_eString2), "$eIgual3", $rt_wrapFunction1(lpeu_TipoPrimitivo_eIgual4), "$eValido", $rt_wrapFunction0(lpeu_TipoPrimitivo_eValido3), "$intersecao2", $rt_wrapFunction1(lpeu_TipoPrimitivo_intersecao),
     "$toString", $rt_wrapFunction0(lpeu_TipoPrimitivo_toString1), "$intersecao1", $rt_wrapFunction1(lpeu_TipoPrimitivo_intersecao2)],
-    otciu_CharMapping, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_89", $rt_wrapFunction2(otciu_CharMapping__init_)],
+    otciu_CharMapping, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_88", $rt_wrapFunction2(otciu_CharMapping__init_)],
     otjc_JSWeakRef, 0, jl_Object, [otj_JSObject], 1, 3, 0, 0, 0,
     jlr_AccessibleObject, "AccessibleObject", 9, jl_Object, [jlr_AnnotatedElement], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jlr_AccessibleObject__init_), "$setAccessible", $rt_wrapFunction1(jlr_AccessibleObject_setAccessible)],
     lpem_MetadadosDepuracao0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_MetadadosDepuracao__init_4), "$getPilhaSnapshot6", $rt_wrapFunction0(lpem_MetadadosDepuracao_getPilhaSnapshot4), "$toSnapshot", $rt_wrapFunction0(lpem_MetadadosDepuracao_toSnapshot1)],
-    otci_CharFlow, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_88", $rt_wrapFunction1(otci_CharFlow__init_)],
-    lpi_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_203", $rt_wrapFunction1(lpi_Programa__init_0), "$executar6", $rt_wrapFunction1(lpi_Programa_executar), "$checaTipo10", $rt_wrapFunction1(lpi_Programa_checaTipo0), "$getAmbCompSnapshot", $rt_wrapFunction0(lpi_Programa_getAmbCompSnapshot)],
+    otci_CharFlow, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_87", $rt_wrapFunction1(otci_CharFlow__init_)],
+    lpi_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_202", $rt_wrapFunction1(lpi_Programa__init_0), "$executar6", $rt_wrapFunction1(lpi_Programa_executar), "$checaTipo10", $rt_wrapFunction1(lpi_Programa_checaTipo0), "$getAmbCompSnapshot", $rt_wrapFunction0(lpi_Programa_getAmbCompSnapshot)],
     jn_BufferUnderflowException, "BufferUnderflowException", 2, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jn_BufferUnderflowException__init_)],
     lpem_IdentificadorJaDeclaradoException5, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_6)],
-    lpem_VariavelJaDeclaradaException0, "VariavelJaDeclaradaException", 102, lpem_IdentificadorJaDeclaradoException5, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_9)],
-    lpfe_ExpDeclaracao1, "ExpDeclaracao", 75, jl_Object, [lpee_Expressao1], 0, 3, 0, 0, ["$_init_260", $rt_wrapFunction3(lpfe_ExpDeclaracao__init_1), "$avaliar4", $rt_wrapFunction1(lpfe_ExpDeclaracao_avaliar0), "$checaTipo1", $rt_wrapFunction1(lpfe_ExpDeclaracao_checaTipo0), "$getTipo6", $rt_wrapFunction1(lpfe_ExpDeclaracao_getTipo0)],
+    lpem_VariavelJaDeclaradaException0, "VariavelJaDeclaradaException", 102, lpem_IdentificadorJaDeclaradoException5, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_9)],
+    lpfe_ExpDeclaracao1, "ExpDeclaracao", 75, jl_Object, [lpee_Expressao1], 0, 3, 0, 0, ["$_init_259", $rt_wrapFunction3(lpfe_ExpDeclaracao__init_1), "$avaliar4", $rt_wrapFunction1(lpfe_ExpDeclaracao_avaliar0), "$checaTipo1", $rt_wrapFunction1(lpfe_ExpDeclaracao_checaTipo0), "$getTipo6", $rt_wrapFunction1(lpfe_ExpDeclaracao_getTipo0)],
     lpem_Contexto0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_Contexto__init_3), "$incrementa", $rt_wrapFunction0(lpem_Contexto_incrementa1), "$registraEscopo7", $rt_wrapFunction1(lpem_Contexto_registraEscopo5), "$restaura", $rt_wrapFunction0(lpem_Contexto_restaura0), "$map9", $rt_wrapFunction2(lpem_Contexto_map3), "$get17", $rt_wrapFunction1(lpem_Contexto_get), "$setPilha", $rt_wrapFunction1(lpem_Contexto_setPilha), "$getPilhaSnapshot5", $rt_wrapFunction0(lpem_Contexto_getPilhaSnapshot4)],
     lpem_ContextoExecucao2, 0, lpem_Contexto0, [lpem_AmbienteExecucao3], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoExecucao__init_0), "$clone13", $rt_wrapFunction0(lpem_ContextoExecucao_clone2), "$clone36", $rt_wrapFunction0(lpem_ContextoExecucao_clone)],
-    lpee_ExpLength, "ExpLength", 123, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction1(lpee_ExpLength__init_3), "$avaliar3", $rt_wrapFunction1(lpee_ExpLength_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal3), "$getTipo5", $rt_wrapFunction1(lpee_ExpLength_getTipo), "$clone14", $rt_wrapFunction0(lpee_ExpLength_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpLength_clone)],
-    lpiu_Lista1, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_3), "$_init_153", $rt_wrapFunction2(lpiu_Lista__init_1), "$length", $rt_wrapFunction0(lpiu_Lista_length1), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead1), "$getTail1", $rt_wrapFunction0(lpiu_Lista_getTail1), "$toString", $rt_wrapFunction0(lpiu_Lista_toString0)],
-    lpic_ListaExpressao, 0, lpiu_Lista1, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpic_ListaExpressao__init_2), "$_init_205", $rt_wrapFunction1(lpic_ListaExpressao__init_1), "$_init_219", $rt_wrapFunction2(lpic_ListaExpressao__init_), "$avaliar9", $rt_wrapFunction1(lpic_ListaExpressao_avaliar), "$getTipos1", $rt_wrapFunction1(lpic_ListaExpressao_getTipos)],
+    lpee_ExpLength, "ExpLength", 123, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction1(lpee_ExpLength__init_3), "$avaliar3", $rt_wrapFunction1(lpee_ExpLength_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal3), "$getTipo5", $rt_wrapFunction1(lpee_ExpLength_getTipo), "$clone14", $rt_wrapFunction0(lpee_ExpLength_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpLength_clone)],
+    lpiu_Lista1, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_3), "$_init_152", $rt_wrapFunction2(lpiu_Lista__init_1), "$length", $rt_wrapFunction0(lpiu_Lista_length1), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead1), "$getTail1", $rt_wrapFunction0(lpiu_Lista_getTail1), "$toString", $rt_wrapFunction0(lpiu_Lista_toString0)],
+    lpic_ListaExpressao, 0, lpiu_Lista1, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpic_ListaExpressao__init_2), "$_init_204", $rt_wrapFunction1(lpic_ListaExpressao__init_1), "$_init_218", $rt_wrapFunction2(lpic_ListaExpressao__init_), "$avaliar9", $rt_wrapFunction1(lpic_ListaExpressao_avaliar), "$getTipos1", $rt_wrapFunction1(lpic_ListaExpressao_getTipos)],
     ji_IOException, "IOException", 5, jl_Exception, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ji_IOException__init_0), "$_init_", $rt_wrapFunction1(ji_IOException__init_1)],
     jnc_CharacterCodingException, 0, ji_IOException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jnc_CharacterCodingException__init_)],
     jnc_MalformedInputException, "MalformedInputException", 3, jnc_CharacterCodingException, [], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(jnc_MalformedInputException__init_), "$getMessage", $rt_wrapFunction0(jnc_MalformedInputException_getMessage)],
-    lpee_ExpSoma2, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_77", $rt_wrapFunction2(lpee_ExpSoma__init_6), "$avaliar", $rt_wrapFunction1(lpee_ExpSoma_avaliar4), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal1), "$getTipo", $rt_wrapFunction1(lpee_ExpSoma_getTipo)]]);
-    $rt_metadata([lpoe_ListaExpressao0, 0, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoe_ListaExpressao__init_3), "$_init_171", $rt_wrapFunction1(lpoe_ListaExpressao__init_2), "$_init_172", $rt_wrapFunction2(lpoe_ListaExpressao__init_5), "$avaliar7", $rt_wrapFunction1(lpoe_ListaExpressao_avaliar0), "$getTipos0", $rt_wrapFunction1(lpoe_ListaExpressao_getTipos)],
+    lpee_ExpSoma2, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpee_ExpSoma__init_6), "$avaliar", $rt_wrapFunction1(lpee_ExpSoma_avaliar4), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal1), "$getTipo", $rt_wrapFunction1(lpee_ExpSoma_getTipo)]]);
+    $rt_metadata([lpoe_ListaExpressao0, 0, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoe_ListaExpressao__init_3), "$_init_170", $rt_wrapFunction1(lpoe_ListaExpressao__init_2), "$_init_171", $rt_wrapFunction2(lpoe_ListaExpressao__init_5), "$avaliar7", $rt_wrapFunction1(lpoe_ListaExpressao_avaliar0), "$getTipos0", $rt_wrapFunction1(lpoe_ListaExpressao_getTipos)],
     lpim_ErroTipoEntradaException, "ErroTipoEntradaException", 70, jl_Exception, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpim_ErroTipoEntradaException__init_)],
     jl_CloneNotSupportedException, "CloneNotSupportedException", 8, jl_Exception, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_CloneNotSupportedException__init_)],
     lpoev_ValorRef, "ValorRef", 99, jl_Object, [lpoev_Valor0], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(lpoev_ValorRef__init_), "$valor1", $rt_wrapFunction0(lpoev_ValorRef_valor), "$avaliar2", $rt_wrapFunction1(lpoev_ValorRef_avaliar0), "$hashCode", $rt_wrapFunction0(lpoev_ValorRef_hashCode), "$getTipo8", $rt_wrapFunction1(lpoev_ValorRef_getTipo), "$checaTipo4", $rt_wrapFunction1(lpoev_ValorRef_checaTipo0), "$incrementa1", $rt_wrapFunction0(lpoev_ValorRef_incrementa0)],
     lpem_InfoBinding0, "InfoBinding", 124, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpem_InfoBinding__init_0), "$getTipo4", $rt_wrapFunction0(lpem_InfoBinding_getTipo1), "$getValor", $rt_wrapFunction0(lpem_InfoBinding_getValor)],
-    lpoed_ProcedimentoNaoDeclaradoException0, "ProcedimentoNaoDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpoed_ProcedimentoNaoDeclaradoException__init_0)],
-    lpom_Objeto0, "Objeto", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_230", $rt_wrapFunction2(lpom_Objeto__init_0), "$getClasse", $rt_wrapFunction0(lpom_Objeto_getClasse0), "$getEstado", $rt_wrapFunction0(lpom_Objeto_getEstado), "$changeAtributo", $rt_wrapFunction2(lpom_Objeto_changeAtributo0)],
+    lpoed_ProcedimentoNaoDeclaradoException0, "ProcedimentoNaoDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpoed_ProcedimentoNaoDeclaradoException__init_0)],
+    lpom_Objeto0, "Objeto", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_229", $rt_wrapFunction2(lpom_Objeto__init_0), "$getClasse", $rt_wrapFunction0(lpom_Objeto_getClasse0), "$getEstado", $rt_wrapFunction0(lpom_Objeto_getEstado), "$changeAtributo", $rt_wrapFunction2(lpom_Objeto_changeAtributo0)],
     lpem_AmbienteCompilacao1, 0, jl_Object, [lpem_Ambiente5], 3, 3, 0, 0, 0,
     lpem_ContextoCompilacao1, 0, lpem_Contexto2, [lpem_AmbienteCompilacao1], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoCompilacao__init_7)],
-    jm_BigInteger, 0, jl_Number, [jl_Comparable, ji_Serializable], 0, 3, 0, jm_BigInteger_$callClinit, ["$_init_8", $rt_wrapFunction2(jm_BigInteger__init_3), "$_init_142", $rt_wrapFunction3(jm_BigInteger__init_4), "$_init_160", $rt_wrapFunction2(jm_BigInteger__init_2), "$_init_286", $rt_wrapFunction2(jm_BigInteger__init_5), "$abs2", $rt_wrapFunction0(jm_BigInteger_abs), "$negate", $rt_wrapFunction0(jm_BigInteger_negate), "$add5", $rt_wrapFunction1(jm_BigInteger_add), "$subtract2", $rt_wrapFunction1(jm_BigInteger_subtract),
+    jm_BigInteger, 0, jl_Number, [jl_Comparable, ji_Serializable], 0, 3, 0, jm_BigInteger_$callClinit, ["$_init_8", $rt_wrapFunction2(jm_BigInteger__init_3), "$_init_141", $rt_wrapFunction3(jm_BigInteger__init_4), "$_init_159", $rt_wrapFunction2(jm_BigInteger__init_2), "$_init_285", $rt_wrapFunction2(jm_BigInteger__init_5), "$abs2", $rt_wrapFunction0(jm_BigInteger_abs), "$negate", $rt_wrapFunction0(jm_BigInteger_negate), "$add5", $rt_wrapFunction1(jm_BigInteger_add), "$subtract2", $rt_wrapFunction1(jm_BigInteger_subtract),
     "$signum", $rt_wrapFunction0(jm_BigInteger_signum), "$shiftRight1", $rt_wrapFunction1(jm_BigInteger_shiftRight), "$shiftLeft1", $rt_wrapFunction1(jm_BigInteger_shiftLeft), "$bitLength2", $rt_wrapFunction0(jm_BigInteger_bitLength), "$testBit", $rt_wrapFunction1(jm_BigInteger_testBit), "$intValue", $rt_wrapFunction0(jm_BigInteger_intValue), "$longValue", $rt_wrapFunction0(jm_BigInteger_longValue), "$doubleValue", $rt_wrapFunction0(jm_BigInteger_doubleValue), "$compareTo0", $rt_wrapFunction1(jm_BigInteger_compareTo),
     "$equals", $rt_wrapFunction1(jm_BigInteger_equals), "$equalsArrays", $rt_wrapFunction1(jm_BigInteger_equalsArrays), "$multiply0", $rt_wrapFunction1(jm_BigInteger_multiply), "$pow0", $rt_wrapFunction1(jm_BigInteger_pow), "$divideAndRemainder", $rt_wrapFunction1(jm_BigInteger_divideAndRemainder), "$divide0", $rt_wrapFunction1(jm_BigInteger_divide), "$remainder", $rt_wrapFunction1(jm_BigInteger_remainder), "$cutOffLeadingZeroes", $rt_wrapFunction0(jm_BigInteger_cutOffLeadingZeroes), "$isOne", $rt_wrapFunction0(jm_BigInteger_isOne),
     "$getFirstNonzeroDigit", $rt_wrapFunction0(jm_BigInteger_getFirstNonzeroDigit)],
-    lpoeb_ExpSoma, "ExpSoma", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_50", $rt_wrapFunction2(lpoeb_ExpSoma__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpSoma_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpSoma_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpSoma_getTipo0)],
+    lpoeb_ExpSoma, "ExpSoma", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_49", $rt_wrapFunction2(lpoeb_ExpSoma__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpSoma_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpSoma_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpSoma_getTipo0)],
     jt_DecimalFormat$CurrencyField, "DecimalFormat$CurrencyField", 7, jl_Object, [jt_DecimalFormat$FormatField], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormat$CurrencyField__init_), "$render", $rt_wrapFunction2(jt_DecimalFormat$CurrencyField_render), "$equals", $rt_wrapFunction1(jt_DecimalFormat$CurrencyField_equals), "$hashCode", $rt_wrapFunction0(jt_DecimalFormat$CurrencyField_hashCode)],
     jlr_Member, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpem_InfoEscopo4, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_79", $rt_wrapFunction2(lpem_InfoEscopo__init_4), "$getTrechoCodigoFonte3", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte0), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo3)],
+    lpem_InfoEscopo4, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_78", $rt_wrapFunction2(lpem_InfoEscopo__init_4), "$getTrechoCodigoFonte3", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte0), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo3)],
     lpoev_ValorRef0, "ValorRef", 32, jl_Object, [lpoev_Valor], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(lpoev_ValorRef__init_0), "$valor1", $rt_wrapFunction0(lpoev_ValorRef_valor0), "$avaliar0", $rt_wrapFunction1(lpoev_ValorRef_avaliar), "$hashCode", $rt_wrapFunction0(lpoev_ValorRef_hashCode0), "$getTipo0", $rt_wrapFunction1(lpoev_ValorRef_getTipo0), "$checaTipo0", $rt_wrapFunction1(lpoev_ValorRef_checaTipo), "$incrementa0", $rt_wrapFunction0(lpoev_ValorRef_incrementa)],
     lpem_PilhaSnapshot3, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_PilhaSnapshot__init_1), "$incrementa", $rt_wrapFunction0(lpem_PilhaSnapshot_incrementa), "$registraEscopo7", $rt_wrapFunction1(lpem_PilhaSnapshot_registraEscopo5), "$map", $rt_wrapFunction2(lpem_PilhaSnapshot_map), "$restaura", $rt_wrapFunction0(lpem_PilhaSnapshot_restaura), "$getQuadros", $rt_wrapFunction0(lpem_PilhaSnapshot_getQuadros4)],
     otcic_CurrencyHelper, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    lpfp_ParseException, "ParseException", 140, jl_Exception, [], 0, 3, 0, 0, ["$_init_244", $rt_wrapFunction3(lpfp_ParseException__init_3), "$_init_0", $rt_wrapFunction0(lpfp_ParseException__init_5)],
+    lpfp_ParseException, "ParseException", 140, jl_Exception, [], 0, 3, 0, 0, ["$_init_243", $rt_wrapFunction3(lpfp_ParseException__init_3), "$_init_0", $rt_wrapFunction0(lpfp_ParseException__init_5)],
     lpee_ExpAnd2, 0, lpee_ExpBinaria3, [], 0, 3, 0, 0, ["$_init_21", $rt_wrapFunction2(lpee_ExpAnd__init_1), "$avaliar1", $rt_wrapFunction1(lpee_ExpAnd_avaliar), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal1), "$getTipo1", $rt_wrapFunction1(lpee_ExpAnd_getTipo0)],
     lpfp_Func2ParserConstants, 0, jl_Object, [], 3, 3, 0, lpfp_Func2ParserConstants_$callClinit, 0,
-    lpo_Programa0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_37", $rt_wrapFunction2(lpo_Programa__init_0), "$executar7", $rt_wrapFunction1(lpo_Programa_executar0), "$checaTipo4", $rt_wrapFunction1(lpo_Programa_checaTipo0), "$getAmbCompSnapshot", $rt_wrapFunction0(lpo_Programa_getAmbCompSnapshot0)],
+    lpo_Programa0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_36", $rt_wrapFunction2(lpo_Programa__init_0), "$executar7", $rt_wrapFunction1(lpo_Programa_executar0), "$checaTipo4", $rt_wrapFunction1(lpo_Programa_checaTipo0), "$getAmbCompSnapshot", $rt_wrapFunction0(lpo_Programa_getAmbCompSnapshot0)],
     otci_Base46, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    lpee_ExpBinaria1, "ExpBinaria", 147, jl_Object, [lpee_Expressao0], 1, 3, 0, 0, ["$_init_162", $rt_wrapFunction3(lpee_ExpBinaria__init_0), "$getEsq6", $rt_wrapFunction0(lpee_ExpBinaria_getEsq2), "$getDir6", $rt_wrapFunction0(lpee_ExpBinaria_getDir5), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString1), "$checaTipo6", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo3), "$reduzir0", $rt_wrapFunction1(lpee_ExpBinaria_reduzir)],
-    lpee_ExpOr1, "ExpOr", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_163", $rt_wrapFunction2(lpee_ExpOr__init_7), "$avaliar5", $rt_wrapFunction1(lpee_ExpOr_avaliar4), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpOr_getTipo1), "$clone15", $rt_wrapFunction0(lpee_ExpOr_clone0), "$clone3", $rt_wrapFunction0(lpee_ExpOr_clone2)],
-    lpop_OO1ParserTokenManager, 0, jl_Object, [lpop_OO1ParserConstants], 0, 3, 0, lpop_OO1ParserTokenManager_$callClinit, ["$_init_63", $rt_wrapFunction1(lpop_OO1ParserTokenManager__init_), "$ReInit4", $rt_wrapFunction1(lpop_OO1ParserTokenManager_ReInit), "$jjFillToken", $rt_wrapFunction0(lpop_OO1ParserTokenManager_jjFillToken), "$getNextToken0", $rt_wrapFunction0(lpop_OO1ParserTokenManager_getNextToken)],
-    lpop_OO2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_190", $rt_wrapFunction1(lpop_OO2Parser$LookaheadSuccess__init_0)],
+    lpee_ExpBinaria1, "ExpBinaria", 147, jl_Object, [lpee_Expressao0], 1, 3, 0, 0, ["$_init_161", $rt_wrapFunction3(lpee_ExpBinaria__init_0), "$getEsq6", $rt_wrapFunction0(lpee_ExpBinaria_getEsq2), "$getDir6", $rt_wrapFunction0(lpee_ExpBinaria_getDir5), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString1), "$checaTipo6", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo3), "$reduzir0", $rt_wrapFunction1(lpee_ExpBinaria_reduzir)],
+    lpee_ExpOr1, "ExpOr", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_162", $rt_wrapFunction2(lpee_ExpOr__init_7), "$avaliar5", $rt_wrapFunction1(lpee_ExpOr_avaliar4), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpOr_getTipo1), "$clone15", $rt_wrapFunction0(lpee_ExpOr_clone0), "$clone3", $rt_wrapFunction0(lpee_ExpOr_clone2)],
+    lpop_OO1ParserTokenManager, 0, jl_Object, [lpop_OO1ParserConstants], 0, 3, 0, lpop_OO1ParserTokenManager_$callClinit, ["$_init_62", $rt_wrapFunction1(lpop_OO1ParserTokenManager__init_), "$ReInit4", $rt_wrapFunction1(lpop_OO1ParserTokenManager_ReInit), "$jjFillToken", $rt_wrapFunction0(lpop_OO1ParserTokenManager_jjFillToken), "$getNextToken0", $rt_wrapFunction0(lpop_OO1ParserTokenManager_getNextToken)],
+    lpop_OO2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_189", $rt_wrapFunction1(lpop_OO2Parser$LookaheadSuccess__init_0)],
     ju_Map$Entry, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    ju_MapEntry, 0, jl_Object, [ju_Map$Entry, jl_Cloneable], 0, 0, 0, 0, ["$_init_145", $rt_wrapFunction2(ju_MapEntry__init_), "$getKey", $rt_wrapFunction0(ju_MapEntry_getKey), "$getValue", $rt_wrapFunction0(ju_MapEntry_getValue), "$hashCode", $rt_wrapFunction0(ju_MapEntry_hashCode)],
-    ju_Hashtable$Entry, 0, ju_MapEntry, [], 0, 0, 0, 0, ["$_init_145", $rt_wrapFunction2(ju_Hashtable$Entry__init_), "$getKeyHash", $rt_wrapFunction0(ju_Hashtable$Entry_getKeyHash), "$equalsKey", $rt_wrapFunction2(ju_Hashtable$Entry_equalsKey)],
-    lpee_ExpBinaria2, 0, jl_Object, [lpee_Expressao4], 1, 3, 0, 0, ["$_init_165", $rt_wrapFunction3(lpee_ExpBinaria__init_5), "$getEsq7", $rt_wrapFunction0(lpee_ExpBinaria_getEsq), "$getDir7", $rt_wrapFunction0(lpee_ExpBinaria_getDir), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString2), "$checaTipo7", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo1)],
-    lpee_ExpOr4, "ExpOr", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_209", $rt_wrapFunction2(lpee_ExpOr__init_6), "$avaliar6", $rt_wrapFunction1(lpee_ExpOr_avaliar2), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal2), "$getTipo9", $rt_wrapFunction1(lpee_ExpOr_getTipo3)],
-    lpee_ExpSub5, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_77", $rt_wrapFunction2(lpee_ExpSub__init_), "$avaliar", $rt_wrapFunction1(lpee_ExpSub_avaliar2), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal), "$getTipo", $rt_wrapFunction1(lpee_ExpSub_getTipo5)],
+    ju_MapEntry, 0, jl_Object, [ju_Map$Entry, jl_Cloneable], 0, 0, 0, 0, ["$_init_144", $rt_wrapFunction2(ju_MapEntry__init_), "$getKey", $rt_wrapFunction0(ju_MapEntry_getKey), "$getValue", $rt_wrapFunction0(ju_MapEntry_getValue), "$hashCode", $rt_wrapFunction0(ju_MapEntry_hashCode)],
+    ju_Hashtable$Entry, 0, ju_MapEntry, [], 0, 0, 0, 0, ["$_init_144", $rt_wrapFunction2(ju_Hashtable$Entry__init_), "$getKeyHash", $rt_wrapFunction0(ju_Hashtable$Entry_getKeyHash), "$equalsKey", $rt_wrapFunction2(ju_Hashtable$Entry_equalsKey)],
+    lpee_ExpBinaria2, 0, jl_Object, [lpee_Expressao4], 1, 3, 0, 0, ["$_init_164", $rt_wrapFunction3(lpee_ExpBinaria__init_5), "$getEsq7", $rt_wrapFunction0(lpee_ExpBinaria_getEsq), "$getDir7", $rt_wrapFunction0(lpee_ExpBinaria_getDir), "$toString", $rt_wrapFunction0(lpee_ExpBinaria_toString2), "$checaTipo7", $rt_wrapFunction1(lpee_ExpBinaria_checaTipo1)],
+    lpee_ExpOr4, "ExpOr", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpee_ExpOr__init_6), "$avaliar6", $rt_wrapFunction1(lpee_ExpOr_avaliar2), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal2), "$getTipo9", $rt_wrapFunction1(lpee_ExpOr_getTipo3)],
+    lpee_ExpSub5, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpee_ExpSub__init_), "$avaliar", $rt_wrapFunction1(lpee_ExpSub_avaliar2), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal), "$getTipo", $rt_wrapFunction1(lpee_ExpSub_getTipo5)],
     lpfu_TipoPolimorfico0, "TipoPolimorfico", 143, jl_Object, [lpeu_Tipo1], 0, 3, [0,0,0], lpfu_TipoPolimorfico_$callClinit0, ["$_init_0", $rt_wrapFunction0(lpfu_TipoPolimorfico__init_4), "$getNome", $rt_wrapFunction0(lpfu_TipoPolimorfico_getNome), "$getTipoInstanciado0", $rt_wrapFunction0(lpfu_TipoPolimorfico_getTipoInstanciado1), "$eInteiro", $rt_wrapFunction0(lpfu_TipoPolimorfico_eInteiro), "$eBooleano", $rt_wrapFunction0(lpfu_TipoPolimorfico_eBooleano), "$eString", $rt_wrapFunction0(lpfu_TipoPolimorfico_eString0),
     "$eIgual3", $rt_wrapFunction1(lpfu_TipoPolimorfico_eIgual), "$eValido", $rt_wrapFunction0(lpfu_TipoPolimorfico_eValido1), "$inferir", $rt_wrapFunction0(lpfu_TipoPolimorfico_inferir1), "$limpar", $rt_wrapFunction0(lpfu_TipoPolimorfico_limpar1), "$intersecao1", $rt_wrapFunction1(lpfu_TipoPolimorfico_intersecao1), "$toString", $rt_wrapFunction0(lpfu_TipoPolimorfico_toString)],
-    lpee_ExpEquals4, "ExpEquals", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_209", $rt_wrapFunction2(lpee_ExpEquals__init_4), "$avaliar6", $rt_wrapFunction1(lpee_ExpEquals_avaliar1), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal), "$getTipo9", $rt_wrapFunction1(lpee_ExpEquals_getTipo3)],
+    lpee_ExpEquals4, "ExpEquals", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpee_ExpEquals__init_4), "$avaliar6", $rt_wrapFunction1(lpee_ExpEquals_avaliar1), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal), "$getTipo9", $rt_wrapFunction1(lpee_ExpEquals_getTipo3)],
     lpee_Valor, 0, jl_Object, [lpee_Expressao], 3, 3, 0, 0, 0,
     lpee_ValorConcreto, "ValorConcreto", 123, jl_Object, [lpee_Valor], 1, 3, 0, 0, ["$toString", $rt_wrapFunction0(lpee_ValorConcreto_toString3), "$_init_2", $rt_wrapFunction1(lpee_ValorConcreto__init_), "$valor", $rt_wrapFunction0(lpee_ValorConcreto_valor2), "$isEquals3", $rt_wrapFunction1(lpee_ValorConcreto_isEquals4), "$avaliar3", $rt_wrapFunction1(lpee_ValorConcreto_avaliar2), "$checaTipo5", $rt_wrapFunction1(lpee_ValorConcreto_checaTipo1), "$hashCode", $rt_wrapFunction0(lpee_ValorConcreto_hashCode), "$equals",
     $rt_wrapFunction1(lpee_ValorConcreto_equals1), "$reduzir", $rt_wrapFunction1(lpee_ValorConcreto_reduzir)],
@@ -75126,53 +75073,53 @@ var __runCode;
     $rt_wrapFunction0(lpop_OO2Parser_PListaDeclaracaoParametro), "$PDecParametroComposto0", $rt_wrapFunction0(lpop_OO2Parser_PDecParametroComposto), "$PDecParametroAtomico0", $rt_wrapFunction0(lpop_OO2Parser_PDecParametroAtomico), "$PTipo0", $rt_wrapFunction0(lpop_OO2Parser_PTipo), "$PTipoPrimitivo0", $rt_wrapFunction0(lpop_OO2Parser_PTipoPrimitivo), "$PTipoClasse0", $rt_wrapFunction0(lpop_OO2Parser_PTipoClasse), "$_init_16", $rt_wrapFunction1(lpop_OO2Parser__init_0), "$_init_15", $rt_wrapFunction2(lpop_OO2Parser__init_),
     "$ReInit7", $rt_wrapFunction1(lpop_OO2Parser_ReInit0), "$ReInit1", $rt_wrapFunction2(lpop_OO2Parser_ReInit), "$generateParseException3", $rt_wrapFunction0(lpop_OO2Parser_generateParseException)],
     lpfp_Func1ParserConstants, 0, jl_Object, [], 3, 3, 0, lpfp_Func1ParserConstants_$callClinit, 0,
-    lpfp_Func1ParserTokenManager, 0, jl_Object, [lpfp_Func1ParserConstants], 0, 3, 0, lpfp_Func1ParserTokenManager_$callClinit, ["$_init_265", $rt_wrapFunction1(lpfp_Func1ParserTokenManager__init_)],
+    lpfp_Func1ParserTokenManager, 0, jl_Object, [lpfp_Func1ParserConstants], 0, 3, 0, lpfp_Func1ParserTokenManager_$callClinit, ["$_init_264", $rt_wrapFunction1(lpfp_Func1ParserTokenManager__init_)],
     lpeu_Tipo2, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpiu_TipoProcedimento, "TipoProcedimento", 49, jl_Object, [lpeu_Tipo2], 0, 3, [0,0,0], 0, ["$_init_95", $rt_wrapFunction1(lpiu_TipoProcedimento__init_), "$eBooleano", $rt_wrapFunction0(lpiu_TipoProcedimento_eBooleano), "$eIgual2", $rt_wrapFunction1(lpiu_TipoProcedimento_eIgual), "$eInteiro", $rt_wrapFunction0(lpiu_TipoProcedimento_eInteiro), "$eString", $rt_wrapFunction0(lpiu_TipoProcedimento_eString), "$eValido", $rt_wrapFunction0(lpiu_TipoProcedimento_eValido), "$getNome", $rt_wrapFunction0(lpiu_TipoProcedimento_getNome)],
+    lpiu_TipoProcedimento, "TipoProcedimento", 49, jl_Object, [lpeu_Tipo2], 0, 3, [0,0,0], 0, ["$_init_94", $rt_wrapFunction1(lpiu_TipoProcedimento__init_), "$eBooleano", $rt_wrapFunction0(lpiu_TipoProcedimento_eBooleano), "$eIgual2", $rt_wrapFunction1(lpiu_TipoProcedimento_eIgual), "$eInteiro", $rt_wrapFunction0(lpiu_TipoProcedimento_eInteiro), "$eString", $rt_wrapFunction0(lpiu_TipoProcedimento_eString), "$eValido", $rt_wrapFunction0(lpiu_TipoProcedimento_eValido), "$getNome", $rt_wrapFunction0(lpiu_TipoProcedimento_getNome)],
     ju_Enumeration, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    ju_StringTokenizer, 0, jl_Object, [ju_Enumeration], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ju_StringTokenizer__init_), "$_init_193", $rt_wrapFunction3(ju_StringTokenizer__init_0), "$hasMoreTokens", $rt_wrapFunction0(ju_StringTokenizer_hasMoreTokens), "$nextToken", $rt_wrapFunction0(ju_StringTokenizer_nextToken)],
+    ju_StringTokenizer, 0, jl_Object, [ju_Enumeration], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ju_StringTokenizer__init_), "$_init_192", $rt_wrapFunction3(ju_StringTokenizer__init_0), "$hasMoreTokens", $rt_wrapFunction0(ju_StringTokenizer_hasMoreTokens), "$nextToken", $rt_wrapFunction0(ju_StringTokenizer_nextToken)],
     lped_Declaracao, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpee_ExpSoma5, "ExpSoma", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_209", $rt_wrapFunction2(lpee_ExpSoma__init_0), "$avaliar6", $rt_wrapFunction1(lpee_ExpSoma_avaliar), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal5), "$getTipo9", $rt_wrapFunction1(lpee_ExpSoma_getTipo5)],
+    lpee_ExpSoma5, "ExpSoma", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpee_ExpSoma__init_0), "$avaliar6", $rt_wrapFunction1(lpee_ExpSoma_avaliar), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal5), "$getTipo9", $rt_wrapFunction1(lpee_ExpSoma_getTipo5)],
     lpee_Valor2, 0, jl_Object, [lpee_Expressao5], 3, 3, 0, 0, 0,
     lpodp_DecProcedimento0, "DecProcedimento", 94, jl_Object, [], 3, 3, 0, 0, 0,
-    lpodp_DecProcedimentoComposta0, 0, jl_Object, [lpodp_DecProcedimento0], 0, 3, 0, 0, ["$_init_57", $rt_wrapFunction2(lpodp_DecProcedimentoComposta__init_0), "$getProcedimento", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_getProcedimento), "$checaTipo4", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_checaTipo0)],
+    lpodp_DecProcedimentoComposta0, 0, jl_Object, [lpodp_DecProcedimento0], 0, 3, 0, 0, ["$_init_56", $rt_wrapFunction2(lpodp_DecProcedimentoComposta__init_0), "$getProcedimento", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_getProcedimento), "$checaTipo4", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_checaTipo0)],
     ju_HashMap$HashEntry, "HashMap$HashEntry", 1, ju_MapEntry, [], 0, 0, 0, 0, ["$_init_30", $rt_wrapFunction2(ju_HashMap$HashEntry__init_)]]);
     $rt_metadata([ju_LinkedHashMap$LinkedHashMapEntry, "LinkedHashMap$LinkedHashMapEntry", 1, ju_HashMap$HashEntry, [], 4, 0, 0, 0, ["$_init_30", $rt_wrapFunction2(ju_LinkedHashMap$LinkedHashMapEntry__init_)],
-    lpee_ExpMenos5, "ExpMenos", 43, lpee_ExpUnaria2, [], 0, 3, 0, 0, ["$_init_205", $rt_wrapFunction1(lpee_ExpMenos__init_3), "$avaliar6", $rt_wrapFunction1(lpee_ExpMenos_avaliar), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal2), "$getTipo9", $rt_wrapFunction1(lpee_ExpMenos_getTipo4)],
+    lpee_ExpMenos5, "ExpMenos", 43, lpee_ExpUnaria2, [], 0, 3, 0, 0, ["$_init_204", $rt_wrapFunction1(lpee_ExpMenos__init_3), "$avaliar6", $rt_wrapFunction1(lpee_ExpMenos_avaliar), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal2), "$getTipo9", $rt_wrapFunction1(lpee_ExpMenos_getTipo4)],
     jl_IndexOutOfBoundsException, "IndexOutOfBoundsException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_IndexOutOfBoundsException__init_1), "$_init_", $rt_wrapFunction1(jl_IndexOutOfBoundsException__init_)],
     jl_ArrayIndexOutOfBoundsException, "ArrayIndexOutOfBoundsException", 8, jl_IndexOutOfBoundsException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_ArrayIndexOutOfBoundsException__init_0), "$_init_6", $rt_wrapFunction1(jl_ArrayIndexOutOfBoundsException__init_)],
-    jlr_Field, "Field", 9, jlr_AccessibleObject, [jlr_Member], 0, 3, 0, 0, ["$_init_101", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { jlr_Field__init_(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }, "$getName", $rt_wrapFunction0(jlr_Field_getName), "$getModifiers", $rt_wrapFunction0(jlr_Field_getModifiers), "$getType", $rt_wrapFunction0(jlr_Field_getType), "$toString", $rt_wrapFunction0(jlr_Field_toString), "$get", $rt_wrapFunction1(jlr_Field_get), "$getWithoutCheck", $rt_wrapFunction1(jlr_Field_getWithoutCheck),
+    jlr_Field, "Field", 9, jlr_AccessibleObject, [jlr_Member], 0, 3, 0, 0, ["$_init_100", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { jlr_Field__init_(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }, "$getName", $rt_wrapFunction0(jlr_Field_getName), "$getModifiers", $rt_wrapFunction0(jlr_Field_getModifiers), "$getType", $rt_wrapFunction0(jlr_Field_getType), "$toString", $rt_wrapFunction0(jlr_Field_toString), "$get", $rt_wrapFunction1(jlr_Field_get), "$getWithoutCheck", $rt_wrapFunction1(jlr_Field_getWithoutCheck),
     "$checkGetAccess", $rt_wrapFunction0(jlr_Field_checkGetAccess)],
-    ji_InputStreamReader, 0, ji_Reader, [], 0, 3, 0, 0, ["$_init_15", $rt_wrapFunction2(ji_InputStreamReader__init_4), "$_init_195", $rt_wrapFunction2(ji_InputStreamReader__init_1), "$_init_16", $rt_wrapFunction1(ji_InputStreamReader__init_3), "$_init_196", $rt_wrapFunction2(ji_InputStreamReader__init_2), "$close", $rt_wrapFunction0(ji_InputStreamReader_close), "$read", $rt_wrapFunction3(ji_InputStreamReader_read)],
+    ji_InputStreamReader, 0, ji_Reader, [], 0, 3, 0, 0, ["$_init_15", $rt_wrapFunction2(ji_InputStreamReader__init_4), "$_init_194", $rt_wrapFunction2(ji_InputStreamReader__init_1), "$_init_16", $rt_wrapFunction1(ji_InputStreamReader__init_3), "$_init_195", $rt_wrapFunction2(ji_InputStreamReader__init_2), "$close", $rt_wrapFunction0(ji_InputStreamReader_close), "$read", $rt_wrapFunction3(ji_InputStreamReader_read)],
     lpou_Tipo, "Tipo", 24, jl_Object, [], 3, 3, 0, 0, 0,
     lpee_Valor5, 0, jl_Object, [lpee_Expressao3], 3, 3, 0, 0, 0,
     lpee_ValorConcreto2, "ValorConcreto", 65, jl_Object, [lpee_Valor5], 1, 3, 0, 0, ["$toString", $rt_wrapFunction0(lpee_ValorConcreto_toString4), "$_init_2", $rt_wrapFunction1(lpee_ValorConcreto__init_3), "$valor", $rt_wrapFunction0(lpee_ValorConcreto_valor3), "$isEquals", $rt_wrapFunction1(lpee_ValorConcreto_isEquals3), "$avaliar", $rt_wrapFunction1(lpee_ValorConcreto_avaliar0), "$checaTipo", $rt_wrapFunction1(lpee_ValorConcreto_checaTipo5), "$hashCode", $rt_wrapFunction0(lpee_ValorConcreto_hashCode4), "$equals",
     $rt_wrapFunction1(lpee_ValorConcreto_equals4)],
-    lpee_ValorInteiro1, "ValorInteiro", 81, lpee_ValorConcreto1, [], 0, 3, [0,0,0], 0, ["$_init_35", $rt_wrapFunction1(lpee_ValorInteiro__init_6), "$getTipo6", $rt_wrapFunction1(lpee_ValorInteiro_getTipo0)],
+    lpee_ValorInteiro1, "ValorInteiro", 81, lpee_ValorConcreto1, [], 0, 3, [0,0,0], 0, ["$_init_34", $rt_wrapFunction1(lpee_ValorInteiro__init_6), "$getTipo6", $rt_wrapFunction1(lpee_ValorInteiro_getTipo0)],
     lpid_Declaracao, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpid_Declaracao__init_)],
-    lpid_DeclaracaoComposta0, 0, lpid_Declaracao, [], 0, 3, 0, 0, ["$_init_213", $rt_wrapFunction2(lpid_DeclaracaoComposta__init_0), "$elabora8", $rt_wrapFunction1(lpid_DeclaracaoComposta_elabora), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoComposta_checaTipo)],
+    lpid_DeclaracaoComposta0, 0, lpid_Declaracao, [], 0, 3, 0, 0, ["$_init_212", $rt_wrapFunction2(lpid_DeclaracaoComposta__init_0), "$elabora8", $rt_wrapFunction1(lpid_DeclaracaoComposta_elabora), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoComposta_checaTipo)],
     ju_Iterator, 0, jl_Object, [], 3, 3, 0, 0, 0,
     ju_AbstractList$1, 0, jl_Object, [ju_Iterator], 0, 0, 0, 0, ["$_init_7", $rt_wrapFunction1(ju_AbstractList$1__init_), "$hasNext", $rt_wrapFunction0(ju_AbstractList$1_hasNext), "$next", $rt_wrapFunction0(ju_AbstractList$1_next)],
     lpee_ValorBooleano4, "ValorBooleano", 65, lpee_ValorConcreto2, [], 0, 3, [0,0,0], 0, ["$_init_5", $rt_wrapFunction1(lpee_ValorBooleano__init_11), "$getTipo", $rt_wrapFunction1(lpee_ValorBooleano_getTipo5)],
-    lpem_QuadroEscopo4, "QuadroEscopo", 66, jl_Object, [], 0, 3, 0, 0, ["$_init_225", $rt_wrapFunction2(lpem_QuadroEscopo__init_4), "$adicionaBinding2", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo0), "$getTrechoCodigoFonte3", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings0)],
-    lpop_ParseException0, "ParseException", 91, jl_Exception, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction3(lpop_ParseException__init_1), "$_init_0", $rt_wrapFunction0(lpop_ParseException__init_3)],
+    lpem_QuadroEscopo4, "QuadroEscopo", 66, jl_Object, [], 0, 3, 0, 0, ["$_init_224", $rt_wrapFunction2(lpem_QuadroEscopo__init_4), "$adicionaBinding2", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo0), "$getTrechoCodigoFonte3", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings0)],
+    lpop_ParseException0, "ParseException", 91, jl_Exception, [], 0, 3, 0, 0, ["$_init_63", $rt_wrapFunction3(lpop_ParseException__init_1), "$_init_0", $rt_wrapFunction0(lpop_ParseException__init_3)],
     ju_ListIterator, 0, jl_Object, [ju_Iterator], 3, 3, 0, 0, 0,
     lpom_InfoBinding, "InfoBinding", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpom_InfoBinding__init_0), "$getTipo4", $rt_wrapFunction0(lpom_InfoBinding_getTipo0), "$getValor", $rt_wrapFunction0(lpom_InfoBinding_getValor)],
-    lpem_InfoEscopo0, "InfoEscopo", 80, jl_Object, [], 0, 3, 0, 0, ["$_init_261", $rt_wrapFunction2(lpem_InfoEscopo__init_2), "$getTrechoCodigoFonte6", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte3), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo4)],
-    lpou_ListaTipo, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpou_ListaTipo__init_2), "$_init_281", $rt_wrapFunction1(lpou_ListaTipo__init_5), "$_init_280", $rt_wrapFunction2(lpou_ListaTipo__init_), "$length", $rt_wrapFunction0(lpou_ListaTipo_length), "$head0", $rt_wrapFunction0(lpou_ListaTipo_head0), "$tail0", $rt_wrapFunction0(lpou_ListaTipo_tail0)],
+    lpem_InfoEscopo0, "InfoEscopo", 80, jl_Object, [], 0, 3, 0, 0, ["$_init_260", $rt_wrapFunction2(lpem_InfoEscopo__init_2), "$getTrechoCodigoFonte6", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte3), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo4)],
+    lpou_ListaTipo, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpou_ListaTipo__init_2), "$_init_280", $rt_wrapFunction1(lpou_ListaTipo__init_5), "$_init_279", $rt_wrapFunction2(lpou_ListaTipo__init_), "$length", $rt_wrapFunction0(lpou_ListaTipo_length), "$head0", $rt_wrapFunction0(lpou_ListaTipo_head0), "$tail0", $rt_wrapFunction0(lpou_ListaTipo_tail0)],
     jl_Runnable, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    jnc_CharsetDecoder, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_143", $rt_wrapFunction3(jnc_CharsetDecoder__init_), "$onMalformedInput0", $rt_wrapFunction1(jnc_CharsetDecoder_onMalformedInput), "$implOnMalformedInput", $rt_wrapFunction1(jnc_CharsetDecoder_implOnMalformedInput), "$onUnmappableCharacter0", $rt_wrapFunction1(jnc_CharsetDecoder_onUnmappableCharacter), "$implOnUnmappableCharacter", $rt_wrapFunction1(jnc_CharsetDecoder_implOnUnmappableCharacter), "$decode0", $rt_wrapFunction3(jnc_CharsetDecoder_decode),
+    jnc_CharsetDecoder, 0, jl_Object, [], 1, 3, 0, 0, ["$_init_142", $rt_wrapFunction3(jnc_CharsetDecoder__init_), "$onMalformedInput0", $rt_wrapFunction1(jnc_CharsetDecoder_onMalformedInput), "$implOnMalformedInput", $rt_wrapFunction1(jnc_CharsetDecoder_implOnMalformedInput), "$onUnmappableCharacter0", $rt_wrapFunction1(jnc_CharsetDecoder_onUnmappableCharacter), "$implOnUnmappableCharacter", $rt_wrapFunction1(jnc_CharsetDecoder_implOnUnmappableCharacter), "$decode0", $rt_wrapFunction3(jnc_CharsetDecoder_decode),
     "$flush0", $rt_wrapFunction1(jnc_CharsetDecoder_flush), "$implFlush0", $rt_wrapFunction1(jnc_CharsetDecoder_implFlush)],
-    jnci_BufferedDecoder, 0, jnc_CharsetDecoder, [], 1, 3, 0, 0, ["$_init_143", $rt_wrapFunction3(jnci_BufferedDecoder__init_), "$decodeLoop", $rt_wrapFunction2(jnci_BufferedDecoder_decodeLoop)],
-    jnci_UTF8Decoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_91", $rt_wrapFunction1(jnci_UTF8Decoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_UTF8Decoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
-    lpfe_ExpCons, "ExpCons", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpfe_ExpCons__init_0), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpCons_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpCons_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpCons_getTipo), "$clone16", $rt_wrapFunction0(lpfe_ExpCons_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpCons_clone0)],
+    jnci_BufferedDecoder, 0, jnc_CharsetDecoder, [], 1, 3, 0, 0, ["$_init_142", $rt_wrapFunction3(jnci_BufferedDecoder__init_), "$decodeLoop", $rt_wrapFunction2(jnci_BufferedDecoder_decodeLoop)],
+    jnci_UTF8Decoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_90", $rt_wrapFunction1(jnci_UTF8Decoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_UTF8Decoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpfe_ExpCons, "ExpCons", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpfe_ExpCons__init_0), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpCons_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpCons_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpCons_getTipo), "$clone16", $rt_wrapFunction0(lpfe_ExpCons_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpCons_clone0)],
     lpee_Id4, "Id", 43, jl_Object, [lpee_Expressao4], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_3), "$toString", $rt_wrapFunction0(lpee_Id_toString3), "$avaliar6", $rt_wrapFunction1(lpee_Id_avaliar4), "$checaTipo7", $rt_wrapFunction1(lpee_Id_checaTipo), "$getTipo9", $rt_wrapFunction1(lpee_Id_getTipo0), "$getIdName", $rt_wrapFunction0(lpee_Id_getIdName1), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode2), "$equals", $rt_wrapFunction1(lpee_Id_equals0)],
-    jnci_BufferedDecoder$Controller, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_197", $rt_wrapFunction2(jnci_BufferedDecoder$Controller__init_), "$hasMoreInput", $rt_wrapFunction0(jnci_BufferedDecoder$Controller_hasMoreInput0), "$hasMoreInput0", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_hasMoreInput), "$hasMoreOutput", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_hasMoreOutput), "$setInPosition", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_setInPosition), "$setOutPosition", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_setOutPosition)],
-    ju_Locale, 0, jl_Object, [jl_Cloneable, ji_Serializable], 4, 3, 0, ju_Locale_$callClinit, ["$_init_13", $rt_wrapFunction2(ju_Locale__init_1), "$_init_198", $rt_wrapFunction3(ju_Locale__init_0), "$getCountry", $rt_wrapFunction0(ju_Locale_getCountry), "$getLanguage", $rt_wrapFunction0(ju_Locale_getLanguage)],
+    jnci_BufferedDecoder$Controller, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_196", $rt_wrapFunction2(jnci_BufferedDecoder$Controller__init_), "$hasMoreInput", $rt_wrapFunction0(jnci_BufferedDecoder$Controller_hasMoreInput0), "$hasMoreInput0", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_hasMoreInput), "$hasMoreOutput", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_hasMoreOutput), "$setInPosition", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_setInPosition), "$setOutPosition", $rt_wrapFunction1(jnci_BufferedDecoder$Controller_setOutPosition)],
+    ju_Locale, 0, jl_Object, [jl_Cloneable, ji_Serializable], 4, 3, 0, ju_Locale_$callClinit, ["$_init_13", $rt_wrapFunction2(ju_Locale__init_1), "$_init_197", $rt_wrapFunction3(ju_Locale__init_0), "$getCountry", $rt_wrapFunction0(ju_Locale_getCountry), "$getLanguage", $rt_wrapFunction0(ju_Locale_getLanguage)],
     lpee_ValorConcreto5, 0, jl_Object, [lpee_Valor2], 1, 3, 0, 0, ["$toString", $rt_wrapFunction0(lpee_ValorConcreto_toString5), "$_init_2", $rt_wrapFunction1(lpee_ValorConcreto__init_5), "$valor", $rt_wrapFunction0(lpee_ValorConcreto_valor), "$isEquals5", $rt_wrapFunction1(lpee_ValorConcreto_isEquals1), "$avaliar1", $rt_wrapFunction1(lpee_ValorConcreto_avaliar), "$checaTipo2", $rt_wrapFunction1(lpee_ValorConcreto_checaTipo3)],
     lpee_ValorString5, "ValorString", 134, lpee_ValorConcreto5, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_ValorString__init_5), "$getTipo1", $rt_wrapFunction1(lpee_ValorString_getTipo), "$toString", $rt_wrapFunction0(lpee_ValorString_toString4)],
     jl_Short, 0, jl_Number, [jl_Comparable], 0, 3, 0, jl_Short_$callClinit, 0,
-    lpee_ExpNot3, "ExpNot", 43, lpee_ExpUnaria2, [], 0, 3, 0, 0, ["$_init_205", $rt_wrapFunction1(lpee_ExpNot__init_2), "$avaliar6", $rt_wrapFunction1(lpee_ExpNot_avaliar2), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal), "$getTipo9", $rt_wrapFunction1(lpee_ExpNot_getTipo4)],
+    lpee_ExpNot3, "ExpNot", 43, lpee_ExpUnaria2, [], 0, 3, 0, 0, ["$_init_204", $rt_wrapFunction1(lpee_ExpNot__init_2), "$avaliar6", $rt_wrapFunction1(lpee_ExpNot_avaliar2), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal), "$getTipo9", $rt_wrapFunction1(lpee_ExpNot_getTipo4)],
     jl_Thread$UncaughtExceptionHandler, 0, jl_Object, [], 3, 3, 0, 0, 0,
     jl_DefaultUncaughtExceptionHandler, 0, jl_Object, [jl_Thread$UncaughtExceptionHandler], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_DefaultUncaughtExceptionHandler__init_)],
     jt_DecimalFormat$1, 0, jl_Object, [], 32, 0, 0, jt_DecimalFormat$1_$callClinit, 0,
@@ -75180,169 +75127,169 @@ var __runCode;
     lpee_Expressao6, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpee_Id, "Id", 36, jl_Object, [lpee_Expressao6], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_0), "$toString", $rt_wrapFunction0(lpee_Id_toString4), "$getIdName", $rt_wrapFunction0(lpee_Id_getIdName0), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode0), "$equals", $rt_wrapFunction1(lpee_Id_equals2)],
     lpem_IdentificadorNaoDeclaradoException1, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_5), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorNaoDeclaradoException__init_10)],
-    lpoed_ObjetoNaoDeclaradoException0, "ObjetoNaoDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpoed_ObjetoNaoDeclaradoException__init_)],
-    lpoeb_ExpAnd0, "ExpAnd", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_50", $rt_wrapFunction2(lpoeb_ExpAnd__init_0), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpAnd_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpAnd_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpAnd_getTipo0)],
-    lpee_ExpSub1, "ExpSub", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_163", $rt_wrapFunction2(lpee_ExpSub__init_1), "$avaliar5", $rt_wrapFunction1(lpee_ExpSub_avaliar3), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpSub_getTipo3), "$clone15", $rt_wrapFunction0(lpee_ExpSub_clone2), "$clone3", $rt_wrapFunction0(lpee_ExpSub_clone0)],
-    lpodc_DecClasseSimplesOO2, "DecClasseSimplesOO2", 16, lpodc_DecClasseSimples, [], 0, 3, 0, 0, ["$_init_178", function(var_1, var_2, var_3, var_4, var_5, var_6) { lpodc_DecClasseSimplesOO2__init_(this, var_1, var_2, var_3, var_4, var_5, var_6); }, "$elabora5", $rt_wrapFunction1(lpodc_DecClasseSimplesOO2_elabora), "$checaTipo11", $rt_wrapFunction1(lpodc_DecClasseSimplesOO2_checaTipo)],
-    jnci_Iso8859Decoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_91", $rt_wrapFunction1(jnci_Iso8859Decoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_Iso8859Decoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpoed_ObjetoNaoDeclaradoException0, "ObjetoNaoDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpoed_ObjetoNaoDeclaradoException__init_)],
+    lpoeb_ExpAnd0, "ExpAnd", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_49", $rt_wrapFunction2(lpoeb_ExpAnd__init_0), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpAnd_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpAnd_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpAnd_getTipo0)],
+    lpee_ExpSub1, "ExpSub", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_162", $rt_wrapFunction2(lpee_ExpSub__init_1), "$avaliar5", $rt_wrapFunction1(lpee_ExpSub_avaliar3), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpSub_getTipo3), "$clone15", $rt_wrapFunction0(lpee_ExpSub_clone2), "$clone3", $rt_wrapFunction0(lpee_ExpSub_clone0)],
+    lpodc_DecClasseSimplesOO2, "DecClasseSimplesOO2", 16, lpodc_DecClasseSimples, [], 0, 3, 0, 0, ["$_init_177", function(var_1, var_2, var_3, var_4, var_5, var_6) { lpodc_DecClasseSimplesOO2__init_(this, var_1, var_2, var_3, var_4, var_5, var_6); }, "$elabora5", $rt_wrapFunction1(lpodc_DecClasseSimplesOO2_elabora), "$checaTipo11", $rt_wrapFunction1(lpodc_DecClasseSimplesOO2_checaTipo)],
+    jnci_Iso8859Decoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_90", $rt_wrapFunction1(jnci_Iso8859Decoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_Iso8859Decoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
     lpem_AmbienteExecucao, 0, jl_Object, [lpem_Ambiente1], 3, 3, 0, 0, 0,
-    lpodv_CompostaDecVariavel, 0, jl_Object, [lpodv_DecVariavel], 0, 3, 0, 0, ["$_init_182", $rt_wrapFunction2(lpodv_CompostaDecVariavel__init_0), "$getTipo12", $rt_wrapFunction1(lpodv_CompostaDecVariavel_getTipo), "$elabora9", $rt_wrapFunction1(lpodv_CompostaDecVariavel_elabora), "$checaTipo0", $rt_wrapFunction1(lpodv_CompostaDecVariavel_checaTipo0)],
-    lpoeu_ExpUnaria0, 0, jl_Object, [lpoe_Expressao], 1, 3, 0, 0, ["$_init_201", $rt_wrapFunction2(lpoeu_ExpUnaria__init_0), "$getExp5", $rt_wrapFunction0(lpoeu_ExpUnaria_getExp), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpUnaria_checaTipo0)],
-    lpoeu_ExpNot0, "ExpNot", 30, lpoeu_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_171", $rt_wrapFunction1(lpoeu_ExpNot__init_), "$avaliar0", $rt_wrapFunction1(lpoeu_ExpNot_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpNot_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeu_ExpNot_getTipo0)],
+    lpodv_CompostaDecVariavel, 0, jl_Object, [lpodv_DecVariavel], 0, 3, 0, 0, ["$_init_181", $rt_wrapFunction2(lpodv_CompostaDecVariavel__init_0), "$getTipo12", $rt_wrapFunction1(lpodv_CompostaDecVariavel_getTipo), "$elabora9", $rt_wrapFunction1(lpodv_CompostaDecVariavel_elabora), "$checaTipo0", $rt_wrapFunction1(lpodv_CompostaDecVariavel_checaTipo0)],
+    lpoeu_ExpUnaria0, 0, jl_Object, [lpoe_Expressao], 1, 3, 0, 0, ["$_init_200", $rt_wrapFunction2(lpoeu_ExpUnaria__init_0), "$getExp5", $rt_wrapFunction0(lpoeu_ExpUnaria_getExp), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpUnaria_checaTipo0)],
+    lpoeu_ExpNot0, "ExpNot", 30, lpoeu_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_170", $rt_wrapFunction1(lpoeu_ExpNot__init_), "$avaliar0", $rt_wrapFunction1(lpoeu_ExpNot_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpNot_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeu_ExpNot_getTipo0)],
     lpem_IdentificadorJaDeclaradoException6, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_5)]]);
-    $rt_metadata([lpem_VariavelJaDeclaradaException5, "VariavelJaDeclaradaException", 35, lpem_IdentificadorJaDeclaradoException6, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_3)],
-    lpoel_AcessoAtributoThisOO2, "AcessoAtributoThisOO2", 19, lpoel_AcessoAtributoThis, [], 0, 3, 0, 0, ["$_init_175", $rt_wrapFunction2(lpoel_AcessoAtributoThisOO2__init_), "$checaTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoThisOO2_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoThisOO2_getTipo)],
-    lpoc_Procedimento0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_236", $rt_wrapFunction2(lpoc_Procedimento__init_0), "$getParametrosFormais1", $rt_wrapFunction0(lpoc_Procedimento_getParametrosFormais0), "$getComando1", $rt_wrapFunction0(lpoc_Procedimento_getComando0)],
+    $rt_metadata([lpem_VariavelJaDeclaradaException5, "VariavelJaDeclaradaException", 35, lpem_IdentificadorJaDeclaradoException6, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_3)],
+    lpoel_AcessoAtributoThisOO2, "AcessoAtributoThisOO2", 19, lpoel_AcessoAtributoThis, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoel_AcessoAtributoThisOO2__init_), "$checaTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoThisOO2_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoThisOO2_getTipo)],
+    lpoc_Procedimento0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_235", $rt_wrapFunction2(lpoc_Procedimento__init_0), "$getParametrosFormais1", $rt_wrapFunction0(lpoc_Procedimento_getParametrosFormais0), "$getComando1", $rt_wrapFunction0(lpoc_Procedimento_getComando0)],
     lpee_Id5, "Id", 65, jl_Object, [lpee_Expressao3], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_7), "$toString", $rt_wrapFunction0(lpee_Id_toString2), "$avaliar", $rt_wrapFunction1(lpee_Id_avaliar3), "$checaTipo", $rt_wrapFunction1(lpee_Id_checaTipo4), "$getTipo", $rt_wrapFunction1(lpee_Id_getTipo4), "$getIdName", $rt_wrapFunction0(lpee_Id_getIdName2), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode4), "$equals", $rt_wrapFunction1(lpee_Id_equals3)],
-    lpfu_TipoFuncao1, "TipoFuncao", 143, jl_Object, [lpeu_Tipo1], 0, 3, [0,0,0], 0, ["$_init_268", $rt_wrapFunction2(lpfu_TipoFuncao__init_3), "$getNome", $rt_wrapFunction0(lpfu_TipoFuncao_getNome), "$getDominio", $rt_wrapFunction0(lpfu_TipoFuncao_getDominio0), "$getImagem0", $rt_wrapFunction0(lpfu_TipoFuncao_getImagem1), "$eBooleano", $rt_wrapFunction0(lpfu_TipoFuncao_eBooleano), "$eInteiro", $rt_wrapFunction0(lpfu_TipoFuncao_eInteiro0), "$eString", $rt_wrapFunction0(lpfu_TipoFuncao_eString1), "$eValido", $rt_wrapFunction0(lpfu_TipoFuncao_eValido1),
+    lpfu_TipoFuncao1, "TipoFuncao", 143, jl_Object, [lpeu_Tipo1], 0, 3, [0,0,0], 0, ["$_init_267", $rt_wrapFunction2(lpfu_TipoFuncao__init_3), "$getNome", $rt_wrapFunction0(lpfu_TipoFuncao_getNome), "$getDominio", $rt_wrapFunction0(lpfu_TipoFuncao_getDominio0), "$getImagem0", $rt_wrapFunction0(lpfu_TipoFuncao_getImagem1), "$eBooleano", $rt_wrapFunction0(lpfu_TipoFuncao_eBooleano), "$eInteiro", $rt_wrapFunction0(lpfu_TipoFuncao_eInteiro0), "$eString", $rt_wrapFunction0(lpfu_TipoFuncao_eString1), "$eValido", $rt_wrapFunction0(lpfu_TipoFuncao_eValido1),
     "$eIgual3", $rt_wrapFunction1(lpfu_TipoFuncao_eIgual0), "$intersecao1", $rt_wrapFunction1(lpfu_TipoFuncao_intersecao1), "$toString", $rt_wrapFunction0(lpfu_TipoFuncao_toString), "$checaTipo14", $rt_wrapFunction2(lpfu_TipoFuncao_checaTipo1), "$getTipo18", $rt_wrapFunction2(lpfu_TipoFuncao_getTipo)],
     ju_HashMap$KeyIterator, 0, ju_HashMap$AbstractMapIterator, [ju_Iterator], 0, 0, 0, 0, ["$_init_29", $rt_wrapFunction1(ju_HashMap$KeyIterator__init_), "$next", $rt_wrapFunction0(ju_HashMap$KeyIterator_next)],
-    lpee_ExpEquals0, "ExpEquals", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_264", $rt_wrapFunction2(lpee_ExpEquals__init_6), "$avaliar4", $rt_wrapFunction1(lpee_ExpEquals_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpEquals_getTipo5)],
-    lpic_ChamadaProcedimento, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_210", $rt_wrapFunction2(lpic_ChamadaProcedimento__init_), "$executar9", $rt_wrapFunction1(lpic_ChamadaProcedimento_executar), "$checaTipo10", $rt_wrapFunction1(lpic_ChamadaProcedimento_checaTipo)],
-    lpiu_Lista2, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_5), "$_init_253", $rt_wrapFunction2(lpiu_Lista__init_6), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead2), "$getTail2", $rt_wrapFunction0(lpiu_Lista_getTail), "$toString", $rt_wrapFunction0(lpiu_Lista_toString2)],
+    lpee_ExpEquals0, "ExpEquals", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_263", $rt_wrapFunction2(lpee_ExpEquals__init_6), "$avaliar4", $rt_wrapFunction1(lpee_ExpEquals_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpEquals_getTipo5)],
+    lpic_ChamadaProcedimento, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_209", $rt_wrapFunction2(lpic_ChamadaProcedimento__init_), "$executar9", $rt_wrapFunction1(lpic_ChamadaProcedimento_executar), "$checaTipo10", $rt_wrapFunction1(lpic_ChamadaProcedimento_checaTipo)],
+    lpiu_Lista2, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpiu_Lista__init_5), "$_init_252", $rt_wrapFunction2(lpiu_Lista__init_6), "$getHead", $rt_wrapFunction0(lpiu_Lista_getHead2), "$getTail2", $rt_wrapFunction0(lpiu_Lista_getTail), "$toString", $rt_wrapFunction0(lpiu_Lista_toString2)],
     lpom_AmbienteExecucaoOO10, 0, jl_Object, [lpom_AmbienteOO1], 3, 3, 0, 0, 0,
     otji_JSWrapper, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    lpodp_DecProcedimentoComposta, 0, jl_Object, [lpodp_DecProcedimento], 0, 3, 0, 0, ["$_init_185", $rt_wrapFunction2(lpodp_DecProcedimentoComposta__init_), "$getProcedimento1", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_getProcedimento0), "$checaTipo0", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_checaTipo)],
+    lpodp_DecProcedimentoComposta, 0, jl_Object, [lpodp_DecProcedimento], 0, 3, 0, 0, ["$_init_184", $rt_wrapFunction2(lpodp_DecProcedimentoComposta__init_), "$getProcedimento1", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_getProcedimento0), "$checaTipo0", $rt_wrapFunction1(lpodp_DecProcedimentoComposta_checaTipo)],
     ju_Stack, 0, ju_Vector, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Stack__init_0), "$empty", $rt_wrapFunction0(ju_Stack_empty), "$peek", $rt_wrapFunction0(ju_Stack_peek), "$pop", $rt_wrapFunction0(ju_Stack_pop), "$push", $rt_wrapFunction1(ju_Stack_push)],
-    lpom_DefClasse, "DefClasse", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_150", $rt_wrapFunction3(lpom_DefClasse__init_), "$getDecVariavel", $rt_wrapFunction0(lpom_DefClasse_getDecVariavel), "$getMetodo", $rt_wrapFunction1(lpom_DefClasse_getMetodo), "$getTipoAtributo", $rt_wrapFunction1(lpom_DefClasse_getTipoAtributo), "$getIdClasse", $rt_wrapFunction0(lpom_DefClasse_getIdClasse)],
+    lpom_DefClasse, "DefClasse", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_149", $rt_wrapFunction3(lpom_DefClasse__init_), "$getDecVariavel", $rt_wrapFunction0(lpom_DefClasse_getDecVariavel), "$getMetodo", $rt_wrapFunction1(lpom_DefClasse_getMetodo), "$getTipoAtributo", $rt_wrapFunction1(lpom_DefClasse_getTipoAtributo), "$getIdClasse", $rt_wrapFunction0(lpom_DefClasse_getIdClasse)],
     otcir_JSFieldSetter, "JSFieldSetter", 60, jl_Object, [otj_JSObject], 3, 3, 0, 0, 0,
     lpou_HierarquiaUtils, 0, jl_Object, [], 0, 3, 0, 0, 0,
     lpodv_DecVariavel0, "DecVariavel", 93, jl_Object, [lpod_Declaracao], 3, 3, 0, 0, 0,
-    lpodv_CompostaDecVariavel0, 0, jl_Object, [lpodv_DecVariavel0], 0, 3, 0, 0, ["$_init_54", $rt_wrapFunction2(lpodv_CompostaDecVariavel__init_), "$getTipo3", $rt_wrapFunction1(lpodv_CompostaDecVariavel_getTipo0), "$elabora1", $rt_wrapFunction1(lpodv_CompostaDecVariavel_elabora0), "$checaTipo4", $rt_wrapFunction1(lpodv_CompostaDecVariavel_checaTipo)],
+    lpodv_CompostaDecVariavel0, 0, jl_Object, [lpodv_DecVariavel0], 0, 3, 0, 0, ["$_init_53", $rt_wrapFunction2(lpodv_CompostaDecVariavel__init_), "$getTipo3", $rt_wrapFunction1(lpodv_CompostaDecVariavel_getTipo0), "$elabora1", $rt_wrapFunction1(lpodv_CompostaDecVariavel_elabora0), "$checaTipo4", $rt_wrapFunction1(lpodv_CompostaDecVariavel_checaTipo)],
     lpip_Imp2ParserConstants, 0, jl_Object, [], 3, 3, 0, lpip_Imp2ParserConstants_$callClinit, 0,
     lpip_Imp2Parser, 0, jl_Object, [lpip_Imp2ParserConstants], 0, 3, 0, lpip_Imp2Parser_$callClinit, ["$_init_16", $rt_wrapFunction1(lpip_Imp2Parser__init_0), "$_init_15", $rt_wrapFunction2(lpip_Imp2Parser__init_)],
     lpfp_Func1Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Func1Parser$JJCalls__init_0)],
-    lpee_ValorInteiro0, "ValorInteiro", 110, lpee_ValorConcreto3, [], 0, 3, [0,0,0], 0, ["$_init_35", $rt_wrapFunction1(lpee_ValorInteiro__init_5), "$getTipo10", $rt_wrapFunction1(lpee_ValorInteiro_getTipo5)],
+    lpee_ValorInteiro0, "ValorInteiro", 110, lpee_ValorConcreto3, [], 0, 3, [0,0,0], 0, ["$_init_34", $rt_wrapFunction1(lpee_ValorInteiro__init_5), "$getTipo10", $rt_wrapFunction1(lpee_ValorInteiro_getTipo5)],
     otpm_Resource, 0, jl_Object, [], 3, 3, 0, 0, 0,
     otcic_CurrencyResource, "CurrencyResource", 61, jl_Object, [otpm_Resource], 3, 3, 0, 0, 0,
-    lpee_ExpAnd, "ExpAnd", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpee_ExpAnd__init_6), "$avaliar3", $rt_wrapFunction1(lpee_ExpAnd_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal2), "$getTipo5", $rt_wrapFunction1(lpee_ExpAnd_getTipo4), "$clone17", $rt_wrapFunction0(lpee_ExpAnd_clone), "$clone1", $rt_wrapFunction0(lpee_ExpAnd_clone1)],
-    lpf_Programa1, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_87", $rt_wrapFunction1(lpf_Programa__init_1), "$executar3", $rt_wrapFunction0(lpf_Programa_executar0), "$checaTipo8", $rt_wrapFunction0(lpf_Programa_checaTipo1), "$getAmbCompSnapshot", $rt_wrapFunction0(lpf_Programa_getAmbCompSnapshot)],
+    lpee_ExpAnd, "ExpAnd", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpee_ExpAnd__init_6), "$avaliar3", $rt_wrapFunction1(lpee_ExpAnd_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal2), "$getTipo5", $rt_wrapFunction1(lpee_ExpAnd_getTipo4), "$clone17", $rt_wrapFunction0(lpee_ExpAnd_clone), "$clone1", $rt_wrapFunction0(lpee_ExpAnd_clone1)],
+    lpf_Programa1, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_86", $rt_wrapFunction1(lpf_Programa__init_1), "$executar3", $rt_wrapFunction0(lpf_Programa_executar0), "$checaTipo8", $rt_wrapFunction0(lpf_Programa_checaTipo1), "$getAmbCompSnapshot", $rt_wrapFunction0(lpf_Programa_getAmbCompSnapshot)],
     ju_Comparator, "Comparator", 1, jl_Object, [], 3, 3, 0, 0, 0,
     lpou_TipoPrimitivo, "TipoPrimitivo", 24, jl_Object, [lpou_Tipo], 0, 3, [0,0,0], lpou_TipoPrimitivo_$callClinit0, ["$_init_6", $rt_wrapFunction1(lpou_TipoPrimitivo__init_2), "$getTipo2", $rt_wrapFunction0(lpou_TipoPrimitivo_getTipo), "$eInteiro", $rt_wrapFunction0(lpou_TipoPrimitivo_eInteiro0), "$eBooleano", $rt_wrapFunction0(lpou_TipoPrimitivo_eBooleano), "$eString", $rt_wrapFunction0(lpou_TipoPrimitivo_eString), "$eValido0", $rt_wrapFunction1(lpou_TipoPrimitivo_eValido), "$equals", $rt_wrapFunction1(lpou_TipoPrimitivo_equals),
     "$toString", $rt_wrapFunction0(lpou_TipoPrimitivo_toString0)],
-    lpic_ComandoDeclaracao, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_223", $rt_wrapFunction2(lpic_ComandoDeclaracao__init_0), "$_init_78", $rt_wrapFunction3(lpic_ComandoDeclaracao__init_1), "$executar11", $rt_wrapFunction1(lpic_ComandoDeclaracao_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_ComandoDeclaracao_checaTipo0)],
-    lpee_ExpEquals1, "ExpEquals", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_163", $rt_wrapFunction2(lpee_ExpEquals__init_7), "$avaliar5", $rt_wrapFunction1(lpee_ExpEquals_avaliar), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpEquals_getTipo0), "$clone15", $rt_wrapFunction0(lpee_ExpEquals_clone0), "$clone3", $rt_wrapFunction0(lpee_ExpEquals_clone)],
-    lpid_DeclaracaoVariavel0, 0, lpid_Declaracao0, [], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpid_DeclaracaoVariavel__init_0), "$elabora4", $rt_wrapFunction1(lpid_DeclaracaoVariavel_elabora0), "$getExpressao0", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getExpressao), "$getId3", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getId), "$checaTipo9", $rt_wrapFunction1(lpid_DeclaracaoVariavel_checaTipo0)],
+    lpic_ComandoDeclaracao, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_222", $rt_wrapFunction2(lpic_ComandoDeclaracao__init_0), "$_init_77", $rt_wrapFunction3(lpic_ComandoDeclaracao__init_1), "$executar11", $rt_wrapFunction1(lpic_ComandoDeclaracao_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_ComandoDeclaracao_checaTipo0)],
+    lpee_ExpEquals1, "ExpEquals", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_162", $rt_wrapFunction2(lpee_ExpEquals__init_7), "$avaliar5", $rt_wrapFunction1(lpee_ExpEquals_avaliar), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpEquals_getTipo0), "$clone15", $rt_wrapFunction0(lpee_ExpEquals_clone0), "$clone3", $rt_wrapFunction0(lpee_ExpEquals_clone)],
+    lpid_DeclaracaoVariavel0, 0, lpid_Declaracao0, [], 0, 3, 0, 0, ["$_init_75", $rt_wrapFunction2(lpid_DeclaracaoVariavel__init_0), "$elabora4", $rt_wrapFunction1(lpid_DeclaracaoVariavel_elabora0), "$getExpressao0", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getExpressao), "$getId3", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getId), "$checaTipo9", $rt_wrapFunction1(lpid_DeclaracaoVariavel_checaTipo0)],
     lpfe_ValorAbstrato, 0, jl_Object, [lpee_Valor], 3, 3, 0, 0, 0,
-    lpip_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpip_Token__init_), "$_init_93", $rt_wrapFunction2(lpip_Token__init_0), "$toString", $rt_wrapFunction0(lpip_Token_toString0)],
-    lpee_ExpUnaria3, 0, jl_Object, [lpee_Expressao5], 1, 3, 0, 0, ["$_init_224", $rt_wrapFunction2(lpee_ExpUnaria__init_3), "$getExp6", $rt_wrapFunction0(lpee_ExpUnaria_getExp2), "$checaTipo2", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo3)],
+    lpip_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpip_Token__init_), "$_init_92", $rt_wrapFunction2(lpip_Token__init_0), "$toString", $rt_wrapFunction0(lpip_Token_toString0)],
+    lpee_ExpUnaria3, 0, jl_Object, [lpee_Expressao5], 1, 3, 0, 0, ["$_init_223", $rt_wrapFunction2(lpee_ExpUnaria__init_3), "$getExp6", $rt_wrapFunction0(lpee_ExpUnaria_getExp2), "$checaTipo2", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo3)],
     lpee_ExpMenos3, 0, lpee_ExpUnaria3, [], 0, 3, 0, 0, ["$_init_20", $rt_wrapFunction1(lpee_ExpMenos__init_5), "$avaliar1", $rt_wrapFunction1(lpee_ExpMenos_avaliar0), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal1), "$getTipo1", $rt_wrapFunction1(lpee_ExpMenos_getTipo2)],
     lpem_ContextoExecucao1, 0, lpem_Contexto5, [lpem_AmbienteExecucao], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoExecucao__init_1)],
     lpim_AmbienteExecucaoImperativa, 0, jl_Object, [lpem_AmbienteExecucao], 3, 3, 0, 0, 0,
-    lpim_ContextoExecucaoImperativa, 0, lpem_ContextoExecucao1, [lpim_AmbienteExecucaoImperativa], 0, 3, 0, 0, ["$_init_136", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa__init_), "$read5", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_read0), "$getSaida0", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_getSaida), "$write3", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa_write0), "$changeValor2", $rt_wrapFunction2(lpim_ContextoExecucaoImperativa_changeValor0)],
-    lpoed_ProcedimentoJaDeclaradoException, "ProcedimentoJaDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpoed_ProcedimentoJaDeclaradoException__init_0)],
-    lpop_OO1Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_62", $rt_wrapFunction1(lpop_OO1Parser$LookaheadSuccess__init_)],
-    lpep_Exp2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_301", $rt_wrapFunction1(lpep_Exp2Parser$LookaheadSuccess__init_)],
+    lpim_ContextoExecucaoImperativa, 0, lpem_ContextoExecucao1, [lpim_AmbienteExecucaoImperativa], 0, 3, 0, 0, ["$_init_135", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa__init_), "$read5", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_read0), "$getSaida0", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_getSaida), "$write3", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa_write0), "$changeValor2", $rt_wrapFunction2(lpim_ContextoExecucaoImperativa_changeValor0)],
+    lpoed_ProcedimentoJaDeclaradoException, "ProcedimentoJaDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpoed_ProcedimentoJaDeclaradoException__init_0)],
+    lpop_OO1Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_61", $rt_wrapFunction1(lpop_OO1Parser$LookaheadSuccess__init_)],
+    lpep_Exp2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_300", $rt_wrapFunction1(lpep_Exp2Parser$LookaheadSuccess__init_)],
     lpoee_EntradaInvalidaException0, "EntradaInvalidaException", 23, jl_Exception, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpoee_EntradaInvalidaException__init_1)],
     lpem_PilhaSnapshot, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_PilhaSnapshot__init_0), "$incrementa", $rt_wrapFunction0(lpem_PilhaSnapshot_incrementa4), "$registraEscopo8", $rt_wrapFunction1(lpem_PilhaSnapshot_registraEscopo), "$map", $rt_wrapFunction2(lpem_PilhaSnapshot_map2), "$restaura", $rt_wrapFunction0(lpem_PilhaSnapshot_restaura0), "$getQuadros", $rt_wrapFunction0(lpem_PilhaSnapshot_getQuadros)],
     jl_Object$monitorExit$lambda$_8_0, 0, jl_Object, [otp_PlatformRunnable], 0, 3, 0, 0, ["$_init_2", $rt_wrapFunction1(jl_Object$monitorExit$lambda$_8_0__init_), "$run", $rt_wrapFunction0(jl_Object$monitorExit$lambda$_8_0_run)],
     lpep_JavaCharStream0, 0, jl_Object, [], 0, 3, 0, lpep_JavaCharStream_$callClinit, ["$_init_14", $rt_wrapFunction4(lpep_JavaCharStream__init_0), "$ReInit", $rt_wrapFunction4(lpep_JavaCharStream_ReInit1), "$_init_17", function(var_1, var_2, var_3, var_4, var_5) { lpep_JavaCharStream__init_2(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpep_JavaCharStream__init_3), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpep_JavaCharStream_ReInit3(this, var_1, var_2, var_3,
     var_4, var_5); }, "$ReInit2", $rt_wrapFunction4(lpep_JavaCharStream_ReInit2)],
     lpic_IO0, 0, jl_Object, [lpic_Comando], 3, 3, 0, 0, 0,
-    lpic_Write, 0, jl_Object, [lpic_IO0], 0, 3, 0, 0, ["$_init_205", $rt_wrapFunction1(lpic_Write__init_0), "$executar9", $rt_wrapFunction1(lpic_Write_executar), "$checaTipo10", $rt_wrapFunction1(lpic_Write_checaTipo0)],
+    lpic_Write, 0, jl_Object, [lpic_IO0], 0, 3, 0, 0, ["$_init_204", $rt_wrapFunction1(lpic_Write__init_0), "$executar9", $rt_wrapFunction1(lpic_Write_executar), "$checaTipo10", $rt_wrapFunction1(lpic_Write_checaTipo0)],
     lpee_ExpNot2, 0, lpee_ExpUnaria3, [], 0, 3, 0, 0, ["$_init_20", $rt_wrapFunction1(lpee_ExpNot__init_7), "$avaliar1", $rt_wrapFunction1(lpee_ExpNot_avaliar4), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal3), "$getTipo1", $rt_wrapFunction1(lpee_ExpNot_getTipo)],
     lpem_PilhaSnapshot1, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_PilhaSnapshot__init_3), "$incrementa", $rt_wrapFunction0(lpem_PilhaSnapshot_incrementa3), "$registraEscopo", $rt_wrapFunction1(lpem_PilhaSnapshot_registraEscopo0), "$registraEscopo0", $rt_wrapFunction2(lpem_PilhaSnapshot_registraEscopo4), "$map", $rt_wrapFunction2(lpem_PilhaSnapshot_map3), "$restaura", $rt_wrapFunction0(lpem_PilhaSnapshot_restaura4), "$getQuadros", $rt_wrapFunction0(lpem_PilhaSnapshot_getQuadros3)],
-    lpoel_AcessoAtributoThis0, "AcessoAtributoThis", 98, lpoel_AcessoAtributo, [], 0, 3, 0, 0, ["$_init_51", $rt_wrapFunction2(lpoel_AcessoAtributoThis__init_0), "$avaliar2", $rt_wrapFunction1(lpoel_AcessoAtributoThis_avaliar), "$getExpressaoObjeto0", $rt_wrapFunction0(lpoel_AcessoAtributoThis_getExpressaoObjeto0), "$checaTipo4", $rt_wrapFunction1(lpoel_AcessoAtributoThis_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoel_AcessoAtributoThis_getTipo)]]);
-    $rt_metadata([lpoed_ObjetoNaoDeclaradoException, "ObjetoNaoDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpoed_ObjetoNaoDeclaradoException__init_0)],
-    lpoeb_ExpEquals0, "ExpEquals", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_50", $rt_wrapFunction2(lpoeb_ExpEquals__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpEquals_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpEquals_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpEquals_getTipo0)],
+    lpoel_AcessoAtributoThis0, "AcessoAtributoThis", 98, lpoel_AcessoAtributo, [], 0, 3, 0, 0, ["$_init_50", $rt_wrapFunction2(lpoel_AcessoAtributoThis__init_0), "$avaliar2", $rt_wrapFunction1(lpoel_AcessoAtributoThis_avaliar), "$getExpressaoObjeto0", $rt_wrapFunction0(lpoel_AcessoAtributoThis_getExpressaoObjeto0), "$checaTipo4", $rt_wrapFunction1(lpoel_AcessoAtributoThis_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoel_AcessoAtributoThis_getTipo)]]);
+    $rt_metadata([lpoed_ObjetoNaoDeclaradoException, "ObjetoNaoDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpoed_ObjetoNaoDeclaradoException__init_0)],
+    lpoeb_ExpEquals0, "ExpEquals", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_49", $rt_wrapFunction2(lpoeb_ExpEquals__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpEquals_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpEquals_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpEquals_getTipo0)],
     lpfp_Func3Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Func3Parser$JJCalls__init_0)],
-    lpom_InfoEscopo0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction2(lpom_InfoEscopo__init_2), "$getTrechoCodigoFonte4", $rt_wrapFunction0(lpom_InfoEscopo_getTrechoCodigoFonte), "$getEscopo", $rt_wrapFunction0(lpom_InfoEscopo_getEscopo)],
+    lpom_InfoEscopo0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_39", $rt_wrapFunction2(lpom_InfoEscopo__init_2), "$getTrechoCodigoFonte4", $rt_wrapFunction0(lpom_InfoEscopo_getTrechoCodigoFonte), "$getEscopo", $rt_wrapFunction0(lpom_InfoEscopo_getEscopo)],
     lpoel_Id, "Id", 31, lpee_Id, [lpoel_LeftExpression], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpoel_Id__init_2), "$toString", $rt_wrapFunction0(lpoel_Id_toString), "$avaliar0", $rt_wrapFunction1(lpoel_Id_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoel_Id_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoel_Id_getTipo0), "$getId", $rt_wrapFunction0(lpoel_Id_getId)],
     pw_PlpResult, 0, jl_Object, [otj_JSObject], 3, 3, 0, 0, 0,
     ju_HashMap$1, 0, ju_AbstractSet, [], 0, 0, 0, 0, ["$_init_29", $rt_wrapFunction1(ju_HashMap$1__init_), "$iterator", $rt_wrapFunction0(ju_HashMap$1_iterator)],
-    lpee_ExpEquals, "ExpEquals", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpee_ExpEquals__init_3), "$avaliar3", $rt_wrapFunction1(lpee_ExpEquals_avaliar2), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal3), "$getTipo5", $rt_wrapFunction1(lpee_ExpEquals_getTipo4), "$clone17", $rt_wrapFunction0(lpee_ExpEquals_clone2), "$clone1", $rt_wrapFunction0(lpee_ExpEquals_clone1)],
-    lpee_ExpEquals3, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_298", $rt_wrapFunction2(lpee_ExpEquals__init_), "$avaliar8", $rt_wrapFunction1(lpee_ExpEquals_avaliar3), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal0), "$getTipo10", $rt_wrapFunction1(lpee_ExpEquals_getTipo)],
+    lpee_ExpEquals, "ExpEquals", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpee_ExpEquals__init_3), "$avaliar3", $rt_wrapFunction1(lpee_ExpEquals_avaliar2), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal3), "$getTipo5", $rt_wrapFunction1(lpee_ExpEquals_getTipo4), "$clone17", $rt_wrapFunction0(lpee_ExpEquals_clone2), "$clone1", $rt_wrapFunction0(lpee_ExpEquals_clone1)],
+    lpee_ExpEquals3, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_297", $rt_wrapFunction2(lpee_ExpEquals__init_), "$avaliar8", $rt_wrapFunction1(lpee_ExpEquals_avaliar3), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal0), "$getTipo10", $rt_wrapFunction1(lpee_ExpEquals_getTipo)],
     jm_Elementary, 0, jl_Object, [], 0, 0, 0, 0, 0,
-    lpoel_AcessoAtributoId, 0, lpoel_AcessoAtributo0, [], 0, 3, 0, 0, ["$_init_176", $rt_wrapFunction2(lpoel_AcessoAtributoId__init_), "$avaliar0", $rt_wrapFunction1(lpoel_AcessoAtributoId_avaliar), "$getExpressaoObjeto", $rt_wrapFunction0(lpoel_AcessoAtributoId_getExpressaoObjeto), "$getTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoId_getTipo)],
-    lpoel_AcessoAtributoIdOO2, "AcessoAtributoIdOO2", 19, lpoel_AcessoAtributoId, [], 0, 3, 0, 0, ["$_init_176", $rt_wrapFunction2(lpoel_AcessoAtributoIdOO2__init_0), "$checaTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoIdOO2_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoIdOO2_getTipo)],
+    lpoel_AcessoAtributoId, 0, lpoel_AcessoAtributo0, [], 0, 3, 0, 0, ["$_init_175", $rt_wrapFunction2(lpoel_AcessoAtributoId__init_), "$avaliar0", $rt_wrapFunction1(lpoel_AcessoAtributoId_avaliar), "$getExpressaoObjeto", $rt_wrapFunction0(lpoel_AcessoAtributoId_getExpressaoObjeto), "$getTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoId_getTipo)],
+    lpoel_AcessoAtributoIdOO2, "AcessoAtributoIdOO2", 19, lpoel_AcessoAtributoId, [], 0, 3, 0, 0, ["$_init_175", $rt_wrapFunction2(lpoel_AcessoAtributoIdOO2__init_0), "$checaTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoIdOO2_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoel_AcessoAtributoIdOO2_getTipo)],
     lpem_ContextoExecucao, 0, lpem_Contexto3, [lpem_AmbienteExecucao1], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoExecucao__init_), "$clone18", $rt_wrapFunction0(lpem_ContextoExecucao_clone1), "$clone10", $rt_wrapFunction0(lpem_ContextoExecucao_clone0)],
     lpfm_AmbienteFuncional1, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpfm_AmbienteExecucaoFuncional0, 0, jl_Object, [lpem_AmbienteExecucao1, lpfm_AmbienteFuncional1], 3, 3, 0, 0, 0,
     lpfm_ContextoExecucaoFuncional, 0, lpem_ContextoExecucao, [lpfm_AmbienteExecucaoFuncional0], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfm_ContextoExecucaoFuncional__init_0), "$incrementa", $rt_wrapFunction0(lpfm_ContextoExecucaoFuncional_incrementa)],
     lpep_Exp2ParserConstants, 0, jl_Object, [], 3, 3, 0, lpep_Exp2ParserConstants_$callClinit, 0,
-    lpep_Exp2ParserTokenManager, 0, jl_Object, [lpep_Exp2ParserConstants], 0, 3, 0, lpep_Exp2ParserTokenManager_$callClinit, ["$_init_299", $rt_wrapFunction1(lpep_Exp2ParserTokenManager__init_)],
+    lpep_Exp2ParserTokenManager, 0, jl_Object, [lpep_Exp2ParserConstants], 0, 3, 0, lpep_Exp2ParserTokenManager_$callClinit, ["$_init_298", $rt_wrapFunction1(lpep_Exp2ParserTokenManager__init_)],
     lpeu_TipoPrimitivo, "TipoPrimitivo", 45, jl_Enum, [lpeu_Tipo2], 12, 3, [0,0,0], lpeu_TipoPrimitivo_$callClinit1, ["$getNome", $rt_wrapFunction0(lpeu_TipoPrimitivo_getNome), "$eInteiro", $rt_wrapFunction0(lpeu_TipoPrimitivo_eInteiro4), "$eBooleano", $rt_wrapFunction0(lpeu_TipoPrimitivo_eBooleano0), "$eString", $rt_wrapFunction0(lpeu_TipoPrimitivo_eString0), "$eIgual2", $rt_wrapFunction1(lpeu_TipoPrimitivo_eIgual3), "$eValido", $rt_wrapFunction0(lpeu_TipoPrimitivo_eValido), "$toString", $rt_wrapFunction0(lpeu_TipoPrimitivo_toString)],
-    ju_LinkedList$SequentialListIterator, 0, jl_Object, [ju_ListIterator], 0, 0, 0, 0, ["$_init_284", $rt_wrapFunction4(ju_LinkedList$SequentialListIterator__init_0), "$hasNext", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_hasNext), "$next", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_next), "$remove2", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_remove), "$hasPrevious", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_hasPrevious), "$add6", $rt_wrapFunction1(ju_LinkedList$SequentialListIterator_add)],
-    lpem_VariavelJaDeclaradaException1, "VariavelJaDeclaradaException", 80, lpem_IdentificadorJaDeclaradoException3, [], 0, 3, 0, 0, ["$_init_68", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_5)],
-    lpee_ExpOr0, "ExpOr", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpee_ExpOr__init_), "$avaliar3", $rt_wrapFunction1(lpee_ExpOr_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal0), "$getTipo5", $rt_wrapFunction1(lpee_ExpOr_getTipo2), "$clone17", $rt_wrapFunction0(lpee_ExpOr_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpOr_clone)],
-    lpfe_ExpMaiorQue, "ExpMaiorQue", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpfe_ExpMaiorQue__init_), "$avaliar3", $rt_wrapFunction1(lpfe_ExpMaiorQue_avaliar), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpMaiorQue_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpfe_ExpMaiorQue_getTipo), "$clone19", $rt_wrapFunction0(lpfe_ExpMaiorQue_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpMaiorQue_clone)],
+    ju_LinkedList$SequentialListIterator, 0, jl_Object, [ju_ListIterator], 0, 0, 0, 0, ["$_init_283", $rt_wrapFunction4(ju_LinkedList$SequentialListIterator__init_0), "$hasNext", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_hasNext), "$next", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_next), "$remove2", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_remove), "$hasPrevious", $rt_wrapFunction0(ju_LinkedList$SequentialListIterator_hasPrevious), "$add6", $rt_wrapFunction1(ju_LinkedList$SequentialListIterator_add)],
+    lpem_VariavelJaDeclaradaException1, "VariavelJaDeclaradaException", 80, lpem_IdentificadorJaDeclaradoException3, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_5)],
+    lpee_ExpOr0, "ExpOr", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpee_ExpOr__init_), "$avaliar3", $rt_wrapFunction1(lpee_ExpOr_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal0), "$getTipo5", $rt_wrapFunction1(lpee_ExpOr_getTipo2), "$clone17", $rt_wrapFunction0(lpee_ExpOr_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpOr_clone)],
+    lpfe_ExpMaiorQue, "ExpMaiorQue", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpfe_ExpMaiorQue__init_), "$avaliar3", $rt_wrapFunction1(lpfe_ExpMaiorQue_avaliar), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpMaiorQue_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpfe_ExpMaiorQue_getTipo), "$clone19", $rt_wrapFunction0(lpfe_ExpMaiorQue_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpMaiorQue_clone)],
     jl_NegativeArraySizeException, "NegativeArraySizeException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_NegativeArraySizeException__init_)],
     lpem_IdentificadorJaDeclaradoException1, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorJaDeclaradoException__init_1), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorJaDeclaradoException__init_7)],
-    lpem_VariavelJaDeclaradaException4, "VariavelJaDeclaradaException", 146, lpem_IdentificadorJaDeclaradoException1, [], 0, 3, 0, 0, ["$_init_151", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_0)],
-    lpoc_ComDeclaracao, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_229", $rt_wrapFunction2(lpoc_ComDeclaracao__init_), "$_init_39", $rt_wrapFunction3(lpoc_ComDeclaracao__init_0), "$executar10", $rt_wrapFunction1(lpoc_ComDeclaracao_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_ComDeclaracao_checaTipo)],
+    lpem_VariavelJaDeclaradaException4, "VariavelJaDeclaradaException", 146, lpem_IdentificadorJaDeclaradoException1, [], 0, 3, 0, 0, ["$_init_150", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_0)],
+    lpoc_ComDeclaracao, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_228", $rt_wrapFunction2(lpoc_ComDeclaracao__init_), "$_init_38", $rt_wrapFunction3(lpoc_ComDeclaracao__init_0), "$executar10", $rt_wrapFunction1(lpoc_ComDeclaracao_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_ComDeclaracao_checaTipo)],
     lpic_Skip0, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpic_Skip__init_), "$executar9", $rt_wrapFunction1(lpic_Skip_executar), "$checaTipo10", $rt_wrapFunction1(lpic_Skip_checaTipo0)],
     lpeu_Tipo5, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpeu_TipoPrimitivo0, "TipoPrimitivo", 68, jl_Enum, [lpeu_Tipo5], 12, 3, [0,0,0], lpeu_TipoPrimitivo_$callClinit5, ["$getNome", $rt_wrapFunction0(lpeu_TipoPrimitivo_getNome1), "$eInteiro", $rt_wrapFunction0(lpeu_TipoPrimitivo_eInteiro0), "$eBooleano", $rt_wrapFunction0(lpeu_TipoPrimitivo_eBooleano3), "$eString", $rt_wrapFunction0(lpeu_TipoPrimitivo_eString4), "$eIgual", $rt_wrapFunction1(lpeu_TipoPrimitivo_eIgual), "$eValido", $rt_wrapFunction0(lpeu_TipoPrimitivo_eValido2), "$toString", $rt_wrapFunction0(lpeu_TipoPrimitivo_toString2)],
-    lpee_ValorInteiro, "ValorInteiro", 123, lpee_ValorConcreto, [], 0, 3, [0,0,0], 0, ["$_init_35", $rt_wrapFunction1(lpee_ValorInteiro__init_0), "$getTipo5", $rt_wrapFunction1(lpee_ValorInteiro_getTipo3), "$clone20", $rt_wrapFunction0(lpee_ValorInteiro_clone0), "$clone1", $rt_wrapFunction0(lpee_ValorInteiro_clone2)],
+    lpee_ValorInteiro, "ValorInteiro", 123, lpee_ValorConcreto, [], 0, 3, [0,0,0], 0, ["$_init_34", $rt_wrapFunction1(lpee_ValorInteiro__init_0), "$getTipo5", $rt_wrapFunction1(lpee_ValorInteiro_getTipo3), "$clone20", $rt_wrapFunction0(lpee_ValorInteiro_clone0), "$clone1", $rt_wrapFunction0(lpee_ValorInteiro_clone2)],
     jl_IllegalStateException, "IllegalStateException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_IllegalStateException__init_0), "$_init_", $rt_wrapFunction1(jl_IllegalStateException__init_1)],
     ju_FormatterClosedException, "FormatterClosedException", 1, jl_IllegalStateException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_FormatterClosedException__init_)],
-    lpee_ExpMenos4, 0, lpee_ExpUnaria4, [], 0, 3, 0, 0, ["$_init_293", $rt_wrapFunction1(lpee_ExpMenos__init_0), "$avaliar8", $rt_wrapFunction1(lpee_ExpMenos_avaliar2), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal4), "$getTipo10", $rt_wrapFunction1(lpee_ExpMenos_getTipo)],
-    lpodv_DecVariavelObjeto0, 0, jl_Object, [lpodv_DecVariavel0], 0, 3, 0, 0, ["$_init_55", $rt_wrapFunction3(lpodv_DecVariavelObjeto__init_0), "$getTipo3", $rt_wrapFunction1(lpodv_DecVariavelObjeto_getTipo), "$elabora1", $rt_wrapFunction1(lpodv_DecVariavelObjeto_elabora), "$checaTipo4", $rt_wrapFunction1(lpodv_DecVariavelObjeto_checaTipo)],
-    lpic_SequenciaComando0, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_204", $rt_wrapFunction2(lpic_SequenciaComando__init_), "$executar9", $rt_wrapFunction1(lpic_SequenciaComando_executar), "$checaTipo10", $rt_wrapFunction1(lpic_SequenciaComando_checaTipo)],
-    jnci_UTF16Decoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_85", $rt_wrapFunction3(jnci_UTF16Decoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_UTF16Decoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
-    lpee_ExpSub2, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_298", $rt_wrapFunction2(lpee_ExpSub__init_3), "$avaliar8", $rt_wrapFunction1(lpee_ExpSub_avaliar5), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal5), "$getTipo10", $rt_wrapFunction1(lpee_ExpSub_getTipo2)],
-    lpoc_New, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_176", $rt_wrapFunction2(lpoc_New__init_), "$executar", $rt_wrapFunction1(lpoc_New_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_New_checaTipo), "$getClasse", $rt_wrapFunction0(lpoc_New_getClasse), "$getAv", $rt_wrapFunction0(lpoc_New_getAv)],
-    lpoc_NewOO2, 0, lpoc_New, [], 0, 3, 0, 0, ["$_init_173", $rt_wrapFunction3(lpoc_NewOO2__init_), "$executar12", $rt_wrapFunction1(lpoc_NewOO2_executar)],
-    jn_ByteBuffer, 0, jn_Buffer, [jl_Comparable], 1, 3, 0, 0, ["$_init_283", function(var_1, var_2, var_3, var_4, var_5) { jn_ByteBuffer__init_(this, var_1, var_2, var_3, var_4, var_5); }, "$get12", $rt_wrapFunction3(jn_ByteBuffer_get0), "$get10", $rt_wrapFunction1(jn_ByteBuffer_get), "$put2", $rt_wrapFunction3(jn_ByteBuffer_put0), "$put0", $rt_wrapFunction1(jn_ByteBuffer_put), "$hasArray", $rt_wrapFunction0(jn_ByteBuffer_hasArray), "$array", $rt_wrapFunction0(jn_ByteBuffer_array), "$flip", $rt_wrapFunction0(jn_ByteBuffer_flip),
+    lpee_ExpMenos4, 0, lpee_ExpUnaria4, [], 0, 3, 0, 0, ["$_init_292", $rt_wrapFunction1(lpee_ExpMenos__init_0), "$avaliar8", $rt_wrapFunction1(lpee_ExpMenos_avaliar2), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal4), "$getTipo10", $rt_wrapFunction1(lpee_ExpMenos_getTipo)],
+    lpodv_DecVariavelObjeto0, 0, jl_Object, [lpodv_DecVariavel0], 0, 3, 0, 0, ["$_init_54", $rt_wrapFunction3(lpodv_DecVariavelObjeto__init_0), "$getTipo3", $rt_wrapFunction1(lpodv_DecVariavelObjeto_getTipo), "$elabora1", $rt_wrapFunction1(lpodv_DecVariavelObjeto_elabora), "$checaTipo4", $rt_wrapFunction1(lpodv_DecVariavelObjeto_checaTipo)],
+    lpic_SequenciaComando0, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_203", $rt_wrapFunction2(lpic_SequenciaComando__init_), "$executar9", $rt_wrapFunction1(lpic_SequenciaComando_executar), "$checaTipo10", $rt_wrapFunction1(lpic_SequenciaComando_checaTipo)],
+    jnci_UTF16Decoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_84", $rt_wrapFunction3(jnci_UTF16Decoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_UTF16Decoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpee_ExpSub2, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_297", $rt_wrapFunction2(lpee_ExpSub__init_3), "$avaliar8", $rt_wrapFunction1(lpee_ExpSub_avaliar5), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal5), "$getTipo10", $rt_wrapFunction1(lpee_ExpSub_getTipo2)],
+    lpoc_New, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_175", $rt_wrapFunction2(lpoc_New__init_), "$executar", $rt_wrapFunction1(lpoc_New_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_New_checaTipo), "$getClasse", $rt_wrapFunction0(lpoc_New_getClasse), "$getAv", $rt_wrapFunction0(lpoc_New_getAv)],
+    lpoc_NewOO2, 0, lpoc_New, [], 0, 3, 0, 0, ["$_init_172", $rt_wrapFunction3(lpoc_NewOO2__init_), "$executar12", $rt_wrapFunction1(lpoc_NewOO2_executar)],
+    jn_ByteBuffer, 0, jn_Buffer, [jl_Comparable], 1, 3, 0, 0, ["$_init_282", function(var_1, var_2, var_3, var_4, var_5) { jn_ByteBuffer__init_(this, var_1, var_2, var_3, var_4, var_5); }, "$get12", $rt_wrapFunction3(jn_ByteBuffer_get0), "$get10", $rt_wrapFunction1(jn_ByteBuffer_get), "$put2", $rt_wrapFunction3(jn_ByteBuffer_put0), "$put0", $rt_wrapFunction1(jn_ByteBuffer_put), "$hasArray", $rt_wrapFunction0(jn_ByteBuffer_hasArray), "$array", $rt_wrapFunction0(jn_ByteBuffer_array), "$flip", $rt_wrapFunction0(jn_ByteBuffer_flip),
     "$position1", $rt_wrapFunction1(jn_ByteBuffer_position)],
     lpeu_Tipo4, 0, jl_Object, [], 3, 3, 0, 0, 0,
     lpeu_TipoPrimitivo1, "TipoPrimitivo", 113, jl_Enum, [lpeu_Tipo4], 12, 3, [0,0,0], lpeu_TipoPrimitivo_$callClinit3, ["$getNome", $rt_wrapFunction0(lpeu_TipoPrimitivo_getNome4), "$eInteiro", $rt_wrapFunction0(lpeu_TipoPrimitivo_eInteiro1), "$eBooleano", $rt_wrapFunction0(lpeu_TipoPrimitivo_eBooleano2), "$eString", $rt_wrapFunction0(lpeu_TipoPrimitivo_eString5), "$eIgual4", $rt_wrapFunction1(lpeu_TipoPrimitivo_eIgual0), "$eValido", $rt_wrapFunction0(lpeu_TipoPrimitivo_eValido1), "$toString", $rt_wrapFunction0(lpeu_TipoPrimitivo_toString3)],
-    lpic_IfThenElse0, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_74", $rt_wrapFunction3(lpic_IfThenElse__init_0), "$executar11", $rt_wrapFunction1(lpic_IfThenElse_executar), "$checaTipo9", $rt_wrapFunction1(lpic_IfThenElse_checaTipo)],
+    lpic_IfThenElse0, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_73", $rt_wrapFunction3(lpic_IfThenElse__init_0), "$executar11", $rt_wrapFunction1(lpic_IfThenElse_executar), "$checaTipo9", $rt_wrapFunction1(lpic_IfThenElse_checaTipo)],
     ju_HashMap$HashMapEntrySet, 0, ju_AbstractSet, [], 0, 0, 0, 0, ["$_init_29", $rt_wrapFunction1(ju_HashMap$HashMapEntrySet__init_), "$iterator", $rt_wrapFunction0(ju_HashMap$HashMapEntrySet_iterator)],
-    lpfp_Func3ParserTokenManager, 0, jl_Object, [lpfp_Func3ParserConstants], 0, 3, 0, lpfp_Func3ParserTokenManager_$callClinit, ["$_init_114", $rt_wrapFunction1(lpfp_Func3ParserTokenManager__init_)],
-    lpee_ExpAnd4, "ExpAnd", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_209", $rt_wrapFunction2(lpee_ExpAnd__init_0), "$avaliar6", $rt_wrapFunction1(lpee_ExpAnd_avaliar3), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal5), "$getTipo9", $rt_wrapFunction1(lpee_ExpAnd_getTipo)],
-    jl_Byte, 0, jl_Number, [jl_Comparable], 0, 3, 0, jl_Byte_$callClinit, ["$_init_234", $rt_wrapFunction1(jl_Byte__init_)],
-    lpee_ExpSoma4, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_298", $rt_wrapFunction2(lpee_ExpSoma__init_2), "$avaliar8", $rt_wrapFunction1(lpee_ExpSoma_avaliar5), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal), "$getTipo10", $rt_wrapFunction1(lpee_ExpSoma_getTipo4)],
+    lpfp_Func3ParserTokenManager, 0, jl_Object, [lpfp_Func3ParserConstants], 0, 3, 0, lpfp_Func3ParserTokenManager_$callClinit, ["$_init_113", $rt_wrapFunction1(lpfp_Func3ParserTokenManager__init_)],
+    lpee_ExpAnd4, "ExpAnd", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpee_ExpAnd__init_0), "$avaliar6", $rt_wrapFunction1(lpee_ExpAnd_avaliar3), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal5), "$getTipo9", $rt_wrapFunction1(lpee_ExpAnd_getTipo)],
+    jl_Byte, 0, jl_Number, [jl_Comparable], 0, 3, 0, jl_Byte_$callClinit, ["$_init_233", $rt_wrapFunction1(jl_Byte__init_)],
+    lpee_ExpSoma4, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_297", $rt_wrapFunction2(lpee_ExpSoma__init_2), "$avaliar8", $rt_wrapFunction1(lpee_ExpSoma_avaliar5), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal), "$getTipo10", $rt_wrapFunction1(lpee_ExpSoma_getTipo4)],
     lpoe_This0, "This", 96, jl_Object, [lpoe_Expressao0], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoe_This__init_0), "$avaliar2", $rt_wrapFunction1(lpoe_This_avaliar), "$checaTipo4", $rt_wrapFunction1(lpoe_This_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoe_This_getTipo0)]]);
     $rt_metadata([ji_EOFException, "EOFException", 5, ji_IOException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ji_EOFException__init_)],
     jlr_Modifier, 0, jl_Object, [], 0, 3, 0, jlr_Modifier_$callClinit, 0,
     lpoc_IO, 0, jl_Object, [lpoc_Comando0], 3, 3, 0, 0, 0,
-    lpoc_Write, 0, jl_Object, [lpoc_IO], 0, 3, 0, 0, ["$_init_171", $rt_wrapFunction1(lpoc_Write__init_), "$executar", $rt_wrapFunction1(lpoc_Write_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_Write_checaTipo)],
-    lpoeb_ExpSoma0, "ExpSoma", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoeb_ExpSoma__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpSoma_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpSoma_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpSoma_getTipo)],
-    lpodp_DecProcedimentoSimples0, 0, jl_Object, [lpodp_DecProcedimento0], 0, 3, 0, 0, ["$_init_235", $rt_wrapFunction3(lpodp_DecProcedimentoSimples__init_0), "$_init_58", $rt_wrapFunction4(lpodp_DecProcedimentoSimples__init_1), "$getProcedimento", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_getProcedimento0), "$checaTipo4", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_checaTipo0)],
+    lpoc_Write, 0, jl_Object, [lpoc_IO], 0, 3, 0, 0, ["$_init_170", $rt_wrapFunction1(lpoc_Write__init_), "$executar", $rt_wrapFunction1(lpoc_Write_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_Write_checaTipo)],
+    lpoeb_ExpSoma0, "ExpSoma", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_173", $rt_wrapFunction2(lpoeb_ExpSoma__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpSoma_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpSoma_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpSoma_getTipo)],
+    lpodp_DecProcedimentoSimples0, 0, jl_Object, [lpodp_DecProcedimento0], 0, 3, 0, 0, ["$_init_234", $rt_wrapFunction3(lpodp_DecProcedimentoSimples__init_0), "$_init_57", $rt_wrapFunction4(lpodp_DecProcedimentoSimples__init_1), "$getProcedimento", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_getProcedimento0), "$checaTipo4", $rt_wrapFunction1(lpodp_DecProcedimentoSimples_checaTipo0)],
     lpee_Id6, "Id", 110, jl_Object, [lpee_Expressao2], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_2), "$toString", $rt_wrapFunction0(lpee_Id_toString1), "$avaliar8", $rt_wrapFunction1(lpee_Id_avaliar1), "$checaTipo3", $rt_wrapFunction1(lpee_Id_checaTipo1), "$getTipo10", $rt_wrapFunction1(lpee_Id_getTipo2), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode3), "$equals", $rt_wrapFunction1(lpee_Id_equals4)],
     lpep_Exp1ParserTokenManager, 0, jl_Object, [lpep_Exp1ParserConstants], 0, 3, 0, lpep_Exp1ParserTokenManager_$callClinit, ["$_init_23", $rt_wrapFunction1(lpep_Exp1ParserTokenManager__init_)],
     jt_DecimalFormat$MinusField, "DecimalFormat$MinusField", 7, jl_Object, [jt_DecimalFormat$FormatField], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormat$MinusField__init_), "$render", $rt_wrapFunction2(jt_DecimalFormat$MinusField_render), "$equals", $rt_wrapFunction1(jt_DecimalFormat$MinusField_equals), "$hashCode", $rt_wrapFunction0(jt_DecimalFormat$MinusField_hashCode)],
     ju_LinkedHashMapIterator$KeyIterator, 0, ju_LinkedHashMapIterator, [ju_Iterator], 0, 0, 0, 0, ["$_init_31", $rt_wrapFunction2(ju_LinkedHashMapIterator$KeyIterator__init_), "$next", $rt_wrapFunction0(ju_LinkedHashMapIterator$KeyIterator_next)],
     lpfp_Func2Parser, 0, jl_Object, [lpfp_Func2ParserConstants], 0, 3, 0, lpfp_Func2Parser_$callClinit, ["$_init_16", $rt_wrapFunction1(lpfp_Func2Parser__init_0), "$_init_15", $rt_wrapFunction2(lpfp_Func2Parser__init_)],
-    jnc_CoderResult, 0, jl_Object, [], 0, 3, 0, jnc_CoderResult_$callClinit, ["$_init_246", $rt_wrapFunction2(jnc_CoderResult__init_0), "$isUnderflow", $rt_wrapFunction0(jnc_CoderResult_isUnderflow), "$isOverflow", $rt_wrapFunction0(jnc_CoderResult_isOverflow), "$isError", $rt_wrapFunction0(jnc_CoderResult_isError), "$isMalformed", $rt_wrapFunction0(jnc_CoderResult_isMalformed), "$isUnmappable", $rt_wrapFunction0(jnc_CoderResult_isUnmappable), "$length", $rt_wrapFunction0(jnc_CoderResult_length), "$throwException",
+    jnc_CoderResult, 0, jl_Object, [], 0, 3, 0, jnc_CoderResult_$callClinit, ["$_init_245", $rt_wrapFunction2(jnc_CoderResult__init_0), "$isUnderflow", $rt_wrapFunction0(jnc_CoderResult_isUnderflow), "$isOverflow", $rt_wrapFunction0(jnc_CoderResult_isOverflow), "$isError", $rt_wrapFunction0(jnc_CoderResult_isError), "$isMalformed", $rt_wrapFunction0(jnc_CoderResult_isMalformed), "$isUnmappable", $rt_wrapFunction0(jnc_CoderResult_isUnmappable), "$length", $rt_wrapFunction0(jnc_CoderResult_length), "$throwException",
     $rt_wrapFunction0(jnc_CoderResult_throwException)],
     otcit_DoubleAnalyzer, 0, jl_Object, [], 4, 3, 0, otcit_DoubleAnalyzer_$callClinit, 0,
     lpom_AmbienteExecucaoOO1, 0, jl_Object, [lpom_AmbienteOO10], 3, 3, 0, 0, 0,
     lpom_AmbienteExecucaoOO2, 0, jl_Object, [lpom_AmbienteExecucaoOO1], 3, 3, 0, 0, 0,
-    lpim_ListaValor, 0, lpiu_Lista1, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpim_ListaValor__init_2), "$_init_155", $rt_wrapFunction1(lpim_ListaValor__init_5), "$_init_154", $rt_wrapFunction2(lpim_ListaValor__init_1), "$write3", $rt_wrapFunction1(lpim_ListaValor_write)],
+    lpim_ListaValor, 0, lpiu_Lista1, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpim_ListaValor__init_2), "$_init_154", $rt_wrapFunction1(lpim_ListaValor__init_5), "$_init_153", $rt_wrapFunction2(lpim_ListaValor__init_1), "$write3", $rt_wrapFunction1(lpim_ListaValor_write)],
     lpop_OO1Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpop_OO1Parser$JJCalls__init_0)],
     ju_HashMap$EntryIterator, 0, ju_HashMap$AbstractMapIterator, [ju_Iterator], 0, 0, 0, 0, ["$_init_29", $rt_wrapFunction1(ju_HashMap$EntryIterator__init_), "$next0", $rt_wrapFunction0(ju_HashMap$EntryIterator_next), "$next", $rt_wrapFunction0(ju_HashMap$EntryIterator_next0)],
-    lpee_ExpNot0, "ExpNot", 123, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction1(lpee_ExpNot__init_1), "$avaliar3", $rt_wrapFunction1(lpee_ExpNot_avaliar3), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal1), "$getTipo5", $rt_wrapFunction1(lpee_ExpNot_getTipo1), "$clone14", $rt_wrapFunction0(lpee_ExpNot_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpNot_clone2)],
-    lpfe_ExpDeclaracao0, "ExpDeclaracao", 117, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_247", $rt_wrapFunction2(lpfe_ExpDeclaracao__init_3), "$_init_111", $rt_wrapFunction3(lpfe_ExpDeclaracao__init_0), "$avaliar3", $rt_wrapFunction1(lpfe_ExpDeclaracao_avaliar), "$checaTipo5", $rt_wrapFunction1(lpfe_ExpDeclaracao_checaTipo), "$getTipo5", $rt_wrapFunction1(lpfe_ExpDeclaracao_getTipo), "$reduzir", $rt_wrapFunction1(lpfe_ExpDeclaracao_reduzir), "$clone22", $rt_wrapFunction0(lpfe_ExpDeclaracao_clone2), "$clone1",
+    lpee_ExpNot0, "ExpNot", 123, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction1(lpee_ExpNot__init_1), "$avaliar3", $rt_wrapFunction1(lpee_ExpNot_avaliar3), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal1), "$getTipo5", $rt_wrapFunction1(lpee_ExpNot_getTipo1), "$clone14", $rt_wrapFunction0(lpee_ExpNot_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpNot_clone2)],
+    lpfe_ExpDeclaracao0, "ExpDeclaracao", 117, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_246", $rt_wrapFunction2(lpfe_ExpDeclaracao__init_3), "$_init_110", $rt_wrapFunction3(lpfe_ExpDeclaracao__init_0), "$avaliar3", $rt_wrapFunction1(lpfe_ExpDeclaracao_avaliar), "$checaTipo5", $rt_wrapFunction1(lpfe_ExpDeclaracao_checaTipo), "$getTipo5", $rt_wrapFunction1(lpfe_ExpDeclaracao_getTipo), "$reduzir", $rt_wrapFunction1(lpfe_ExpDeclaracao_reduzir), "$clone22", $rt_wrapFunction0(lpfe_ExpDeclaracao_clone2), "$clone1",
     $rt_wrapFunction0(lpfe_ExpDeclaracao_clone)],
-    lpee_ExpOr3, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_77", $rt_wrapFunction2(lpee_ExpOr__init_0), "$avaliar", $rt_wrapFunction1(lpee_ExpOr_avaliar5), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal1), "$getTipo", $rt_wrapFunction1(lpee_ExpOr_getTipo0)],
+    lpee_ExpOr3, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpee_ExpOr__init_0), "$avaliar", $rt_wrapFunction1(lpee_ExpOr_avaliar5), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal1), "$getTipo", $rt_wrapFunction1(lpee_ExpOr_getTipo0)],
     lpem_AmbienteCompilacao2, 0, jl_Object, [lpem_Ambiente2], 3, 3, 0, 0, 0,
-    lpip_Imp1ParserTokenManager, 0, jl_Object, [lpip_Imp1ParserConstants], 0, 3, 0, lpip_Imp1ParserTokenManager_$callClinit, ["$_init_81", $rt_wrapFunction1(lpip_Imp1ParserTokenManager__init_)],
+    lpip_Imp1ParserTokenManager, 0, jl_Object, [lpip_Imp1ParserConstants], 0, 3, 0, lpip_Imp1ParserTokenManager_$callClinit, ["$_init_80", $rt_wrapFunction1(lpip_Imp1ParserTokenManager__init_)],
     lpom_PilhaSnapshot, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpom_PilhaSnapshot__init_0), "$incrementa", $rt_wrapFunction0(lpom_PilhaSnapshot_incrementa), "$registraEscopo1", $rt_wrapFunction1(lpom_PilhaSnapshot_registraEscopo), "$registraEscopo2", $rt_wrapFunction2(lpom_PilhaSnapshot_registraEscopo0), "$map", $rt_wrapFunction2(lpom_PilhaSnapshot_map), "$restaura", $rt_wrapFunction0(lpom_PilhaSnapshot_restaura), "$getQuadros", $rt_wrapFunction0(lpom_PilhaSnapshot_getQuadros0)],
     lpem_IdentificadorNaoDeclaradoException4, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_1), "$_init_0", $rt_wrapFunction0(lpem_IdentificadorNaoDeclaradoException__init_12)],
-    lpem_VariavelNaoDeclaradaException1, "VariavelNaoDeclaradaException", 146, lpem_IdentificadorNaoDeclaradoException4, [], 0, 3, 0, 0, ["$_init_151", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_8)],
+    lpem_VariavelNaoDeclaradaException1, "VariavelNaoDeclaradaException", 146, lpem_IdentificadorNaoDeclaradoException4, [], 0, 3, 0, 0, ["$_init_150", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_8)],
     jl_AbstractStringBuilder$Constants, 0, jl_Object, [], 0, 0, 0, jl_AbstractStringBuilder$Constants_$callClinit, 0,
-    jl_Thread, 0, jl_Object, [jl_Runnable], 0, 3, 0, jl_Thread_$callClinit, ["$_init_", $rt_wrapFunction1(jl_Thread__init_0), "$_init_249", $rt_wrapFunction2(jl_Thread__init_)],
-    lpee_ExpSoma, "ExpSoma", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_264", $rt_wrapFunction2(lpee_ExpSoma__init_1), "$avaliar4", $rt_wrapFunction1(lpee_ExpSoma_avaliar2), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpSoma_getTipo0)],
+    jl_Thread, 0, jl_Object, [jl_Runnable], 0, 3, 0, jl_Thread_$callClinit, ["$_init_", $rt_wrapFunction1(jl_Thread__init_0), "$_init_248", $rt_wrapFunction2(jl_Thread__init_)],
+    lpee_ExpSoma, "ExpSoma", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_263", $rt_wrapFunction2(lpee_ExpSoma__init_1), "$avaliar4", $rt_wrapFunction1(lpee_ExpSoma_avaliar2), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpSoma_getTipo0)],
     jnc_BufferOverflowException, "BufferOverflowException", 3, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jnc_BufferOverflowException__init_)],
     otp_PlatformQueue, 0, jl_Object, [otj_JSObject], 1, 3, 0, 0, 0,
-    lpee_ExpConcat, "ExpConcat", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_163", $rt_wrapFunction2(lpee_ExpConcat__init_2), "$avaliar5", $rt_wrapFunction1(lpee_ExpConcat_avaliar2), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal0), "$getTipo7", $rt_wrapFunction1(lpee_ExpConcat_getTipo3), "$clone15", $rt_wrapFunction0(lpee_ExpConcat_clone), "$clone3", $rt_wrapFunction0(lpee_ExpConcat_clone2)],
+    lpee_ExpConcat, "ExpConcat", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_162", $rt_wrapFunction2(lpee_ExpConcat__init_2), "$avaliar5", $rt_wrapFunction1(lpee_ExpConcat_avaliar2), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal0), "$getTipo7", $rt_wrapFunction1(lpee_ExpConcat_getTipo3), "$clone15", $rt_wrapFunction0(lpee_ExpConcat_clone), "$clone3", $rt_wrapFunction0(lpee_ExpConcat_clone2)],
     otciu_CLDRHelper, 0, jl_Object, [], 4, 3, 0, 0, 0,
     lpom_ContextoObjeto0, "ContextoObjeto", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_29", $rt_wrapFunction1(lpom_ContextoObjeto__init_0), "$remove1", $rt_wrapFunction1(lpom_ContextoObjeto_remove0), "$put3", $rt_wrapFunction2(lpom_ContextoObjeto_put), "$containsKey0", $rt_wrapFunction1(lpom_ContextoObjeto_containsKey0), "$get6", $rt_wrapFunction1(lpom_ContextoObjeto_get0)],
     lpom_PilhaSnapshot0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpom_PilhaSnapshot__init_), "$incrementa", $rt_wrapFunction0(lpom_PilhaSnapshot_incrementa0), "$registraEscopo5", $rt_wrapFunction2(lpom_PilhaSnapshot_registraEscopo1), "$map", $rt_wrapFunction2(lpom_PilhaSnapshot_map0), "$restaura", $rt_wrapFunction0(lpom_PilhaSnapshot_restaura0), "$getQuadros", $rt_wrapFunction0(lpom_PilhaSnapshot_getQuadros)],
     jl_StringIndexOutOfBoundsException, "StringIndexOutOfBoundsException", 8, jl_IndexOutOfBoundsException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_StringIndexOutOfBoundsException__init_0)],
     lpou_Tipo0, "Tipo", 90, jl_Object, [], 3, 3, 0, 0, 0,
     lpoev_ValorBooleano, "ValorBooleano", 99, jl_Object, [lpoev_ValorConcreto], 0, 3, 0, 0, ["$_init_5", $rt_wrapFunction1(lpoev_ValorBooleano__init_1), "$avaliar2", $rt_wrapFunction1(lpoev_ValorBooleano_avaliar0), "$valor0", $rt_wrapFunction0(lpoev_ValorBooleano_valor0), "$equals1", $rt_wrapFunction1(lpoev_ValorBooleano_equals0), "$toString", $rt_wrapFunction0(lpoev_ValorBooleano_toString0), "$checaTipo4", $rt_wrapFunction1(lpoev_ValorBooleano_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoev_ValorBooleano_getTipo0)],
-    lpee_ExpSoma1, "ExpSoma", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_163", $rt_wrapFunction2(lpee_ExpSoma__init_4), "$avaliar5", $rt_wrapFunction1(lpee_ExpSoma_avaliar0), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal3), "$getTipo7", $rt_wrapFunction1(lpee_ExpSoma_getTipo2), "$clone15", $rt_wrapFunction0(lpee_ExpSoma_clone), "$clone3", $rt_wrapFunction0(lpee_ExpSoma_clone1)],
+    lpee_ExpSoma1, "ExpSoma", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_162", $rt_wrapFunction2(lpee_ExpSoma__init_4), "$avaliar5", $rt_wrapFunction1(lpee_ExpSoma_avaliar0), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal3), "$getTipo7", $rt_wrapFunction1(lpee_ExpSoma_getTipo2), "$clone15", $rt_wrapFunction0(lpee_ExpSoma_clone), "$clone3", $rt_wrapFunction0(lpee_ExpSoma_clone1)],
     jn_ByteOrder, 0, jl_Object, [], 4, 3, 0, jn_ByteOrder_$callClinit, 0,
     lpim_ProcedimentoNaoDeclaradoException, "ProcedimentoNaoDeclaradoException", 47, lpem_IdentificadorNaoDeclaradoException, [], 0, 3, 0, 0, ["$_init_9", $rt_wrapFunction1(lpim_ProcedimentoNaoDeclaradoException__init_)],
     lpim_AmbienteExecucaoImperativa2, 0, jl_Object, [lpim_AmbienteExecucaoImperativa], 3, 3, 0, 0, 0,
-    lpim_ContextoExecucaoImperativa2, 0, lpim_ContextoExecucaoImperativa, [lpim_AmbienteExecucaoImperativa2], 0, 3, 0, 0, ["$_init_136", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa2__init_), "$incrementa", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa2_incrementa), "$restaura", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa2_restaura), "$mapProcedimento", $rt_wrapFunction2(lpim_ContextoExecucaoImperativa2_mapProcedimento), "$getProcedimento0", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa2_getProcedimento)],
-    lpoeu_ExpLength, "ExpLength", 97, lpoeu_ExpUnaria, [], 0, 3, 0, 0, ["$_init_45", $rt_wrapFunction1(lpoeu_ExpLength__init_), "$avaliar2", $rt_wrapFunction1(lpoeu_ExpLength_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpLength_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeu_ExpLength_getTipo0)],
+    lpim_ContextoExecucaoImperativa2, 0, lpim_ContextoExecucaoImperativa, [lpim_AmbienteExecucaoImperativa2], 0, 3, 0, 0, ["$_init_135", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa2__init_), "$incrementa", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa2_incrementa), "$restaura", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa2_restaura), "$mapProcedimento", $rt_wrapFunction2(lpim_ContextoExecucaoImperativa2_mapProcedimento), "$getProcedimento0", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa2_getProcedimento)],
+    lpoeu_ExpLength, "ExpLength", 97, lpoeu_ExpUnaria, [], 0, 3, 0, 0, ["$_init_44", $rt_wrapFunction1(lpoeu_ExpLength__init_), "$avaliar2", $rt_wrapFunction1(lpoeu_ExpLength_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpLength_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeu_ExpLength_getTipo0)],
     lpep_ParseException, "ParseException", 135, jl_Exception, [], 0, 3, 0, 0, ["$_init_24", $rt_wrapFunction3(lpep_ParseException__init_2), "$_init_0", $rt_wrapFunction0(lpep_ParseException__init_3)],
-    lpee_ExpUnaria0, "ExpUnaria", 81, jl_Object, [lpee_Expressao1], 1, 3, 0, 0, ["$_init_251", $rt_wrapFunction2(lpee_ExpUnaria__init_4), "$getExp7", $rt_wrapFunction0(lpee_ExpUnaria_getExp), "$checaTipo1", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo5), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString0)],
-    lpee_ExpMenos0, "ExpMenos", 81, lpee_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_256", $rt_wrapFunction1(lpee_ExpMenos__init_4), "$avaliar4", $rt_wrapFunction1(lpee_ExpMenos_avaliar5), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal3), "$getTipo6", $rt_wrapFunction1(lpee_ExpMenos_getTipo1)],
+    lpee_ExpUnaria0, "ExpUnaria", 81, jl_Object, [lpee_Expressao1], 1, 3, 0, 0, ["$_init_250", $rt_wrapFunction2(lpee_ExpUnaria__init_4), "$getExp7", $rt_wrapFunction0(lpee_ExpUnaria_getExp), "$checaTipo1", $rt_wrapFunction1(lpee_ExpUnaria_checaTipo5), "$toString", $rt_wrapFunction0(lpee_ExpUnaria_toString0)],
+    lpee_ExpMenos0, "ExpMenos", 81, lpee_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_255", $rt_wrapFunction1(lpee_ExpMenos__init_4), "$avaliar4", $rt_wrapFunction1(lpee_ExpMenos_avaliar5), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal3), "$getTipo6", $rt_wrapFunction1(lpee_ExpMenos_getTipo1)],
     lpem_InfoBinding1, "InfoBinding", 42, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpem_InfoBinding__init_), "$getTipo4", $rt_wrapFunction0(lpem_InfoBinding_getTipo2), "$getValor", $rt_wrapFunction0(lpem_InfoBinding_getValor4)],
     lpem_InfoBinding2, "InfoBinding", 66, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpem_InfoBinding__init_3), "$getTipo4", $rt_wrapFunction0(lpem_InfoBinding_getTipo3), "$getValor", $rt_wrapFunction0(lpem_InfoBinding_getValor3)],
     lpfm_ContextoExecucaoFuncional0, 0, lpem_ContextoExecucao2, [lpfm_AmbienteExecucaoFuncional], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfm_ContextoExecucaoFuncional__init_1), "$incrementa", $rt_wrapFunction0(lpfm_ContextoExecucaoFuncional_incrementa0)]]);
@@ -75351,326 +75298,326 @@ var __runCode;
     lpfp_Func2Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Func2Parser$JJCalls__init_0)],
     lpem_Contexto4, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_Contexto__init_2), "$incrementa", $rt_wrapFunction0(lpem_Contexto_incrementa4), "$registraEscopo8", $rt_wrapFunction1(lpem_Contexto_registraEscopo), "$restaura", $rt_wrapFunction0(lpem_Contexto_restaura1), "$map8", $rt_wrapFunction2(lpem_Contexto_map1), "$get3", $rt_wrapFunction1(lpem_Contexto_get4), "$getPilha", $rt_wrapFunction0(lpem_Contexto_getPilha0), "$getPilhaSnapshot5", $rt_wrapFunction0(lpem_Contexto_getPilhaSnapshot1)],
     lpem_ContextoCompilacao0, 0, lpem_Contexto4, [lpem_AmbienteCompilacao0], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoCompilacao__init_)],
-    lpim_ContextoCompilacaoImperativa, 0, lpem_ContextoCompilacao0, [lpim_AmbienteCompilacaoImperativa0], 0, 3, 0, 0, ["$_init_135", $rt_wrapFunction1(lpim_ContextoCompilacaoImperativa__init_)],
-    lpfp_Func2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_245", $rt_wrapFunction1(lpfp_Func2Parser$LookaheadSuccess__init_0)],
-    jnci_AsciiDecoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_91", $rt_wrapFunction1(jnci_AsciiDecoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_AsciiDecoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
-    lpoeu_ExpMenos, "ExpMenos", 97, lpoeu_ExpUnaria, [], 0, 3, 0, 0, ["$_init_45", $rt_wrapFunction1(lpoeu_ExpMenos__init_), "$avaliar2", $rt_wrapFunction1(lpoeu_ExpMenos_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpMenos_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeu_ExpMenos_getTipo)],
+    lpim_ContextoCompilacaoImperativa, 0, lpem_ContextoCompilacao0, [lpim_AmbienteCompilacaoImperativa0], 0, 3, 0, 0, ["$_init_134", $rt_wrapFunction1(lpim_ContextoCompilacaoImperativa__init_)],
+    lpfp_Func2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_244", $rt_wrapFunction1(lpfp_Func2Parser$LookaheadSuccess__init_0)],
+    jnci_AsciiDecoder, 0, jnci_BufferedDecoder, [], 0, 3, 0, 0, ["$_init_90", $rt_wrapFunction1(jnci_AsciiDecoder__init_), "$arrayDecode", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { return jnci_AsciiDecoder_arrayDecode(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpoeu_ExpMenos, "ExpMenos", 97, lpoeu_ExpUnaria, [], 0, 3, 0, 0, ["$_init_44", $rt_wrapFunction1(lpoeu_ExpMenos__init_), "$avaliar2", $rt_wrapFunction1(lpoeu_ExpMenos_avaliar0), "$checaTipo4", $rt_wrapFunction1(lpoeu_ExpMenos_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeu_ExpMenos_getTipo)],
     lpem_PilhaSnapshot2, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_PilhaSnapshot__init_2), "$incrementa", $rt_wrapFunction0(lpem_PilhaSnapshot_incrementa2), "$registraEscopo3", $rt_wrapFunction1(lpem_PilhaSnapshot_registraEscopo3), "$map", $rt_wrapFunction2(lpem_PilhaSnapshot_map1), "$restaura", $rt_wrapFunction0(lpem_PilhaSnapshot_restaura2), "$getQuadros", $rt_wrapFunction0(lpem_PilhaSnapshot_getQuadros0)],
     lpim_EntradaVaziaException, "EntradaVaziaException", 70, jl_Exception, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpim_EntradaVaziaException__init_)],
-    lpic_Atribuicao0, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpic_Atribuicao__init_), "$executar11", $rt_wrapFunction1(lpic_Atribuicao_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_Atribuicao_checaTipo0)],
-    lpim_ListaValor0, 0, lpiu_Lista2, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpim_ListaValor__init_3), "$_init_69", $rt_wrapFunction2(lpim_ListaValor__init_4), "$write0", $rt_wrapFunction1(lpim_ListaValor_write0)],
-    lpomc_ListaValor, 0, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpomc_ListaValor__init_3), "$_init_157", $rt_wrapFunction1(lpomc_ListaValor__init_6), "$_init_156", $rt_wrapFunction2(lpomc_ListaValor__init_1), "$write5", $rt_wrapFunction1(lpomc_ListaValor_write)],
+    lpic_Atribuicao0, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_75", $rt_wrapFunction2(lpic_Atribuicao__init_), "$executar11", $rt_wrapFunction1(lpic_Atribuicao_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_Atribuicao_checaTipo0)],
+    lpim_ListaValor0, 0, lpiu_Lista2, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpim_ListaValor__init_3), "$_init_68", $rt_wrapFunction2(lpim_ListaValor__init_4), "$write0", $rt_wrapFunction1(lpim_ListaValor_write0)],
+    lpomc_ListaValor, 0, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpomc_ListaValor__init_3), "$_init_156", $rt_wrapFunction1(lpomc_ListaValor__init_6), "$_init_155", $rt_wrapFunction2(lpomc_ListaValor__init_1), "$write5", $rt_wrapFunction1(lpomc_ListaValor_write)],
     lpfp_JavaCharStream1, 0, jl_Object, [], 0, 3, 0, lpfp_JavaCharStream_$callClinit1, ["$_init_14", $rt_wrapFunction4(lpfp_JavaCharStream__init_0), "$ReInit", $rt_wrapFunction4(lpfp_JavaCharStream_ReInit5), "$_init_17", function(var_1, var_2, var_3, var_4, var_5) { lpfp_JavaCharStream__init_1(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpfp_JavaCharStream__init_7), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpfp_JavaCharStream_ReInit2(this, var_1, var_2, var_3,
     var_4, var_5); }, "$ReInit2", $rt_wrapFunction4(lpfp_JavaCharStream_ReInit1)],
-    lpic_IfThenElse, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_206", $rt_wrapFunction3(lpic_IfThenElse__init_), "$executar9", $rt_wrapFunction1(lpic_IfThenElse_executar0), "$checaTipo10", $rt_wrapFunction1(lpic_IfThenElse_checaTipo0)],
-    lpfe_ExpTail, "ExpTail", 128, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction1(lpfe_ExpTail__init_0), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpTail_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpTail_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpTail_getTipo), "$clone23", $rt_wrapFunction0(lpfe_ExpTail_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpTail_clone0)],
+    lpic_IfThenElse, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_205", $rt_wrapFunction3(lpic_IfThenElse__init_), "$executar9", $rt_wrapFunction1(lpic_IfThenElse_executar0), "$checaTipo10", $rt_wrapFunction1(lpic_IfThenElse_checaTipo0)],
+    lpfe_ExpTail, "ExpTail", 128, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction1(lpfe_ExpTail__init_0), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpTail_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpTail_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpTail_getTipo), "$clone23", $rt_wrapFunction0(lpfe_ExpTail_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpTail_clone0)],
     lpem_SnapshotPilha, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_SnapshotPilha__init_), "$getPilhaSnapshot5", $rt_wrapFunction0(lpem_SnapshotPilha_getPilhaSnapshot)],
     lpou_TipoPrimitivo0, "TipoPrimitivo", 90, jl_Object, [lpou_Tipo0], 0, 3, [0,0,0], lpou_TipoPrimitivo_$callClinit, ["$_init_6", $rt_wrapFunction1(lpou_TipoPrimitivo__init_1), "$getTipo13", $rt_wrapFunction0(lpou_TipoPrimitivo_getTipo0), "$eInteiro", $rt_wrapFunction0(lpou_TipoPrimitivo_eInteiro), "$eBooleano", $rt_wrapFunction0(lpou_TipoPrimitivo_eBooleano0), "$eString", $rt_wrapFunction0(lpou_TipoPrimitivo_eString0), "$eValido1", $rt_wrapFunction1(lpou_TipoPrimitivo_eValido0), "$equals", $rt_wrapFunction1(lpou_TipoPrimitivo_equals0),
     "$toString", $rt_wrapFunction0(lpou_TipoPrimitivo_toString)],
     lpee_ValorString4, "ValorString", 123, lpee_ValorConcreto, [], 0, 3, [0,0,0], 0, ["$_init_", $rt_wrapFunction1(lpee_ValorString__init_3), "$getTipo5", $rt_wrapFunction1(lpee_ValorString_getTipo1), "$toString", $rt_wrapFunction0(lpee_ValorString_toString5), "$clone24", $rt_wrapFunction0(lpee_ValorString_clone), "$clone1", $rt_wrapFunction0(lpee_ValorString_clone0)],
     otcit_DoubleAnalyzer$Result, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(otcit_DoubleAnalyzer$Result__init_0)],
-    lpoc_IfThenElse0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_170", $rt_wrapFunction3(lpoc_IfThenElse__init_1), "$executar", $rt_wrapFunction1(lpoc_IfThenElse_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_IfThenElse_checaTipo0)],
-    ji_ByteArrayInputStream, 0, ji_InputStream, [], 0, 3, 0, 0, ["$_init_254", $rt_wrapFunction3(ji_ByteArrayInputStream__init_0), "$_init_134", $rt_wrapFunction1(ji_ByteArrayInputStream__init_), "$read2", $rt_wrapFunction0(ji_ByteArrayInputStream_read), "$read3", $rt_wrapFunction3(ji_ByteArrayInputStream_read0), "$close", $rt_wrapFunction0(ji_ByteArrayInputStream_close)],
+    lpoc_IfThenElse0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_169", $rt_wrapFunction3(lpoc_IfThenElse__init_1), "$executar", $rt_wrapFunction1(lpoc_IfThenElse_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_IfThenElse_checaTipo0)],
+    ji_ByteArrayInputStream, 0, ji_InputStream, [], 0, 3, 0, 0, ["$_init_253", $rt_wrapFunction3(ji_ByteArrayInputStream__init_0), "$_init_133", $rt_wrapFunction1(ji_ByteArrayInputStream__init_), "$read2", $rt_wrapFunction0(ji_ByteArrayInputStream_read), "$read3", $rt_wrapFunction3(ji_ByteArrayInputStream_read0), "$close", $rt_wrapFunction0(ji_ByteArrayInputStream_close)],
     lpim_ErroTipoEntradaException0, "ErroTipoEntradaException", 52, jl_Exception, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpim_ErroTipoEntradaException__init_0)],
     otci_IntegerUtil, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    lpfe_ExpCompreensaoLista, "ExpCompreensaoLista", 128, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction1(lpfe_ExpCompreensaoLista__init_0), "$setFiltro", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_setFiltro), "$add4", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_add), "$setGeradores", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_setGeradores), "$avaliar3", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_avaliar), "$checaTipo5", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_checaTipo), "$getTipo5",
+    lpfe_ExpCompreensaoLista, "ExpCompreensaoLista", 128, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction1(lpfe_ExpCompreensaoLista__init_0), "$setFiltro", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_setFiltro), "$add4", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_add), "$setGeradores", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_setGeradores), "$avaliar3", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_avaliar), "$checaTipo5", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_checaTipo), "$getTipo5",
     $rt_wrapFunction1(lpfe_ExpCompreensaoLista_getTipo), "$clone25", $rt_wrapFunction0(lpfe_ExpCompreensaoLista_clone), "$reduzir", $rt_wrapFunction1(lpfe_ExpCompreensaoLista_reduzir), "$toString", $rt_wrapFunction0(lpfe_ExpCompreensaoLista_toString), "$clone1", $rt_wrapFunction0(lpfe_ExpCompreensaoLista_clone0)],
-    lpou_TipoClasse0, "TipoClasse", 90, jl_Object, [lpou_Tipo0], 0, 3, [0,0,0], lpou_TipoClasse_$callClinit, ["$_init_49", $rt_wrapFunction1(lpou_TipoClasse__init_2), "$getTipo13", $rt_wrapFunction0(lpou_TipoClasse_getTipo), "$eValido1", $rt_wrapFunction1(lpou_TipoClasse_eValido0), "$equals", $rt_wrapFunction1(lpou_TipoClasse_equals0), "$toString", $rt_wrapFunction0(lpou_TipoClasse_toString0)],
+    lpou_TipoClasse0, "TipoClasse", 90, jl_Object, [lpou_Tipo0], 0, 3, [0,0,0], lpou_TipoClasse_$callClinit, ["$_init_48", $rt_wrapFunction1(lpou_TipoClasse__init_2), "$getTipo13", $rt_wrapFunction0(lpou_TipoClasse_getTipo), "$eValido1", $rt_wrapFunction1(lpou_TipoClasse_eValido0), "$equals", $rt_wrapFunction1(lpou_TipoClasse_equals0), "$toString", $rt_wrapFunction0(lpou_TipoClasse_toString0)],
     lpee_ValorInteiro5, "ValorInteiro", 134, lpee_ValorConcreto5, [], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(lpee_ValorInteiro__init_7), "$getTipo1", $rt_wrapFunction1(lpee_ValorInteiro_getTipo4)],
     otjc_JSObjects, 0, jl_Object, [], 4, 3, 0, 0, 0,
-    lpou_SuperClasseMap, "SuperClasseMap", 14, jl_Object, [], 0, 3, 0, 0, ["$_init_133", $rt_wrapFunction2(lpou_SuperClasseMap__init_), "$getClasse0", $rt_wrapFunction0(lpou_SuperClasseMap_getClasse), "$getSuperClasse0", $rt_wrapFunction0(lpou_SuperClasseMap_getSuperClasse)],
-    lpip_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpip_Token__init_3), "$_init_93", $rt_wrapFunction2(lpip_Token__init_4), "$toString", $rt_wrapFunction0(lpip_Token_toString)],
-    lpep_ParseException0, "ParseException", 111, jl_Exception, [], 0, 3, 0, 0, ["$_init_300", $rt_wrapFunction3(lpep_ParseException__init_1), "$_init_0", $rt_wrapFunction0(lpep_ParseException__init_4)],
+    lpou_SuperClasseMap, "SuperClasseMap", 14, jl_Object, [], 0, 3, 0, 0, ["$_init_132", $rt_wrapFunction2(lpou_SuperClasseMap__init_), "$getClasse0", $rt_wrapFunction0(lpou_SuperClasseMap_getClasse), "$getSuperClasse0", $rt_wrapFunction0(lpou_SuperClasseMap_getSuperClasse)],
+    lpip_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpip_Token__init_3), "$_init_92", $rt_wrapFunction2(lpip_Token__init_4), "$toString", $rt_wrapFunction0(lpip_Token_toString)],
+    lpep_ParseException0, "ParseException", 111, jl_Exception, [], 0, 3, 0, 0, ["$_init_299", $rt_wrapFunction3(lpep_ParseException__init_1), "$_init_0", $rt_wrapFunction0(lpep_ParseException__init_4)],
     ju_Objects, 0, jl_Object, [], 4, 3, 0, 0, 0,
     lpee_ValorBooleano2, "ValorBooleano", 134, lpee_ValorConcreto5, [], 0, 3, 0, 0, ["$_init_5", $rt_wrapFunction1(lpee_ValorBooleano__init_0), "$getTipo1", $rt_wrapFunction1(lpee_ValorBooleano_getTipo3)],
     lpfp_Func1Parser, 0, jl_Object, [lpfp_Func1ParserConstants], 0, 3, 0, lpfp_Func1Parser_$callClinit, ["$_init_16", $rt_wrapFunction1(lpfp_Func1Parser__init_0), "$_init_15", $rt_wrapFunction2(lpfp_Func1Parser__init_)],
     lpip_JavaCharStream, 0, jl_Object, [], 0, 3, 0, lpip_JavaCharStream_$callClinit, ["$_init_14", $rt_wrapFunction4(lpip_JavaCharStream__init_1), "$ReInit", $rt_wrapFunction4(lpip_JavaCharStream_ReInit4), "$_init_17", function(var_1, var_2, var_3, var_4, var_5) { lpip_JavaCharStream__init_2(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpip_JavaCharStream__init_4), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpip_JavaCharStream_ReInit0(this, var_1, var_2, var_3, var_4,
     var_5); }, "$ReInit2", $rt_wrapFunction4(lpip_JavaCharStream_ReInit2)],
-    lpfu_DefFuncao0, "DefFuncao", 143, jl_Object, [], 0, 3, 0, 0, ["$_init_237", $rt_wrapFunction2(lpfu_DefFuncao__init_0), "$getListaId", $rt_wrapFunction0(lpfu_DefFuncao_getListaId1), "$getExp0", $rt_wrapFunction0(lpfu_DefFuncao_getExp), "$getAridade", $rt_wrapFunction0(lpfu_DefFuncao_getAridade0), "$checaTipo6", $rt_wrapFunction1(lpfu_DefFuncao_checaTipo1), "$getTipo7", $rt_wrapFunction1(lpfu_DefFuncao_getTipo)],
+    lpfu_DefFuncao0, "DefFuncao", 143, jl_Object, [], 0, 3, 0, 0, ["$_init_236", $rt_wrapFunction2(lpfu_DefFuncao__init_0), "$getListaId", $rt_wrapFunction0(lpfu_DefFuncao_getListaId1), "$getExp0", $rt_wrapFunction0(lpfu_DefFuncao_getExp), "$getAridade", $rt_wrapFunction0(lpfu_DefFuncao_getAridade0), "$checaTipo6", $rt_wrapFunction1(lpfu_DefFuncao_checaTipo1), "$getTipo7", $rt_wrapFunction1(lpfu_DefFuncao_getTipo)],
     lpfe_ValorAbstrato0, 0, jl_Object, [lpee_Valor0], 3, 3, 0, 0, 0,
-    lpfe_ValorFuncao, "ValorFuncao", 139, lpfu_DefFuncao0, [lpfe_ValorAbstrato0], 0, 3, [0,0,0], 0, ["$_init_237", $rt_wrapFunction2(lpfe_ValorFuncao__init_1), "$avaliar5", $rt_wrapFunction1(lpfe_ValorFuncao_avaliar), "$toString", $rt_wrapFunction0(lpfe_ValorFuncao_toString0), "$getId6", $rt_wrapFunction0(lpfe_ValorFuncao_getId), "$setId0", $rt_wrapFunction1(lpfe_ValorFuncao_setId), "$reduzir0", $rt_wrapFunction1(lpfe_ValorFuncao_reduzir), "$clone27", $rt_wrapFunction0(lpfe_ValorFuncao_clone2), "$clone3", $rt_wrapFunction0(lpfe_ValorFuncao_clone)],
+    lpfe_ValorFuncao, "ValorFuncao", 139, lpfu_DefFuncao0, [lpfe_ValorAbstrato0], 0, 3, [0,0,0], 0, ["$_init_236", $rt_wrapFunction2(lpfe_ValorFuncao__init_1), "$avaliar5", $rt_wrapFunction1(lpfe_ValorFuncao_avaliar), "$toString", $rt_wrapFunction0(lpfe_ValorFuncao_toString0), "$getId6", $rt_wrapFunction0(lpfe_ValorFuncao_getId), "$setId0", $rt_wrapFunction1(lpfe_ValorFuncao_setId), "$reduzir0", $rt_wrapFunction1(lpfe_ValorFuncao_reduzir), "$clone27", $rt_wrapFunction0(lpfe_ValorFuncao_clone2), "$clone3", $rt_wrapFunction0(lpfe_ValorFuncao_clone)],
     lpeu_TipoPrimitivo5, 0, jl_Enum, [lpeu_Tipo3], 12, 3, 0, lpeu_TipoPrimitivo_$callClinit4, ["$getNome", $rt_wrapFunction0(lpeu_TipoPrimitivo_getNome3), "$eInteiro", $rt_wrapFunction0(lpeu_TipoPrimitivo_eInteiro5), "$eBooleano", $rt_wrapFunction0(lpeu_TipoPrimitivo_eBooleano4), "$eString", $rt_wrapFunction0(lpeu_TipoPrimitivo_eString1), "$eIgual5", $rt_wrapFunction1(lpeu_TipoPrimitivo_eIgual2), "$eValido", $rt_wrapFunction0(lpeu_TipoPrimitivo_eValido5)],
     otjc_JSFinalizationRegistryConsumer, 0, jl_Object, [otj_JSObject], 3, 3, 0, 0, 0,
     otcic_JsConsolePrintStream, 0, ji_PrintStream, [], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(otcic_JsConsolePrintStream__init_), "$println1", $rt_wrapFunction1(otcic_JsConsolePrintStream_println1), "$println", $rt_wrapFunction0(otcic_JsConsolePrintStream_println0), "$println0", $rt_wrapFunction1(otcic_JsConsolePrintStream_println)],
     otcic_JSStdoutPrintStream, 0, otcic_JsConsolePrintStream, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(otcic_JSStdoutPrintStream__init_), "$print", $rt_wrapFunction1(otcic_JSStdoutPrintStream_print)],
-    lpee_ExpSoma0, "ExpSoma", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpee_ExpSoma__init_3), "$avaliar3", $rt_wrapFunction1(lpee_ExpSoma_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal4), "$getTipo5", $rt_wrapFunction1(lpee_ExpSoma_getTipo3), "$clone17", $rt_wrapFunction0(lpee_ExpSoma_clone0), "$clone1", $rt_wrapFunction0(lpee_ExpSoma_clone2)],
+    lpee_ExpSoma0, "ExpSoma", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpee_ExpSoma__init_3), "$avaliar3", $rt_wrapFunction1(lpee_ExpSoma_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal4), "$getTipo5", $rt_wrapFunction1(lpee_ExpSoma_getTipo3), "$clone17", $rt_wrapFunction0(lpee_ExpSoma_clone0), "$clone1", $rt_wrapFunction0(lpee_ExpSoma_clone2)],
     otp_Platform, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jnc_CodingErrorAction, 0, jl_Object, [], 0, 3, 0, jnc_CodingErrorAction_$callClinit, ["$_init_", $rt_wrapFunction1(jnc_CodingErrorAction__init_0)],
     lpeu_ToStringProvider, 0, jl_Object, [], 0, 3, 0, 0, 0,
     jl_Boolean, "Boolean", 8, jl_Object, [ji_Serializable, jl_Comparable], 0, 3, 0, jl_Boolean_$callClinit, ["$_init_5", $rt_wrapFunction1(jl_Boolean__init_0), "$booleanValue", $rt_wrapFunction0(jl_Boolean_booleanValue), "$toString", $rt_wrapFunction0(jl_Boolean_toString0), "$hashCode", $rt_wrapFunction0(jl_Boolean_hashCode), "$equals", $rt_wrapFunction1(jl_Boolean_equals)],
-    lpop_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpop_Token__init_0), "$_init_93", $rt_wrapFunction2(lpop_Token__init_1), "$toString", $rt_wrapFunction0(lpop_Token_toString0)],
+    lpop_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpop_Token__init_0), "$_init_92", $rt_wrapFunction2(lpop_Token__init_1), "$toString", $rt_wrapFunction0(lpop_Token_toString0)],
     ju_NoSuchElementException, "NoSuchElementException", 1, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_NoSuchElementException__init_0)]]);
     $rt_metadata([lpoc_Skip0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoc_Skip__init_1), "$executar10", $rt_wrapFunction1(lpoc_Skip_executar), "$checaTipo4", $rt_wrapFunction1(lpoc_Skip_checaTipo0)],
     jt_DecimalFormat$Constants, 0, jl_Object, [], 0, 0, 0, jt_DecimalFormat$Constants_$callClinit, 0,
-    lped_DecVariavel, 0, jl_Object, [lped_Declaracao], 0, 3, 0, 0, ["$_init_294", $rt_wrapFunction2(lped_DecVariavel__init_), "$getId5", $rt_wrapFunction0(lped_DecVariavel_getId), "$getExpressao1", $rt_wrapFunction0(lped_DecVariavel_getExpressao), "$elabora2", $rt_wrapFunction2(lped_DecVariavel_elabora), "$elabora3", $rt_wrapFunction2(lped_DecVariavel_elabora0), "$checaTipo3", $rt_wrapFunction1(lped_DecVariavel_checaTipo), "$incluir1", $rt_wrapFunction2(lped_DecVariavel_incluir), "$incluir2", $rt_wrapFunction2(lped_DecVariavel_incluir0)],
-    lpee_ValorInteiro2, "ValorInteiro", 147, lpee_ValorConcreto0, [], 0, 3, [0,0,0], 0, ["$_init_35", $rt_wrapFunction1(lpee_ValorInteiro__init_3), "$getTipo7", $rt_wrapFunction1(lpee_ValorInteiro_getTipo2), "$clone28", $rt_wrapFunction0(lpee_ValorInteiro_clone1), "$clone3", $rt_wrapFunction0(lpee_ValorInteiro_clone)],
-    lpoed_ClasseNaoDeclaradaException, "ClasseNaoDeclaradaException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpoed_ClasseNaoDeclaradaException__init_0)],
-    jt_DecimalFormat, 0, jt_NumberFormat, [], 0, 3, 0, jt_DecimalFormat_$callClinit, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormat__init_1), "$_init_", $rt_wrapFunction1(jt_DecimalFormat__init_0), "$_init_140", $rt_wrapFunction2(jt_DecimalFormat__init_), "$applyPattern", $rt_wrapFunction1(jt_DecimalFormat_applyPattern), "$setDecimalFormatSymbols", $rt_wrapFunction1(jt_DecimalFormat_setDecimalFormatSymbols), "$setPositivePrefix", $rt_wrapFunction1(jt_DecimalFormat_setPositivePrefix), "$setNegativePrefix", $rt_wrapFunction1(jt_DecimalFormat_setNegativePrefix),
+    lped_DecVariavel, 0, jl_Object, [lped_Declaracao], 0, 3, 0, 0, ["$_init_293", $rt_wrapFunction2(lped_DecVariavel__init_), "$getId5", $rt_wrapFunction0(lped_DecVariavel_getId), "$getExpressao1", $rt_wrapFunction0(lped_DecVariavel_getExpressao), "$elabora2", $rt_wrapFunction2(lped_DecVariavel_elabora), "$elabora3", $rt_wrapFunction2(lped_DecVariavel_elabora0), "$checaTipo3", $rt_wrapFunction1(lped_DecVariavel_checaTipo), "$incluir1", $rt_wrapFunction2(lped_DecVariavel_incluir), "$incluir2", $rt_wrapFunction2(lped_DecVariavel_incluir0)],
+    lpee_ValorInteiro2, "ValorInteiro", 147, lpee_ValorConcreto0, [], 0, 3, [0,0,0], 0, ["$_init_34", $rt_wrapFunction1(lpee_ValorInteiro__init_3), "$getTipo7", $rt_wrapFunction1(lpee_ValorInteiro_getTipo2), "$clone28", $rt_wrapFunction0(lpee_ValorInteiro_clone1), "$clone3", $rt_wrapFunction0(lpee_ValorInteiro_clone)],
+    lpoed_ClasseNaoDeclaradaException, "ClasseNaoDeclaradaException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpoed_ClasseNaoDeclaradaException__init_0)],
+    jt_DecimalFormat, 0, jt_NumberFormat, [], 0, 3, 0, jt_DecimalFormat_$callClinit, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormat__init_1), "$_init_", $rt_wrapFunction1(jt_DecimalFormat__init_0), "$_init_139", $rt_wrapFunction2(jt_DecimalFormat__init_), "$applyPattern", $rt_wrapFunction1(jt_DecimalFormat_applyPattern), "$setDecimalFormatSymbols", $rt_wrapFunction1(jt_DecimalFormat_setDecimalFormatSymbols), "$setPositivePrefix", $rt_wrapFunction1(jt_DecimalFormat_setPositivePrefix), "$setNegativePrefix", $rt_wrapFunction1(jt_DecimalFormat_setNegativePrefix),
     "$setNegativeSuffix", $rt_wrapFunction1(jt_DecimalFormat_setNegativeSuffix), "$setMultiplier", $rt_wrapFunction1(jt_DecimalFormat_setMultiplier), "$getGroupingSize", $rt_wrapFunction0(jt_DecimalFormat_getGroupingSize), "$setGroupingSize", $rt_wrapFunction1(jt_DecimalFormat_setGroupingSize), "$isDecimalSeparatorAlwaysShown", $rt_wrapFunction0(jt_DecimalFormat_isDecimalSeparatorAlwaysShown), "$setDecimalSeparatorAlwaysShown", $rt_wrapFunction1(jt_DecimalFormat_setDecimalSeparatorAlwaysShown), "$format0", $rt_wrapFunction3(jt_DecimalFormat_format3),
     "$format2", $rt_wrapFunction3(jt_DecimalFormat_format2), "$format1", $rt_wrapFunction3(jt_DecimalFormat_format0)],
-    lpfu_TipoFuncao, "TipoFuncao", 76, jl_Object, [lpeu_Tipo0], 0, 3, [0,0,0], 0, ["$_init_275", $rt_wrapFunction2(lpfu_TipoFuncao__init_2), "$getNome", $rt_wrapFunction0(lpfu_TipoFuncao_getNome1), "$getDominio", $rt_wrapFunction0(lpfu_TipoFuncao_getDominio1), "$getImagem1", $rt_wrapFunction0(lpfu_TipoFuncao_getImagem), "$eBooleano", $rt_wrapFunction0(lpfu_TipoFuncao_eBooleano1), "$eInteiro", $rt_wrapFunction0(lpfu_TipoFuncao_eInteiro), "$eString", $rt_wrapFunction0(lpfu_TipoFuncao_eString), "$eValido", $rt_wrapFunction0(lpfu_TipoFuncao_eValido),
+    lpfu_TipoFuncao, "TipoFuncao", 76, jl_Object, [lpeu_Tipo0], 0, 3, [0,0,0], 0, ["$_init_274", $rt_wrapFunction2(lpfu_TipoFuncao__init_2), "$getNome", $rt_wrapFunction0(lpfu_TipoFuncao_getNome1), "$getDominio", $rt_wrapFunction0(lpfu_TipoFuncao_getDominio1), "$getImagem1", $rt_wrapFunction0(lpfu_TipoFuncao_getImagem), "$eBooleano", $rt_wrapFunction0(lpfu_TipoFuncao_eBooleano1), "$eInteiro", $rt_wrapFunction0(lpfu_TipoFuncao_eInteiro), "$eString", $rt_wrapFunction0(lpfu_TipoFuncao_eString), "$eValido", $rt_wrapFunction0(lpfu_TipoFuncao_eValido),
     "$eIgual1", $rt_wrapFunction1(lpfu_TipoFuncao_eIgual1), "$intersecao", $rt_wrapFunction1(lpfu_TipoFuncao_intersecao), "$toString", $rt_wrapFunction0(lpfu_TipoFuncao_toString0), "$checaTipo12", $rt_wrapFunction2(lpfu_TipoFuncao_checaTipo), "$getTipo14", $rt_wrapFunction2(lpfu_TipoFuncao_getTipo0)],
     otcit_FloatAnalyzer, 0, jl_Object, [], 4, 3, 0, otcit_FloatAnalyzer_$callClinit, 0,
-    lpodp_DecParametro, "DecParametro", 94, jl_Object, [], 0, 3, 0, 0, ["$_init_61", $rt_wrapFunction2(lpodp_DecParametro__init_0), "$getId4", $rt_wrapFunction0(lpodp_DecParametro_getId), "$getTipo17", $rt_wrapFunction0(lpodp_DecParametro_getTipo), "$checaTipo4", $rt_wrapFunction1(lpodp_DecParametro_checaTipo), "$declaraParametro0", $rt_wrapFunction1(lpodp_DecParametro_declaraParametro0)],
+    lpodp_DecParametro, "DecParametro", 94, jl_Object, [], 0, 3, 0, 0, ["$_init_60", $rt_wrapFunction2(lpodp_DecParametro__init_0), "$getId4", $rt_wrapFunction0(lpodp_DecParametro_getId), "$getTipo17", $rt_wrapFunction0(lpodp_DecParametro_getTipo), "$checaTipo4", $rt_wrapFunction1(lpodp_DecParametro_checaTipo), "$declaraParametro0", $rt_wrapFunction1(lpodp_DecParametro_declaraParametro0)],
     lpem_ContextoCompilacao2, 0, lpem_Contexto0, [lpem_AmbienteCompilacao2], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoCompilacao__init_8)],
-    lpic_ComandoDeclaracao0, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_272", $rt_wrapFunction2(lpic_ComandoDeclaracao__init_), "$_init_211", $rt_wrapFunction3(lpic_ComandoDeclaracao__init_2), "$executar9", $rt_wrapFunction1(lpic_ComandoDeclaracao_executar), "$checaTipo10", $rt_wrapFunction1(lpic_ComandoDeclaracao_checaTipo)],
-    lpfe_Aplicacao1, "Aplicacao", 75, jl_Object, [lpee_Expressao1], 0, 3, 0, 0, ["$_init_263", $rt_wrapFunction2(lpfe_Aplicacao__init_1), "$avaliar4", $rt_wrapFunction1(lpfe_Aplicacao_avaliar), "$checaTipo1", $rt_wrapFunction1(lpfe_Aplicacao_checaTipo1), "$getTipo6", $rt_wrapFunction1(lpfe_Aplicacao_getTipo1), "$toString", $rt_wrapFunction0(lpfe_Aplicacao_toString0)],
-    lpoc_Sequencial, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_38", $rt_wrapFunction2(lpoc_Sequencial__init_0), "$executar10", $rt_wrapFunction1(lpoc_Sequencial_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_Sequencial_checaTipo)],
-    lpfp_ParseException0, "ParseException", 130, jl_Exception, [], 0, 3, 0, 0, ["$_init_115", $rt_wrapFunction3(lpfp_ParseException__init_4), "$_init_0", $rt_wrapFunction0(lpfp_ParseException__init_6)],
-    lpem_QuadroEscopo2, "QuadroEscopo", 42, jl_Object, [], 0, 3, 0, 0, ["$_init_226", $rt_wrapFunction2(lpem_QuadroEscopo__init_3), "$_init_227", $rt_wrapFunction3(lpem_QuadroEscopo__init_), "$adicionaBinding3", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding3), "$getNome", $rt_wrapFunction0(lpem_QuadroEscopo_getNome), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo1), "$getTrechoCodigoFonte0", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte2), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings4)],
-    lped_DecComposta, 0, jl_Object, [lped_Declaracao], 0, 3, 0, 0, ["$_init_295", $rt_wrapFunction2(lped_DecComposta__init_), "$elabora2", $rt_wrapFunction2(lped_DecComposta_elabora), "$elabora3", $rt_wrapFunction2(lped_DecComposta_elabora0), "$checaTipo3", $rt_wrapFunction1(lped_DecComposta_checaTipo), "$incluir1", $rt_wrapFunction2(lped_DecComposta_incluir), "$incluir2", $rt_wrapFunction2(lped_DecComposta_incluir0)],
+    lpic_ComandoDeclaracao0, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_271", $rt_wrapFunction2(lpic_ComandoDeclaracao__init_), "$_init_210", $rt_wrapFunction3(lpic_ComandoDeclaracao__init_2), "$executar9", $rt_wrapFunction1(lpic_ComandoDeclaracao_executar), "$checaTipo10", $rt_wrapFunction1(lpic_ComandoDeclaracao_checaTipo)],
+    lpfe_Aplicacao1, "Aplicacao", 75, jl_Object, [lpee_Expressao1], 0, 3, 0, 0, ["$_init_262", $rt_wrapFunction2(lpfe_Aplicacao__init_1), "$avaliar4", $rt_wrapFunction1(lpfe_Aplicacao_avaliar), "$checaTipo1", $rt_wrapFunction1(lpfe_Aplicacao_checaTipo1), "$getTipo6", $rt_wrapFunction1(lpfe_Aplicacao_getTipo1), "$toString", $rt_wrapFunction0(lpfe_Aplicacao_toString0)],
+    lpoc_Sequencial, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_37", $rt_wrapFunction2(lpoc_Sequencial__init_0), "$executar10", $rt_wrapFunction1(lpoc_Sequencial_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_Sequencial_checaTipo)],
+    lpfp_ParseException0, "ParseException", 130, jl_Exception, [], 0, 3, 0, 0, ["$_init_114", $rt_wrapFunction3(lpfp_ParseException__init_4), "$_init_0", $rt_wrapFunction0(lpfp_ParseException__init_6)],
+    lpem_QuadroEscopo2, "QuadroEscopo", 42, jl_Object, [], 0, 3, 0, 0, ["$_init_225", $rt_wrapFunction2(lpem_QuadroEscopo__init_3), "$_init_226", $rt_wrapFunction3(lpem_QuadroEscopo__init_), "$adicionaBinding3", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding3), "$getNome", $rt_wrapFunction0(lpem_QuadroEscopo_getNome), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo1), "$getTrechoCodigoFonte0", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte2), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings4)],
+    lped_DecComposta, 0, jl_Object, [lped_Declaracao], 0, 3, 0, 0, ["$_init_294", $rt_wrapFunction2(lped_DecComposta__init_), "$elabora2", $rt_wrapFunction2(lped_DecComposta_elabora), "$elabora3", $rt_wrapFunction2(lped_DecComposta_elabora0), "$checaTipo3", $rt_wrapFunction1(lped_DecComposta_checaTipo), "$incluir1", $rt_wrapFunction2(lped_DecComposta_incluir), "$incluir2", $rt_wrapFunction2(lped_DecComposta_incluir0)],
     ju_Arrays, 0, jl_Object, [], 0, 3, 0, 0, 0,
-    lpfp_Token1, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Token__init_5), "$_init_93", $rt_wrapFunction2(lpfp_Token__init_0), "$toString", $rt_wrapFunction0(lpfp_Token_toString0)],
-    jm_BigDecimal, 0, jl_Number, [jl_Comparable, ji_Serializable], 0, 3, 0, jm_BigDecimal_$callClinit, ["$_init_270", $rt_wrapFunction1(jm_BigDecimal__init_3), "$_init_271", $rt_wrapFunction2(jm_BigDecimal__init_0), "$multiply1", $rt_wrapFunction1(jm_BigDecimal_multiply), "$signum", $rt_wrapFunction0(jm_BigDecimal_signum), "$scale", $rt_wrapFunction0(jm_BigDecimal_scale), "$precision", $rt_wrapFunction0(jm_BigDecimal_precision), "$unscaledValue", $rt_wrapFunction0(jm_BigDecimal_unscaledValue), "$compareTo",
+    lpfp_Token1, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Token__init_5), "$_init_92", $rt_wrapFunction2(lpfp_Token__init_0), "$toString", $rt_wrapFunction0(lpfp_Token_toString0)],
+    jm_BigDecimal, 0, jl_Number, [jl_Comparable, ji_Serializable], 0, 3, 0, jm_BigDecimal_$callClinit, ["$_init_269", $rt_wrapFunction1(jm_BigDecimal__init_3), "$_init_270", $rt_wrapFunction2(jm_BigDecimal__init_0), "$multiply1", $rt_wrapFunction1(jm_BigDecimal_multiply), "$signum", $rt_wrapFunction0(jm_BigDecimal_signum), "$scale", $rt_wrapFunction0(jm_BigDecimal_scale), "$precision", $rt_wrapFunction0(jm_BigDecimal_precision), "$unscaledValue", $rt_wrapFunction0(jm_BigDecimal_unscaledValue), "$compareTo",
     $rt_wrapFunction1(jm_BigDecimal_compareTo)],
     jl_Character, 0, jl_Object, [jl_Comparable], 0, 3, 0, jl_Character_$callClinit, 0,
-    lpom_DefClasseOO2, "DefClasseOO2", 13, lpom_DefClasse, [], 0, 3, 0, 0, ["$_init_200", function(var_1, var_2, var_3, var_4, var_5) { lpom_DefClasseOO2__init_(this, var_1, var_2, var_3, var_4, var_5); }, "$getConstrutor", $rt_wrapFunction0(lpom_DefClasseOO2_getConstrutor), "$getNomeSuperClasse", $rt_wrapFunction0(lpom_DefClasseOO2_getNomeSuperClasse)],
+    lpom_DefClasseOO2, "DefClasseOO2", 13, lpom_DefClasse, [], 0, 3, 0, 0, ["$_init_199", function(var_1, var_2, var_3, var_4, var_5) { lpom_DefClasseOO2__init_(this, var_1, var_2, var_3, var_4, var_5); }, "$getConstrutor", $rt_wrapFunction0(lpom_DefClasseOO2_getConstrutor), "$getNomeSuperClasse", $rt_wrapFunction0(lpom_DefClasseOO2_getNomeSuperClasse)],
     lpee_Id2, "Id", 147, jl_Object, [lpee_Expressao0], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_5), "$toString", $rt_wrapFunction0(lpee_Id_toString0), "$avaliar5", $rt_wrapFunction1(lpee_Id_avaliar), "$checaTipo6", $rt_wrapFunction1(lpee_Id_checaTipo3), "$getTipo7", $rt_wrapFunction1(lpee_Id_getTipo3), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode5), "$equals", $rt_wrapFunction1(lpee_Id_equals), "$reduzir0", $rt_wrapFunction1(lpee_Id_reduzir), "$clone26", $rt_wrapFunction0(lpee_Id_clone2), "$clone3",
     $rt_wrapFunction0(lpee_Id_clone1)],
-    lpic_While0, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_75", $rt_wrapFunction2(lpic_While__init_0), "$executar11", $rt_wrapFunction1(lpic_While_executar), "$checaTipo9", $rt_wrapFunction1(lpic_While_checaTipo0)],
-    lpom_InfoEscopo, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_179", $rt_wrapFunction2(lpom_InfoEscopo__init_1), "$getTrechoCodigoFonte5", $rt_wrapFunction0(lpom_InfoEscopo_getTrechoCodigoFonte0), "$getEscopo", $rt_wrapFunction0(lpom_InfoEscopo_getEscopo0)],
-    lpee_ExpConcat3, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_77", $rt_wrapFunction2(lpee_ExpConcat__init_6), "$avaliar", $rt_wrapFunction1(lpee_ExpConcat_avaliar1), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal4), "$getTipo", $rt_wrapFunction1(lpee_ExpConcat_getTipo4)],
-    lpfd_DecFuncao, 0, jl_Object, [lpfd_DeclaracaoFuncional0], 0, 3, 0, 0, ["$_init_258", $rt_wrapFunction3(lpfd_DecFuncao__init_2), "$getId0", $rt_wrapFunction0(lpfd_DecFuncao_getId1), "$getAridade", $rt_wrapFunction0(lpfd_DecFuncao_getAridade1), "$getFuncao2", $rt_wrapFunction0(lpfd_DecFuncao_getFuncao0), "$checaTipo1", $rt_wrapFunction1(lpfd_DecFuncao_checaTipo0), "$getTipo6", $rt_wrapFunction1(lpfd_DecFuncao_getTipo1), "$elabora0", $rt_wrapFunction2(lpfd_DecFuncao_elabora0), "$incluir0", $rt_wrapFunction2(lpfd_DecFuncao_incluir2),
+    lpic_While0, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_74", $rt_wrapFunction2(lpic_While__init_0), "$executar11", $rt_wrapFunction1(lpic_While_executar), "$checaTipo9", $rt_wrapFunction1(lpic_While_checaTipo0)],
+    lpom_InfoEscopo, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_178", $rt_wrapFunction2(lpom_InfoEscopo__init_1), "$getTrechoCodigoFonte5", $rt_wrapFunction0(lpom_InfoEscopo_getTrechoCodigoFonte0), "$getEscopo", $rt_wrapFunction0(lpom_InfoEscopo_getEscopo0)],
+    lpee_ExpConcat3, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpee_ExpConcat__init_6), "$avaliar", $rt_wrapFunction1(lpee_ExpConcat_avaliar1), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal4), "$getTipo", $rt_wrapFunction1(lpee_ExpConcat_getTipo4)],
+    lpfd_DecFuncao, 0, jl_Object, [lpfd_DeclaracaoFuncional0], 0, 3, 0, 0, ["$_init_257", $rt_wrapFunction3(lpfd_DecFuncao__init_2), "$getId0", $rt_wrapFunction0(lpfd_DecFuncao_getId1), "$getAridade", $rt_wrapFunction0(lpfd_DecFuncao_getAridade1), "$getFuncao2", $rt_wrapFunction0(lpfd_DecFuncao_getFuncao0), "$checaTipo1", $rt_wrapFunction1(lpfd_DecFuncao_checaTipo0), "$getTipo6", $rt_wrapFunction1(lpfd_DecFuncao_getTipo1), "$elabora0", $rt_wrapFunction2(lpfd_DecFuncao_elabora0), "$incluir0", $rt_wrapFunction2(lpfd_DecFuncao_incluir2),
     "$elabora", $rt_wrapFunction2(lpfd_DecFuncao_elabora2), "$incluir", $rt_wrapFunction2(lpfd_DecFuncao_incluir1)],
     jnc_StandardCharsets, 0, jl_Object, [], 4, 3, 0, jnc_StandardCharsets_$callClinit, 0,
-    lpid_ListaDeclaracaoParametro, "ListaDeclaracaoParametro", 50, lpiu_Lista1, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpid_ListaDeclaracaoParametro__init_1), "$_init_216", $rt_wrapFunction1(lpid_ListaDeclaracaoParametro__init_), "$_init_218", $rt_wrapFunction2(lpid_ListaDeclaracaoParametro__init_2), "$checaTipo10", $rt_wrapFunction1(lpid_ListaDeclaracaoParametro_checaTipo), "$elabora12", $rt_wrapFunction1(lpid_ListaDeclaracaoParametro_elabora), "$getTipos", $rt_wrapFunction0(lpid_ListaDeclaracaoParametro_getTipos)],
-    lpem_InfoEscopo3, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_297", $rt_wrapFunction2(lpem_InfoEscopo__init_5), "$getTrechoCodigoFonte", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte1), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo0)],
+    lpid_ListaDeclaracaoParametro, "ListaDeclaracaoParametro", 50, lpiu_Lista1, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpid_ListaDeclaracaoParametro__init_1), "$_init_215", $rt_wrapFunction1(lpid_ListaDeclaracaoParametro__init_), "$_init_217", $rt_wrapFunction2(lpid_ListaDeclaracaoParametro__init_2), "$checaTipo10", $rt_wrapFunction1(lpid_ListaDeclaracaoParametro_checaTipo), "$elabora12", $rt_wrapFunction1(lpid_ListaDeclaracaoParametro_elabora), "$getTipos", $rt_wrapFunction0(lpid_ListaDeclaracaoParametro_getTipos)],
+    lpem_InfoEscopo3, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_296", $rt_wrapFunction2(lpem_InfoEscopo__init_5), "$getTrechoCodigoFonte", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte1), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo0)],
     lpfe_ValorIrredutivel, "ValorIrredutivel", 139, jl_Object, [lpee_Valor0], 0, 3, [0,0,0], 0, ["$_init_0", $rt_wrapFunction0(lpfe_ValorIrredutivel__init_0), "$avaliar5", $rt_wrapFunction1(lpfe_ValorIrredutivel_avaliar), "$checaTipo6", $rt_wrapFunction1(lpfe_ValorIrredutivel_checaTipo0), "$getTipo7", $rt_wrapFunction1(lpfe_ValorIrredutivel_getTipo0), "$reduzir0", $rt_wrapFunction1(lpfe_ValorIrredutivel_reduzir0), "$clone29", $rt_wrapFunction0(lpfe_ValorIrredutivel_clone), "$clone3", $rt_wrapFunction0(lpfe_ValorIrredutivel_clone1)],
-    lpem_TrechoCodigoFonte0, "TrechoCodigoFonte", 80, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_1), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio3), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio3), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim1), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim3)],
-    lpee_ExpNot1, "ExpNot", 81, lpee_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_256", $rt_wrapFunction1(lpee_ExpNot__init_3), "$avaliar4", $rt_wrapFunction1(lpee_ExpNot_avaliar1), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpNot_getTipo0)],
+    lpem_TrechoCodigoFonte0, "TrechoCodigoFonte", 80, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_1), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio3), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio3), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim1), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim3)],
+    lpee_ExpNot1, "ExpNot", 81, lpee_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_255", $rt_wrapFunction1(lpee_ExpNot__init_3), "$avaliar4", $rt_wrapFunction1(lpee_ExpNot_avaliar1), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal2), "$getTipo6", $rt_wrapFunction1(lpee_ExpNot_getTipo0)],
     lpem_ContextoExecucao0, 0, lpem_Contexto4, [lpem_AmbienteExecucao2], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoExecucao__init_2)],
-    lpim_ContextoExecucaoImperativa0, 0, lpem_ContextoExecucao0, [lpim_AmbienteExecucaoImperativa0], 0, 3, 0, 0, ["$_init_135", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa__init_0), "$read0", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_read), "$getSaida2", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_getSaida0), "$write0", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa_write), "$changeValor0", $rt_wrapFunction2(lpim_ContextoExecucaoImperativa_changeValor)],
+    lpim_ContextoExecucaoImperativa0, 0, lpem_ContextoExecucao0, [lpim_AmbienteExecucaoImperativa0], 0, 3, 0, 0, ["$_init_134", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa__init_0), "$read0", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_read), "$getSaida2", $rt_wrapFunction0(lpim_ContextoExecucaoImperativa_getSaida0), "$write0", $rt_wrapFunction1(lpim_ContextoExecucaoImperativa_write), "$changeValor0", $rt_wrapFunction2(lpim_ContextoExecucaoImperativa_changeValor)],
     jnci_Iso8859Charset, "Iso8859Charset", 4, jnc_Charset, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jnci_Iso8859Charset__init_), "$newDecoder", $rt_wrapFunction0(jnci_Iso8859Charset_newDecoder)],
-    lpfe_IfThenElse, "IfThenElse", 119, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_113", $rt_wrapFunction3(lpfe_IfThenElse__init_), "$avaliar3", $rt_wrapFunction1(lpfe_IfThenElse_avaliar0), "$checaTipo5", $rt_wrapFunction1(lpfe_IfThenElse_checaTipo), "$getTipo5", $rt_wrapFunction1(lpfe_IfThenElse_getTipo0), "$toString", $rt_wrapFunction0(lpfe_IfThenElse_toString), "$reduzir", $rt_wrapFunction1(lpfe_IfThenElse_reduzir), "$clone30", $rt_wrapFunction0(lpfe_IfThenElse_clone2), "$clone1", $rt_wrapFunction0(lpfe_IfThenElse_clone1)],
-    ju_FormatFlagsConversionMismatchException, "FormatFlagsConversionMismatchException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_292", $rt_wrapFunction2(ju_FormatFlagsConversionMismatchException__init_)],
+    lpfe_IfThenElse, "IfThenElse", 119, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_112", $rt_wrapFunction3(lpfe_IfThenElse__init_), "$avaliar3", $rt_wrapFunction1(lpfe_IfThenElse_avaliar0), "$checaTipo5", $rt_wrapFunction1(lpfe_IfThenElse_checaTipo), "$getTipo5", $rt_wrapFunction1(lpfe_IfThenElse_getTipo0), "$toString", $rt_wrapFunction0(lpfe_IfThenElse_toString), "$reduzir", $rt_wrapFunction1(lpfe_IfThenElse_reduzir), "$clone30", $rt_wrapFunction0(lpfe_IfThenElse_clone2), "$clone1", $rt_wrapFunction0(lpfe_IfThenElse_clone1)],
+    ju_FormatFlagsConversionMismatchException, "FormatFlagsConversionMismatchException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_291", $rt_wrapFunction2(ju_FormatFlagsConversionMismatchException__init_)],
     lpee_Id3, "Id", 81, jl_Object, [lpee_Expressao1], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_8), "$toString", $rt_wrapFunction0(lpee_Id_toString5), "$avaliar4", $rt_wrapFunction1(lpee_Id_avaliar2), "$checaTipo1", $rt_wrapFunction1(lpee_Id_checaTipo2), "$getTipo6", $rt_wrapFunction1(lpee_Id_getTipo), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode1), "$equals", $rt_wrapFunction1(lpee_Id_equals5)],
     lpem_AmbienteCompilacao3, 0, jl_Object, [lpem_Ambiente3], 3, 3, 0, 0, 0,
     lpem_ContextoCompilacao4, 0, lpem_Contexto3, [lpem_AmbienteCompilacao3], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoCompilacao__init_9)],
     ju_ArrayList, "ArrayList", 1, ju_AbstractList, [jl_Cloneable, ji_Serializable, ju_RandomAccess], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_ArrayList__init_2), "$_init_6", $rt_wrapFunction1(ju_ArrayList__init_1), "$ensureCapacity", $rt_wrapFunction1(ju_ArrayList_ensureCapacity), "$get0", $rt_wrapFunction1(ju_ArrayList_get), "$size", $rt_wrapFunction0(ju_ArrayList_size), "$add", $rt_wrapFunction1(ju_ArrayList_add), "$add0", $rt_wrapFunction2(ju_ArrayList_add0), "$clear", $rt_wrapFunction0(ju_ArrayList_clear),
     "$toString", $rt_wrapFunction0(ju_ArrayList_toString), "$hashCode", $rt_wrapFunction0(ju_ArrayList_hashCode)],
     jl_IllegalMonitorStateException, "IllegalMonitorStateException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_IllegalMonitorStateException__init_0)],
-    lpee_ExpMenos1, "ExpMenos", 123, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction1(lpee_ExpMenos__init_1), "$avaliar3", $rt_wrapFunction1(lpee_ExpMenos_avaliar3), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpee_ExpMenos_getTipo3), "$clone14", $rt_wrapFunction0(lpee_ExpMenos_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpMenos_clone0)],
+    lpee_ExpMenos1, "ExpMenos", 123, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction1(lpee_ExpMenos__init_1), "$avaliar3", $rt_wrapFunction1(lpee_ExpMenos_avaliar3), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpee_ExpMenos_getTipo3), "$clone14", $rt_wrapFunction0(lpee_ExpMenos_clone1), "$clone1", $rt_wrapFunction0(lpee_ExpMenos_clone0)],
     ju_LinkedHashMapIterator$EntryIterator, 0, ju_LinkedHashMapIterator, [ju_Iterator], 0, 0, 0, 0, ["$_init_31", $rt_wrapFunction2(ju_LinkedHashMapIterator$EntryIterator__init_), "$next0", $rt_wrapFunction0(ju_LinkedHashMapIterator$EntryIterator_next), "$next", $rt_wrapFunction0(ju_LinkedHashMapIterator$EntryIterator_next0)],
     otcir_Flags, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jnc_Charset$Charsets, 0, jl_Object, [], 0, 0, 0, jnc_Charset$Charsets_$callClinit, 0,
-    lpoeb_ExpEquals, "ExpEquals", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoeb_ExpEquals__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpEquals_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpEquals_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpEquals_getTipo)],
-    lpoed_ProcedimentoNaoDeclaradoException, "ProcedimentoNaoDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpoed_ProcedimentoNaoDeclaradoException__init_1)],
+    lpoeb_ExpEquals, "ExpEquals", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_173", $rt_wrapFunction2(lpoeb_ExpEquals__init_0), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpEquals_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpEquals_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpEquals_getTipo)],
+    lpoed_ProcedimentoNaoDeclaradoException, "ProcedimentoNaoDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpoed_ProcedimentoNaoDeclaradoException__init_1)],
     lpfe_ValorLista, "ValorLista", 128, lpee_ValorConcreto, [], 0, 3, [0,0,0], 0, ["$cons", $rt_wrapFunction1(lpfe_ValorLista_cons), "$inverter", $rt_wrapFunction0(lpfe_ValorLista_inverter), "$clone6", $rt_wrapFunction0(lpfe_ValorLista_clone0), "$concat", $rt_wrapFunction1(lpfe_ValorLista_concat0), "$avaliar3", $rt_wrapFunction1(lpfe_ValorLista_avaliar), "$checaTipo5", $rt_wrapFunction1(lpfe_ValorLista_checaTipo), "$getTipo5", $rt_wrapFunction1(lpfe_ValorLista_getTipo), "$getHead0", $rt_wrapFunction0(lpfe_ValorLista_getHead),
     "$getTail3", $rt_wrapFunction0(lpfe_ValorLista_getTail), "$isEmpty", $rt_wrapFunction0(lpfe_ValorLista_isEmpty), "$toString", $rt_wrapFunction0(lpfe_ValorLista_toString), "$isEquals3", $rt_wrapFunction1(lpfe_ValorLista_isEquals), "$clone1", $rt_wrapFunction0(lpfe_ValorLista_clone)],
     pw_CompilationSnapshot, "CompilationSnapshot", 55, jl_Object, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(pw_CompilationSnapshot__init_), "$getLanguageId", $rt_wrapFunction0(pw_CompilationSnapshot_getLanguageId), "$getFrames", $rt_wrapFunction0(pw_CompilationSnapshot_getFrames)]]);
     $rt_metadata([pw_Frame, "Frame", 55, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(pw_Frame__init_), "$getName", $rt_wrapFunction0(pw_Frame_getName), "$setName", $rt_wrapFunction1(pw_Frame_setName), "$getScope", $rt_wrapFunction0(pw_Frame_getScope), "$setScope", $rt_wrapFunction1(pw_Frame_setScope), "$getBindings", $rt_wrapFunction0(pw_Frame_getBindings), "$setBindings", $rt_wrapFunction1(pw_Frame_setBindings), "$getSourceRange", $rt_wrapFunction0(pw_Frame_getSourceRange), "$setSourceRange",
     $rt_wrapFunction1(pw_Frame_setSourceRange)],
     lpee_ValorBooleano3, "ValorBooleano", 147, lpee_ValorConcreto0, [], 0, 3, [0,0,0], 0, ["$_init_5", $rt_wrapFunction1(lpee_ValorBooleano__init_8), "$getTipo7", $rt_wrapFunction1(lpee_ValorBooleano_getTipo1), "$clone31", $rt_wrapFunction0(lpee_ValorBooleano_clone0), "$clone3", $rt_wrapFunction0(lpee_ValorBooleano_clone2)],
-    lpoc_Read, 0, jl_Object, [lpoc_IO], 0, 3, 0, 0, ["$_init_131", $rt_wrapFunction1(lpoc_Read__init_0), "$executar", $rt_wrapFunction1(lpoc_Read_executar0), "$checaTipo0", $rt_wrapFunction1(lpoc_Read_checaTipo)],
-    lpem_InfoEscopo2, "InfoEscopo", 146, jl_Object, [], 0, 3, 0, 0, ["$_init_242", $rt_wrapFunction2(lpem_InfoEscopo__init_3), "$getTrechoCodigoFonte2", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte2), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo2)],
+    lpoc_Read, 0, jl_Object, [lpoc_IO], 0, 3, 0, 0, ["$_init_130", $rt_wrapFunction1(lpoc_Read__init_0), "$executar", $rt_wrapFunction1(lpoc_Read_executar0), "$checaTipo0", $rt_wrapFunction1(lpoc_Read_checaTipo)],
+    lpem_InfoEscopo2, "InfoEscopo", 146, jl_Object, [], 0, 3, 0, 0, ["$_init_241", $rt_wrapFunction2(lpem_InfoEscopo__init_3), "$getTrechoCodigoFonte2", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte2), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo2)],
     lpee_ValorBooleano5, "ValorBooleano", 81, lpee_ValorConcreto1, [], 0, 3, [0,0,0], 0, ["$_init_5", $rt_wrapFunction1(lpee_ValorBooleano__init_10), "$getTipo6", $rt_wrapFunction1(lpee_ValorBooleano_getTipo2)],
-    lpep_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpep_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpep_TokenMgrError__init_), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpep_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
-    lpee_ExpLength1, "ExpLength", 81, lpee_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_256", $rt_wrapFunction1(lpee_ExpLength__init_6), "$avaliar4", $rt_wrapFunction1(lpee_ExpLength_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal5), "$getTipo6", $rt_wrapFunction1(lpee_ExpLength_getTipo1)],
-    lpoeb_ExpAnd, "ExpAnd", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_174", $rt_wrapFunction2(lpoeb_ExpAnd__init_), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpAnd_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpAnd_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpAnd_getTipo)],
-    lpom_ContextoExecucaoOO1, 0, jl_Object, [lpom_AmbienteExecucaoOO1], 0, 3, 0, 0, ["$_init_123", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_), "$_init_132", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_0), "$getPilha", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getPilha), "$getMapDefClasse", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapDefClasse), "$getMapObjetos", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapObjetos), "$read4", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_read0), "$getSaida",
+    lpep_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpep_TokenMgrError_getMessage0), "$_init_11", $rt_wrapFunction2(lpep_TokenMgrError__init_), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpep_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpee_ExpLength1, "ExpLength", 81, lpee_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_255", $rt_wrapFunction1(lpee_ExpLength__init_6), "$avaliar4", $rt_wrapFunction1(lpee_ExpLength_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal5), "$getTipo6", $rt_wrapFunction1(lpee_ExpLength_getTipo1)],
+    lpoeb_ExpAnd, "ExpAnd", 33, lpoeb_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_173", $rt_wrapFunction2(lpoeb_ExpAnd__init_), "$avaliar0", $rt_wrapFunction1(lpoeb_ExpAnd_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeb_ExpAnd_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeb_ExpAnd_getTipo)],
+    lpom_ContextoExecucaoOO1, 0, jl_Object, [lpom_AmbienteExecucaoOO1], 0, 3, 0, 0, ["$_init_122", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_), "$_init_131", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_0), "$getPilha", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getPilha), "$getMapDefClasse", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapDefClasse), "$getMapObjetos", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapObjetos), "$read4", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_read0), "$getSaida",
     $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getSaida0), "$getEntrada", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getEntrada0), "$write4", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_write), "$incrementa", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_incrementa0), "$restaura", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_restaura0), "$map11", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_map), "$mapDefClasse0", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_mapDefClasse), "$mapObjeto", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_mapObjeto),
     "$changeValor", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_changeValor), "$get6", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_get), "$getDefClasse", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_getDefClasse), "$getObjeto", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_getObjeto), "$getProxRef", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getProxRef), "$getRef", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getRef), "$get15", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_get0), "$map4", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_map0)],
     jl_NullPointerException, "NullPointerException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(jl_NullPointerException__init_1), "$_init_0", $rt_wrapFunction0(jl_NullPointerException__init_0)],
     ju_IllegalFormatPrecisionException, "IllegalFormatPrecisionException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(ju_IllegalFormatPrecisionException__init_)],
-    lpe_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_293", $rt_wrapFunction1(lpe_Programa__init_), "$executar1", $rt_wrapFunction0(lpe_Programa_executar), "$checaTipo8", $rt_wrapFunction0(lpe_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpe_Programa_getAmbCompSnapshot0)],
+    lpe_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_292", $rt_wrapFunction1(lpe_Programa__init_), "$executar1", $rt_wrapFunction0(lpe_Programa_executar), "$checaTipo8", $rt_wrapFunction0(lpe_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpe_Programa_getAmbCompSnapshot0)],
     lpoev_ValorString0, "ValorString", 32, jl_Object, [lpoev_ValorConcreto0], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpoev_ValorString__init_0), "$toString", $rt_wrapFunction0(lpoev_ValorString_toString), "$equals2", $rt_wrapFunction1(lpoev_ValorString_equals), "$avaliar0", $rt_wrapFunction1(lpoev_ValorString_avaliar0), "$valor2", $rt_wrapFunction0(lpoev_ValorString_valor), "$checaTipo0", $rt_wrapFunction1(lpoev_ValorString_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoev_ValorString_getTipo)],
     jl_Math, 0, jl_Object, [], 4, 3, 0, 0, 0,
     lpee_ValorString1, "ValorString", 147, lpee_ValorConcreto0, [], 0, 3, [0,0,0], 0, ["$_init_", $rt_wrapFunction1(lpee_ValorString__init_), "$getTipo7", $rt_wrapFunction1(lpee_ValorString_getTipo3), "$toString", $rt_wrapFunction0(lpee_ValorString_toString1), "$clone32", $rt_wrapFunction0(lpee_ValorString_clone2), "$clone3", $rt_wrapFunction0(lpee_ValorString_clone1)],
     lpee_Id0, "Id", 123, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpee_Id__init_4), "$toString", $rt_wrapFunction0(lpee_Id_toString6), "$avaliar3", $rt_wrapFunction1(lpee_Id_avaliar0), "$checaTipo5", $rt_wrapFunction1(lpee_Id_checaTipo0), "$getTipo5", $rt_wrapFunction1(lpee_Id_getTipo1), "$hashCode", $rt_wrapFunction0(lpee_Id_hashCode), "$equals", $rt_wrapFunction1(lpee_Id_equals1), "$reduzir", $rt_wrapFunction1(lpee_Id_reduzir0), "$clone8", $rt_wrapFunction0(lpee_Id_clone0), "$clone1",
     $rt_wrapFunction0(lpee_Id_clone)],
-    lpem_QuadroEscopo1, "QuadroEscopo", 124, jl_Object, [], 0, 3, 0, 0, ["$_init_97", $rt_wrapFunction2(lpem_QuadroEscopo__init_0), "$adicionaBinding0", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding0), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo4), "$getTrechoCodigoFonte1", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte3), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings3)],
+    lpem_QuadroEscopo1, "QuadroEscopo", 124, jl_Object, [], 0, 3, 0, 0, ["$_init_96", $rt_wrapFunction2(lpem_QuadroEscopo__init_0), "$adicionaBinding0", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding0), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo4), "$getTrechoCodigoFonte1", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte3), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings3)],
     ju_AbstractSequentialList, 0, ju_AbstractList, [], 1, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_AbstractSequentialList__init_), "$get0", $rt_wrapFunction1(ju_AbstractSequentialList_get), "$add0", $rt_wrapFunction2(ju_AbstractSequentialList_add), "$remove0", $rt_wrapFunction1(ju_AbstractSequentialList_remove), "$iterator", $rt_wrapFunction0(ju_AbstractSequentialList_iterator)],
     jt_DecimalFormatParser, 0, jl_Object, [], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormatParser__init_), "$parse", $rt_wrapFunction1(jt_DecimalFormatParser_parse), "$apply", $rt_wrapFunction1(jt_DecimalFormatParser_apply), "$parseText", $rt_wrapFunction2(jt_DecimalFormatParser_parseText)],
     lpfu_TipoPolimorfico1, "TipoPolimorfico", 76, jl_Object, [lpeu_Tipo0], 0, 3, [0,0,0], lpfu_TipoPolimorfico_$callClinit1, ["$_init_0", $rt_wrapFunction0(lpfu_TipoPolimorfico__init_2), "$getNome", $rt_wrapFunction0(lpfu_TipoPolimorfico_getNome0), "$getTipoInstanciado1", $rt_wrapFunction0(lpfu_TipoPolimorfico_getTipoInstanciado), "$eInteiro", $rt_wrapFunction0(lpfu_TipoPolimorfico_eInteiro0), "$eBooleano", $rt_wrapFunction0(lpfu_TipoPolimorfico_eBooleano0), "$eString", $rt_wrapFunction0(lpfu_TipoPolimorfico_eString1),
     "$eIgual1", $rt_wrapFunction1(lpfu_TipoPolimorfico_eIgual1), "$eValido", $rt_wrapFunction0(lpfu_TipoPolimorfico_eValido0), "$inferir1", $rt_wrapFunction0(lpfu_TipoPolimorfico_inferir), "$limpar", $rt_wrapFunction0(lpfu_TipoPolimorfico_limpar), "$intersecao", $rt_wrapFunction1(lpfu_TipoPolimorfico_intersecao0), "$toString", $rt_wrapFunction0(lpfu_TipoPolimorfico_toString0)],
-    lpem_VariavelNaoDeclaradaException4, "VariavelNaoDeclaradaException", 109, lpem_IdentificadorNaoDeclaradoException1, [], 0, 3, 0, 0, ["$_init_127", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_2)],
+    lpem_VariavelNaoDeclaradaException4, "VariavelNaoDeclaradaException", 109, lpem_IdentificadorNaoDeclaradoException1, [], 0, 3, 0, 0, ["$_init_126", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_2)],
     lpoe_This, "This", 29, jl_Object, [lpoe_Expressao], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoe_This__init_), "$avaliar0", $rt_wrapFunction1(lpoe_This_avaliar0), "$checaTipo0", $rt_wrapFunction1(lpoe_This_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoe_This_getTipo)],
     ji_UnsupportedEncodingException, "UnsupportedEncodingException", 5, ji_IOException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ji_UnsupportedEncodingException__init_)],
     ju_Formattable, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    lpfu_DefFuncao, "DefFuncao", 120, jl_Object, [], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction2(lpfu_DefFuncao__init_), "$getListaId", $rt_wrapFunction0(lpfu_DefFuncao_getListaId), "$getExp3", $rt_wrapFunction0(lpfu_DefFuncao_getExp1), "$getAridade", $rt_wrapFunction0(lpfu_DefFuncao_getAridade1), "$checaTipo5", $rt_wrapFunction1(lpfu_DefFuncao_checaTipo0), "$getTipo5", $rt_wrapFunction1(lpfu_DefFuncao_getTipo1)],
+    lpfu_DefFuncao, "DefFuncao", 120, jl_Object, [], 0, 3, 0, 0, ["$_init_104", $rt_wrapFunction2(lpfu_DefFuncao__init_), "$getListaId", $rt_wrapFunction0(lpfu_DefFuncao_getListaId), "$getExp3", $rt_wrapFunction0(lpfu_DefFuncao_getExp1), "$getAridade", $rt_wrapFunction0(lpfu_DefFuncao_getAridade1), "$checaTipo5", $rt_wrapFunction1(lpfu_DefFuncao_checaTipo0), "$getTipo5", $rt_wrapFunction1(lpfu_DefFuncao_getTipo1)],
     lpem_InfoBinding3, "InfoBinding", 146, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpem_InfoBinding__init_2), "$getTipo4", $rt_wrapFunction0(lpem_InfoBinding_getTipo), "$getValor", $rt_wrapFunction0(lpem_InfoBinding_getValor1)],
     ju_Queue, 0, jl_Object, [ju_Collection], 3, 3, 0, 0, 0,
     ju_Deque, 0, jl_Object, [ju_Queue, ju_SequencedCollection], 3, 3, 0, 0, 0,
-    lpod_DecConstrutor, "DecConstrutor", 15, lpodp_DecProcedimentoSimples, [], 0, 3, 0, 0, ["$_init_181", $rt_wrapFunction4(lpod_DecConstrutor__init_), "$checaTipo11", $rt_wrapFunction1(lpod_DecConstrutor_checaTipo), "$getProcedimento2", $rt_wrapFunction0(lpod_DecConstrutor_getProcedimento)],
-    lpip_Imp2ParserTokenManager, 0, jl_Object, [lpip_Imp2ParserConstants], 0, 3, 0, lpip_Imp2ParserTokenManager_$callClinit, ["$_init_220", $rt_wrapFunction1(lpip_Imp2ParserTokenManager__init_)],
+    lpod_DecConstrutor, "DecConstrutor", 15, lpodp_DecProcedimentoSimples, [], 0, 3, 0, 0, ["$_init_180", $rt_wrapFunction4(lpod_DecConstrutor__init_), "$checaTipo11", $rt_wrapFunction1(lpod_DecConstrutor_checaTipo), "$getProcedimento2", $rt_wrapFunction0(lpod_DecConstrutor_getProcedimento)],
+    lpip_Imp2ParserTokenManager, 0, jl_Object, [lpip_Imp2ParserConstants], 0, 3, 0, lpip_Imp2ParserTokenManager_$callClinit, ["$_init_219", $rt_wrapFunction1(lpip_Imp2ParserTokenManager__init_)],
     lpoev_ValorNull, "ValorNull", 99, jl_Object, [lpoev_ValorConcreto], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoev_ValorNull__init_2), "$toString", $rt_wrapFunction0(lpoev_ValorNull_toString0), "$equals1", $rt_wrapFunction1(lpoev_ValorNull_equals), "$avaliar2", $rt_wrapFunction1(lpoev_ValorNull_avaliar), "$checaTipo4", $rt_wrapFunction1(lpoev_ValorNull_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoev_ValorNull_getTipo0)],
-    lpodv_SimplesDecVariavel, 0, jl_Object, [lpodv_DecVariavel0], 0, 3, 0, 0, ["$_init_56", $rt_wrapFunction3(lpodv_SimplesDecVariavel__init_1), "$getTipo3", $rt_wrapFunction1(lpodv_SimplesDecVariavel_getTipo0), "$elabora1", $rt_wrapFunction1(lpodv_SimplesDecVariavel_elabora0), "$checaTipo4", $rt_wrapFunction1(lpodv_SimplesDecVariavel_checaTipo)],
+    lpodv_SimplesDecVariavel, 0, jl_Object, [lpodv_DecVariavel0], 0, 3, 0, 0, ["$_init_55", $rt_wrapFunction3(lpodv_SimplesDecVariavel__init_1), "$getTipo3", $rt_wrapFunction1(lpodv_SimplesDecVariavel_getTipo0), "$elabora1", $rt_wrapFunction1(lpodv_SimplesDecVariavel_elabora0), "$checaTipo4", $rt_wrapFunction1(lpodv_SimplesDecVariavel_checaTipo)],
     lpee_ExpEquals5, 0, lpee_ExpBinaria3, [], 0, 3, 0, 0, ["$_init_21", $rt_wrapFunction2(lpee_ExpEquals__init_1), "$avaliar1", $rt_wrapFunction1(lpee_ExpEquals_avaliar5), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpEquals_checaTipoElementoTerminal1), "$getTipo1", $rt_wrapFunction1(lpee_ExpEquals_getTipo1)],
     jnc_UnmappableCharacterException, "UnmappableCharacterException", 3, jnc_CharacterCodingException, [], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(jnc_UnmappableCharacterException__init_), "$getMessage", $rt_wrapFunction0(jnc_UnmappableCharacterException_getMessage)],
-    lpfu_DefFuncao1, "DefFuncao", 76, jl_Object, [], 0, 3, [0,0,0], 0, ["$_init_274", $rt_wrapFunction2(lpfu_DefFuncao__init_1), "$getListaId", $rt_wrapFunction0(lpfu_DefFuncao_getListaId0), "$getExp7", $rt_wrapFunction0(lpfu_DefFuncao_getExp0), "$getAridade", $rt_wrapFunction0(lpfu_DefFuncao_getAridade), "$checaTipo1", $rt_wrapFunction1(lpfu_DefFuncao_checaTipo), "$getTipo6", $rt_wrapFunction1(lpfu_DefFuncao_getTipo0)],
+    lpfu_DefFuncao1, "DefFuncao", 76, jl_Object, [], 0, 3, [0,0,0], 0, ["$_init_273", $rt_wrapFunction2(lpfu_DefFuncao__init_1), "$getListaId", $rt_wrapFunction0(lpfu_DefFuncao_getListaId0), "$getExp7", $rt_wrapFunction0(lpfu_DefFuncao_getExp0), "$getAridade", $rt_wrapFunction0(lpfu_DefFuncao_getAridade), "$checaTipo1", $rt_wrapFunction1(lpfu_DefFuncao_checaTipo), "$getTipo6", $rt_wrapFunction1(lpfu_DefFuncao_getTipo0)],
     lpom_MetadadosDepuracao, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpom_MetadadosDepuracao__init_0), "$getPilhaSnapshot4", $rt_wrapFunction0(lpom_MetadadosDepuracao_getPilhaSnapshot), "$toSnapshot", $rt_wrapFunction0(lpom_MetadadosDepuracao_toSnapshot0)],
     otcit_FloatAnalyzer$Result, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(otcit_FloatAnalyzer$Result__init_)],
-    lpfe_ExpHead, "ExpHead", 128, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction1(lpfe_ExpHead__init_0), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpHead_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpHead_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpHead_getTipo), "$clone33", $rt_wrapFunction0(lpfe_ExpHead_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpHead_clone)],
-    lpfe_Aplicacao0, "Aplicacao", 117, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_107", $rt_wrapFunction2(lpfe_Aplicacao__init_2), "$avaliar3", $rt_wrapFunction1(lpfe_Aplicacao_avaliar1), "$checaTipo5", $rt_wrapFunction1(lpfe_Aplicacao_checaTipo0), "$getTipo5", $rt_wrapFunction1(lpfe_Aplicacao_getTipo), "$toString", $rt_wrapFunction0(lpfe_Aplicacao_toString1), "$reduzir", $rt_wrapFunction1(lpfe_Aplicacao_reduzir), "$clone34", $rt_wrapFunction0(lpfe_Aplicacao_clone), "$clone1", $rt_wrapFunction0(lpfe_Aplicacao_clone2)],
+    lpfe_ExpHead, "ExpHead", 128, lpee_ExpUnaria, [], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction1(lpfe_ExpHead__init_0), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpHead_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpHead_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpHead_getTipo), "$clone33", $rt_wrapFunction0(lpfe_ExpHead_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpHead_clone)],
+    lpfe_Aplicacao0, "Aplicacao", 117, jl_Object, [lpee_Expressao], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction2(lpfe_Aplicacao__init_2), "$avaliar3", $rt_wrapFunction1(lpfe_Aplicacao_avaliar1), "$checaTipo5", $rt_wrapFunction1(lpfe_Aplicacao_checaTipo0), "$getTipo5", $rt_wrapFunction1(lpfe_Aplicacao_getTipo), "$toString", $rt_wrapFunction0(lpfe_Aplicacao_toString1), "$reduzir", $rt_wrapFunction1(lpfe_Aplicacao_reduzir), "$clone34", $rt_wrapFunction0(lpfe_Aplicacao_clone), "$clone1", $rt_wrapFunction0(lpfe_Aplicacao_clone2)],
     jl_String$_clinit_$lambda$_115_0, 0, jl_Object, [ju_Comparator], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_String$_clinit_$lambda$_115_0__init_)],
     lpem_ContextoExecucao3, 0, lpem_Contexto1, [lpem_AmbienteExecucao5], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoExecucao__init_3)],
     lpeu_ToStringProvider0, 0, jl_Object, [], 0, 3, 0, 0, 0,
     lpee_ExpSoma3, 0, lpee_ExpBinaria3, [], 0, 3, 0, 0, ["$_init_21", $rt_wrapFunction2(lpee_ExpSoma__init_7), "$avaliar1", $rt_wrapFunction1(lpee_ExpSoma_avaliar3), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpSoma_checaTipoElementoTerminal0), "$getTipo1", $rt_wrapFunction1(lpee_ExpSoma_getTipo1)],
-    lpee_ExpAnd1, "ExpAnd", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_163", $rt_wrapFunction2(lpee_ExpAnd__init_7), "$avaliar5", $rt_wrapFunction1(lpee_ExpAnd_avaliar2), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpAnd_getTipo2), "$clone15", $rt_wrapFunction0(lpee_ExpAnd_clone0), "$clone3", $rt_wrapFunction0(lpee_ExpAnd_clone2)],
+    lpee_ExpAnd1, "ExpAnd", 147, lpee_ExpBinaria1, [], 0, 3, 0, 0, ["$_init_162", $rt_wrapFunction2(lpee_ExpAnd__init_7), "$avaliar5", $rt_wrapFunction1(lpee_ExpAnd_avaliar2), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal4), "$getTipo7", $rt_wrapFunction1(lpee_ExpAnd_getTipo2), "$clone15", $rt_wrapFunction0(lpee_ExpAnd_clone0), "$clone3", $rt_wrapFunction0(lpee_ExpAnd_clone2)],
     jl_NoSuchFieldException, "NoSuchFieldException", 8, jl_ReflectiveOperationException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_NoSuchFieldException__init_)],
     jl_Long, 0, jl_Number, [jl_Comparable], 0, 3, 0, jl_Long_$callClinit, 0,
     lpfu_ListaVaziaException, "ListaVaziaException", 129, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfu_ListaVaziaException__init_0)],
     jl_ArithmeticException, "ArithmeticException", 8, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(jl_ArithmeticException__init_0)],
-    lpoeb_ExpConcat0, "ExpConcat", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_50", $rt_wrapFunction2(lpoeb_ExpConcat__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpConcat_avaliar), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpConcat_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpConcat_getTipo0)],
-    lpee_ExpConcat5, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_298", $rt_wrapFunction2(lpee_ExpConcat__init_0), "$avaliar8", $rt_wrapFunction1(lpee_ExpConcat_avaliar), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal), "$getTipo10", $rt_wrapFunction1(lpee_ExpConcat_getTipo0)]]);
-    $rt_metadata([lpfe_ValorFuncao0, "ValorFuncao", 117, lpfu_DefFuncao, [lpfe_ValorAbstrato], 0, 3, [0,0,0], 0, ["$_init_105", $rt_wrapFunction2(lpfe_ValorFuncao__init_2), "$avaliar3", $rt_wrapFunction1(lpfe_ValorFuncao_avaliar0), "$toString", $rt_wrapFunction0(lpfe_ValorFuncao_toString), "$getId1", $rt_wrapFunction0(lpfe_ValorFuncao_getId0), "$setId", $rt_wrapFunction1(lpfe_ValorFuncao_setId0), "$reduzir", $rt_wrapFunction1(lpfe_ValorFuncao_reduzir0), "$clone9", $rt_wrapFunction0(lpfe_ValorFuncao_clone1),
+    lpoeb_ExpConcat0, "ExpConcat", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_49", $rt_wrapFunction2(lpoeb_ExpConcat__init_), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpConcat_avaliar), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpConcat_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpConcat_getTipo0)],
+    lpee_ExpConcat5, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_297", $rt_wrapFunction2(lpee_ExpConcat__init_0), "$avaliar8", $rt_wrapFunction1(lpee_ExpConcat_avaliar), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal), "$getTipo10", $rt_wrapFunction1(lpee_ExpConcat_getTipo0)]]);
+    $rt_metadata([lpfe_ValorFuncao0, "ValorFuncao", 117, lpfu_DefFuncao, [lpfe_ValorAbstrato], 0, 3, [0,0,0], 0, ["$_init_104", $rt_wrapFunction2(lpfe_ValorFuncao__init_2), "$avaliar3", $rt_wrapFunction1(lpfe_ValorFuncao_avaliar0), "$toString", $rt_wrapFunction0(lpfe_ValorFuncao_toString), "$getId1", $rt_wrapFunction0(lpfe_ValorFuncao_getId0), "$setId", $rt_wrapFunction1(lpfe_ValorFuncao_setId0), "$reduzir", $rt_wrapFunction1(lpfe_ValorFuncao_reduzir0), "$clone9", $rt_wrapFunction0(lpfe_ValorFuncao_clone1),
     "$clone1", $rt_wrapFunction0(lpfe_ValorFuncao_clone0)],
     lpoee_EntradaNaoFornecidaException0, "EntradaNaoFornecidaException", 23, jl_Exception, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoee_EntradaNaoFornecidaException__init_1)],
-    lpee_ExpSub3, "ExpSub", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_209", $rt_wrapFunction2(lpee_ExpSub__init_4), "$avaliar6", $rt_wrapFunction1(lpee_ExpSub_avaliar0), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal0), "$getTipo9", $rt_wrapFunction1(lpee_ExpSub_getTipo0)],
+    lpee_ExpSub3, "ExpSub", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpee_ExpSub__init_4), "$avaliar6", $rt_wrapFunction1(lpee_ExpSub_avaliar0), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal0), "$getTipo9", $rt_wrapFunction1(lpee_ExpSub_getTipo0)],
     lpom_MetadadosDepuracao0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpom_MetadadosDepuracao__init_), "$getPilhaSnapshot0", $rt_wrapFunction0(lpom_MetadadosDepuracao_getPilhaSnapshot0), "$toSnapshot", $rt_wrapFunction0(lpom_MetadadosDepuracao_toSnapshot)],
-    lpodv_DecVariavelObjetoOO2, 0, lpodv_DecVariavelObjeto, [], 0, 3, 0, 0, ["$_init_183", $rt_wrapFunction4(lpodv_DecVariavelObjetoOO2__init_), "$elabora9", $rt_wrapFunction1(lpodv_DecVariavelObjetoOO2_elabora), "$checaTipo0", $rt_wrapFunction1(lpodv_DecVariavelObjetoOO2_checaTipo)],
+    lpodv_DecVariavelObjetoOO2, 0, lpodv_DecVariavelObjeto, [], 0, 3, 0, 0, ["$_init_182", $rt_wrapFunction4(lpodv_DecVariavelObjetoOO2__init_), "$elabora9", $rt_wrapFunction1(lpodv_DecVariavelObjetoOO2_elabora), "$checaTipo0", $rt_wrapFunction1(lpodv_DecVariavelObjetoOO2_checaTipo)],
     lpem_MetadadosDepuracao2, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_MetadadosDepuracao__init_0), "$getPilhaSnapshot1", $rt_wrapFunction0(lpem_MetadadosDepuracao_getPilhaSnapshot2), "$toSnapshot", $rt_wrapFunction0(lpem_MetadadosDepuracao_toSnapshot4)],
     lpop_OO2Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpop_OO2Parser$JJCalls__init_0)],
-    lpoe_ListaExpressao, 0, lpiu_Lista0, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoe_ListaExpressao__init_6), "$_init_45", $rt_wrapFunction1(lpoe_ListaExpressao__init_4), "$_init_46", $rt_wrapFunction2(lpoe_ListaExpressao__init_0), "$avaliar10", $rt_wrapFunction1(lpoe_ListaExpressao_avaliar), "$getTipos2", $rt_wrapFunction1(lpoe_ListaExpressao_getTipos0)],
-    lpee_ExpAnd0, "ExpAnd", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_264", $rt_wrapFunction2(lpee_ExpAnd__init_5), "$avaliar4", $rt_wrapFunction1(lpee_ExpAnd_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal), "$getTipo6", $rt_wrapFunction1(lpee_ExpAnd_getTipo5)],
-    lpem_QuadroEscopo, "QuadroEscopo", 146, jl_Object, [], 0, 3, 0, 0, ["$_init_161", $rt_wrapFunction2(lpem_QuadroEscopo__init_2), "$adicionaBinding1", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding1), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo), "$getTrechoCodigoFonte2", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte1), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings)],
+    lpoe_ListaExpressao, 0, lpiu_Lista0, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoe_ListaExpressao__init_6), "$_init_44", $rt_wrapFunction1(lpoe_ListaExpressao__init_4), "$_init_45", $rt_wrapFunction2(lpoe_ListaExpressao__init_0), "$avaliar10", $rt_wrapFunction1(lpoe_ListaExpressao_avaliar), "$getTipos2", $rt_wrapFunction1(lpoe_ListaExpressao_getTipos0)],
+    lpee_ExpAnd0, "ExpAnd", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_263", $rt_wrapFunction2(lpee_ExpAnd__init_5), "$avaliar4", $rt_wrapFunction1(lpee_ExpAnd_avaliar4), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal), "$getTipo6", $rt_wrapFunction1(lpee_ExpAnd_getTipo5)],
+    lpem_QuadroEscopo, "QuadroEscopo", 146, jl_Object, [], 0, 3, 0, 0, ["$_init_160", $rt_wrapFunction2(lpem_QuadroEscopo__init_2), "$adicionaBinding1", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding1), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo), "$getTrechoCodigoFonte2", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte1), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings)],
     lpee_ValorBooleano0, "ValorBooleano", 110, lpee_ValorConcreto3, [], 0, 3, [0,0,0], 0, ["$_init_5", $rt_wrapFunction1(lpee_ValorBooleano__init_9), "$getTipo10", $rt_wrapFunction1(lpee_ValorBooleano_getTipo0)],
-    lpee_ExpAnd5, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_298", $rt_wrapFunction2(lpee_ExpAnd__init_2), "$avaliar8", $rt_wrapFunction1(lpee_ExpAnd_avaliar5), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal0), "$getTipo10", $rt_wrapFunction1(lpee_ExpAnd_getTipo1)],
-    lpee_ExpLength3, "ExpLength", 43, lpee_ExpUnaria2, [], 0, 3, 0, 0, ["$_init_205", $rt_wrapFunction1(lpee_ExpLength__init_2), "$avaliar6", $rt_wrapFunction1(lpee_ExpLength_avaliar0), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal), "$getTipo9", $rt_wrapFunction1(lpee_ExpLength_getTipo5)],
-    jl_StringBuilder, 0, jl_AbstractStringBuilder, [jl_Appendable], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(jl_StringBuilder__init_1), "$_init_0", $rt_wrapFunction0(jl_StringBuilder__init_4), "$_init_", $rt_wrapFunction1(jl_StringBuilder__init_3), "$append", $rt_wrapFunction1(jl_StringBuilder_append), "$append1", $rt_wrapFunction1(jl_StringBuilder_append3), "$append3", $rt_wrapFunction1(jl_StringBuilder_append0), "$append11", $rt_wrapFunction1(jl_StringBuilder_append8), "$append10", $rt_wrapFunction1(jl_StringBuilder_append2),
-    "$append0", $rt_wrapFunction1(jl_StringBuilder_append1), "$append17", $rt_wrapFunction3(jl_StringBuilder_append6), "$append9", $rt_wrapFunction1(jl_StringBuilder_append5), "$insert13", $rt_wrapFunction2(jl_StringBuilder_insert2), "$insert12", $rt_wrapFunction2(jl_StringBuilder_insert9), "$insert9", $rt_wrapFunction4(jl_StringBuilder_insert7), "$insert10", $rt_wrapFunction2(jl_StringBuilder_insert10), "$insert11", $rt_wrapFunction2(jl_StringBuilder_insert0), "$delete", $rt_wrapFunction2(jl_StringBuilder_delete),
-    "$insert14", $rt_wrapFunction2(jl_StringBuilder_insert4), "$setLength", $rt_wrapFunction1(jl_StringBuilder_setLength), "$insert6", $rt_wrapFunction4(jl_StringBuilder_insert8), "$append6", $rt_wrapFunction3(jl_StringBuilder_append4), "$charAt", $rt_wrapFunction1(jl_StringBuilder_charAt), "$length", $rt_wrapFunction0(jl_StringBuilder_length), "$toString", $rt_wrapFunction0(jl_StringBuilder_toString), "$ensureCapacity", $rt_wrapFunction1(jl_StringBuilder_ensureCapacity), "$insert", $rt_wrapFunction2(jl_StringBuilder_insert6),
-    "$insert5", $rt_wrapFunction2(jl_StringBuilder_insert5), "$insert4", $rt_wrapFunction2(jl_StringBuilder_insert3), "$insert2", $rt_wrapFunction2(jl_StringBuilder_insert), "$insert0", $rt_wrapFunction2(jl_StringBuilder_insert1), "$append18", $rt_wrapFunction1(jl_StringBuilder_append7)],
+    lpee_ExpAnd5, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_297", $rt_wrapFunction2(lpee_ExpAnd__init_2), "$avaliar8", $rt_wrapFunction1(lpee_ExpAnd_avaliar5), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal0), "$getTipo10", $rt_wrapFunction1(lpee_ExpAnd_getTipo1)],
+    lpee_ExpLength3, "ExpLength", 43, lpee_ExpUnaria2, [], 0, 3, 0, 0, ["$_init_204", $rt_wrapFunction1(lpee_ExpLength__init_2), "$avaliar6", $rt_wrapFunction1(lpee_ExpLength_avaliar0), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal), "$getTipo9", $rt_wrapFunction1(lpee_ExpLength_getTipo5)],
+    jl_StringBuilder, 0, jl_AbstractStringBuilder, [jl_Appendable], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(jl_StringBuilder__init_0), "$_init_0", $rt_wrapFunction0(jl_StringBuilder__init_2), "$append", $rt_wrapFunction1(jl_StringBuilder_append), "$append1", $rt_wrapFunction1(jl_StringBuilder_append3), "$append3", $rt_wrapFunction1(jl_StringBuilder_append0), "$append11", $rt_wrapFunction1(jl_StringBuilder_append8), "$append10", $rt_wrapFunction1(jl_StringBuilder_append2), "$append0", $rt_wrapFunction1(jl_StringBuilder_append1),
+    "$append17", $rt_wrapFunction3(jl_StringBuilder_append6), "$append9", $rt_wrapFunction1(jl_StringBuilder_append5), "$insert13", $rt_wrapFunction2(jl_StringBuilder_insert2), "$insert12", $rt_wrapFunction2(jl_StringBuilder_insert9), "$insert9", $rt_wrapFunction4(jl_StringBuilder_insert7), "$insert10", $rt_wrapFunction2(jl_StringBuilder_insert10), "$insert11", $rt_wrapFunction2(jl_StringBuilder_insert0), "$delete", $rt_wrapFunction2(jl_StringBuilder_delete), "$insert14", $rt_wrapFunction2(jl_StringBuilder_insert4),
+    "$setLength", $rt_wrapFunction1(jl_StringBuilder_setLength), "$insert6", $rt_wrapFunction4(jl_StringBuilder_insert8), "$append6", $rt_wrapFunction3(jl_StringBuilder_append4), "$charAt", $rt_wrapFunction1(jl_StringBuilder_charAt), "$length", $rt_wrapFunction0(jl_StringBuilder_length), "$toString", $rt_wrapFunction0(jl_StringBuilder_toString), "$ensureCapacity", $rt_wrapFunction1(jl_StringBuilder_ensureCapacity), "$insert", $rt_wrapFunction2(jl_StringBuilder_insert6), "$insert5", $rt_wrapFunction2(jl_StringBuilder_insert5),
+    "$insert4", $rt_wrapFunction2(jl_StringBuilder_insert3), "$insert2", $rt_wrapFunction2(jl_StringBuilder_insert), "$insert0", $rt_wrapFunction2(jl_StringBuilder_insert1), "$append18", $rt_wrapFunction1(jl_StringBuilder_append7)],
     lpem_AmbienteCompilacao5, 0, jl_Object, [lpem_Ambiente], 3, 3, 0, 0, 0,
     lpem_ContextoCompilacao3, 0, lpem_Contexto, [lpem_AmbienteCompilacao5], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoCompilacao__init_5)],
     ju_ConcurrentModificationException, "ConcurrentModificationException", 1, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_ConcurrentModificationException__init_0)],
     ju_Hashtable$1, 0, jl_Object, [ju_Enumeration], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Hashtable$1__init_)],
     ju_Hashtable$2, 0, jl_Object, [ju_Iterator], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_Hashtable$2__init_)],
-    lpom_ContextoExecucaoOO10, 0, jl_Object, [lpom_AmbienteExecucaoOO10], 0, 3, 0, 0, ["$_init_287", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_3), "$_init_137", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_4), "$getPilha", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getPilha0), "$getMapDefClasse", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapDefClasse0), "$getMapObjetos", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapObjetos0), "$read1", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_read), "$getSaida1",
+    lpom_ContextoExecucaoOO10, 0, jl_Object, [lpom_AmbienteExecucaoOO10], 0, 3, 0, 0, ["$_init_286", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_3), "$_init_136", $rt_wrapFunction1(lpom_ContextoExecucaoOO1__init_4), "$getPilha", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getPilha0), "$getMapDefClasse", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapDefClasse0), "$getMapObjetos", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getMapObjetos0), "$read1", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_read), "$getSaida1",
     $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getSaida), "$getEntrada0", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getEntrada), "$write", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_write0), "$incrementa", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_incrementa), "$restaura", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_restaura), "$map12", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_map2), "$mapDefClasse", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_mapDefClasse0), "$mapObjeto0", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_mapObjeto0),
     "$changeValor1", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_changeValor0), "$get14", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_get2), "$getDefClasse0", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_getDefClasse0), "$getObjeto0", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_getObjeto0), "$getProxRef0", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getProxRef0), "$getRef0", $rt_wrapFunction0(lpom_ContextoExecucaoOO1_getRef0), "$get5", $rt_wrapFunction1(lpom_ContextoExecucaoOO1_get1), "$map3", $rt_wrapFunction2(lpom_ContextoExecucaoOO1_map1)],
     lpem_IdentificadorNaoDeclaradoException5, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_6)],
-    lpem_VariavelNaoDeclaradaException, "VariavelNaoDeclaradaException", 35, lpem_IdentificadorNaoDeclaradoException5, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_10)],
-    lpoc_IfThenElse, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_43", $rt_wrapFunction3(lpoc_IfThenElse__init_0), "$executar10", $rt_wrapFunction1(lpoc_IfThenElse_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_IfThenElse_checaTipo)],
-    lpoc_Atribuicao0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_48", $rt_wrapFunction2(lpoc_Atribuicao__init_0), "$executar10", $rt_wrapFunction1(lpoc_Atribuicao_executar), "$checaTipo4", $rt_wrapFunction1(lpoc_Atribuicao_checaTipo0)],
+    lpem_VariavelNaoDeclaradaException, "VariavelNaoDeclaradaException", 35, lpem_IdentificadorNaoDeclaradoException5, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_10)],
+    lpoc_IfThenElse, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_42", $rt_wrapFunction3(lpoc_IfThenElse__init_0), "$executar10", $rt_wrapFunction1(lpoc_IfThenElse_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_IfThenElse_checaTipo)],
+    lpoc_Atribuicao0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_47", $rt_wrapFunction2(lpoc_Atribuicao__init_0), "$executar10", $rt_wrapFunction1(lpoc_Atribuicao_executar), "$checaTipo4", $rt_wrapFunction1(lpoc_Atribuicao_checaTipo0)],
     lpep_JavaCharStream, 0, jl_Object, [], 0, 3, 0, lpep_JavaCharStream_$callClinit0, ["$_init_14", $rt_wrapFunction4(lpep_JavaCharStream__init_), "$ReInit", $rt_wrapFunction4(lpep_JavaCharStream_ReInit), "$_init_17", function(var_1, var_2, var_3, var_4, var_5) { lpep_JavaCharStream__init_1(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpep_JavaCharStream__init_4), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpep_JavaCharStream_ReInit0(this, var_1, var_2, var_3, var_4,
     var_5); }, "$ReInit2", $rt_wrapFunction4(lpep_JavaCharStream_ReInit4)],
     lpoev_ValorInteiro, "ValorInteiro", 32, jl_Object, [lpoev_ValorConcreto0], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(lpoev_ValorInteiro__init_2), "$valor1", $rt_wrapFunction0(lpoev_ValorInteiro_valor), "$avaliar0", $rt_wrapFunction1(lpoev_ValorInteiro_avaliar0), "$equals2", $rt_wrapFunction1(lpoev_ValorInteiro_equals0), "$toString", $rt_wrapFunction0(lpoev_ValorInteiro_toString0), "$checaTipo0", $rt_wrapFunction1(lpoev_ValorInteiro_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoev_ValorInteiro_getTipo0)],
-    lpid_DeclaracaoProcedimento, 0, lpid_Declaracao, [], 0, 3, 0, 0, ["$_init_282", $rt_wrapFunction2(lpid_DeclaracaoProcedimento__init_0), "$_init_214", $rt_wrapFunction3(lpid_DeclaracaoProcedimento__init_), "$elabora8", $rt_wrapFunction1(lpid_DeclaracaoProcedimento_elabora), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoProcedimento_checaTipo)],
-    lpep_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpep_Token__init_2), "$_init_93", $rt_wrapFunction2(lpep_Token__init_), "$toString", $rt_wrapFunction0(lpep_Token_toString0)],
+    lpid_DeclaracaoProcedimento, 0, lpid_Declaracao, [], 0, 3, 0, 0, ["$_init_281", $rt_wrapFunction2(lpid_DeclaracaoProcedimento__init_0), "$_init_213", $rt_wrapFunction3(lpid_DeclaracaoProcedimento__init_), "$elabora8", $rt_wrapFunction1(lpid_DeclaracaoProcedimento_elabora), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoProcedimento_checaTipo)],
+    lpep_Token, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpep_Token__init_2), "$_init_92", $rt_wrapFunction2(lpep_Token__init_), "$toString", $rt_wrapFunction0(lpep_Token_toString0)],
     lpee_ExpSub4, 0, lpee_ExpBinaria3, [], 0, 3, 0, 0, ["$_init_21", $rt_wrapFunction2(lpee_ExpSub__init_7), "$avaliar1", $rt_wrapFunction1(lpee_ExpSub_avaliar), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal3), "$getTipo1", $rt_wrapFunction1(lpee_ExpSub_getTipo)],
-    lpee_ExpConcat0, "ExpConcat", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpee_ExpConcat__init_7), "$avaliar3", $rt_wrapFunction1(lpee_ExpConcat_avaliar5), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal3), "$getTipo5", $rt_wrapFunction1(lpee_ExpConcat_getTipo2), "$clone17", $rt_wrapFunction0(lpee_ExpConcat_clone0), "$clone1", $rt_wrapFunction0(lpee_ExpConcat_clone1)],
-    lpodp_ListaDeclaracaoParametro, "ListaDeclaracaoParametro", 94, lpiu_Lista0, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpodp_ListaDeclaracaoParametro__init_1), "$_init_59", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro__init_3), "$_init_60", $rt_wrapFunction2(lpodp_ListaDeclaracaoParametro__init_4), "$checaTipo4", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_checaTipo0), "$declaraParametro0", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_declaraParametro)],
-    lpoc_Sequencial0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_167", $rt_wrapFunction2(lpoc_Sequencial__init_), "$executar", $rt_wrapFunction1(lpoc_Sequencial_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_Sequencial_checaTipo0)],
-    lpfp_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Token__init_1), "$_init_93", $rt_wrapFunction2(lpfp_Token__init_2), "$toString", $rt_wrapFunction0(lpfp_Token_toString)],
-    lpip_ParseException0, "ParseException", 48, jl_Exception, [], 0, 3, 0, 0, ["$_init_221", $rt_wrapFunction3(lpip_ParseException__init_2), "$_init_0", $rt_wrapFunction0(lpip_ParseException__init_4)],
+    lpee_ExpConcat0, "ExpConcat", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpee_ExpConcat__init_7), "$avaliar3", $rt_wrapFunction1(lpee_ExpConcat_avaliar5), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal3), "$getTipo5", $rt_wrapFunction1(lpee_ExpConcat_getTipo2), "$clone17", $rt_wrapFunction0(lpee_ExpConcat_clone0), "$clone1", $rt_wrapFunction0(lpee_ExpConcat_clone1)],
+    lpodp_ListaDeclaracaoParametro, "ListaDeclaracaoParametro", 94, lpiu_Lista0, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpodp_ListaDeclaracaoParametro__init_1), "$_init_58", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro__init_3), "$_init_59", $rt_wrapFunction2(lpodp_ListaDeclaracaoParametro__init_4), "$checaTipo4", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_checaTipo0), "$declaraParametro0", $rt_wrapFunction1(lpodp_ListaDeclaracaoParametro_declaraParametro)],
+    lpoc_Sequencial0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_166", $rt_wrapFunction2(lpoc_Sequencial__init_), "$executar", $rt_wrapFunction1(lpoc_Sequencial_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_Sequencial_checaTipo0)],
+    lpfp_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpfp_Token__init_1), "$_init_92", $rt_wrapFunction2(lpfp_Token__init_2), "$toString", $rt_wrapFunction0(lpfp_Token_toString)],
+    lpip_ParseException0, "ParseException", 48, jl_Exception, [], 0, 3, 0, 0, ["$_init_220", $rt_wrapFunction3(lpip_ParseException__init_2), "$_init_0", $rt_wrapFunction0(lpip_ParseException__init_4)],
     lpee_ValorBooleano, "ValorBooleano", 123, lpee_ValorConcreto, [], 0, 3, [0,0,0], 0, ["$_init_5", $rt_wrapFunction1(lpee_ValorBooleano__init_), "$getTipo5", $rt_wrapFunction1(lpee_ValorBooleano_getTipo), "$clone35", $rt_wrapFunction0(lpee_ValorBooleano_clone), "$clone1", $rt_wrapFunction0(lpee_ValorBooleano_clone1)],
-    lpee_ValorInteiro3, "ValorInteiro", 65, lpee_ValorConcreto2, [], 0, 3, [0,0,0], 0, ["$_init_35", $rt_wrapFunction1(lpee_ValorInteiro__init_4), "$getTipo", $rt_wrapFunction1(lpee_ValorInteiro_getTipo)],
+    lpee_ValorInteiro3, "ValorInteiro", 65, lpee_ValorConcreto2, [], 0, 3, [0,0,0], 0, ["$_init_34", $rt_wrapFunction1(lpee_ValorInteiro__init_4), "$getTipo", $rt_wrapFunction1(lpee_ValorInteiro_getTipo)],
     lpoev_ValorNull0, "ValorNull", 32, jl_Object, [lpoev_ValorConcreto0], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpoev_ValorNull__init_1), "$toString", $rt_wrapFunction0(lpoev_ValorNull_toString), "$equals2", $rt_wrapFunction1(lpoev_ValorNull_equals0), "$avaliar0", $rt_wrapFunction1(lpoev_ValorNull_avaliar0), "$checaTipo0", $rt_wrapFunction1(lpoev_ValorNull_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoev_ValorNull_getTipo)],
-    lpfp_Func2ParserTokenManager, 0, jl_Object, [lpfp_Func2ParserConstants], 0, 3, 0, lpfp_Func2ParserTokenManager_$callClinit, ["$_init_243", $rt_wrapFunction1(lpfp_Func2ParserTokenManager__init_)],
-    lpom_TrechoCodigoFonte0, "TrechoCodigoFonte", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpom_TrechoCodigoFonte__init_1), "$getLinhaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaInicio0), "$getColunaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaInicio0), "$getLinhaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaFim), "$getColunaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaFim0)],
-    lpop_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpop_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpop_TokenMgrError__init_0), "$_init_164", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpop_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
-    lpoc_ChamadaProcedimento0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_288", $rt_wrapFunction3(lpoc_ChamadaProcedimento__init_), "$_init_289", $rt_wrapFunction2(lpoc_ChamadaProcedimento__init_3), "$executar10", $rt_wrapFunction1(lpoc_ChamadaProcedimento_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_ChamadaProcedimento_checaTipo0)],
-    lpee_ExpSub, "ExpSub", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpee_ExpSub__init_5), "$avaliar3", $rt_wrapFunction1(lpee_ExpSub_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal1), "$getTipo5", $rt_wrapFunction1(lpee_ExpSub_getTipo1), "$clone17", $rt_wrapFunction0(lpee_ExpSub_clone), "$clone1", $rt_wrapFunction0(lpee_ExpSub_clone1)],
-    lpfd_DecFuncao0, 0, jl_Object, [lpfd_DeclaracaoFuncional1], 0, 3, 0, 0, ["$_init_240", $rt_wrapFunction2(lpfd_DecFuncao__init_1), "$getId6", $rt_wrapFunction0(lpfd_DecFuncao_getId), "$getFuncao3", $rt_wrapFunction0(lpfd_DecFuncao_getFuncao), "$checaTipo6", $rt_wrapFunction1(lpfd_DecFuncao_checaTipo), "$getTipo7", $rt_wrapFunction1(lpfd_DecFuncao_getTipo0), "$setValorFuncao0", $rt_wrapFunction1(lpfd_DecFuncao_setValorFuncao), "$clone37", $rt_wrapFunction0(lpfd_DecFuncao_clone1), "$elabora6", $rt_wrapFunction2(lpfd_DecFuncao_elabora3),
+    lpfp_Func2ParserTokenManager, 0, jl_Object, [lpfp_Func2ParserConstants], 0, 3, 0, lpfp_Func2ParserTokenManager_$callClinit, ["$_init_242", $rt_wrapFunction1(lpfp_Func2ParserTokenManager__init_)],
+    lpom_TrechoCodigoFonte0, "TrechoCodigoFonte", 25, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpom_TrechoCodigoFonte__init_1), "$getLinhaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaInicio0), "$getColunaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaInicio0), "$getLinhaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaFim), "$getColunaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaFim0)],
+    lpop_TokenMgrError0, 0, jl_Error, [], 0, 3, 0, 0, ["$getMessage", $rt_wrapFunction0(lpop_TokenMgrError_getMessage), "$_init_11", $rt_wrapFunction2(lpop_TokenMgrError__init_0), "$_init_163", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { lpop_TokenMgrError__init_2(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }],
+    lpoc_ChamadaProcedimento0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_287", $rt_wrapFunction3(lpoc_ChamadaProcedimento__init_), "$_init_288", $rt_wrapFunction2(lpoc_ChamadaProcedimento__init_3), "$executar10", $rt_wrapFunction1(lpoc_ChamadaProcedimento_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_ChamadaProcedimento_checaTipo0)],
+    lpee_ExpSub, "ExpSub", 123, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpee_ExpSub__init_5), "$avaliar3", $rt_wrapFunction1(lpee_ExpSub_avaliar1), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpee_ExpSub_checaTipoElementoTerminal1), "$getTipo5", $rt_wrapFunction1(lpee_ExpSub_getTipo1), "$clone17", $rt_wrapFunction0(lpee_ExpSub_clone), "$clone1", $rt_wrapFunction0(lpee_ExpSub_clone1)],
+    lpfd_DecFuncao0, 0, jl_Object, [lpfd_DeclaracaoFuncional1], 0, 3, 0, 0, ["$_init_239", $rt_wrapFunction2(lpfd_DecFuncao__init_1), "$getId6", $rt_wrapFunction0(lpfd_DecFuncao_getId), "$getFuncao3", $rt_wrapFunction0(lpfd_DecFuncao_getFuncao), "$checaTipo6", $rt_wrapFunction1(lpfd_DecFuncao_checaTipo), "$getTipo7", $rt_wrapFunction1(lpfd_DecFuncao_getTipo0), "$setValorFuncao0", $rt_wrapFunction1(lpfd_DecFuncao_setValorFuncao), "$clone37", $rt_wrapFunction0(lpfd_DecFuncao_clone1), "$elabora6", $rt_wrapFunction2(lpfd_DecFuncao_elabora3),
     "$elabora7", $rt_wrapFunction2(lpfd_DecFuncao_elabora4), "$incluir3", $rt_wrapFunction2(lpfd_DecFuncao_incluir3), "$incluir4", $rt_wrapFunction3(lpfd_DecFuncao_incluir4), "$reduzir1", $rt_wrapFunction1(lpfd_DecFuncao_reduzir), "$clone12", $rt_wrapFunction0(lpfd_DecFuncao_clone2)],
     otpp_ResourceAccessor, 0, jl_Object, [], 4, 0, 0, 0, 0,
-    lpic_While, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_207", $rt_wrapFunction2(lpic_While__init_), "$executar9", $rt_wrapFunction1(lpic_While_executar0), "$checaTipo10", $rt_wrapFunction1(lpic_While_checaTipo)],
-    lpem_VariavelJaDeclaradaException3, "VariavelJaDeclaradaException", 66, lpem_IdentificadorJaDeclaradoException2, [], 0, 3, 0, 0, ["$_init_72", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_6)],
+    lpic_While, 0, jl_Object, [lpic_Comando], 0, 3, 0, 0, ["$_init_206", $rt_wrapFunction2(lpic_While__init_), "$executar9", $rt_wrapFunction1(lpic_While_executar0), "$checaTipo10", $rt_wrapFunction1(lpic_While_checaTipo)],
+    lpem_VariavelJaDeclaradaException3, "VariavelJaDeclaradaException", 66, lpem_IdentificadorJaDeclaradoException2, [], 0, 3, 0, 0, ["$_init_71", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_6)],
     lpem_IdentificadorNaoDeclaradoException6, 0, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpem_IdentificadorNaoDeclaradoException__init_0)],
     lpem_InfoBinding4, "InfoBinding", 80, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpem_InfoBinding__init_1), "$getTipo4", $rt_wrapFunction0(lpem_InfoBinding_getTipo0), "$getValor", $rt_wrapFunction0(lpem_InfoBinding_getValor2)],
-    lpoed_ObjetoJaDeclaradoException0, "ObjetoJaDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpoed_ObjetoJaDeclaradoException__init_0)],
+    lpoed_ObjetoJaDeclaradoException0, "ObjetoJaDeclaradoException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpoed_ObjetoJaDeclaradoException__init_0)],
     lpem_MetadadosDepuracao1, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_MetadadosDepuracao__init_1), "$getPilhaSnapshot7", $rt_wrapFunction0(lpem_MetadadosDepuracao_getPilhaSnapshot0), "$toSnapshot", $rt_wrapFunction0(lpem_MetadadosDepuracao_toSnapshot3)]]);
-    $rt_metadata([lpep_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpep_Token__init_3), "$_init_93", $rt_wrapFunction2(lpep_Token__init_0), "$toString", $rt_wrapFunction0(lpep_Token_toString)],
-    lpem_TrechoCodigoFonte1, "TrechoCodigoFonte", 146, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_3), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio1), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio4), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim0)],
-    lpee_ExpAnd3, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_77", $rt_wrapFunction2(lpee_ExpAnd__init_3), "$avaliar", $rt_wrapFunction1(lpee_ExpAnd_avaliar0), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal3), "$getTipo", $rt_wrapFunction1(lpee_ExpAnd_getTipo3)],
-    jn_ByteBufferImpl, 0, jn_ByteBuffer, [], 0, 0, 0, 0, ["$_init_232", $rt_wrapFunction2(jn_ByteBufferImpl__init_0), "$_init_233", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { jn_ByteBufferImpl__init_(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }, "$compact0", $rt_wrapFunction0(jn_ByteBufferImpl_compact), "$isReadOnly", $rt_wrapFunction0(jn_ByteBufferImpl_isReadOnly)],
+    $rt_metadata([lpep_Token0, 0, jl_Object, [ji_Serializable], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpep_Token__init_3), "$_init_92", $rt_wrapFunction2(lpep_Token__init_0), "$toString", $rt_wrapFunction0(lpep_Token_toString)],
+    lpem_TrechoCodigoFonte1, "TrechoCodigoFonte", 146, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpem_TrechoCodigoFonte__init_3), "$getLinhaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaInicio1), "$getColunaInicio", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaInicio4), "$getLinhaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getLinhaFim), "$getColunaFim", $rt_wrapFunction0(lpem_TrechoCodigoFonte_getColunaFim0)],
+    lpee_ExpAnd3, 0, lpee_ExpBinaria4, [], 0, 3, 0, 0, ["$_init_76", $rt_wrapFunction2(lpee_ExpAnd__init_3), "$avaliar", $rt_wrapFunction1(lpee_ExpAnd_avaliar0), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpAnd_checaTipoElementoTerminal3), "$getTipo", $rt_wrapFunction1(lpee_ExpAnd_getTipo3)],
+    jn_ByteBufferImpl, 0, jn_ByteBuffer, [], 0, 0, 0, 0, ["$_init_231", $rt_wrapFunction2(jn_ByteBufferImpl__init_0), "$_init_232", function(var_1, var_2, var_3, var_4, var_5, var_6, var_7) { jn_ByteBufferImpl__init_(this, var_1, var_2, var_3, var_4, var_5, var_6, var_7); }, "$compact0", $rt_wrapFunction0(jn_ByteBufferImpl_compact), "$isReadOnly", $rt_wrapFunction0(jn_ByteBufferImpl_isReadOnly)],
     lpfp_JavaCharStream0, 0, jl_Object, [], 0, 3, 0, lpfp_JavaCharStream_$callClinit, ["$_init_14", $rt_wrapFunction4(lpfp_JavaCharStream__init_2), "$ReInit", $rt_wrapFunction4(lpfp_JavaCharStream_ReInit6), "$_init_17", function(var_1, var_2, var_3, var_4, var_5) { lpfp_JavaCharStream__init_4(this, var_1, var_2, var_3, var_4, var_5); }, "$_init_22", $rt_wrapFunction4(lpfp_JavaCharStream__init_6), "$ReInit0", function(var_1, var_2, var_3, var_4, var_5) { lpfp_JavaCharStream_ReInit0(this, var_1, var_2, var_3,
     var_4, var_5); }, "$ReInit2", $rt_wrapFunction4(lpfp_JavaCharStream_ReInit)],
-    lpfp_Func3Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_116", $rt_wrapFunction1(lpfp_Func3Parser$LookaheadSuccess__init_)],
-    lpem_InfoEscopo, "InfoEscopo", 42, jl_Object, [], 0, 3, 0, 0, ["$_init_212", $rt_wrapFunction2(lpem_InfoEscopo__init_), "$getTrechoCodigoFonte0", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo1)],
+    lpfp_Func3Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_115", $rt_wrapFunction1(lpfp_Func3Parser$LookaheadSuccess__init_)],
+    lpem_InfoEscopo, "InfoEscopo", 42, jl_Object, [], 0, 3, 0, 0, ["$_init_211", $rt_wrapFunction2(lpem_InfoEscopo__init_), "$getTrechoCodigoFonte0", $rt_wrapFunction0(lpem_InfoEscopo_getTrechoCodigoFonte), "$getEscopo", $rt_wrapFunction0(lpem_InfoEscopo_getEscopo1)],
     otcir_JSFieldGetter, "JSFieldGetter", 60, jl_Object, [otj_JSObject], 3, 3, 0, 0, 0,
-    lpem_VariavelNaoDeclaradaException0, "VariavelNaoDeclaradaException", 102, lpem_IdentificadorNaoDeclaradoException6, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_5)],
-    lpou_TipoClasse, "TipoClasse", 24, jl_Object, [lpou_Tipo], 0, 3, [0,0,0], lpou_TipoClasse_$callClinit0, ["$_init_131", $rt_wrapFunction1(lpou_TipoClasse__init_1), "$getTipo2", $rt_wrapFunction0(lpou_TipoClasse_getTipo0), "$eValido0", $rt_wrapFunction1(lpou_TipoClasse_eValido), "$equals", $rt_wrapFunction1(lpou_TipoClasse_equals), "$toString", $rt_wrapFunction0(lpou_TipoClasse_toString)],
+    lpem_VariavelNaoDeclaradaException0, "VariavelNaoDeclaradaException", 102, lpem_IdentificadorNaoDeclaradoException6, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_5)],
+    lpou_TipoClasse, "TipoClasse", 24, jl_Object, [lpou_Tipo], 0, 3, [0,0,0], lpou_TipoClasse_$callClinit0, ["$_init_130", $rt_wrapFunction1(lpou_TipoClasse__init_1), "$getTipo2", $rt_wrapFunction0(lpou_TipoClasse_getTipo0), "$eValido0", $rt_wrapFunction1(lpou_TipoClasse_eValido), "$equals", $rt_wrapFunction1(lpou_TipoClasse_equals), "$toString", $rt_wrapFunction0(lpou_TipoClasse_toString)],
     jnc_BufferUnderflowException, "BufferUnderflowException", 3, jl_RuntimeException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jnc_BufferUnderflowException__init_)],
     lpoev_ValorString, "ValorString", 99, jl_Object, [lpoev_ValorConcreto], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(lpoev_ValorString__init_2), "$toString", $rt_wrapFunction0(lpoev_ValorString_toString0), "$equals1", $rt_wrapFunction1(lpoev_ValorString_equals0), "$avaliar2", $rt_wrapFunction1(lpoev_ValorString_avaliar), "$valor2", $rt_wrapFunction0(lpoev_ValorString_valor0), "$checaTipo4", $rt_wrapFunction1(lpoev_ValorString_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoev_ValorString_getTipo0)],
     ju_LinkedList, 0, ju_AbstractSequentialList, [ju_Deque], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_LinkedList__init_0), "$size", $rt_wrapFunction0(ju_LinkedList_size), "$listIterator0", $rt_wrapFunction0(ju_LinkedList_listIterator), "$listIterator", $rt_wrapFunction1(ju_LinkedList_listIterator0)],
-    lpee_ExpConcat1, "ExpConcat", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_264", $rt_wrapFunction2(lpee_ExpConcat__init_), "$avaliar4", $rt_wrapFunction1(lpee_ExpConcat_avaliar3), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal5), "$getTipo6", $rt_wrapFunction1(lpee_ExpConcat_getTipo1)],
+    lpee_ExpConcat1, "ExpConcat", 81, lpee_ExpBinaria0, [], 0, 3, 0, 0, ["$_init_263", $rt_wrapFunction2(lpee_ExpConcat__init_), "$avaliar4", $rt_wrapFunction1(lpee_ExpConcat_avaliar3), "$checaTipoElementoTerminal4", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal5), "$getTipo6", $rt_wrapFunction1(lpee_ExpConcat_getTipo1)],
     otcic_JSStderrPrintStream, 0, otcic_JsConsolePrintStream, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(otcic_JSStderrPrintStream__init_), "$print", $rt_wrapFunction1(otcic_JSStderrPrintStream_print)],
-    lpoeu_ExpMenos0, "ExpMenos", 30, lpoeu_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_171", $rt_wrapFunction1(lpoeu_ExpMenos__init_0), "$avaliar0", $rt_wrapFunction1(lpoeu_ExpMenos_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpMenos_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeu_ExpMenos_getTipo0)],
-    lpee_ExpConcat2, "ExpConcat", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_209", $rt_wrapFunction2(lpee_ExpConcat__init_5), "$avaliar6", $rt_wrapFunction1(lpee_ExpConcat_avaliar4), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal1), "$getTipo9", $rt_wrapFunction1(lpee_ExpConcat_getTipo5)],
+    lpoeu_ExpMenos0, "ExpMenos", 30, lpoeu_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_170", $rt_wrapFunction1(lpoeu_ExpMenos__init_0), "$avaliar0", $rt_wrapFunction1(lpoeu_ExpMenos_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpMenos_checaTipo0), "$getTipo0", $rt_wrapFunction1(lpoeu_ExpMenos_getTipo0)],
+    lpee_ExpConcat2, "ExpConcat", 43, lpee_ExpBinaria2, [], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpee_ExpConcat__init_5), "$avaliar6", $rt_wrapFunction1(lpee_ExpConcat_avaliar4), "$checaTipoElementoTerminal5", $rt_wrapFunction1(lpee_ExpConcat_checaTipoElementoTerminal1), "$getTipo9", $rt_wrapFunction1(lpee_ExpConcat_getTipo5)],
     oti_AsyncCallback, 0, jl_Object, [], 3, 3, 0, 0, 0,
-    ju_IllegalFormatConversionException, "IllegalFormatConversionException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_291", $rt_wrapFunction2(ju_IllegalFormatConversionException__init_0)],
+    ju_IllegalFormatConversionException, "IllegalFormatConversionException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_290", $rt_wrapFunction2(ju_IllegalFormatConversionException__init_0)],
     jt_DecimalFormat$PercentField, "DecimalFormat$PercentField", 7, jl_Object, [jt_DecimalFormat$FormatField], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(jt_DecimalFormat$PercentField__init_), "$render", $rt_wrapFunction2(jt_DecimalFormat$PercentField_render), "$equals", $rt_wrapFunction1(jt_DecimalFormat$PercentField_equals), "$hashCode", $rt_wrapFunction0(jt_DecimalFormat$PercentField_hashCode)],
-    lpoc_While0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_169", $rt_wrapFunction2(lpoc_While__init_), "$executar", $rt_wrapFunction1(lpoc_While_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_While_checaTipo0)],
-    lpfd_DecVariavel1, 0, jl_Object, [lpfd_DeclaracaoFuncional1], 0, 3, 0, 0, ["$_init_239", $rt_wrapFunction2(lpfd_DecVariavel__init_), "$getExpressao2", $rt_wrapFunction0(lpfd_DecVariavel_getExpressao), "$getId6", $rt_wrapFunction0(lpfd_DecVariavel_getId0), "$getTipo7", $rt_wrapFunction1(lpfd_DecVariavel_getTipo), "$checaTipo6", $rt_wrapFunction1(lpfd_DecVariavel_checaTipo0), "$clone38", $rt_wrapFunction0(lpfd_DecVariavel_clone), "$elabora6", $rt_wrapFunction2(lpfd_DecVariavel_elabora3), "$elabora7", $rt_wrapFunction2(lpfd_DecVariavel_elabora1),
+    lpoc_While0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_168", $rt_wrapFunction2(lpoc_While__init_), "$executar", $rt_wrapFunction1(lpoc_While_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_While_checaTipo0)],
+    lpfd_DecVariavel1, 0, jl_Object, [lpfd_DeclaracaoFuncional1], 0, 3, 0, 0, ["$_init_238", $rt_wrapFunction2(lpfd_DecVariavel__init_), "$getExpressao2", $rt_wrapFunction0(lpfd_DecVariavel_getExpressao), "$getId6", $rt_wrapFunction0(lpfd_DecVariavel_getId0), "$getTipo7", $rt_wrapFunction1(lpfd_DecVariavel_getTipo), "$checaTipo6", $rt_wrapFunction1(lpfd_DecVariavel_checaTipo0), "$clone38", $rt_wrapFunction0(lpfd_DecVariavel_clone), "$elabora6", $rt_wrapFunction2(lpfd_DecVariavel_elabora3), "$elabora7", $rt_wrapFunction2(lpfd_DecVariavel_elabora1),
     "$incluir3", $rt_wrapFunction2(lpfd_DecVariavel_incluir1), "$incluir4", $rt_wrapFunction3(lpfd_DecVariavel_incluir2), "$reduzir1", $rt_wrapFunction1(lpfd_DecVariavel_reduzir0), "$clone12", $rt_wrapFunction0(lpfd_DecVariavel_clone0)],
     lpeu_TipoPrimitivo4, "TipoPrimitivo", 126, jl_Enum, [lpeu_Tipo], 12, 3, [0,0,0], lpeu_TipoPrimitivo_$callClinit, ["$getNome", $rt_wrapFunction0(lpeu_TipoPrimitivo_getNome2), "$eInteiro", $rt_wrapFunction0(lpeu_TipoPrimitivo_eInteiro3), "$eBooleano", $rt_wrapFunction0(lpeu_TipoPrimitivo_eBooleano5), "$eString", $rt_wrapFunction0(lpeu_TipoPrimitivo_eString3), "$eIgual0", $rt_wrapFunction1(lpeu_TipoPrimitivo_eIgual5), "$eValido", $rt_wrapFunction0(lpeu_TipoPrimitivo_eValido4), "$intersecao4", $rt_wrapFunction1(lpeu_TipoPrimitivo_intersecao1),
     "$toString", $rt_wrapFunction0(lpeu_TipoPrimitivo_toString4), "$intersecao3", $rt_wrapFunction1(lpeu_TipoPrimitivo_intersecao3)],
-    lpic_SequenciaComando, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_71", $rt_wrapFunction2(lpic_SequenciaComando__init_0), "$executar11", $rt_wrapFunction1(lpic_SequenciaComando_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_SequenciaComando_checaTipo0)],
-    lpod_ListaDeclaracaoOO, 0, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpod_ListaDeclaracaoOO__init_1), "$_init_177", $rt_wrapFunction1(lpod_ListaDeclaracaoOO__init_), "$_init_180", $rt_wrapFunction2(lpod_ListaDeclaracaoOO__init_0), "$elabora5", $rt_wrapFunction1(lpod_ListaDeclaracaoOO_elabora), "$checaTipo11", $rt_wrapFunction1(lpod_ListaDeclaracaoOO_checaTipo)],
-    lpid_DeclaracaoParametro, "DeclaracaoParametro", 50, jl_Object, [], 0, 3, 0, 0, ["$_init_217", $rt_wrapFunction2(lpid_DeclaracaoParametro__init_), "$getId2", $rt_wrapFunction0(lpid_DeclaracaoParametro_getId), "$getTipo15", $rt_wrapFunction0(lpid_DeclaracaoParametro_getTipo), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoParametro_checaTipo), "$elabora12", $rt_wrapFunction1(lpid_DeclaracaoParametro_elabora)],
+    lpic_SequenciaComando, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_70", $rt_wrapFunction2(lpic_SequenciaComando__init_0), "$executar11", $rt_wrapFunction1(lpic_SequenciaComando_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_SequenciaComando_checaTipo0)],
+    lpod_ListaDeclaracaoOO, 0, lpiu_Lista, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpod_ListaDeclaracaoOO__init_1), "$_init_176", $rt_wrapFunction1(lpod_ListaDeclaracaoOO__init_), "$_init_179", $rt_wrapFunction2(lpod_ListaDeclaracaoOO__init_0), "$elabora5", $rt_wrapFunction1(lpod_ListaDeclaracaoOO_elabora), "$checaTipo11", $rt_wrapFunction1(lpod_ListaDeclaracaoOO_checaTipo)],
+    lpid_DeclaracaoParametro, "DeclaracaoParametro", 50, jl_Object, [], 0, 3, 0, 0, ["$_init_216", $rt_wrapFunction2(lpid_DeclaracaoParametro__init_), "$getId2", $rt_wrapFunction0(lpid_DeclaracaoParametro_getId), "$getTipo15", $rt_wrapFunction0(lpid_DeclaracaoParametro_getTipo), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoParametro_checaTipo), "$elabora12", $rt_wrapFunction1(lpid_DeclaracaoParametro_elabora)],
     jl_System, 0, jl_Object, [], 4, 3, 0, 0, 0,
     jm_Conversion, 0, jl_Object, [], 0, 0, 0, jm_Conversion_$callClinit, 0,
-    lpoc_ComDeclaracao0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_168", $rt_wrapFunction2(lpoc_ComDeclaracao__init_1), "$executar", $rt_wrapFunction1(lpoc_ComDeclaracao_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_ComDeclaracao_checaTipo0)],
+    lpoc_ComDeclaracao0, 0, jl_Object, [lpoc_Comando0], 0, 3, 0, 0, ["$_init_167", $rt_wrapFunction2(lpoc_ComDeclaracao__init_1), "$executar", $rt_wrapFunction1(lpoc_ComDeclaracao_executar), "$checaTipo0", $rt_wrapFunction1(lpoc_ComDeclaracao_checaTipo0)],
     ju_LinkedList$Entry, 0, jl_Object, [], 0, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(ju_LinkedList$Entry__init_)],
-    lpid_DeclaracaoVariavel, 0, lpid_Declaracao, [], 0, 3, 0, 0, ["$_init_208", $rt_wrapFunction2(lpid_DeclaracaoVariavel__init_), "$elabora8", $rt_wrapFunction1(lpid_DeclaracaoVariavel_elabora), "$getExpressao3", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getExpressao0), "$getId2", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getId0), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoVariavel_checaTipo)],
-    lpf_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_106", $rt_wrapFunction1(lpf_Programa__init_0), "$executar4", $rt_wrapFunction0(lpf_Programa_executar1), "$checaTipo8", $rt_wrapFunction0(lpf_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpf_Programa_getAmbCompSnapshot1)],
+    lpid_DeclaracaoVariavel, 0, lpid_Declaracao, [], 0, 3, 0, 0, ["$_init_207", $rt_wrapFunction2(lpid_DeclaracaoVariavel__init_), "$elabora8", $rt_wrapFunction1(lpid_DeclaracaoVariavel_elabora), "$getExpressao3", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getExpressao0), "$getId2", $rt_wrapFunction0(lpid_DeclaracaoVariavel_getId0), "$checaTipo10", $rt_wrapFunction1(lpid_DeclaracaoVariavel_checaTipo)],
+    lpf_Programa, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_105", $rt_wrapFunction1(lpf_Programa__init_0), "$executar4", $rt_wrapFunction0(lpf_Programa_executar1), "$checaTipo8", $rt_wrapFunction0(lpf_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpf_Programa_getAmbCompSnapshot1)],
     jt_FieldPosition, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(jt_FieldPosition__init_)],
     lpfe_ValorIrredutivel0, "ValorIrredutivel", 117, jl_Object, [lpee_Valor], 0, 3, [0,0,0], 0, ["$_init_0", $rt_wrapFunction0(lpfe_ValorIrredutivel__init_2), "$avaliar3", $rt_wrapFunction1(lpfe_ValorIrredutivel_avaliar0), "$checaTipo5", $rt_wrapFunction1(lpfe_ValorIrredutivel_checaTipo), "$getTipo5", $rt_wrapFunction1(lpfe_ValorIrredutivel_getTipo), "$reduzir", $rt_wrapFunction1(lpfe_ValorIrredutivel_reduzir), "$clone39", $rt_wrapFunction0(lpfe_ValorIrredutivel_clone0), "$clone1", $rt_wrapFunction0(lpfe_ValorIrredutivel_clone2)],
-    lpee_ExpNot, "ExpNot", 147, lpee_ExpUnaria1, [], 0, 3, 0, 0, ["$_init_87", $rt_wrapFunction1(lpee_ExpNot__init_), "$avaliar5", $rt_wrapFunction1(lpee_ExpNot_avaliar0), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal5), "$getTipo7", $rt_wrapFunction1(lpee_ExpNot_getTipo2), "$clone4", $rt_wrapFunction0(lpee_ExpNot_clone), "$clone3", $rt_wrapFunction0(lpee_ExpNot_clone0)],
-    lpoc_While, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_42", $rt_wrapFunction2(lpoc_While__init_0), "$executar10", $rt_wrapFunction1(lpoc_While_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_While_checaTipo)],
+    lpee_ExpNot, "ExpNot", 147, lpee_ExpUnaria1, [], 0, 3, 0, 0, ["$_init_86", $rt_wrapFunction1(lpee_ExpNot__init_), "$avaliar5", $rt_wrapFunction1(lpee_ExpNot_avaliar0), "$checaTipoElementoTerminal3", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal5), "$getTipo7", $rt_wrapFunction1(lpee_ExpNot_getTipo2), "$clone4", $rt_wrapFunction0(lpee_ExpNot_clone), "$clone3", $rt_wrapFunction0(lpee_ExpNot_clone0)],
+    lpoc_While, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction2(lpoc_While__init_0), "$executar10", $rt_wrapFunction1(lpoc_While_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_While_checaTipo)],
     lpem_VariavelJaDeclaradaException, "VariavelJaDeclaradaException", 42, lpem_IdentificadorJaDeclaradoException, [], 0, 3, 0, 0, ["$_init_9", $rt_wrapFunction1(lpem_VariavelJaDeclaradaException__init_2)],
     ju_DuplicateFormatFlagsException, "DuplicateFormatFlagsException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ju_DuplicateFormatFlagsException__init_)],
     ju_MissingFormatWidthException, "MissingFormatWidthException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ju_MissingFormatWidthException__init_0)],
-    lpee_ExpNot5, 0, lpee_ExpUnaria4, [], 0, 3, 0, 0, ["$_init_293", $rt_wrapFunction1(lpee_ExpNot__init_5), "$avaliar8", $rt_wrapFunction1(lpee_ExpNot_avaliar), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal4), "$getTipo10", $rt_wrapFunction1(lpee_ExpNot_getTipo5)],
-    lpoeb_ExpSub, "ExpSub", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_50", $rt_wrapFunction2(lpoeb_ExpSub__init_0), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpSub_avaliar), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpSub_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpSub_getTipo)],
+    lpee_ExpNot5, 0, lpee_ExpUnaria4, [], 0, 3, 0, 0, ["$_init_292", $rt_wrapFunction1(lpee_ExpNot__init_5), "$avaliar8", $rt_wrapFunction1(lpee_ExpNot_avaliar), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal4), "$getTipo10", $rt_wrapFunction1(lpee_ExpNot_getTipo5)],
+    lpoeb_ExpSub, "ExpSub", 100, lpoeb_ExpBinaria, [], 0, 3, 0, 0, ["$_init_49", $rt_wrapFunction2(lpoeb_ExpSub__init_0), "$avaliar2", $rt_wrapFunction1(lpoeb_ExpSub_avaliar), "$checaTipo4", $rt_wrapFunction1(lpoeb_ExpSub_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoeb_ExpSub_getTipo)],
     jm_Multiplication, 0, jl_Object, [], 0, 0, 0, jm_Multiplication_$callClinit, 0,
     ju_LinkedHashMapKeySet, 0, ju_AbstractSet, [ju_SequencedSet], 0, 0, 0, 0, ["$_init_31", $rt_wrapFunction2(ju_LinkedHashMapKeySet__init_), "$iterator", $rt_wrapFunction0(ju_LinkedHashMapKeySet_iterator)],
     jl_Double, 0, jl_Number, [jl_Comparable], 0, 3, 0, jl_Double_$callClinit, 0,
     lpic_Read, 0, jl_Object, [lpic_IO0], 0, 3, 0, 0, ["$_init_9", $rt_wrapFunction1(lpic_Read__init_), "$executar9", $rt_wrapFunction1(lpic_Read_executar0), "$checaTipo10", $rt_wrapFunction1(lpic_Read_checaTipo0)],
-    lpou_ListaTipo0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpou_ListaTipo__init_3), "$_init_159", $rt_wrapFunction1(lpou_ListaTipo__init_4), "$_init_158", $rt_wrapFunction2(lpou_ListaTipo__init_0), "$length", $rt_wrapFunction0(lpou_ListaTipo_length0), "$head", $rt_wrapFunction0(lpou_ListaTipo_head), "$tail", $rt_wrapFunction0(lpou_ListaTipo_tail)],
-    lpfd_DecVariavel0, 0, jl_Object, [lpfd_DeclaracaoFuncional], 0, 3, 0, 0, ["$_init_108", $rt_wrapFunction2(lpfd_DecVariavel__init_2), "$getExpressao4", $rt_wrapFunction0(lpfd_DecVariavel_getExpressao0), "$getId1", $rt_wrapFunction0(lpfd_DecVariavel_getId1), "$getTipo5", $rt_wrapFunction1(lpfd_DecVariavel_getTipo0), "$checaTipo5", $rt_wrapFunction1(lpfd_DecVariavel_checaTipo1), "$elabora10", $rt_wrapFunction2(lpfd_DecVariavel_elabora0), "$elabora11", $rt_wrapFunction2(lpfd_DecVariavel_elabora2), "$incluir5",
+    lpou_ListaTipo0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpou_ListaTipo__init_3), "$_init_158", $rt_wrapFunction1(lpou_ListaTipo__init_4), "$_init_157", $rt_wrapFunction2(lpou_ListaTipo__init_0), "$length", $rt_wrapFunction0(lpou_ListaTipo_length0), "$head", $rt_wrapFunction0(lpou_ListaTipo_head), "$tail", $rt_wrapFunction0(lpou_ListaTipo_tail)],
+    lpfd_DecVariavel0, 0, jl_Object, [lpfd_DeclaracaoFuncional], 0, 3, 0, 0, ["$_init_107", $rt_wrapFunction2(lpfd_DecVariavel__init_2), "$getExpressao4", $rt_wrapFunction0(lpfd_DecVariavel_getExpressao0), "$getId1", $rt_wrapFunction0(lpfd_DecVariavel_getId1), "$getTipo5", $rt_wrapFunction1(lpfd_DecVariavel_getTipo0), "$checaTipo5", $rt_wrapFunction1(lpfd_DecVariavel_checaTipo1), "$elabora10", $rt_wrapFunction2(lpfd_DecVariavel_elabora0), "$elabora11", $rt_wrapFunction2(lpfd_DecVariavel_elabora2), "$incluir5",
     $rt_wrapFunction2(lpfd_DecVariavel_incluir0), "$incluir6", $rt_wrapFunction3(lpfd_DecVariavel_incluir), "$reduzir2", $rt_wrapFunction1(lpfd_DecVariavel_reduzir), "$clone40", $rt_wrapFunction0(lpfd_DecVariavel_clone1), "$clone21", $rt_wrapFunction0(lpfd_DecVariavel_clone2)],
-    lpoc_ChamadaMetodo0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_44", $rt_wrapFunction3(lpoc_ChamadaMetodo__init_0), "$executar10", $rt_wrapFunction1(lpoc_ChamadaMetodo_executar), "$checaTipo4", $rt_wrapFunction1(lpoc_ChamadaMetodo_checaTipo)],
+    lpoc_ChamadaMetodo0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_43", $rt_wrapFunction3(lpoc_ChamadaMetodo__init_0), "$executar10", $rt_wrapFunction1(lpoc_ChamadaMetodo_executar), "$checaTipo4", $rt_wrapFunction1(lpoc_ChamadaMetodo_checaTipo)],
     lpoev_ValorInteiro0, "ValorInteiro", 99, jl_Object, [lpoev_ValorConcreto], 0, 3, 0, 0, ["$_init_6", $rt_wrapFunction1(lpoev_ValorInteiro__init_1), "$valor1", $rt_wrapFunction0(lpoev_ValorInteiro_valor0), "$avaliar2", $rt_wrapFunction1(lpoev_ValorInteiro_avaliar), "$equals1", $rt_wrapFunction1(lpoev_ValorInteiro_equals), "$toString", $rt_wrapFunction0(lpoev_ValorInteiro_toString), "$checaTipo4", $rt_wrapFunction1(lpoev_ValorInteiro_checaTipo0), "$getTipo8", $rt_wrapFunction1(lpoev_ValorInteiro_getTipo)],
-    lpfp_Func1Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_267", $rt_wrapFunction1(lpfp_Func1Parser$LookaheadSuccess__init_0)]]);
+    lpfp_Func1Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_266", $rt_wrapFunction1(lpfp_Func1Parser$LookaheadSuccess__init_0)]]);
     $rt_metadata([lpep_Exp2Parser$JJCalls, 0, jl_Object, [], 4, 0, 0, 0, ["$_init_0", $rt_wrapFunction0(lpep_Exp2Parser$JJCalls__init_0)],
-    lpfe_ExpMenorQue, "ExpMenorQue", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpfe_ExpMenorQue__init_0), "$avaliar3", $rt_wrapFunction1(lpfe_ExpMenorQue_avaliar), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpMenorQue_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpfe_ExpMenorQue_getTipo), "$clone41", $rt_wrapFunction0(lpfe_ExpMenorQue_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpMenorQue_clone0)],
+    lpfe_ExpMenorQue, "ExpMenorQue", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpfe_ExpMenorQue__init_0), "$avaliar3", $rt_wrapFunction1(lpfe_ExpMenorQue_avaliar), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpMenorQue_checaTipoElementoTerminal), "$getTipo5", $rt_wrapFunction1(lpfe_ExpMenorQue_getTipo), "$clone41", $rt_wrapFunction0(lpfe_ExpMenorQue_clone), "$clone1", $rt_wrapFunction0(lpfe_ExpMenorQue_clone0)],
     lpee_ExpLength4, 0, lpee_ExpUnaria3, [], 0, 3, 0, 0, ["$_init_20", $rt_wrapFunction1(lpee_ExpLength__init_5), "$avaliar1", $rt_wrapFunction1(lpee_ExpLength_avaliar5), "$checaTipoElementoTerminal0", $rt_wrapFunction1(lpee_ExpLength_checaTipoElementoTerminal0), "$getTipo1", $rt_wrapFunction1(lpee_ExpLength_getTipo4)],
-    lpfe_Gerador, "Gerador", 128, jl_Object, [], 0, 3, 0, 0, ["$_init_108", $rt_wrapFunction2(lpfe_Gerador__init_), "$getProximoGerador", $rt_wrapFunction0(lpfe_Gerador_getProximoGerador), "$addProximoGerador", $rt_wrapFunction1(lpfe_Gerador_addProximoGerador), "$gerarValores", $rt_wrapFunction4(lpfe_Gerador_gerarValores), "$temProximoGerador", $rt_wrapFunction0(lpfe_Gerador_temProximoGerador), "$checkTypeBindings", $rt_wrapFunction1(lpfe_Gerador_checkTypeBindings), "$checaTipo5", $rt_wrapFunction1(lpfe_Gerador_checaTipo),
+    lpfe_Gerador, "Gerador", 128, jl_Object, [], 0, 3, 0, 0, ["$_init_107", $rt_wrapFunction2(lpfe_Gerador__init_), "$getProximoGerador", $rt_wrapFunction0(lpfe_Gerador_getProximoGerador), "$addProximoGerador", $rt_wrapFunction1(lpfe_Gerador_addProximoGerador), "$gerarValores", $rt_wrapFunction4(lpfe_Gerador_gerarValores), "$temProximoGerador", $rt_wrapFunction0(lpfe_Gerador_temProximoGerador), "$checkTypeBindings", $rt_wrapFunction1(lpfe_Gerador_checkTypeBindings), "$checaTipo5", $rt_wrapFunction1(lpfe_Gerador_checaTipo),
     "$reduzir2", $rt_wrapFunction1(lpfe_Gerador_reduzir), "$toString", $rt_wrapFunction0(lpfe_Gerador_toString)],
-    lpee_ExpMenos2, 0, lpee_ExpUnaria5, [], 0, 3, 0, 0, ["$_init_73", $rt_wrapFunction1(lpee_ExpMenos__init_7), "$avaliar", $rt_wrapFunction1(lpee_ExpMenos_avaliar1), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal5), "$getTipo", $rt_wrapFunction1(lpee_ExpMenos_getTipo0)],
-    lpoed_ClasseNaoDeclaradaException0, "ClasseNaoDeclaradaException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_119", $rt_wrapFunction1(lpoed_ClasseNaoDeclaradaException__init_)],
+    lpee_ExpMenos2, 0, lpee_ExpUnaria5, [], 0, 3, 0, 0, ["$_init_72", $rt_wrapFunction1(lpee_ExpMenos__init_7), "$avaliar", $rt_wrapFunction1(lpee_ExpMenos_avaliar1), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpMenos_checaTipoElementoTerminal5), "$getTipo", $rt_wrapFunction1(lpee_ExpMenos_getTipo0)],
+    lpoed_ClasseNaoDeclaradaException0, "ClasseNaoDeclaradaException", 22, jl_Exception, [], 0, 3, 0, 0, ["$_init_118", $rt_wrapFunction1(lpoed_ClasseNaoDeclaradaException__init_)],
     jl_NumberFormatException, "NumberFormatException", 8, jl_IllegalArgumentException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_NumberFormatException__init_1), "$_init_", $rt_wrapFunction1(jl_NumberFormatException__init_)],
     lpee_ValorString2, "ValorString", 43, lpee_ValorConcreto4, [], 0, 3, [0,0,0], 0, ["$_init_", $rt_wrapFunction1(lpee_ValorString__init_0), "$getTipo9", $rt_wrapFunction1(lpee_ValorString_getTipo5), "$toString", $rt_wrapFunction0(lpee_ValorString_toString)],
-    lpem_VariavelNaoDeclaradaException6, "VariavelNaoDeclaradaException", 66, lpem_IdentificadorNaoDeclaradoException3, [], 0, 3, 0, 0, ["$_init_72", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_3)],
-    lpfe_ExpDeclaracao, "ExpDeclaracao", 139, jl_Object, [lpee_Expressao0], 0, 3, 0, 0, ["$_init_290", $rt_wrapFunction2(lpfe_ExpDeclaracao__init_2), "$_init_241", $rt_wrapFunction3(lpfe_ExpDeclaracao__init_), "$avaliar5", $rt_wrapFunction1(lpfe_ExpDeclaracao_avaliar1), "$checaTipo6", $rt_wrapFunction1(lpfe_ExpDeclaracao_checaTipo1), "$getTipo7", $rt_wrapFunction1(lpfe_ExpDeclaracao_getTipo1), "$reduzir0", $rt_wrapFunction1(lpfe_ExpDeclaracao_reduzir0), "$clone42", $rt_wrapFunction0(lpfe_ExpDeclaracao_clone1),
+    lpem_VariavelNaoDeclaradaException6, "VariavelNaoDeclaradaException", 66, lpem_IdentificadorNaoDeclaradoException3, [], 0, 3, 0, 0, ["$_init_71", $rt_wrapFunction1(lpem_VariavelNaoDeclaradaException__init_3)],
+    lpfe_ExpDeclaracao, "ExpDeclaracao", 139, jl_Object, [lpee_Expressao0], 0, 3, 0, 0, ["$_init_289", $rt_wrapFunction2(lpfe_ExpDeclaracao__init_2), "$_init_240", $rt_wrapFunction3(lpfe_ExpDeclaracao__init_), "$avaliar5", $rt_wrapFunction1(lpfe_ExpDeclaracao_avaliar1), "$checaTipo6", $rt_wrapFunction1(lpfe_ExpDeclaracao_checaTipo1), "$getTipo7", $rt_wrapFunction1(lpfe_ExpDeclaracao_getTipo1), "$reduzir0", $rt_wrapFunction1(lpfe_ExpDeclaracao_reduzir0), "$clone42", $rt_wrapFunction0(lpfe_ExpDeclaracao_clone1),
     "$clone3", $rt_wrapFunction0(lpfe_ExpDeclaracao_clone0)],
-    lpoel_AcessoAtributoId0, "AcessoAtributoId", 98, lpoel_AcessoAtributo, [], 0, 3, 0, 0, ["$_init_47", $rt_wrapFunction2(lpoel_AcessoAtributoId__init_1), "$avaliar2", $rt_wrapFunction1(lpoel_AcessoAtributoId_avaliar0), "$getExpressaoObjeto0", $rt_wrapFunction0(lpoel_AcessoAtributoId_getExpressaoObjeto0), "$checaTipo4", $rt_wrapFunction1(lpoel_AcessoAtributoId_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoel_AcessoAtributoId_getTipo0)],
-    ju_Formatter$FormatWriter, 0, jl_Object, [], 0, 0, 0, 0, ["$_init_148", function(var_1, var_2, var_3, var_4, var_5) { ju_Formatter$FormatWriter__init_(this, var_1, var_2, var_3, var_4, var_5); }, "$write2", $rt_wrapFunction0(ju_Formatter$FormatWriter_write)],
+    lpoel_AcessoAtributoId0, "AcessoAtributoId", 98, lpoel_AcessoAtributo, [], 0, 3, 0, 0, ["$_init_46", $rt_wrapFunction2(lpoel_AcessoAtributoId__init_1), "$avaliar2", $rt_wrapFunction1(lpoel_AcessoAtributoId_avaliar0), "$getExpressaoObjeto0", $rt_wrapFunction0(lpoel_AcessoAtributoId_getExpressaoObjeto0), "$checaTipo4", $rt_wrapFunction1(lpoel_AcessoAtributoId_checaTipo), "$getTipo8", $rt_wrapFunction1(lpoel_AcessoAtributoId_getTipo0)],
+    ju_Formatter$FormatWriter, 0, jl_Object, [], 0, 0, 0, 0, ["$_init_147", function(var_1, var_2, var_3, var_4, var_5) { ju_Formatter$FormatWriter__init_(this, var_1, var_2, var_3, var_4, var_5); }, "$write2", $rt_wrapFunction0(ju_Formatter$FormatWriter_write)],
     lpep_Exp2Parser, 0, jl_Object, [lpep_Exp2ParserConstants], 0, 3, 0, lpep_Exp2Parser_$callClinit, ["$_init_16", $rt_wrapFunction1(lpep_Exp2Parser__init_0), "$_init_15", $rt_wrapFunction2(lpep_Exp2Parser__init_)],
-    otpp_AsyncCallbackWrapper, 0, jl_Object, [oti_AsyncCallback], 0, 0, 0, 0, ["$_init_302", $rt_wrapFunction1(otpp_AsyncCallbackWrapper__init_), "$complete", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_complete), "$error", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_error)],
-    lpfe_Aplicacao, "Aplicacao", 139, jl_Object, [lpee_Expressao0], 0, 3, 0, 0, ["$_init_238", $rt_wrapFunction2(lpfe_Aplicacao__init_3), "$avaliar5", $rt_wrapFunction1(lpfe_Aplicacao_avaliar0), "$checaTipo6", $rt_wrapFunction1(lpfe_Aplicacao_checaTipo), "$getTipo7", $rt_wrapFunction1(lpfe_Aplicacao_getTipo0), "$toString", $rt_wrapFunction0(lpfe_Aplicacao_toString), "$reduzir0", $rt_wrapFunction1(lpfe_Aplicacao_reduzir0), "$clone43", $rt_wrapFunction0(lpfe_Aplicacao_clone1), "$clone3", $rt_wrapFunction0(lpfe_Aplicacao_clone0)],
-    lpi_Programa0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_70", $rt_wrapFunction1(lpi_Programa__init_), "$executar5", $rt_wrapFunction1(lpi_Programa_executar0), "$checaTipo9", $rt_wrapFunction1(lpi_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpi_Programa_getAmbCompSnapshot0)],
+    otpp_AsyncCallbackWrapper, 0, jl_Object, [oti_AsyncCallback], 0, 0, 0, 0, ["$_init_301", $rt_wrapFunction1(otpp_AsyncCallbackWrapper__init_), "$complete", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_complete), "$error", $rt_wrapFunction1(otpp_AsyncCallbackWrapper_error)],
+    lpfe_Aplicacao, "Aplicacao", 139, jl_Object, [lpee_Expressao0], 0, 3, 0, 0, ["$_init_237", $rt_wrapFunction2(lpfe_Aplicacao__init_3), "$avaliar5", $rt_wrapFunction1(lpfe_Aplicacao_avaliar0), "$checaTipo6", $rt_wrapFunction1(lpfe_Aplicacao_checaTipo), "$getTipo7", $rt_wrapFunction1(lpfe_Aplicacao_getTipo0), "$toString", $rt_wrapFunction0(lpfe_Aplicacao_toString), "$reduzir0", $rt_wrapFunction1(lpfe_Aplicacao_reduzir0), "$clone43", $rt_wrapFunction0(lpfe_Aplicacao_clone1), "$clone3", $rt_wrapFunction0(lpfe_Aplicacao_clone0)],
+    lpi_Programa0, 0, jl_Object, [], 0, 3, 0, 0, ["$_init_69", $rt_wrapFunction1(lpi_Programa__init_), "$executar5", $rt_wrapFunction1(lpi_Programa_executar0), "$checaTipo9", $rt_wrapFunction1(lpi_Programa_checaTipo), "$getAmbCompSnapshot", $rt_wrapFunction0(lpi_Programa_getAmbCompSnapshot0)],
     lpem_AmbienteCompilacao4, 0, jl_Object, [lpem_Ambiente4], 3, 3, 0, 0, 0,
     lpem_ContextoCompilacao5, 0, lpem_Contexto1, [lpem_AmbienteCompilacao4], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpem_ContextoCompilacao__init_6)],
     jm_RoundingMode, "RoundingMode", 6, jl_Enum, [], 12, 3, 0, jm_RoundingMode_$callClinit, 0,
     jl_IllegalAccessException, "IllegalAccessException", 8, jl_ReflectiveOperationException, [], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(jl_IllegalAccessException__init_)],
-    lpip_Imp1Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_83", $rt_wrapFunction1(lpip_Imp1Parser$LookaheadSuccess__init_0)],
-    lpoc_New0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_47", $rt_wrapFunction2(lpoc_New__init_0), "$executar10", $rt_wrapFunction1(lpoc_New_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_New_checaTipo0)],
-    lpop_OO2ParserTokenManager, 0, jl_Object, [lpop_OO2ParserConstants], 0, 3, 0, lpop_OO2ParserTokenManager_$callClinit, ["$_init_191", $rt_wrapFunction1(lpop_OO2ParserTokenManager__init_), "$ReInit8", $rt_wrapFunction1(lpop_OO2ParserTokenManager_ReInit), "$jjFillToken7", $rt_wrapFunction0(lpop_OO2ParserTokenManager_jjFillToken), "$getNextToken3", $rt_wrapFunction0(lpop_OO2ParserTokenManager_getNextToken)],
+    lpip_Imp1Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_82", $rt_wrapFunction1(lpip_Imp1Parser$LookaheadSuccess__init_0)],
+    lpoc_New0, 0, jl_Object, [lpoc_Comando], 0, 3, 0, 0, ["$_init_46", $rt_wrapFunction2(lpoc_New__init_0), "$executar10", $rt_wrapFunction1(lpoc_New_executar0), "$checaTipo4", $rt_wrapFunction1(lpoc_New_checaTipo0)],
+    lpop_OO2ParserTokenManager, 0, jl_Object, [lpop_OO2ParserConstants], 0, 3, 0, lpop_OO2ParserTokenManager_$callClinit, ["$_init_190", $rt_wrapFunction1(lpop_OO2ParserTokenManager__init_), "$ReInit8", $rt_wrapFunction1(lpop_OO2ParserTokenManager_ReInit), "$jjFillToken7", $rt_wrapFunction0(lpop_OO2ParserTokenManager_jjFillToken), "$getNextToken3", $rt_wrapFunction0(lpop_OO2ParserTokenManager_getNextToken)],
     lpic_Skip, 0, jl_Object, [lpic_Comando0], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(lpic_Skip__init_0), "$executar11", $rt_wrapFunction1(lpic_Skip_executar0), "$checaTipo9", $rt_wrapFunction1(lpic_Skip_checaTipo)],
-    lpom_ContextoExecucaoOO2, 0, lpom_ContextoExecucaoOO1, [lpom_AmbienteExecucaoOO2], 0, 3, 0, 0, ["$_init_231", $rt_wrapFunction1(lpom_ContextoExecucaoOO2__init_0), "$_init_132", $rt_wrapFunction1(lpom_ContextoExecucaoOO2__init_), "$mapSuperClasse", $rt_wrapFunction2(lpom_ContextoExecucaoOO2_mapSuperClasse), "$getMapSuperClasse", $rt_wrapFunction0(lpom_ContextoExecucaoOO2_getMapSuperClasse)],
-    lpee_ExpNot4, 0, lpee_ExpUnaria5, [], 0, 3, 0, 0, ["$_init_73", $rt_wrapFunction1(lpee_ExpNot__init_0), "$avaliar", $rt_wrapFunction1(lpee_ExpNot_avaliar5), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal0), "$getTipo", $rt_wrapFunction1(lpee_ExpNot_getTipo3)],
-    lpfu_TipoLista, "TipoLista", 129, jl_Object, [lpeu_Tipo], 0, 3, [0,0,0], 0, ["$_init_0", $rt_wrapFunction0(lpfu_TipoLista__init_1), "$_init_255", $rt_wrapFunction1(lpfu_TipoLista__init_0), "$getSubTipo", $rt_wrapFunction0(lpfu_TipoLista_getSubTipo), "$eBooleano", $rt_wrapFunction0(lpfu_TipoLista_eBooleano), "$eIgual0", $rt_wrapFunction1(lpfu_TipoLista_eIgual), "$eInteiro", $rt_wrapFunction0(lpfu_TipoLista_eInteiro), "$eString", $rt_wrapFunction0(lpfu_TipoLista_eString), "$eValido", $rt_wrapFunction0(lpfu_TipoLista_eValido),
+    lpom_ContextoExecucaoOO2, 0, lpom_ContextoExecucaoOO1, [lpom_AmbienteExecucaoOO2], 0, 3, 0, 0, ["$_init_230", $rt_wrapFunction1(lpom_ContextoExecucaoOO2__init_0), "$_init_131", $rt_wrapFunction1(lpom_ContextoExecucaoOO2__init_), "$mapSuperClasse", $rt_wrapFunction2(lpom_ContextoExecucaoOO2_mapSuperClasse), "$getMapSuperClasse", $rt_wrapFunction0(lpom_ContextoExecucaoOO2_getMapSuperClasse)],
+    lpee_ExpNot4, 0, lpee_ExpUnaria5, [], 0, 3, 0, 0, ["$_init_72", $rt_wrapFunction1(lpee_ExpNot__init_0), "$avaliar", $rt_wrapFunction1(lpee_ExpNot_avaliar5), "$checaTipoElementoTerminal", $rt_wrapFunction1(lpee_ExpNot_checaTipoElementoTerminal0), "$getTipo", $rt_wrapFunction1(lpee_ExpNot_getTipo3)],
+    lpfu_TipoLista, "TipoLista", 129, jl_Object, [lpeu_Tipo], 0, 3, [0,0,0], 0, ["$_init_0", $rt_wrapFunction0(lpfu_TipoLista__init_1), "$_init_254", $rt_wrapFunction1(lpfu_TipoLista__init_0), "$getSubTipo", $rt_wrapFunction0(lpfu_TipoLista_getSubTipo), "$eBooleano", $rt_wrapFunction0(lpfu_TipoLista_eBooleano), "$eIgual0", $rt_wrapFunction1(lpfu_TipoLista_eIgual), "$eInteiro", $rt_wrapFunction0(lpfu_TipoLista_eInteiro), "$eString", $rt_wrapFunction0(lpfu_TipoLista_eString), "$eValido", $rt_wrapFunction0(lpfu_TipoLista_eValido),
     "$getNome", $rt_wrapFunction0(lpfu_TipoLista_getNome), "$intersecao3", $rt_wrapFunction1(lpfu_TipoLista_intersecao), "$toString", $rt_wrapFunction0(lpfu_TipoLista_toString)],
     pw_PlpResultImpl, 0, jl_Object, [pw_PlpResult], 1, 3, 0, 0, 0,
     lpee_ValorString3, "ValorString", 65, lpee_ValorConcreto2, [], 0, 3, [0,0,0], 0, ["$_init_", $rt_wrapFunction1(lpee_ValorString__init_4), "$getTipo", $rt_wrapFunction1(lpee_ValorString_getTipo0), "$toString", $rt_wrapFunction0(lpee_ValorString_toString3)],
-    lpip_Imp2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_222", $rt_wrapFunction1(lpip_Imp2Parser$LookaheadSuccess__init_)],
-    lpom_Objeto, "Objeto", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_304", $rt_wrapFunction2(lpom_Objeto__init_), "$getClasse1", $rt_wrapFunction0(lpom_Objeto_getClasse), "$getEstado0", $rt_wrapFunction0(lpom_Objeto_getEstado0), "$changeAtributo0", $rt_wrapFunction2(lpom_Objeto_changeAtributo)],
-    lpee_ExpOr2, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_298", $rt_wrapFunction2(lpee_ExpOr__init_2), "$avaliar8", $rt_wrapFunction1(lpee_ExpOr_avaliar0), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal), "$getTipo10", $rt_wrapFunction1(lpee_ExpOr_getTipo)],
-    pw_SourceRange, "SourceRange", 55, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(pw_SourceRange__init_), "$getStartLine", $rt_wrapFunction0(pw_SourceRange_getStartLine), "$getStartColumn", $rt_wrapFunction0(pw_SourceRange_getStartColumn), "$getEndLine", $rt_wrapFunction0(pw_SourceRange_getEndLine), "$getEndColumn", $rt_wrapFunction0(pw_SourceRange_getEndColumn)],
-    lpom_TrechoCodigoFonte, "TrechoCodigoFonte", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_41", $rt_wrapFunction4(lpom_TrechoCodigoFonte__init_2), "$getLinhaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaInicio), "$getColunaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaInicio), "$getLinhaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaFim0), "$getColunaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaFim)],
+    lpip_Imp2Parser$LookaheadSuccess, 0, jl_Error, [], 4, 0, 0, 0, ["$_init_221", $rt_wrapFunction1(lpip_Imp2Parser$LookaheadSuccess__init_)],
+    lpom_Objeto, "Objeto", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_303", $rt_wrapFunction2(lpom_Objeto__init_), "$getClasse1", $rt_wrapFunction0(lpom_Objeto_getClasse), "$getEstado0", $rt_wrapFunction0(lpom_Objeto_getEstado0), "$changeAtributo0", $rt_wrapFunction2(lpom_Objeto_changeAtributo)],
+    lpee_ExpOr2, 0, lpee_ExpBinaria5, [], 0, 3, 0, 0, ["$_init_297", $rt_wrapFunction2(lpee_ExpOr__init_2), "$avaliar8", $rt_wrapFunction1(lpee_ExpOr_avaliar0), "$checaTipoElementoTerminal1", $rt_wrapFunction1(lpee_ExpOr_checaTipoElementoTerminal), "$getTipo10", $rt_wrapFunction1(lpee_ExpOr_getTipo)],
+    pw_SourceRange, "SourceRange", 55, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(pw_SourceRange__init_), "$getStartLine", $rt_wrapFunction0(pw_SourceRange_getStartLine), "$getStartColumn", $rt_wrapFunction0(pw_SourceRange_getStartColumn), "$getEndLine", $rt_wrapFunction0(pw_SourceRange_getEndLine), "$getEndColumn", $rt_wrapFunction0(pw_SourceRange_getEndColumn)],
+    lpom_TrechoCodigoFonte, "TrechoCodigoFonte", 95, jl_Object, [], 0, 3, 0, 0, ["$_init_40", $rt_wrapFunction4(lpom_TrechoCodigoFonte__init_2), "$getLinhaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaInicio), "$getColunaInicio", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaInicio), "$getLinhaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getLinhaFim0), "$getColunaFim", $rt_wrapFunction0(lpom_TrechoCodigoFonte_getColunaFim)],
     ju_IllegalFormatFlagsException, "IllegalFormatFlagsException", 1, ju_IllegalFormatException, [], 0, 3, 0, 0, ["$_init_", $rt_wrapFunction1(ju_IllegalFormatFlagsException__init_0)],
-    lpfd_DecComposta0, 0, jl_Object, [lpfd_DeclaracaoFuncional], 0, 3, 0, 0, ["$_init_110", $rt_wrapFunction2(lpfd_DecComposta__init_), "$checaTipo5", $rt_wrapFunction1(lpfd_DecComposta_checaTipo1), "$elabora10", $rt_wrapFunction2(lpfd_DecComposta_elabora4), "$elabora11", $rt_wrapFunction2(lpfd_DecComposta_elabora2), "$incluir5", $rt_wrapFunction2(lpfd_DecComposta_incluir), "$incluir6", $rt_wrapFunction3(lpfd_DecComposta_incluir1), "$clone21", $rt_wrapFunction0(lpfd_DecComposta_clone), "$reduzir2", $rt_wrapFunction1(lpfd_DecComposta_reduzir0)],
+    lpfd_DecComposta0, 0, jl_Object, [lpfd_DeclaracaoFuncional], 0, 3, 0, 0, ["$_init_109", $rt_wrapFunction2(lpfd_DecComposta__init_), "$checaTipo5", $rt_wrapFunction1(lpfd_DecComposta_checaTipo1), "$elabora10", $rt_wrapFunction2(lpfd_DecComposta_elabora4), "$elabora11", $rt_wrapFunction2(lpfd_DecComposta_elabora2), "$incluir5", $rt_wrapFunction2(lpfd_DecComposta_incluir), "$incluir6", $rt_wrapFunction3(lpfd_DecComposta_incluir1), "$clone21", $rt_wrapFunction0(lpfd_DecComposta_clone), "$reduzir2", $rt_wrapFunction1(lpfd_DecComposta_reduzir0)],
     otji_JSWrapper$Helper$_clinit_$lambda$_3_1, 0, jl_Object, [otjc_JSFinalizationRegistryConsumer], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(otji_JSWrapper$Helper$_clinit_$lambda$_3_1__init_), "$accept", $rt_wrapFunction1(otji_JSWrapper$Helper$_clinit_$lambda$_3_1_accept)],
     otji_JSWrapper$Helper$_clinit_$lambda$_3_0, 0, jl_Object, [otjc_JSFinalizationRegistryConsumer], 0, 3, 0, 0, ["$_init_0", $rt_wrapFunction0(otji_JSWrapper$Helper$_clinit_$lambda$_3_0__init_), "$accept", $rt_wrapFunction1(otji_JSWrapper$Helper$_clinit_$lambda$_3_0_accept)],
     lpem_QuadroEscopo0, "QuadroEscopo", 109, jl_Object, [], 0, 3, 0, 0, ["$_init_12", $rt_wrapFunction2(lpem_QuadroEscopo__init_1), "$adicionaBinding", $rt_wrapFunction2(lpem_QuadroEscopo_adicionaBinding4), "$getEscopo", $rt_wrapFunction0(lpem_QuadroEscopo_getEscopo2), "$getTrechoCodigoFonte", $rt_wrapFunction0(lpem_QuadroEscopo_getTrechoCodigoFonte0), "$getBindings", $rt_wrapFunction0(lpem_QuadroEscopo_getBindings2)],
     lpem_InfoBinding, "InfoBinding", 109, jl_Object, [], 0, 3, 0, 0, ["$_init_13", $rt_wrapFunction2(lpem_InfoBinding__init_4), "$getTipo4", $rt_wrapFunction0(lpem_InfoBinding_getTipo4), "$getValor", $rt_wrapFunction0(lpem_InfoBinding_getValor0)],
-    lpoed_ObjetoJaDeclaradoException, "ObjetoJaDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_65", $rt_wrapFunction1(lpoed_ObjetoJaDeclaradoException__init_)],
-    lpoeu_ExpLength0, "ExpLength", 30, lpoeu_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_171", $rt_wrapFunction1(lpoeu_ExpLength__init_0), "$avaliar0", $rt_wrapFunction1(lpoeu_ExpLength_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpLength_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeu_ExpLength_getTipo)],
-    lpfe_ExpSequencia, "ExpSequencia", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_67", $rt_wrapFunction2(lpfe_ExpSequencia__init_), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpSequencia_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpSequencia_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpSequencia_getTipo), "$toString", $rt_wrapFunction0(lpfe_ExpSequencia_toString), "$clone44", $rt_wrapFunction0(lpfe_ExpSequencia_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpSequencia_clone)]]);
+    lpoed_ObjetoJaDeclaradoException, "ObjetoJaDeclaradoException", 88, jl_Exception, [], 0, 3, 0, 0, ["$_init_64", $rt_wrapFunction1(lpoed_ObjetoJaDeclaradoException__init_)],
+    lpoeu_ExpLength0, "ExpLength", 30, lpoeu_ExpUnaria0, [], 0, 3, 0, 0, ["$_init_170", $rt_wrapFunction1(lpoeu_ExpLength__init_0), "$avaliar0", $rt_wrapFunction1(lpoeu_ExpLength_avaliar), "$checaTipo0", $rt_wrapFunction1(lpoeu_ExpLength_checaTipo), "$getTipo0", $rt_wrapFunction1(lpoeu_ExpLength_getTipo)],
+    lpfe_ExpSequencia, "ExpSequencia", 128, lpee_ExpBinaria, [], 0, 3, 0, 0, ["$_init_66", $rt_wrapFunction2(lpfe_ExpSequencia__init_), "$checaTipoElementoTerminal2", $rt_wrapFunction1(lpfe_ExpSequencia_checaTipoElementoTerminal), "$avaliar3", $rt_wrapFunction1(lpfe_ExpSequencia_avaliar), "$getTipo5", $rt_wrapFunction1(lpfe_ExpSequencia_getTipo), "$toString", $rt_wrapFunction0(lpfe_ExpSequencia_toString), "$clone44", $rt_wrapFunction0(lpfe_ExpSequencia_clone0), "$clone1", $rt_wrapFunction0(lpfe_ExpSequencia_clone)]]);
     let $rt_booleanArrayCls = $rt_arraycls($rt_booleancls),
     $rt_charArrayCls = $rt_arraycls($rt_charcls),
     $rt_byteArrayCls = $rt_arraycls($rt_bytecls),
@@ -75683,7 +75630,7 @@ var __runCode;
     "Tipo do valor de entrada lido incomp�tivel com tipo da vari�vel (", ")", " ", "Forneca os valores de entrada do programa!", "length", "Entrada vazia.", "name", "type", "value", "display", "bindings", "scope", "startLine", "startColumn", "endLine", "endColumn", "sourceRange", "\"var\"", "\"skip\"", "\"while\"", "\"do\"", "\"read\"", "\"write\"", "\"if\"", "\"then\"", "\"else\"", "\"new\"", "\"this\"", "\"classe\"", "\"null\"", "\"proc\"", "\"int\"", "\"boolean\"", "\"string\"", "\":=\"", "block", "class",
     "procedure", "%s %s %s", "*", "line.separator", "\n", "...", "    ", "Encountered \"", " \"", "\" at line ", "Was expecting one of:", "Was expecting:", " x", "(%s) -> %s", "\"call\"", "charsetName is null", "Should never been thrown", "%s %s", "Classe ", " j� declarada.", "Replacement preconditions do not hold", "Action must be non-null", "US-ASCII", "~", "if (%s) then (%s) else (%s)", "", "Unknown format conversion: ", "\n   ERROR: Second call to the constructor of a static JavaCharStream.\n       You must either use ReInit() or set the JavaCC option STATIC to false\n       during the generation of this class.",
     "Can\'t convert code point ", " to char", "interface ", "class ", "[]", "INTEIRO", "BOOLEANO", "STRING", "\"let\"", "\"in\"", "\"fun\"", "\"fn\"", "\"head\"", "\"tail\"", "\"for\"", "\"^^\"", "\"..\"", "Input", "PValorInteiro", "PValorBooleano", "PValorString", "PValorFuncao", "PValorLista", "PValor", "PId", "PExpMenos", "PExpNot", "PExpLength", "PExpPrimaria", "PAplicacao", "PListaId", "PDeclVar", "PDeclFuncao", "PDecComposta", "PDeclFuncional", "PExpDeclaracao", "let-in", "PExpCondicional", "PListaExpr",
-    "PExpHead", "PExpTail", "PExpCompreensaoLista", "PGerador", "PExpUnaria", "PExpBinaria", "PExpressao", "PPrograma", "Call:   ", "Return: ", "Consumed token: <", ": \"", " at line ", ">", "this", "concat", "?", "The last char in dst ", " is outside of array of size ", "Length ", " must be non-negative", "Offset ", "The last char in src ", " is outside of string of size ", "Start ", " must be before end ", "oo2", "exp1", "exp2", "imp1", "imp2", "func1", "func2", "func3", "oo1", "sintaxe verificada com sucesso!",
+    "PExpHead", "PExpTail", "PExpCompreensaoLista", "PGerador", "PExpUnaria", "PExpBinaria", "PExpressao", "PPrograma", "Call:   ", "Return: ", "Consumed token: <", ": \"", " at line ", ">", "this", "concat", "?", "The last char in dst ", " is outside of array of size ", "Length ", " must be non-negative", "Offset ", "The last char in src ", " is outside of string of size ", "Start ", " must be before end ", "oo1", "oo2", "exp1", "exp2", "imp1", "imp2", "func1", "func2", "func3", "sintaxe verificada com sucesso!",
     "erro de tipos!", "true", "false", "pilha", "{", "\"languageId\":", "\"frames\":", "}", "\"startLine\":", "\"startColumn\":", "\"endLine\":", "\"endColumn\":", "[", "]", "\"name\":", "\"scope\":", "\"bindings\":", "\"sourceRange\":", "\\u%04x", "UTF-8", "This exception should not been thrown", "Construtor da classe ", " n�o declarado.", "Malformed input of length ", "+", " nao declarado.", "Negative bit address", "Negative exponent", "BigInteger divide by zero", "and", "not", "var", "skip", "while", "do",
     "read", "write", "if", "then", "else", "new", "classe", "proc", "int", "boolean", "string", "(", ";", ",", ":=", "=", "<", "!", "<=", ">=", "!=", "||", "&&", "/", "&", "|", "^", "%", "DEFAULT", "\"extends\"", "ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", "let", "in", "fun", " \t\n\r\u000c", "�", "averageCharsPerByte must be positive. Actual value is ", "maxCharsPerByte must be positive. Actual value is ", "newAction must be non-null", "cons",
     "en", "CA", "fr", "zh", "CN", "FR", "de", "DE", "it", "IT", "ja", "JP", "ko", "KR", "TW", "GB", "US", "Objeto", "object", "function", "number", "undefined", "PComando", "PSequenciaComando", "PIO", "PRead", "PWrite", "PIfThenElse", "PWhile", "PSkip", "PAtribuicao", "PExpSoma", "PExpSub", "PExpAnd", "PExpOr", "PExpEquals", "PExpConcat", "PComandoSimples", "PChamadaProcedimento", "PComandoDeclaracao", "PDeclaracao", "PDeclaracaoComposta", "PDeclaracaoProcedimento", "PDefProcedimento", "PTipo", "PListaDeclaracaoParametro",

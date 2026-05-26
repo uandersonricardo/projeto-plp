@@ -3,15 +3,10 @@ import { MarkdownCell } from "../models/cell/MarkdownCell";
 import { Notebook } from "../models/notebook/Notebook";
 import { Workspace } from "../models/workspace/Workspace";
 import { AVAILABLE_LANGUAGES } from "./languages";
-import WORKSPACE_EXAMPLES from "./workspace-examples";
 
-export const INITIAL_WORKSPACE = new Workspace(
-  "Untitled Workspace",
-  AVAILABLE_LANGUAGES.map((language) => {
-    const example = WORKSPACE_EXAMPLES[language.name];
-    return new Notebook(language.name, language, [
-      new MarkdownCell(example?.markdown ?? `# ${language.name}\n\nExample notebook.`),
-      new CodeCell(example?.code ?? ""),
-    ]);
-  })
-);
+export const INITIAL_WORKSPACE = new Workspace("Untitled Workspace", [
+	new Notebook("Notebook 1", AVAILABLE_LANGUAGES[0], [
+		new MarkdownCell("# Welcome\nWrite notes and explanations here."),
+		new CodeCell('length "abcd" + 6'),
+	]),
+]);
