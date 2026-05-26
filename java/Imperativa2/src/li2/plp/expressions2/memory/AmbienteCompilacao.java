@@ -9,7 +9,10 @@ import li2.plp.expressions1.util.Tipo;
 
 public interface AmbienteCompilacao extends Ambiente<Tipo> {
 
-	default List<Map<String,String>> getPilhaSnapshot() {
+	default void registraEscopo(InfoEscopo info) {
+	}
+
+	default List<Map<String,Object>> getPilhaSnapshot() {
 		return Collections.emptyList();
 	}
 

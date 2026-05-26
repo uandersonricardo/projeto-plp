@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { useWorkspaceStore } from "../contexts/workspace-store-context";
 import { CodeCell } from "../models/cell/CodeCell";
-import type { ScopeSnapshot, SourceRange } from "../models/types/execution";
+import { parseCompilationSnapshotResult, type SourceRange } from "../models/types/execution";
 
 export function useDebugger() {
   const store = useWorkspaceStore();
@@ -16,25 +16,12 @@ export function useDebugger() {
   const notebook = selectedNotebookId ? workspace.getNotebook(selectedNotebookId) : undefined;
   const selectedCell = notebook && selectedCellId ? notebook.getCell(selectedCellId) : undefined;
 
-  const debuggerCell = !(selectedCell instanceof CodeCell)
-    ? undefined
-    : selectedCell.output?.compilationEnv
-      ? selectedCell
-      : notebook?.cells
-          .slice()
-          .reverse()
-          .find((cell): cell is CodeCell => cell instanceof CodeCell && Boolean(cell.output?.compilationEnv));
+  const debuggerCell = selectedCell instanceof CodeCell ? selectedCell : undefined;
+  const debuggerLanguageName = notebook?.language.name;
 
   const rawCompilationEnv = debuggerCell?.output?.compilationEnv;
-  let compilationEnv: ScopeSnapshot[] | undefined = undefined;
-  if (rawCompilationEnv) {
-    try {
-      const parsed = typeof rawCompilationEnv === "string" ? JSON.parse(rawCompilationEnv) : rawCompilationEnv;
-      compilationEnv = Array.isArray(parsed) ? (parsed as ScopeSnapshot[]) : undefined;
-    } catch {
-      compilationEnv = undefined;
-    }
-  }
+  const compilationSnapshotResult = parseCompilationSnapshotResult(rawCompilationEnv);
+  const compilationEnv = compilationSnapshotResult.snapshot?.frames;
 
   // Track the content snapshot at compile time to detect staleness.
   // Using a ref so the effect only re-runs when rawCompilationEnv changes (cell ran),
@@ -62,7 +49,10 @@ export function useDebugger() {
   return {
     debuggerCellCode: debuggerCell?.content,
     debuggerCellExecutionOrder: debuggerCell?.executionOrder,
+    debuggerLanguageName,
     compilationEnv,
+    compilationEnvError: compilationSnapshotResult.error,
+    hasCompilationEnv: rawCompilationEnv != null,
     activeSourceRange,
     isStale,
     selectScope: (range?: SourceRange) => setActiveSourceRange(range, debuggerCell?.id),
